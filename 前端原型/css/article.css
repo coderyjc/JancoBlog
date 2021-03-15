@@ -1,0 +1,89 @@
+/* 导航栏 */
+/* 清除浏览器默认样式 */
+*{
+    margin:0;
+    padding:0;
+}
+
+
+
+/* 全局的a */
+a{
+    text-decoration: none;
+}
+
+/* body */
+body{
+    /* 最上面的小白条 */
+    margin-top: 0px;
+    background-color: rgba(240, 240, 240, 0.76);
+	
+}
+
+.article-main{
+	background-color: white;
+	opacity: 0.7;
+}
+
+/* 导航条 */
+.nav{
+    background-color: #2f2e34;
+    color: white;
+    font-size: 40px;
+    padding: 5px 200px;
+
+}
+.nav a:link, .nav a:visited{
+    color: white;
+}
+
+
+.article-sort{
+	margin: 50px 200px;
+	font-size: 20px;
+	color: gray;
+}
+
+.article-title{
+	text-align: center;
+	margin: 70px 200px;
+	font-size: 45px;
+}
+
+.article-main{
+	margin: 100px 300px;
+	font-size: 25px;
+	line-height: 40px;
+	font-weight: 100;
+}
+
+/* 每一段 */
+.para{
+	margin: 25px 0px;
+}
+
+
+
+/* 页脚 */
+footer{
+    padding: 20px 175px;
+    background-color: #2f2e34;
+    overflow: hidden;
+}
+
+footer ul{
+    float: right;
+    list-style-type: none;
+    font-size: 15px;
+    color: white;
+}
+
+footer ul li a:visited,footer ul li a:link{
+    color: white;
+    float: right;
+}
+
+/* 悬浮到字上 */
+footer ul li a:hover{
+    color: burlywood;
+}

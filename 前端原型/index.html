@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
+    <script src="./js/jquery-1.12.js"></script>
+    <script>
+        $(function(){
+            $(".signin").click(function(){
+                $(".signin").html('<a href = "./workbench">后台管理</a>');
+            })
+        });
+    </script>
 </head>
 <link rel="stylesheet" href="./css/index.css">
 <body>
@@ -11,7 +19,7 @@
         <!-- 回主页的"图标" -->
         <a href="#" class="back-to-index">JancoBlog</a>
         <!-- 登录和注册 -->
-        <a href="#"><div class="signin">登录/注册</div></a>
+        <div class="signin"><a href="#">登录/注册</a></div>
     </div>
     <!-- 除去导航条和footer的部分是主体main -->
     <div class="main">
