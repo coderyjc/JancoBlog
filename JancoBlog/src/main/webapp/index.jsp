@@ -16,11 +16,6 @@
     <title>Welcome</title>
     <script src="./static/js/jquery-1.12.js"></script>
     <base href="<%=basePath%>" />
-    <script>
-        $(function(){
-            
-        });
-    </script>
     <link rel="stylesheet" href="./static/css/index.css"/>
 </head>
 <body>
@@ -115,5 +110,15 @@
         <li><a href="#">关于</a></li>
     </ul>
 </footer>
+
+<script>
+
+
+
+
+
+</script>
+
+
 </body>
 </html>
