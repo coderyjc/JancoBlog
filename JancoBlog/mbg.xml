@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <!--        设置不生成注释-->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!--        配置数据库连接-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/jancoblog"
+                        userId="root"
+                        password="333">
+        </jdbcConnection>
+
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!--       JavaBean生成的位置-->
+        <javaModelGenerator targetPackage="com.Jancoyan.domain"
+                            targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!--        mapper文件生成的位置-->
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="./src/main/resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!--        DAO文件生成的位置-->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.Jancoyan.dao"
+                             targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+
+        <!--        表相关数据-->
+        <!--        tableName表示需要生成的表名字
+                       domainObjectName 表示生成的类名-->
+        <table tableName="tbl_dept" domainObjectName="Department" />
+        <table tableName="tbl_emp" domainObjectName="Employee" />
+
+    </context>
+</generatorConfiguration>
