@@ -5,17 +5,23 @@ import java.util.Date;
 public class Article {
     private String articleId;
 
-    private String articleAuthor;
-
     private String articleTitle;
+
+    private Integer articleAuthorId;
 
     private String articleAbstract;
 
     private Integer articleType;
 
-    private Date postDate;
+    private Date articleEditTime;
 
-    private Integer viewTime;
+    private Date articlePostDate;
+
+    private Integer articleViewTime;
+
+    private Integer articleCommentCount;
+
+    private Integer articleLikeCount;
 
     public String getArticleId() {
         return articleId;
@@ -25,20 +31,20 @@ public class Article {
         this.articleId = articleId == null ? null : articleId.trim();
     }
 
-    public String getArticleAuthor() {
-        return articleAuthor;
-    }
-
-    public void setArticleAuthor(String articleAuthor) {
-        this.articleAuthor = articleAuthor == null ? null : articleAuthor.trim();
-    }
-
     public String getArticleTitle() {
         return articleTitle;
     }
 
     public void setArticleTitle(String articleTitle) {
         this.articleTitle = articleTitle == null ? null : articleTitle.trim();
+    }
+
+    public Integer getArticleAuthorId() {
+        return articleAuthorId;
+    }
+
+    public void setArticleAuthorId(Integer articleAuthorId) {
+        this.articleAuthorId = articleAuthorId;
     }
 
     public String getArticleAbstract() {
@@ -57,19 +63,43 @@ public class Article {
         this.articleType = articleType;
     }
 
-    public Date getPostDate() {
-        return postDate;
+    public Date getArticleEditTime() {
+        return articleEditTime;
     }
 
-    public void setPostDate(Date postDate) {
-        this.postDate = postDate;
+    public void setArticleEditTime(Date articleEditTime) {
+        this.articleEditTime = articleEditTime;
     }
 
-    public Integer getViewTime() {
-        return viewTime;
+    public Date getArticlePostDate() {
+        return articlePostDate;
     }
 
-    public void setViewTime(Integer viewTime) {
-        this.viewTime = viewTime;
+    public void setArticlePostDate(Date articlePostDate) {
+        this.articlePostDate = articlePostDate;
+    }
+
+    public Integer getArticleViewTime() {
+        return articleViewTime;
+    }
+
+    public void setArticleViewTime(Integer articleViewTime) {
+        this.articleViewTime = articleViewTime;
+    }
+
+    public Integer getArticleCommentCount() {
+        return articleCommentCount;
+    }
+
+    public void setArticleCommentCount(Integer articleCommentCount) {
+        this.articleCommentCount = articleCommentCount;
+    }
+
+    public Integer getArticleLikeCount() {
+        return articleLikeCount;
+    }
+
+    public void setArticleLikeCount(Integer articleLikeCount) {
+        this.articleLikeCount = articleLikeCount;
     }
 }

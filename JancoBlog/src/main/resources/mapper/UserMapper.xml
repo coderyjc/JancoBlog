@@ -2,13 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Jancoyan.dao.UserMapper">
   <resultMap id="BaseResultMap" type="com.Jancoyan.domain.User">
-    <id column="user_id" jdbcType="VARCHAR" property="userId" />
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_nickname" jdbcType="VARCHAR" property="userNickname" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="user_pwd" jdbcType="VARCHAR" property="userPwd" />
-    <result column="user_sex" jdbcType="INTEGER" property="userSex" />
-    <result column="user_create_date" jdbcType="DATE" property="userCreateDate" />
     <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="user_sex" jdbcType="INTEGER" property="userSex" />
+    <result column="user_role" jdbcType="INTEGER" property="userRole" />
+    <result column="user_create_date" jdbcType="DATE" property="userCreateDate" />
+    <result column="user_profile" jdbcType="VARCHAR" property="userProfile" />
     <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+    <result column="user_ip" jdbcType="VARCHAR" property="userIp" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, user_name, user_pwd, user_sex, user_create_date, user_email, user_birthday
+    user_id, user_nickname, user_name, user_pwd, user_email, user_sex, user_role, user_create_date, 
+    user_profile, user_birthday, user_ip
   </sql>
   <select id="selectByExample" parameterType="com.Jancoyan.domain.UserExample" resultMap="BaseResultMap">
     select
@@ -85,15 +90,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_user
-    where user_id = #{userId,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_user
-    where user_id = #{userId,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.Jancoyan.domain.UserExample">
     delete from t_user
@@ -102,12 +107,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.Jancoyan.domain.User">
-    insert into t_user (user_id, user_name, user_pwd, 
-      user_sex, user_create_date, user_email, 
-      user_birthday)
-    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userPwd,jdbcType=VARCHAR}, 
-      #{userSex,jdbcType=INTEGER}, #{userCreateDate,jdbcType=DATE}, #{userEmail,jdbcType=VARCHAR}, 
-      #{userBirthday,jdbcType=DATE})
+    insert into t_user (user_id, user_nickname, user_name, 
+      user_pwd, user_email, user_sex, 
+      user_role, user_create_date, user_profile, 
+      user_birthday, user_ip)
+    values (#{userId,jdbcType=INTEGER}, #{userNickname,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{userPwd,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{userSex,jdbcType=INTEGER}, 
+      #{userRole,jdbcType=INTEGER}, #{userCreateDate,jdbcType=DATE}, #{userProfile,jdbcType=VARCHAR}, 
+      #{userBirthday,jdbcType=DATE}, #{userIp,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.Jancoyan.domain.User">
     insert into t_user
@@ -115,28 +122,43 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="userNickname != null">
+        user_nickname,
+      </if>
       <if test="userName != null">
         user_name,
       </if>
       <if test="userPwd != null">
         user_pwd,
       </if>
+      <if test="userEmail != null">
+        user_email,
+      </if>
       <if test="userSex != null">
         user_sex,
+      </if>
+      <if test="userRole != null">
+        user_role,
       </if>
       <if test="userCreateDate != null">
         user_create_date,
       </if>
-      <if test="userEmail != null">
-        user_email,
+      <if test="userProfile != null">
+        user_profile,
       </if>
       <if test="userBirthday != null">
         user_birthday,
       </if>
+      <if test="userIp != null">
+        user_ip,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
-        #{userId,jdbcType=VARCHAR},
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userNickname != null">
+        #{userNickname,jdbcType=VARCHAR},
       </if>
       <if test="userName != null">
         #{userName,jdbcType=VARCHAR},
@@ -144,17 +166,26 @@
       <if test="userPwd != null">
         #{userPwd,jdbcType=VARCHAR},
       </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
       <if test="userSex != null">
         #{userSex,jdbcType=INTEGER},
+      </if>
+      <if test="userRole != null">
+        #{userRole,jdbcType=INTEGER},
       </if>
       <if test="userCreateDate != null">
         #{userCreateDate,jdbcType=DATE},
       </if>
-      <if test="userEmail != null">
-        #{userEmail,jdbcType=VARCHAR},
+      <if test="userProfile != null">
+        #{userProfile,jdbcType=VARCHAR},
       </if>
       <if test="userBirthday != null">
         #{userBirthday,jdbcType=DATE},
+      </if>
+      <if test="userIp != null">
+        #{userIp,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -168,7 +199,10 @@
     update t_user
     <set>
       <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=VARCHAR},
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userNickname != null">
+        user_nickname = #{record.userNickname,jdbcType=VARCHAR},
       </if>
       <if test="record.userName != null">
         user_name = #{record.userName,jdbcType=VARCHAR},
@@ -176,17 +210,26 @@
       <if test="record.userPwd != null">
         user_pwd = #{record.userPwd,jdbcType=VARCHAR},
       </if>
+      <if test="record.userEmail != null">
+        user_email = #{record.userEmail,jdbcType=VARCHAR},
+      </if>
       <if test="record.userSex != null">
         user_sex = #{record.userSex,jdbcType=INTEGER},
+      </if>
+      <if test="record.userRole != null">
+        user_role = #{record.userRole,jdbcType=INTEGER},
       </if>
       <if test="record.userCreateDate != null">
         user_create_date = #{record.userCreateDate,jdbcType=DATE},
       </if>
-      <if test="record.userEmail != null">
-        user_email = #{record.userEmail,jdbcType=VARCHAR},
+      <if test="record.userProfile != null">
+        user_profile = #{record.userProfile,jdbcType=VARCHAR},
       </if>
       <if test="record.userBirthday != null">
         user_birthday = #{record.userBirthday,jdbcType=DATE},
+      </if>
+      <if test="record.userIp != null">
+        user_ip = #{record.userIp,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -195,13 +238,17 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update t_user
-    set user_id = #{record.userId,jdbcType=VARCHAR},
+    set user_id = #{record.userId,jdbcType=INTEGER},
+      user_nickname = #{record.userNickname,jdbcType=VARCHAR},
       user_name = #{record.userName,jdbcType=VARCHAR},
       user_pwd = #{record.userPwd,jdbcType=VARCHAR},
-      user_sex = #{record.userSex,jdbcType=INTEGER},
-      user_create_date = #{record.userCreateDate,jdbcType=DATE},
       user_email = #{record.userEmail,jdbcType=VARCHAR},
-      user_birthday = #{record.userBirthday,jdbcType=DATE}
+      user_sex = #{record.userSex,jdbcType=INTEGER},
+      user_role = #{record.userRole,jdbcType=INTEGER},
+      user_create_date = #{record.userCreateDate,jdbcType=DATE},
+      user_profile = #{record.userProfile,jdbcType=VARCHAR},
+      user_birthday = #{record.userBirthday,jdbcType=DATE},
+      user_ip = #{record.userIp,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -209,35 +256,51 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.Jancoyan.domain.User">
     update t_user
     <set>
+      <if test="userNickname != null">
+        user_nickname = #{userNickname,jdbcType=VARCHAR},
+      </if>
       <if test="userName != null">
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
       <if test="userPwd != null">
         user_pwd = #{userPwd,jdbcType=VARCHAR},
       </if>
+      <if test="userEmail != null">
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
       <if test="userSex != null">
         user_sex = #{userSex,jdbcType=INTEGER},
+      </if>
+      <if test="userRole != null">
+        user_role = #{userRole,jdbcType=INTEGER},
       </if>
       <if test="userCreateDate != null">
         user_create_date = #{userCreateDate,jdbcType=DATE},
       </if>
-      <if test="userEmail != null">
-        user_email = #{userEmail,jdbcType=VARCHAR},
+      <if test="userProfile != null">
+        user_profile = #{userProfile,jdbcType=VARCHAR},
       </if>
       <if test="userBirthday != null">
         user_birthday = #{userBirthday,jdbcType=DATE},
       </if>
+      <if test="userIp != null">
+        user_ip = #{userIp,jdbcType=VARCHAR},
+      </if>
     </set>
-    where user_id = #{userId,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.Jancoyan.domain.User">
     update t_user
-    set user_name = #{userName,jdbcType=VARCHAR},
+    set user_nickname = #{userNickname,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
       user_pwd = #{userPwd,jdbcType=VARCHAR},
-      user_sex = #{userSex,jdbcType=INTEGER},
-      user_create_date = #{userCreateDate,jdbcType=DATE},
       user_email = #{userEmail,jdbcType=VARCHAR},
-      user_birthday = #{userBirthday,jdbcType=DATE}
-    where user_id = #{userId,jdbcType=VARCHAR}
+      user_sex = #{userSex,jdbcType=INTEGER},
+      user_role = #{userRole,jdbcType=INTEGER},
+      user_create_date = #{userCreateDate,jdbcType=DATE},
+      user_profile = #{userProfile,jdbcType=VARCHAR},
+      user_birthday = #{userBirthday,jdbcType=DATE},
+      user_ip = #{userIp,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -3,26 +3,42 @@ package com.Jancoyan.domain;
 import java.util.Date;
 
 public class User {
-    private String userId;
+    private Integer userId;
+
+    private String userNickname;
 
     private String userName;
 
     private String userPwd;
 
+    private String userEmail;
+
     private Integer userSex;
+
+    private Integer userRole;
 
     private Date userCreateDate;
 
-    private String userEmail;
+    private String userProfile;
 
     private Date userBirthday;
 
-    public String getUserId() {
+    private String userIp;
+
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getUserNickname() {
+        return userNickname;
+    }
+
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname == null ? null : userNickname.trim();
     }
 
     public String getUserName() {
@@ -41,12 +57,28 @@ public class User {
         this.userPwd = userPwd == null ? null : userPwd.trim();
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail == null ? null : userEmail.trim();
+    }
+
     public Integer getUserSex() {
         return userSex;
     }
 
     public void setUserSex(Integer userSex) {
         this.userSex = userSex;
+    }
+
+    public Integer getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(Integer userRole) {
+        this.userRole = userRole;
     }
 
     public Date getUserCreateDate() {
@@ -57,12 +89,12 @@ public class User {
         this.userCreateDate = userCreateDate;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getUserProfile() {
+        return userProfile;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail == null ? null : userEmail.trim();
+    public void setUserProfile(String userProfile) {
+        this.userProfile = userProfile == null ? null : userProfile.trim();
     }
 
     public Date getUserBirthday() {
@@ -71,5 +103,13 @@ public class User {
 
     public void setUserBirthday(Date userBirthday) {
         this.userBirthday = userBirthday;
+    }
+
+    public String getUserIp() {
+        return userIp;
+    }
+
+    public void setUserIp(String userIp) {
+        this.userIp = userIp == null ? null : userIp.trim();
     }
 }

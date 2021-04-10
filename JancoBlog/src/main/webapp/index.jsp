@@ -12,11 +12,11 @@
 %>
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Welcome</title>
     <script src="./static/js/jquery-1.12.js"></script>
-    <base href="<%=basePath%>" />
     <link rel="stylesheet" href="./static/css/index.css"/>
+    <base href="<%=basePath%>" />
 </head>
 <body>
 <!-- 导航条 -->
@@ -56,10 +56,11 @@
                 </div>
             </li>
             <li class="drop-down"><a href="#">JavaWeb</a>
-
-            </li>
-            <li class="drop-down"><a href="#">Linux</a>
-
+                <div class="drop-content">
+                    <a href="#">Ajax</a>
+                    <a href="#">JDBC</a>
+                    <a href="#">Mybatis</a>
+                </div>
             </li>
             <!-- 搜索功能 -->
             <div class="search">
@@ -76,28 +77,7 @@
     <div class="article-list">
         <!-- 文章列表 -->
         <div class="articles">
-            <ul>
-                <li class="article">
-                    <div class="image">
-                        <img src="./static/image/test.png" alt="这是图片" height="180px" width="280px">
-                    </div>
-                    <div class="article-box">
-                        <div class="title"><a href="#">这是标题这是标题这是标题这是标题这是标题这是标题</a></div>
-                        <div class="discription">这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这...</div>
-                        <div class="datetime">2021-3-14</div>
-                    </div>
-                </li>
-                <li class="article">
-                    <div class="image">
-                        <img src="./static/image/test.png" alt="这是图片" height="180px" width="280px">
-                    </div>
-                    <div class="article-box">
-                        <div class="title"><a href="#">这是标题这是标题这是标题这是标题这是标题这是标题</a></div>
-                        <div class="discription">这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这...</div>
-                        <div class="datetime">2021-3-14</div>
-                    </div>
-                </li>
-            </ul>
+            <ul></ul>
         </div>
         <div class="load-more">
             <span>下滑加载更多...</span>
@@ -105,13 +85,54 @@
     </div>
 </div>
 <!-- 页脚 -->
-<footer>
+
+<div class="footer">
     <ul>
         <li><a href="#">关于</a></li>
     </ul>
-</footer>
+</div>
+
+
 
 <script>
+    // 页面加载之前执行
+    $(function(){
+    //    获取数据库中最新的10条记录
+        get_article_page(1);
+    });
+
+
+    // 获取文章，然后添加到主页的末尾
+    function get_article_page(pn) {
+        $.ajax({
+            url: "articles",
+            data : "pn=" + pn,
+            type : "GET",
+            success: function (result) {
+                var articleList = result.extend.PageInfo.list;
+                $.each(articleList, function (index, item) {
+                    // 博文的图片
+                    var img = $("<div class='image'></div>").append($("<img />").attr({
+                        "src" : "./static/image/test.png",
+                        "alt" : "这是图片",
+                        "height" : "180px",
+                        "width" : "280px"
+                    }));
+
+                    var articlePath = "./static/p/" + item.articleId + ".html";
+
+                    var title = $("<div class='title'></div>").append($("<a target='_blank'></a>").append(item.articleTitle).attr("href", articlePath));
+                    var discription = $("<div class='discription'></div>").append(item.articleAbstract);
+                    var time = $("<div class='datetime'></div>").append(new Date(item.articlePostDate));
+                    var articleBox = $("<div class='article-box'></div>").append(title).append(discription).append(time);
+                    $("<li class='article'></li>")
+                        .append(img)
+                        .append(articleBox)
+                        .appendTo(".articles>ul");
+                })
+            }
+        });
+    }
 
 
 

@@ -2,9 +2,8 @@ package com.Jancoyan.dao;
 
 import com.Jancoyan.domain.Article;
 import com.Jancoyan.domain.ArticleExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface ArticleMapper {
     long countByExample(ArticleExample example);

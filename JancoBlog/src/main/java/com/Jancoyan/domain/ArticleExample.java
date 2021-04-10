@@ -175,76 +175,6 @@ public class ArticleExample {
             return (Criteria) this;
         }
 
-        public Criteria andArticleAuthorIsNull() {
-            addCriterion("article_author is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andArticleAuthorIsNotNull() {
-            addCriterion("article_author is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andArticleAuthorEqualTo(String value) {
-            addCriterion("article_author =", value, "articleAuthor");
-            return (Criteria) this;
-        }
-
-        public Criteria andArticleAuthorNotEqualTo(String value) {
-            addCriterion("article_author <>", value, "articleAuthor");
-            return (Criteria) this;
-        }
-
-        public Criteria andArticleAuthorGreaterThan(String value) {
-            addCriterion("article_author >", value, "articleAuthor");
-            return (Criteria) this;
-        }
-
-        public Criteria andArticleAuthorGreaterThanOrEqualTo(String value) {
-            addCriterion("article_author >=", value, "articleAuthor");
-            return (Criteria) this;
-        }
-
-        public Criteria andArticleAuthorLessThan(String value) {
-            addCriterion("article_author <", value, "articleAuthor");
-            return (Criteria) this;
-        }
-
-        public Criteria andArticleAuthorLessThanOrEqualTo(String value) {
-            addCriterion("article_author <=", value, "articleAuthor");
-            return (Criteria) this;
-        }
-
-        public Criteria andArticleAuthorLike(String value) {
-            addCriterion("article_author like", value, "articleAuthor");
-            return (Criteria) this;
-        }
-
-        public Criteria andArticleAuthorNotLike(String value) {
-            addCriterion("article_author not like", value, "articleAuthor");
-            return (Criteria) this;
-        }
-
-        public Criteria andArticleAuthorIn(List<String> values) {
-            addCriterion("article_author in", values, "articleAuthor");
-            return (Criteria) this;
-        }
-
-        public Criteria andArticleAuthorNotIn(List<String> values) {
-            addCriterion("article_author not in", values, "articleAuthor");
-            return (Criteria) this;
-        }
-
-        public Criteria andArticleAuthorBetween(String value1, String value2) {
-            addCriterion("article_author between", value1, value2, "articleAuthor");
-            return (Criteria) this;
-        }
-
-        public Criteria andArticleAuthorNotBetween(String value1, String value2) {
-            addCriterion("article_author not between", value1, value2, "articleAuthor");
-            return (Criteria) this;
-        }
-
         public Criteria andArticleTitleIsNull() {
             addCriterion("article_title is null");
             return (Criteria) this;
@@ -312,6 +242,66 @@ public class ArticleExample {
 
         public Criteria andArticleTitleNotBetween(String value1, String value2) {
             addCriterion("article_title not between", value1, value2, "articleTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleAuthorIdIsNull() {
+            addCriterion("article_author_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleAuthorIdIsNotNull() {
+            addCriterion("article_author_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleAuthorIdEqualTo(Integer value) {
+            addCriterion("article_author_id =", value, "articleAuthorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleAuthorIdNotEqualTo(Integer value) {
+            addCriterion("article_author_id <>", value, "articleAuthorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleAuthorIdGreaterThan(Integer value) {
+            addCriterion("article_author_id >", value, "articleAuthorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleAuthorIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("article_author_id >=", value, "articleAuthorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleAuthorIdLessThan(Integer value) {
+            addCriterion("article_author_id <", value, "articleAuthorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleAuthorIdLessThanOrEqualTo(Integer value) {
+            addCriterion("article_author_id <=", value, "articleAuthorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleAuthorIdIn(List<Integer> values) {
+            addCriterion("article_author_id in", values, "articleAuthorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleAuthorIdNotIn(List<Integer> values) {
+            addCriterion("article_author_id not in", values, "articleAuthorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleAuthorIdBetween(Integer value1, Integer value2) {
+            addCriterion("article_author_id between", value1, value2, "articleAuthorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleAuthorIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("article_author_id not between", value1, value2, "articleAuthorId");
             return (Criteria) this;
         }
 
@@ -445,123 +435,303 @@ public class ArticleExample {
             return (Criteria) this;
         }
 
-        public Criteria andPostDateIsNull() {
-            addCriterion("post_date is null");
+        public Criteria andArticleEditTimeIsNull() {
+            addCriterion("article_edit_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andPostDateIsNotNull() {
-            addCriterion("post_date is not null");
+        public Criteria andArticleEditTimeIsNotNull() {
+            addCriterion("article_edit_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPostDateEqualTo(Date value) {
-            addCriterion("post_date =", value, "postDate");
+        public Criteria andArticleEditTimeEqualTo(Date value) {
+            addCriterion("article_edit_time =", value, "articleEditTime");
             return (Criteria) this;
         }
 
-        public Criteria andPostDateNotEqualTo(Date value) {
-            addCriterion("post_date <>", value, "postDate");
+        public Criteria andArticleEditTimeNotEqualTo(Date value) {
+            addCriterion("article_edit_time <>", value, "articleEditTime");
             return (Criteria) this;
         }
 
-        public Criteria andPostDateGreaterThan(Date value) {
-            addCriterion("post_date >", value, "postDate");
+        public Criteria andArticleEditTimeGreaterThan(Date value) {
+            addCriterion("article_edit_time >", value, "articleEditTime");
             return (Criteria) this;
         }
 
-        public Criteria andPostDateGreaterThanOrEqualTo(Date value) {
-            addCriterion("post_date >=", value, "postDate");
+        public Criteria andArticleEditTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("article_edit_time >=", value, "articleEditTime");
             return (Criteria) this;
         }
 
-        public Criteria andPostDateLessThan(Date value) {
-            addCriterion("post_date <", value, "postDate");
+        public Criteria andArticleEditTimeLessThan(Date value) {
+            addCriterion("article_edit_time <", value, "articleEditTime");
             return (Criteria) this;
         }
 
-        public Criteria andPostDateLessThanOrEqualTo(Date value) {
-            addCriterion("post_date <=", value, "postDate");
+        public Criteria andArticleEditTimeLessThanOrEqualTo(Date value) {
+            addCriterion("article_edit_time <=", value, "articleEditTime");
             return (Criteria) this;
         }
 
-        public Criteria andPostDateIn(List<Date> values) {
-            addCriterion("post_date in", values, "postDate");
+        public Criteria andArticleEditTimeIn(List<Date> values) {
+            addCriterion("article_edit_time in", values, "articleEditTime");
             return (Criteria) this;
         }
 
-        public Criteria andPostDateNotIn(List<Date> values) {
-            addCriterion("post_date not in", values, "postDate");
+        public Criteria andArticleEditTimeNotIn(List<Date> values) {
+            addCriterion("article_edit_time not in", values, "articleEditTime");
             return (Criteria) this;
         }
 
-        public Criteria andPostDateBetween(Date value1, Date value2) {
-            addCriterion("post_date between", value1, value2, "postDate");
+        public Criteria andArticleEditTimeBetween(Date value1, Date value2) {
+            addCriterion("article_edit_time between", value1, value2, "articleEditTime");
             return (Criteria) this;
         }
 
-        public Criteria andPostDateNotBetween(Date value1, Date value2) {
-            addCriterion("post_date not between", value1, value2, "postDate");
+        public Criteria andArticleEditTimeNotBetween(Date value1, Date value2) {
+            addCriterion("article_edit_time not between", value1, value2, "articleEditTime");
             return (Criteria) this;
         }
 
-        public Criteria andViewTimeIsNull() {
-            addCriterion("view_time is null");
+        public Criteria andArticlePostDateIsNull() {
+            addCriterion("article_post_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andViewTimeIsNotNull() {
-            addCriterion("view_time is not null");
+        public Criteria andArticlePostDateIsNotNull() {
+            addCriterion("article_post_date is not null");
             return (Criteria) this;
         }
 
-        public Criteria andViewTimeEqualTo(Integer value) {
-            addCriterion("view_time =", value, "viewTime");
+        public Criteria andArticlePostDateEqualTo(Date value) {
+            addCriterion("article_post_date =", value, "articlePostDate");
             return (Criteria) this;
         }
 
-        public Criteria andViewTimeNotEqualTo(Integer value) {
-            addCriterion("view_time <>", value, "viewTime");
+        public Criteria andArticlePostDateNotEqualTo(Date value) {
+            addCriterion("article_post_date <>", value, "articlePostDate");
             return (Criteria) this;
         }
 
-        public Criteria andViewTimeGreaterThan(Integer value) {
-            addCriterion("view_time >", value, "viewTime");
+        public Criteria andArticlePostDateGreaterThan(Date value) {
+            addCriterion("article_post_date >", value, "articlePostDate");
             return (Criteria) this;
         }
 
-        public Criteria andViewTimeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("view_time >=", value, "viewTime");
+        public Criteria andArticlePostDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("article_post_date >=", value, "articlePostDate");
             return (Criteria) this;
         }
 
-        public Criteria andViewTimeLessThan(Integer value) {
-            addCriterion("view_time <", value, "viewTime");
+        public Criteria andArticlePostDateLessThan(Date value) {
+            addCriterion("article_post_date <", value, "articlePostDate");
             return (Criteria) this;
         }
 
-        public Criteria andViewTimeLessThanOrEqualTo(Integer value) {
-            addCriterion("view_time <=", value, "viewTime");
+        public Criteria andArticlePostDateLessThanOrEqualTo(Date value) {
+            addCriterion("article_post_date <=", value, "articlePostDate");
             return (Criteria) this;
         }
 
-        public Criteria andViewTimeIn(List<Integer> values) {
-            addCriterion("view_time in", values, "viewTime");
+        public Criteria andArticlePostDateIn(List<Date> values) {
+            addCriterion("article_post_date in", values, "articlePostDate");
             return (Criteria) this;
         }
 
-        public Criteria andViewTimeNotIn(List<Integer> values) {
-            addCriterion("view_time not in", values, "viewTime");
+        public Criteria andArticlePostDateNotIn(List<Date> values) {
+            addCriterion("article_post_date not in", values, "articlePostDate");
             return (Criteria) this;
         }
 
-        public Criteria andViewTimeBetween(Integer value1, Integer value2) {
-            addCriterion("view_time between", value1, value2, "viewTime");
+        public Criteria andArticlePostDateBetween(Date value1, Date value2) {
+            addCriterion("article_post_date between", value1, value2, "articlePostDate");
             return (Criteria) this;
         }
 
-        public Criteria andViewTimeNotBetween(Integer value1, Integer value2) {
-            addCriterion("view_time not between", value1, value2, "viewTime");
+        public Criteria andArticlePostDateNotBetween(Date value1, Date value2) {
+            addCriterion("article_post_date not between", value1, value2, "articlePostDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleViewTimeIsNull() {
+            addCriterion("article_view_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleViewTimeIsNotNull() {
+            addCriterion("article_view_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleViewTimeEqualTo(Integer value) {
+            addCriterion("article_view_time =", value, "articleViewTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleViewTimeNotEqualTo(Integer value) {
+            addCriterion("article_view_time <>", value, "articleViewTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleViewTimeGreaterThan(Integer value) {
+            addCriterion("article_view_time >", value, "articleViewTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleViewTimeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("article_view_time >=", value, "articleViewTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleViewTimeLessThan(Integer value) {
+            addCriterion("article_view_time <", value, "articleViewTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleViewTimeLessThanOrEqualTo(Integer value) {
+            addCriterion("article_view_time <=", value, "articleViewTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleViewTimeIn(List<Integer> values) {
+            addCriterion("article_view_time in", values, "articleViewTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleViewTimeNotIn(List<Integer> values) {
+            addCriterion("article_view_time not in", values, "articleViewTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleViewTimeBetween(Integer value1, Integer value2) {
+            addCriterion("article_view_time between", value1, value2, "articleViewTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleViewTimeNotBetween(Integer value1, Integer value2) {
+            addCriterion("article_view_time not between", value1, value2, "articleViewTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleCommentCountIsNull() {
+            addCriterion("article_comment_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleCommentCountIsNotNull() {
+            addCriterion("article_comment_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleCommentCountEqualTo(Integer value) {
+            addCriterion("article_comment_count =", value, "articleCommentCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleCommentCountNotEqualTo(Integer value) {
+            addCriterion("article_comment_count <>", value, "articleCommentCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleCommentCountGreaterThan(Integer value) {
+            addCriterion("article_comment_count >", value, "articleCommentCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleCommentCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("article_comment_count >=", value, "articleCommentCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleCommentCountLessThan(Integer value) {
+            addCriterion("article_comment_count <", value, "articleCommentCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleCommentCountLessThanOrEqualTo(Integer value) {
+            addCriterion("article_comment_count <=", value, "articleCommentCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleCommentCountIn(List<Integer> values) {
+            addCriterion("article_comment_count in", values, "articleCommentCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleCommentCountNotIn(List<Integer> values) {
+            addCriterion("article_comment_count not in", values, "articleCommentCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleCommentCountBetween(Integer value1, Integer value2) {
+            addCriterion("article_comment_count between", value1, value2, "articleCommentCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleCommentCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("article_comment_count not between", value1, value2, "articleCommentCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleLikeCountIsNull() {
+            addCriterion("article_like_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleLikeCountIsNotNull() {
+            addCriterion("article_like_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleLikeCountEqualTo(Integer value) {
+            addCriterion("article_like_count =", value, "articleLikeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleLikeCountNotEqualTo(Integer value) {
+            addCriterion("article_like_count <>", value, "articleLikeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleLikeCountGreaterThan(Integer value) {
+            addCriterion("article_like_count >", value, "articleLikeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleLikeCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("article_like_count >=", value, "articleLikeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleLikeCountLessThan(Integer value) {
+            addCriterion("article_like_count <", value, "articleLikeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleLikeCountLessThanOrEqualTo(Integer value) {
+            addCriterion("article_like_count <=", value, "articleLikeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleLikeCountIn(List<Integer> values) {
+            addCriterion("article_like_count in", values, "articleLikeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleLikeCountNotIn(List<Integer> values) {
+            addCriterion("article_like_count not in", values, "articleLikeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleLikeCountBetween(Integer value1, Integer value2) {
+            addCriterion("article_like_count between", value1, value2, "articleLikeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andArticleLikeCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("article_like_count not between", value1, value2, "articleLikeCount");
             return (Criteria) this;
         }
     }
