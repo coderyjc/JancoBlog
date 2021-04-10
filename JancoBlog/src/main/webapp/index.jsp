@@ -10,21 +10,21 @@
             request.getServerName() + ":" + request.getServerPort() +
             request.getContextPath() + "/";
 %>
+<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8">
     <title>Welcome</title>
     <script src="./static/js/jquery-1.12.js"></script>
-    <link rel="stylesheet" href="./static/css/index.css"/>
-    <base href="<%=basePath%>" />
 </head>
+<link rel="stylesheet" href="./static/css/index.css">
 <body>
 <!-- 导航条 -->
 <div class="nav">
     <!-- 回主页的"图标" -->
-    <a href="javascript:;" class="back-to-index">JancoBlog</a>
+    <a href="#" class="back-to-index">JancoBlog</a>
     <!-- 登录和注册 -->
-    <div class="signin"><a href="login.jsp">登录/注册</a></div>
+    <div class="signin"><a href="#">登录/注册</a></div>
 </div>
 <!-- 除去导航条和footer的部分是主体main -->
 <div class="main">
@@ -37,31 +37,6 @@
     <div class="sort-and-search">
         <!-- 文章分类导航 -->
         <ul class="types">
-            <li class="drop-down"><a href="#">计算机基础</a>
-                <div class="drop-content">
-                    <a href="#">数据结构与算法</a>
-                    <a href="#">计算机组成原理</a>
-                    <a href="#">计算机网络</a>
-                    <a href="#">操作系统</a>
-                </div>
-            </li>
-            <li class="drop-down"><a href="#">大数据</a>
-
-            </li>
-            <li class="drop-down"><a href="#">前端</a>
-                <div class="drop-content">
-                    <a href="#">HTML</a>
-                    <a href="#">CSS</a>
-                    <a href="#">JavaScript</a>
-                </div>
-            </li>
-            <li class="drop-down"><a href="#">JavaWeb</a>
-                <div class="drop-content">
-                    <a href="#">Ajax</a>
-                    <a href="#">JDBC</a>
-                    <a href="#">Mybatis</a>
-                </div>
-            </li>
             <!-- 搜索功能 -->
             <div class="search">
                 <form action="#" method="POST" class="search-form">
@@ -74,10 +49,10 @@
 
     <!-- 文章列表和标签导航 -->
     <!-- 列表和分页 -->
-    <div class="article-list">
+    <div class="article-list clearfix">
         <!-- 文章列表 -->
-        <div class="articles">
-            <ul></ul>
+        <div class="articles clearfix">
+            <ul class="clearfix"></ul>
         </div>
         <div class="load-more">
             <span>下滑加载更多...</span>
@@ -85,18 +60,19 @@
     </div>
 </div>
 <!-- 页脚 -->
-
-<div class="footer">
+<footer>
     <ul>
         <li><a href="#">关于</a></li>
     </ul>
-</div>
-
-
+</footer>
 
 <script>
+    var currentPage = 1;
+
     // 页面加载之前执行
     $(function(){
+    //    从数据库拿到数据建立导航栏
+        build_nav_bar();
     //    获取数据库中最新的10条记录
         get_article_page(1);
     });
@@ -112,7 +88,7 @@
                 var articleList = result.extend.PageInfo.list;
                 $.each(articleList, function (index, item) {
                     // 博文的图片
-                    var img = $("<div class='image'></div>").append($("<img />").attr({
+                    var img = $("<div></div>").addClass("image").append($("<img />").attr({
                         "src" : "./static/image/test.png",
                         "alt" : "这是图片",
                         "height" : "180px",
@@ -121,11 +97,11 @@
 
                     var articlePath = "./static/p/" + item.articleId + ".html";
 
-                    var title = $("<div class='title'></div>").append($("<a target='_blank'></a>").append(item.articleTitle).attr("href", articlePath));
-                    var discription = $("<div class='discription'></div>").append(item.articleAbstract);
-                    var time = $("<div class='datetime'></div>").append(new Date(item.articlePostDate));
-                    var articleBox = $("<div class='article-box'></div>").append(title).append(discription).append(time);
-                    $("<li class='article'></li>")
+                    var title = $("<div></div>").addClass("title").append($("<a target='_blank'></a>").append(item.articleTitle).attr("href", articlePath));
+                    var discription = $("<div></div>").addClass("discription").append(item.articleAbstract);
+                    var time = $("<div></div>").addClass("datetime").append(new Date(item.articlePostDate));
+                    var articleBox = $("<div></div>").addClass("article-box").append(title).append(discription).append(time);
+                    $("<li></li>").addClass("article")
                         .append(img)
                         .append(articleBox)
                         .appendTo(".articles>ul");
@@ -135,6 +111,24 @@
     }
 
 
+    function build_nav_bar() {
+        $.ajax({
+            url: "types",
+            type: "get",
+            success: function (result) {
+                var superType = result.extend.types;
+                $.each(superType, function (index, item) {
+                    var currSuperTypeDrop = $("<div></div>").addClass("drop-content");
+                    //创建第二级分类列表
+                    var subTypes = item.subTypes;
+                    $.each(subTypes, function (index, item) {
+                        currSuperTypeDrop.append($("<a></a>").attr("href", "#").append(item.typeName));
+                    });
+                    $("<li></li>").addClass("drop-down").append(currSuperTypeDrop).appendTo(".types");
+                });
+            }
+        });
+    }
 
 
 
