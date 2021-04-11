@@ -16,7 +16,6 @@ body{
     background-color: rgba(240, 240, 240, 0.76);
 }
 
-
 /*清除浮动*/
 .clearfix:before,.clearfix:after{
     content: "";
@@ -139,9 +138,9 @@ h1{
     width: 50px;
 }
 
-
 .articles>ul>li{
     float: left;
+    display: block;
 }
 
 /* 文章列表 */

@@ -16,15 +16,27 @@
     <meta charset="UTF-8">
     <title>Welcome</title>
     <script src="./static/js/jquery-1.12.js"></script>
+    <link rel="stylesheet" href="./static/css/index.css">
 </head>
-<link rel="stylesheet" href="./static/css/index.css">
 <body>
 <!-- 导航条 -->
 <div class="nav">
     <!-- 回主页的"图标" -->
     <a href="#" class="back-to-index">JancoBlog</a>
     <!-- 登录和注册 -->
-    <div class="signin"><a href="#">登录/注册</a></div>
+    <div class="signin">
+        <%
+            String aTag = null;
+            String userName = null;
+            userName = (String) session.getAttribute("userName");
+            if(userName == null){
+                aTag = "<a href='login.jsp'>登录</a>";
+            } else {
+                aTag = "<a href='./workbench'>后台管理</a>";
+            }
+        %>
+        <%=aTag%>
+    </div>
 </div>
 <!-- 除去导航条和footer的部分是主体main -->
 <div class="main">
@@ -36,14 +48,14 @@
     <!-- 分类导航和搜索功能 -->
     <div class="sort-and-search">
         <!-- 文章分类导航 -->
-        <ul class="types">
+        <ul class="types clearfix">
             <!-- 搜索功能 -->
-<%--            <div class="search">--%>
-<%--                <form action="#" method="POST" class="search-form">--%>
-<%--                    <input type="text" name="search" placeholder="搜索博文" class="search-text">--%>
-<%--                    <input type="submit" name="submit" value="搜索" class="search-btn">--%>
-<%--                </form>--%>
-<%--            </div>--%>
+            <div class="search">
+                <form action="#" method="POST" class="search-form">
+                    <input type="text" name="search" placeholder="搜索博文标题" class="search-text">
+                    <input type="submit" name="submit" value="搜索" class="search-btn">
+                </form>
+            </div>
         </ul>
     </div>
 
@@ -77,7 +89,6 @@
         get_article_page(1);
     });
 
-
     // 获取文章，然后添加到主页的末尾
     function get_article_page(pn) {
         $.ajax({
@@ -110,7 +121,7 @@
         });
     }
 
-
+    // 创建导航条，从数据库中拿到数据来创建
     function build_nav_bar() {
         $.ajax({
             url: "types",
@@ -118,20 +129,22 @@
             success: function (result) {
                 var superType = result.extend.types;
                 $.each(superType, function (index, item) {
+                    //第一级分类列表
+                    var currTypeName = $("<a></a>").attr("href", "#").text(item.typeName);
                     var currSuperTypeDrop = $("<div></div>").addClass("drop-content");
                     //创建第二级分类列表
                     var subTypes = item.subTypes;
                     $.each(subTypes, function (index, item) {
                         currSuperTypeDrop.append($("<a></a>").attr("href", "#").append(item.typeName));
                     });
-                    $("<li></li>").addClass("drop-down").append(currSuperTypeDrop).appendTo(".types");
+                    $("<li></li>").addClass("drop-down clearfix")
+                        .append(currTypeName)
+                        .append(currSuperTypeDrop)
+                        .prependTo(".types");
                 });
             }
         });
     }
-
-
-
 </script>
 
 

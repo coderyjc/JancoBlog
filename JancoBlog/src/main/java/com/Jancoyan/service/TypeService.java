@@ -28,7 +28,6 @@ public class TypeService {
         criteria.andPreTypeIdIsNull();
         List<Type> typeList = typeMapper.selectByExample(typeExample);
         for (Type type : typeList){
-            System.out.println(type);
             TypeExample typeExample1 = new TypeExample();
             TypeExample.Criteria criteria1 = typeExample1.createCriteria();
             criteria1.andPreTypeIdEqualTo(type.getTypeId());

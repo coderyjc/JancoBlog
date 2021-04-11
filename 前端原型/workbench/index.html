@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>博客后台</title>
-    <link rel="stylesheet" href="back-index.css">
+    <link rel="stylesheet" href="../css/workbench.css">
+	<script src="../js/jquery-1.12.js"></script>
 </head>
 <body>
     <!-- 导航条 -->
@@ -17,30 +18,243 @@
     </h1>
 
     <!-- 主体 -->
-    <div class="main">
+    <div class="main clearfix">
         <!-- 功能选择栏 -->
         <div class="function-list">
             <ul class="operate-list">
                 <li><a href="#">写博文</a></li>
-                <li><a href="#">文章管理</a></li>
-                <li><a href="#">信息统计</a></li>
-                <li><a href="#">修改密码</a></li>
+				<br>
+				<li><a href="javascript:;" id="personal-info-item">个人信息</a></li>
+                <li><a href="javascript:;" id="article-manage-item">文章管理</a></li>
             </ul>
         </div>
         <!-- 功能实现栏  -->
-        <!-- 写博文 -->
-        <div class="write-blog"></div>
-        <!-- 文章管理 -->
-        <div class="manage-articles"></div>
-        <!-- 信息统计 -->
-        <div class="statastic"></div>
-        <!-- 修改密码 -->
-        <div class="change-password"></div>
+		<!--个人信息管理-->
+		<div class="personal-info">
+			<form>
+				<table id="personal-info-table">
+
+				<!-- 用户id -->
+					<tr>
+						<td>用户ID</td>
+						<td><input type="text" id="fname" name="firstname" placeholder="Your name.."></td>
+					</tr>
+
+				<!-- 用户昵称 -->
+					<tr>
+						<td>用户昵称</td>
+						<td><input type="text" id="fname" name="firstname" placeholder="Your name.."></td>
+					</tr>
+					
+				<!-- 用户名 -->
+					<tr>
+						<td>用户名</td>
+						<td><input type="text" id="fname" name="firstname" placeholder="Your name.."></td>
+					</tr>
+					
+				<!-- 邮箱 -->
+					<tr>
+						<td>邮箱</td>
+						<td><input type="text" id="fname" name="firstname" placeholder="Your name.."></td>
+					</tr>
+					
+				<!-- 性别 -->
+					<tr>
+						<td>性别</td>
+						<td>
+							<select id="country" name="country">
+							  <option value="australia">M</option>
+							  <option value="usa">F</option>
+							</select>
+						</td>
+					</tr>
+					
+					<!-- 创建日期 -->
+					<tr>
+						<td>创建日期</td>
+						<td></td>
+					</tr>
+					<!-- 用户生日 -->
+					<tr>
+						<td>用户生日</td>
+						<td></td>
+					</tr>
+				</table>
+			</form>
+			<button id="edit-personal-info">编辑</button>
+		</div>
+		
+		<!-- 文章管理 -->
+        <div class="manage-articles">
+			<table id="article-list">
+				<tr>
+					<th>#</th>
+					<th>文章标题</th>
+					<th>发布时间</th>
+					<th>修改时间</th>
+					<th>浏览量</th>
+					<th>评论数</th>
+					<th>点赞数</th>
+					<th>操作</th>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>Mysql从入门到入坟</td>
+					<td>2021-1-2</td>
+					<td>2020-5-1</td>
+					<td>412234</td>
+					<td>32</td>
+					<td>112</td>
+					<td>
+						<button type="button">编辑</button>
+						<button type="button">删除</button>
+					</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>HBASE从删库到跑路</td>
+					<td>2021-1-24</td>
+					<td>2020-2-1</td>
+					<td>1120</td>
+					<td>2</td>
+					<td>1322</td>
+					<td>
+						<button type="button">编辑</button>
+						<button type="button">删除</button>
+					</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td>JavaWeb从植发到秃头</td>
+					<td>2021-4-24</td>
+					<td>2020-2-1</td>
+					<td>1220</td>
+					<td>5</td>
+					<td>322</td>
+					<td>
+						<button type="button" id="edit-btn">编辑</button>
+						<button type="button" id="del-btn">删除</button>
+					</td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>Mysql从入门到入坟</td>
+					<td>2021-1-2</td>
+					<td>2020-5-1</td>
+					<td>412234</td>
+					<td>32</td>
+					<td>112</td>
+					<td>
+						<button type="button">编辑</button>
+						<button type="button">删除</button>
+					</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>HBASE从删库到跑路</td>
+					<td>2021-1-24</td>
+					<td>2020-2-1</td>
+					<td>1120</td>
+					<td>2</td>
+					<td>1322</td>
+					<td>
+						<button type="button">编辑</button>
+						<button type="button">删除</button>
+					</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td>JavaWeb从植发到秃头</td>
+					<td>2021-4-24</td>
+					<td>2020-2-1</td>
+					<td>1220</td>
+					<td>5</td>
+					<td>322</td>
+					<td>
+						<button type="button" id="edit-btn">编辑</button>
+						<button type="button" id="del-btn">删除</button>
+					</td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>Mysql从入门到入坟</td>
+					<td>2021-1-2</td>
+					<td>2020-5-1</td>
+					<td>412234</td>
+					<td>32</td>
+					<td>112</td>
+					<td>
+						<button type="button">编辑</button>
+						<button type="button">删除</button>
+					</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>HBASE从删库到跑路</td>
+					<td>2021-1-24</td>
+					<td>2020-2-1</td>
+					<td>1120</td>
+					<td>2</td>
+					<td>1322</td>
+					<td>
+						<button type="button">编辑</button>
+						<button type="button">删除</button>
+					</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td>JavaWeb从植发到秃头</td>
+					<td>2021-4-24</td>
+					<td>2020-2-1</td>
+					<td>1220</td>
+					<td>5</td>
+					<td>322</td>
+					<td>
+						<button type="button" id="edit-btn">编辑</button>
+						<button type="button" id="del-btn">删除</button>
+					</td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>Mysql从入门到入坟</td>
+					<td>2021-1-2</td>
+					<td>2020-5-1</td>
+					<td>412234</td>
+					<td>32</td>
+					<td>112</td>
+					<td>
+						<button type="button">编辑</button>
+						<button type="button">删除</button>
+					</td>
+				</tr>
+			</table>
+			<div class="page-nav-bar">
+			  <div class="pagination">
+				  <a href="#">首页</a>
+				  <a href="#">«</a>
+				  <a href="#" class="active">1</a>
+				  <a href="#">2</a>
+				  <a href="#">3</a>
+				  <a href="#">4</a>
+				  <a href="#">5</a>
+				  <a href="#">»</a>
+				  <a href="#">尾页</a>
+			  </div>
+			</div>
+		</div>
+        
+		
     </div>
 
     <!-- 页脚 -->
     <footer>
         
     </footer>
+	
+	<script type="text/javascript">
+		// 点击相应的功能之后隐藏显示对应的功能，显示其他的功能
+		
+		
+	</script>
 </body>
 </html>
