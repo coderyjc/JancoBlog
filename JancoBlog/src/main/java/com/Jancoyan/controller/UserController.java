@@ -29,9 +29,10 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Msg login(User user, HttpSession session) {
-        if(userService.login(user)){
-            session.setAttribute("userName", user.getUserName());
-            return Msg.success().add("userName", user.getUserName());
+        user = userService.login(user);
+        if(user != null){
+            session.setAttribute("user", user);
+            return Msg.success().add("user", user);
         }else{
             return Msg.fail().add("userName", null);
         }

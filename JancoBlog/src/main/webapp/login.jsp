@@ -46,16 +46,13 @@
 <%--    });--%>
 
 <%--点击登录按钮进行登录--%>
-    $("#login-btn").click(login());
-
-    //登录函数
-    function login() {
+    $("#login-btn").click( function() {
         $.ajax({
             url:"login",
             type:"post",
             data: $("form").serialize(),
             success: function (result) {
-                if(result.extend.userName != null){
+                if(result.extend.user != null){
                     alert("登录成功");
                     window.location.href="./index.jsp";
                 }else{
@@ -64,7 +61,10 @@
                 }
             }
         });
-    }
+    });
+
+    //登录函数
+
 </script>
 </body>
 </html>

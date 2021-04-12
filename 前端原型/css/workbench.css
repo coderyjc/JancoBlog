@@ -155,6 +155,10 @@ h1{
 .pagination a:hover:not(.active) {background-color: #ddd;}
 
 /* 显示个人信息的表单 */
+.personal-info form{
+	margin: 20px 30px;
+}
+
 #personal-info-table{
 	border: none;
 	width: 100%;
@@ -167,11 +171,14 @@ h1{
 	border-bottom: 1px solid black;
 	height: 35px;
 	font-size: 25px;
+	
 }
 
+.userSex{
+	padding-top: 10px;
+}
 
 /* 编辑按钮 */
-
 #edit-personal-info{
 	margin: 20px 20px;
 	width: 100px;

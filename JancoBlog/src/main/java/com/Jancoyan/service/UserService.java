@@ -7,6 +7,8 @@ import com.Jancoyan.domain.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Jancoyan
  */
@@ -21,15 +23,13 @@ public class UserService {
      * @param user 用户，其中只有用户名和密码
      * @return
      */
-    public boolean login(User user) {
+    public User login(User user) {
         boolean success = false;
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         criteria.andUserNameEqualTo(user.getUserName());
         criteria.andUserPwdEqualTo(user.getUserPwd());
-        if(userMapper.countByExample(example) >= 1) {
-            success = true;
-        }
-        return success;
+        List<User> users = userMapper.selectByExample(example);
+        return users.get(0);
     }
 }

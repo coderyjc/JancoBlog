@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.Jancoyan.domain.User" %><%--
   Created by Jancoyan.
   User: Jancoyan
   Date: 2021/3/16
@@ -27,9 +27,8 @@
     <div class="signin">
         <%
             String aTag = null;
-            String userName = null;
-            userName = (String) session.getAttribute("userName");
-            if(userName == null){
+            User user = (User) session.getAttribute("user");
+            if(user == null){
                 aTag = "<a href='login.jsp'>登录</a>";
             } else {
                 aTag = "<a href='./workbench'>后台管理</a>";

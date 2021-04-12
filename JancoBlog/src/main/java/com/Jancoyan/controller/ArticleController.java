@@ -8,10 +8,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,11 +30,29 @@ public class ArticleController {
     @ResponseBody
     @RequestMapping(value = "/articles", method = RequestMethod.GET)
     public Msg getIndexArticles(
-            @RequestParam(value = "pn", defaultValue = "1") Integer pn    ){
+            @RequestParam(value = "pn", defaultValue = "1") Integer pn){
         PageHelper.startPage(pn, 5);
         List<Article> articles = articleService.getAll();
         PageInfo pageInfo = new PageInfo(articles, 5);
         return Msg.success().add("PageInfo", pageInfo);
+    }
+
+    /**
+     * 根据用户id获取用户的所有文章
+     * @param pn 第几页
+     * @param id 用户的id是多少
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/articles/{id}", method = RequestMethod.GET)
+    public Msg getArticlesById(
+            @RequestParam(value = "pn", defaultValue = "1") Integer pn,
+            @PathVariable("id") Integer id
+    ){
+        PageHelper.startPage(pn, 10);
+        List<Article> articles = articleService.getArticlesByUserId(id);
+        PageInfo pageInfo = new PageInfo(articles, 5);
+        return Msg.success().add("pageInfo", pageInfo);
     }
 
 }

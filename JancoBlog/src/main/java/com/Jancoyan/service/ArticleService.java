@@ -3,6 +3,7 @@ package com.Jancoyan.service;
 
 import com.Jancoyan.dao.ArticleMapper;
 import com.Jancoyan.domain.Article;
+import com.Jancoyan.domain.ArticleExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +20,19 @@ public class ArticleService {
 
     public List<Article> getAll() {
         return articleMapper.selectByExample(null);
+    }
+
+
+    /**
+     * 根据作者的id筛选文章
+     * @param id 作者的id
+     * @return 文章列表
+     */
+    public List<Article> getArticlesByUserId(Integer id) {
+        ArticleExample example = new ArticleExample();
+        ArticleExample.Criteria criteria = example.createCriteria();
+        criteria.andArticleAuthorIdEqualTo(id);
+        List<Article> articles = articleMapper.selectByExample(example);
+        return articles;
     }
 }
