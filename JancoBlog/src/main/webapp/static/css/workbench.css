@@ -136,7 +136,7 @@ h1{
   display: inline-block;
 }
 
-.pagination a {
+.pagination li {
   color: black;
   float: left;
   padding: 8px 16px;
@@ -152,7 +152,7 @@ h1{
   border: 1px solid #98a0af;
 }
 
-.pagination a:hover:not(.active) {background-color: #ddd;}
+.pagination li:hover:not(.active) {background-color: #ddd;}
 
 /* 显示个人信息的表单 */
 .personal-info form{

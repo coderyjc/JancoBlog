@@ -116,19 +116,7 @@
             <tbody>
             </tbody>
         </table>
-        <div class="page-nav-bar">
-<%--            <ul class="pagination">--%>
-<%--                <a href="#">首页</a>--%>
-<%--                <a href="#">首页</a>--%>
-<%--                <a href="#">«</a>--%>
-<%--                <a href="#" class="active">1</a>--%>
-<%--                <a href="#">2</a>--%>
-<%--                <a href="#">3</a>--%>
-<%--                <a href="#">4</a>--%>
-<%--                <a href="#">5</a>--%>
-<%--                <a href="#">»</a>--%>
-<%--                <a href="#">尾页</a>--%>
-<%--            </ul>--%>
+        <div id="page-nav-bar">
         </div>
     </div>
 
@@ -144,8 +132,7 @@
     // 点击相应的功能之后隐藏显示对应的功能，显示其他的功能
     $(function () {
         to_page(1);
-    })
-
+    });
 
     // 点击“文章管理”按钮之后，隐藏其他卡片，显示文章管理的卡片，发送ajax请求，拿到分页数据
     $("#article-manage-item").click(function () {
@@ -155,7 +142,6 @@
         // 直接去第 pn 页
         to_page(1);
     });
-
 
     //去第 pn 页
     function to_page(pn) {
@@ -208,8 +194,8 @@
 
     //建立分页导航栏
     function build_nav_bar(result) {
-        var ul = $("<ul></ul>").addClass(".pagination");
-        $(".pagination").empty();
+        var ul = $("<ul></ul>").addClass("pagination");
+        $(".page-nav-bar").empty();
         //构建元素
         var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
         var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));
@@ -244,7 +230,6 @@
         ul.append(firstPageLi).append(prePageLi);
         //1,2，3遍历给ul中添加页码提示
         $.each(result.extend.pageInfo.navigatepageNums,function(index,item){
-
             var numLi = $("<li></li>").append($("<a></a>").append(item));
             if(result.extend.pageInfo.pageNum == item){
                 numLi.addClass("active");
@@ -259,10 +244,8 @@
 
         //把ul加入到nav
         var navEle = $("<nav></nav>").append(ul);
-        navEle.appendTo(".page_nav_bar");
+        navEle.appendTo("#page-nav-bar");
     }
-
-
 
 </script>
 </body>
