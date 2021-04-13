@@ -117,17 +117,18 @@
             </tbody>
         </table>
         <div class="page-nav-bar">
-            <div class="pagination">
-                <a href="#">首页</a>
-                <a href="#">«</a>
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <a href="#">»</a>
-                <a href="#">尾页</a>
-            </div>
+<%--            <ul class="pagination">--%>
+<%--                <a href="#">首页</a>--%>
+<%--                <a href="#">首页</a>--%>
+<%--                <a href="#">«</a>--%>
+<%--                <a href="#" class="active">1</a>--%>
+<%--                <a href="#">2</a>--%>
+<%--                <a href="#">3</a>--%>
+<%--                <a href="#">4</a>--%>
+<%--                <a href="#">5</a>--%>
+<%--                <a href="#">»</a>--%>
+<%--                <a href="#">尾页</a>--%>
+<%--            </ul>--%>
         </div>
     </div>
 
@@ -142,7 +143,7 @@
 <script type="text/javascript">
     // 点击相应的功能之后隐藏显示对应的功能，显示其他的功能
     $(function () {
-
+        to_page(1);
     })
 
 
@@ -207,9 +208,58 @@
 
     //建立分页导航栏
     function build_nav_bar(result) {
+        var ul = $("<ul></ul>").addClass(".pagination");
         $(".pagination").empty();
+        //构建元素
+        var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
+        var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));
+        if(result.extend.pageInfo.hasPreviousPage == false){
+            firstPageLi.addClass("disabled");
+            prePageLi.addClass("disabled");
+        }else{
+            //为元素添加点击翻页的事件
+            firstPageLi.click(function(){
+                to_page(1);
+            });
+            prePageLi.click(function(){
+                to_page(result.extend.pageInfo.pageNum -1);
+            });
+        }
 
+        var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;"));
+        var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+        if(result.extend.pageInfo.hasNextPage == false){
+            nextPageLi.addClass("disabled");
+            lastPageLi.addClass("disabled");
+        }else{
+            nextPageLi.click(function(){
+                to_page(result.extend.pageInfo.pageNum +1);
+            });
+            lastPageLi.click(function(){
+                to_page(result.extend.pageInfo.pages);
+            });
+        }
 
+        //添加首页和前一页 的提示
+        ul.append(firstPageLi).append(prePageLi);
+        //1,2，3遍历给ul中添加页码提示
+        $.each(result.extend.pageInfo.navigatepageNums,function(index,item){
+
+            var numLi = $("<li></li>").append($("<a></a>").append(item));
+            if(result.extend.pageInfo.pageNum == item){
+                numLi.addClass("active");
+            }
+            numLi.click(function(){
+                to_page(item);
+            });
+            ul.append(numLi);
+        });
+        //添加下一页和末页 的提示
+        ul.append(nextPageLi).append(lastPageLi);
+
+        //把ul加入到nav
+        var navEle = $("<nav></nav>").append(ul);
+        navEle.appendTo(".page_nav_bar");
     }
 
 

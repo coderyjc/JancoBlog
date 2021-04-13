@@ -1,0 +1,572 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='GB2312'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>jQuery</title></head>
+<body><h1>jQuery</h1>
+<blockquote><p>重点：JQuery + Ajax</p>
+</blockquote>
+<h2>jQuery基础</h2>
+<h3>初识 jQuery</h3>
+<p>平时的开发中使用正常版本的，便于阅读源代码，产品上线的时候使用min版本的，便于加载。</p>
+<p>企业中使用的jQuery版本大多是1.x，因为可以兼容IE 678</p>
+<pre><code class='language-javascript' lang='javascript'>// 原生的js
+window.onload = function(){
+    alert(&quot;Hello World!&quot;);
+}
+
+// jquery风格
+$(document).ready(function(){
+    alert(&quot;Hello World !&quot;);
+});
+</code></pre>
+<h3>入口函数</h3>
+<h4>jQuery入口函数</h4>
+<p>一共有四种写法，我们推荐第三种</p>
+<pre><code class='language-javascript' lang='javascript'>	// 1.第一种写法
+	$(document).ready(function () {
+	});
+
+	// 2.第二种写法
+	jQuery(document).ready(function () {
+	});
+
+	// 3.第三种写法(推荐)
+	$(function () {
+	});
+
+	// 4.第四种写法
+	jQuery(function () {
+	});
+</code></pre>
+<h4>加载模式对比</h4>
+<p>原生JS和jQuery入口函数的加载模式不同，原生JS会等到DOM元素加载完毕,并且图片也加载完毕才会执行，jQuery会等到DOM元素加载完毕,但不会等到图片也加载完毕就会执行, 所以我们可以通过原生JS的入口函数拿到DOM元素和元素的宽和高，而通过jQuery只能拿到元素，拿不到宽和高。</p>
+<p>原生的JS如果编写了多个入口函数,后面编写的会覆盖前面编写的，jQuery中编写多个入口函数,后面的不会覆盖前面的</p>
+<h4>解决冲突问题</h4>
+<p>如果你在使用JQuery的情况下也使用了其他框架，其他框架也使用了 $ 符号，这时候就有冲突的了，我们必须解决冲突，也就是释放 $ 的使用权。</p>
+<p>注意点: 释放操作必须在编写其它jQuery代码之前编写，释放之后就不能再使用$,改为使用jQuery或自定义类型</p>
+<pre><code class='language-javascript' lang='javascript'>	// 释放$的使用权，自定义一个访问符号
+	var nj = jQuery.noConflict();
+	nj(function () {
+		alert(&quot;hello lnj&quot;);
+	});
+</code></pre>
+<h3>核心函数</h3>
+<p>明确概念：</p>
+<ul>
+<li>入口函数：<code>$(function(){  });</code></li>
+<li>核心函数：<code>$();</code></li>
+
+</ul>
+<p>注意：jQuery对象是一个<i>伪数组</i> , 有0到length-1的属性, 并且有length属性</p>
+<pre><code class='language-javascript' lang='javascript'>	// 1. 接收一个字符串选择器，返回一个jQuery对象, 对象中保存了找到的DOM元素
+	var $box1 = $(&quot;.box1&quot;);
+	var $box2 = $(&quot;#box2&quot;);
+	// 2. 接收一个字符串代码片段，返回一个jQuery对象, 对象中保存了创建的DOM元素
+	var $p = $(&quot;&lt;p&gt;我是段落&lt;/p&gt;&quot;);
+	$box1.append($p);
+	// 3.接收一个DOM元素，如果把一个原生的js元素传递给jQuery的核心函数，它会被包装成一个jQuery对象返回给我们
+	var span = document.getElementsByTagName(&quot;span&quot;)[0];
+	var $span = $(span);
+</code></pre>
+<h3>静态方法</h3>
+<p>明确概念：</p>
+<ul>
+<li>静态方法：直接添加给类的就是静态方法 - 通过类名调用</li>
+<li>实例方法：添加到类的原型上面的是实例方法 - 通过实例调用</li>
+
+</ul>
+<h4>each</h4>
+<p>注意: 原生的forEach方法只能遍历数组, <strong>不能</strong>遍历伪数组</p>
+<p>利用jQuery的each静态方法遍历数组，这种方法<strong>可以</strong>遍历伪数组</p>
+<ul>
+<li>第一个参数: 当前遍历到的索引</li>
+<li>第二个参数: 遍历到的元素</li>
+
+</ul>
+<pre><code class='language-javascript' lang='javascript'>	var obj = {0:1, 1:3, 2:5, 3:7, 4:9, length:5};
+	$.each(obj, function (index, value) {
+		console.log(index, value);
+	});
+</code></pre>
+<h4>map</h4>
+<p>map函数的参数</p>
+<ul>
+<li><p>第一个参数: 要遍历的数组</p>
+</li>
+<li><p>第二个参数: 每遍历一个元素之后执行的回调函数</p>
+<p>&nbsp;</p>
+<p>回调函数的参数:</p>
+</li>
+<li><p>第一个参数: 遍历到的元素</p>
+</li>
+<li><p>第二个参数: 遍历到的索引</p>
+</li>
+
+</ul>
+<p>注意点:和jQuery中的each静态方法一样, map静态方法也可以遍历伪数组</p>
+<pre><code class='language-javascript' lang='javascript'>	var res = $.map(obj, function (value, index) {
+		console.log(index, value);
+		return value + index;
+	});
+</code></pre>
+<p>jQuery中的each静态方法和map静态方法的区别:</p>
+<ul>
+<li>each静态方法默认的返回值就是, 遍历谁就返回谁；map静态方法默认的返回值是一个空数组</li>
+<li>each静态方法不支持在回调函数中对遍历的数组进行处理；map静态方法可以在回调函数中通过return对遍历的数组<strong>进行处理</strong>, 然后生成一个新的数组返回</li>
+
+</ul>
+<p>&nbsp;</p>
+<h4>其他静态方法</h4>
+<p><strong>$.trim();</strong></p>
+<p>作用: 去除字符串两端的空格</p>
+<p>参数: 需要去除空格的字符串</p>
+<p>返回值: 去除空格之后的字符串</p>
+<p>&nbsp;</p>
+<p><strong>$.isWindow();</strong></p>
+<p>作用: 判断传入的对象是否是window对象</p>
+<p>返回值: true/false</p>
+<p>&nbsp;</p>
+<p><strong>$.isArray();</strong></p>
+<p>作用: 判断传入的对象是否是真数组</p>
+<p>返回值: true/false</p>
+<p>&nbsp;</p>
+<p><strong>$.isArray();</strong></p>
+<p>作用: 判断传入的对象是否是一个函数</p>
+<p>返回值: true/false</p>
+<p>注意点:jQuery框架本质上是一个匿名函数</p>
+<p>&nbsp;</p>
+<p><strong>$.holdReady(true)</strong></p>
+<p>作用: 暂停ready执行,ready函数是jQuery的入口函数（详情见jQuery入口函数的第1、2种写法），等到我们想让ready函数执行的时候可以使用<code>$.holdReady(false)</code> 使入口函数开始执行</p>
+<h3>jQuery对象</h3>
+<h4>其他选择器</h4>
+<pre><code class='language-javascript' lang='javascript'>//:empty 作用:找到既没有文本内容也没有子元素的指定元素
+var $div = $(&quot;div:empty&quot;);
+
+//:parent 作用: 找到有文本内容或有子元素的指定元素
+var $div = $(&quot;div:parent&quot;);
+
+//:contains(text) 作用: 找到包含指定文本内容的指定元素
+var $div = $(&quot;div:contains(&#39;我是div&#39;)&quot;);
+
+//:has(selector) 作用: 找到包含指定子元素的指定元素
+var $div = $(&quot;div:has(&#39;span&#39;)&quot;);
+</code></pre>
+<h4>属性和属性节点</h4>
+<p>明确概念：</p>
+<ul>
+<li>属性，是对象身上保存的变量就是属性</li>
+<li>属性节点：在编写HTML代码时,在HTML标签中添加的属性就是属性节点，在浏览器中找到span这个DOM元素之后, 展开看到的都是属性，在attributes属性中保存的所有内容都是属性节点</li>
+<li>区别：任何对象都有属性, 但是只有DOM对象才有属性节点</li>
+
+</ul>
+<p>&nbsp;</p>
+<ol start='' >
+<li>attr(name|pro|key,val|fn)  作用: 获取或者设置属性节点的值</li>
+
+</ol>
+<ul>
+<li>传递一个参数, 代表获取属性节点的值</li>
+<li>传递两个参数, 代表设置属性节点的值</li>
+
+</ul>
+<p>注意:</p>
+<ul>
+<li>如果是获取:无论找到多少个元素, 都只会返回第一个元素指定的属性节点的值</li>
+<li>如果是设置:找到多少个元素就会设置多少个元素</li>
+<li>如果是设置:如果设置的属性节点不存在, 那么系统会自动新增</li>
+
+</ul>
+<ol start='2' >
+<li>removeAttr(name)  作用: 删除找到元素的所有属性节点</li>
+
+</ol>
+<pre><code class='language-javascript' lang='javascript'>	$(&quot;span&quot;).attr(&quot;class&quot;, &quot;box&quot;);
+	$(&quot;span&quot;).removeAttr(&quot;class name&quot;); //多个元素中间用空格隔开
+</code></pre>
+<ol start='' >
+<li>prop方法，特点和attr方法一致</li>
+<li>removeProp方法，特点和removeAttr方法一致</li>
+
+</ol>
+<pre><code class='language-javascript' lang='javascript'>$(&quot;span&quot;).eq(1) // 将span中所有元素找出，选出下标为1的元素，将其包装为jQuery对象并返回
+</code></pre>
+<p><strong>如何在attr和prop方法之间选择？</strong></p>
+<ul>
+<li>注意: prop方法不仅能够操作属性, 他还能操作属性节点，官方推荐在操作属性节点时,具有 true 和 false 两个属性的属性节点，如 checked, selected 或者 disabled 使用prop()，其他的使用 attr()</li>
+
+</ul>
+<h4>类、文本、CSS、尺寸等相关操作</h4>
+<ol start='' >
+<li>addClass(class|fn)</li>
+
+</ol>
+<p>  作用: 添加一个类</p>
+<p>  如果要添加多个, 多个类名之间用空格隔开即可</p>
+<ol start='2' >
+<li>removeClass([class|fn])</li>
+
+</ol>
+<p>  作用: 删除一个类</p>
+<p>  如果想删除多个, 多个类名之间用空格隔开即可</p>
+<ol start='3' >
+<li>toggleClass(class|fn[,sw])</li>
+
+</ol>
+<p>  作用: 切换类，有就删除, 没有就添加</p>
+<pre><code class='language-javascript' lang='javascript'>	var btns = document.getElementsByTagName(&quot;button&quot;);
+	btns[0].onclick = function () {
+		$(&quot;div&quot;).addClass(&quot;class1 class2&quot;);
+	}
+	btns[1].onclick = function () {
+		$(&quot;div&quot;).removeClass(&quot;class2 class1&quot;);
+	}
+	btns[2].onclick = function () {
+		$(&quot;div&quot;).toggleClass(&quot;class2 class1&quot;);
+	}
+</code></pre>
+<ol start='' >
+<li>html([val|fn]) 和原生JS中的innerHTML一模一样</li>
+<li>text([val|fn]) 和原生JS中的innerText一模一样</li>
+<li>val([val|fn|arr])</li>
+
+</ol>
+<pre><code class='language-javascript' lang='javascript'>    var btns = $(&quot;button&quot;);
+    btns[0].onclick = function () {
+        $(&quot;div&quot;).html(&quot;&lt;p&gt;我是段落&lt;span&gt;我是span&lt;/span&gt;&lt;/p&gt;&quot;);
+    }
+    btns[2].onclick = function () {
+        $(&quot;div&quot;).text(&quot;&lt;p&gt;我是段落&lt;span&gt;我是span&lt;/span&gt;&lt;/p&gt;&quot;);
+    }
+    btns[4].onclick = function () {
+        $(&quot;input&quot;).val(&quot;请输入内容&quot;);
+    }
+</code></pre>
+<p>使用JQuery设置CSS相关代码</p>
+<pre><code class='language-javascript' lang='javascript'>	// 编写jQuery相关代码
+	// 1.逐个设置
+	$(&quot;div&quot;).css(&quot;width&quot;, &quot;100px&quot;);
+	$(&quot;div&quot;).css(&quot;height&quot;, &quot;100px&quot;);
+	$(&quot;div&quot;).css(&quot;background&quot;, &quot;red&quot;);
+	
+	// 2.链式设置
+	// 注意点: 链式操作如果大于3步, 建议分开
+	$(&quot;div&quot;).css(&quot;width&quot;, &quot;100px&quot;).css(&quot;height&quot;, &quot;100px&quot;).css(&quot;background&quot;, &quot;blue&quot;);
+	
+	// 3.批量设置[推荐]
+	$(&quot;div&quot;).css({
+		width: &quot;100px&quot;,
+		height: &quot;100px&quot;,
+		background: &quot;red&quot;,
+	});
+	
+	// 4.获取CSS样式值
+	console.log($(&quot;div&quot;).css(&quot;background&quot;));
+</code></pre>
+<p>获取元素的宽度</p>
+<p>console.log($(&quot;.father&quot;).width());</p>
+<p>offset([coordinates])</p>
+<p>作用: 获取元素距离窗口的偏移位</p>
+<p>console.log($(&quot;.son&quot;).offset().left);</p>
+<p>position()</p>
+<p>作用: 获取元素距离定位元素的偏移位,</p>
+<p>console.log($(&quot;.son&quot;).position().left);</p>
+<p>获取偏移位：</p>
+<pre><code class='language-javascript' lang='javascript'>    // 监听获取
+    btns[0].onclick = function () {
+        // 获取网页滚动的偏移位
+        // 注意点: 为了保证浏览器的兼容, 获取网页滚动的偏移位需要按照如下写法
+        console.log($(&quot;body&quot;).scrollTop()+$(&quot;html&quot;).scrollTop());
+    }
+    btns[1].onclick = function () {
+        // 设置网页滚动偏移位
+        // 注意点: 为了保证浏览器的兼容, 设置网页滚动偏移位的时候必须按照如下写法
+        $(&quot;html,body&quot;).scrollTop(300);
+    }
+</code></pre>
+<h4>事件操作</h4>
+<p><strong>事件的绑定</strong></p>
+<p>jQuery中有两种绑定事件方式</p>
+<p>1.eventName(fn); （初学者推荐）</p>
+<p>编码效率略高（有代码提示）/ 部分事件jQuery没有实现,所以不能添加</p>
+<p>2.on(eventName, fn); （大佬推荐）</p>
+<p>编码效率略低（没有代码提示）/ 所有js事件都可以添加</p>
+<p>注意点:可以添加多个相同或者不同类型的事件,不会覆盖</p>
+<pre><code class='language-javascript' lang='javascript'>    $(&quot;button&quot;).on(&quot;click&quot;, function () {
+        alert(&quot;hello click1&quot;);
+    });
+</code></pre>
+<p><strong>事件的移出</strong></p>
+<p>off方法如果不传递参数, 会移除所有的事件 <code>$(&quot;button&quot;).off();</code></p>
+<p>off方法如果传递一个参数, 会移除所有指定类型的事件 <code>$(&quot;button&quot;).off(&quot;click&quot;);</code></p>
+<p>off方法如果传递两个参数, 会移除所有指定类型的指定事件 <code>$(&quot;button&quot;).off(&quot;click&quot;, test1);</code></p>
+<p>&nbsp;</p>
+<p><strong>事件冒泡和默认行为</strong></p>
+<p>如何阻止事件冒泡 在回调函数最后返回 false 或接受一个event参数，在最后设置 event.stopPropagation();</p>
+<p>如何阻止默认行为 在回调函数的最后返回 false 或者接受一个event参数，在最后设置 event.preventDefault();</p>
+<pre><code class='language-javascript' lang='javascript'>	$(&quot;.son&quot;).click(function (event) {
+		alert(&quot;son&quot;);
+		// return false;
+		event.stopPropagation();
+	});  
+	$(&quot;a&quot;).click(function (event) {
+		alert(&quot;弹出注册框&quot;);
+		// return false;
+		event.preventDefault();
+	});
+</code></pre>
+<p><strong>自动触发事件和行为</strong></p>
+<p>trigger: 如果利用trigger自动触发事件,会触发事件冒泡</p>
+<p>triggerHandler: 如果利用triggerHandler自动触发事件, 不会触发事件冒泡</p>
+<p>trigger: 如果利用trigger自动触发事件,会触发默认行为</p>
+<p>triggerHandler: 如果利用triggerHandler自动触发事件, 不会触发默认行为</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>自定义事件</strong></p>
+<p>想要自定义事件, 必须满足两个条件</p>
+<ol start='' >
+<li>事件必须是通过on绑定的</li>
+<li>事件必须通过trigger来触发</li>
+
+</ol>
+<pre><code class='language-javascript' lang='javascript'>	$(&quot;.son&quot;).on(&quot;myClick&quot;, function () {
+		alert(&quot;son&quot;);
+	});
+	$(&quot;.son&quot;).triggerHandler(&quot;myClick&quot;);
+</code></pre>
+<p><strong>事件的命名空间</strong></p>
+<p>情形：有多个人对同一个元素设置了多个事件</p>
+<p>想要自定义事件, 必须满足两个条件</p>
+<ol start='' >
+<li>事件必须是通过on绑定的</li>
+<li>事件必须通过trigger来触发</li>
+
+</ol>
+<pre><code class='language-javascript' lang='javascript'>	$(&quot;.son&quot;).on(&quot;click.zs&quot;, function () {
+		alert(&quot;click1&quot;); // 张三设置了一个click
+	});
+	$(&quot;.son&quot;).on(&quot;click.ls&quot;, function () {
+		alert(&quot;click2&quot;); // 李四设置了一个click
+	});
+
+	$(&quot;.son&quot;).trigger(&quot;click.ls&quot;);
+</code></pre>
+<p>注意：</p>
+<ul>
+<li>利用trigger触发子元素<strong>带命名空间</strong>的事件, 那么父元素带<strong>相同命名空间</strong>的事件也会被触发. 而父元素没有命名空间的事件不会被触发</li>
+<li>利用trigger触发子元素<strong>不带命名空间</strong>的事件,那么子元素所有相同类型的事件和父元素所有相同类型的事件<strong>都会</strong>被触发</li>
+
+</ul>
+<p>也就是说：</p>
+<pre><code class='language-javascript' lang='javascript'>	$(&quot;.father&quot;).on(&quot;click.ls&quot;, function () { // 1 
+		alert(&quot;father click1&quot;);
+	});
+	$(&quot;.father&quot;).on(&quot;click&quot;, function () { // 2
+		alert(&quot;father click2&quot;);
+	});
+	$(&quot;.son&quot;).on(&quot;click.ls&quot;, function () { // 3
+		alert(&quot;son click1&quot;);
+	});
+
+	$(&quot;.son&quot;).trigger(&quot;click.ls&quot;); // 子事件带有命名空间，会触发 3 1
+	$(&quot;.son&quot;).trigger(&quot;click&quot;); // 子元素不带有命名空间， 会触发 3 1 2
+</code></pre>
+<p>&nbsp;</p>
+<p><strong>移入移出与事件委托</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>jQuery动画</h3>
+<h4>显示和隐藏</h4>
+<pre><code class='language-javascript' lang='javascript'>	// 编写jQuery相关代码
+	// div 是一个方块，作为我们添加动画的对象
+	$(&quot;button&quot;).eq(0).click(function () {
+		// $(&quot;div&quot;).css(&quot;display&quot;, &quot;block&quot;);
+		// 注意: 这里的时间是毫秒
+		$(&quot;div&quot;).show(1000, function () {
+			// 作用: 动画执行完毕之后调用
+			alert(&quot;显示动画执行完毕&quot;);
+		});
+	});
+
+	$(&quot;button&quot;).eq(1).click(function () {
+		// $(&quot;div&quot;).css(&quot;display&quot;, &quot;none&quot;);
+		$(&quot;div&quot;).hide(1000, function () {
+			alert(&quot;隐藏动画执行完毕&quot;);
+		});
+	});
+
+	$(&quot;button&quot;).eq(2).click(function () {
+		$(&quot;div&quot;).toggle(1000, function () {
+			alert(&quot;切换动画执行完毕&quot;);
+		});
+	});
+</code></pre>
+<h4>展开收起</h4>
+<pre><code class='language-javascript' lang='javascript'>	// 编写jQuery相关代码
+	// div 是一个方块，作为我们添加动画的对象
+	$(&quot;button&quot;).eq(0).click(function () {
+		$(&quot;div&quot;).slideDown(1000, function () {
+			alert(&quot;展开完毕&quot;);
+		});
+	});
+	$(&quot;button&quot;).eq(1).click(function () {
+		$(&quot;div&quot;).slideUp(1000, function () {
+			alert(&quot;收起完毕&quot;);
+		});
+	});
+	$(&quot;button&quot;).eq(2).click(function () {
+		$(&quot;div&quot;).slideToggle(1000, function () {
+			alert(&quot;收起完毕&quot;);
+		});
+	});
+</code></pre>
+<h4>淡入淡出</h4>
+<pre><code class='language-javascript' lang='javascript'>	// 编写jQuery相关代码
+	// div 是一个方块，作为我们添加动画的对象
+	$(&quot;button&quot;).eq(0).click(function () {
+		$(&quot;div&quot;).fadeIn(1000, function () {
+			alert(&quot;淡入完毕&quot;);
+		});
+	});
+	$(&quot;button&quot;).eq(1).click(function () {
+		$(&quot;div&quot;).fadeOut(1000, function () {
+			alert(&quot;淡出完毕&quot;);
+		});
+	});
+	$(&quot;button&quot;).eq(2).click(function () {
+		$(&quot;div&quot;).fadeToggle(1000, function () {
+			alert(&quot;切换完毕&quot;);
+		});
+	});
+	$(&quot;button&quot;).eq(3).click(function () {
+		$(&quot;div&quot;).fadeTo(1000, 0.2, function () {
+			alert(&quot;淡入完毕&quot;);
+		})
+	});
+</code></pre>
+<h4>自定义动画</h4>
+<p>&nbsp;</p>
+<h4>节点相关</h4>
+<p><strong>添加</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>删除</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>替换</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>复制</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>综合实战</h3>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>JQuery + Ajax</h2>
+<p>&nbsp;</p>
+<h3>三个主要方法</h3>
+<h4>$.ajax() 【最常用的】</h4>
+<p>$.ajax() 是 jQuery 中 AJAX 请求的核心方法，所有的其他方法都是在内部使用此方法。</p>
+<p>语法： <code>$.ajax( { name:value, name:value, ... } )</code></p>
+<p>说明：参数是 json 的数据，包含请求方式，数据，回调方法等</p>
+<p>常用参数：</p>
+<ul>
+<li><p>async ： 布尔值，表示请求是否异步处理。默认是 true </p>
+</li>
+<li><p>contentType ：发送数据到服务器时所使用的内容类型。默认是：&quot;application/x-www-form-urlencoded&quot;。 </p>
+</li>
+<li><p>data：规定要发送到服务器的数据，可以是：string， 数组，多数是 json </p>
+</li>
+<li><p>dataType：期望从服务器响应的数据类型。jQuery 从 xml, json, text,, html 这些中测试最可能的类型 </p>
+<ul>
+<li>&quot;xml&quot; - 一个 XML 文档 </li>
+<li>&quot;html&quot; - HTML 作为纯文本 </li>
+<li>&quot;text&quot; - 纯文本字符串 </li>
+<li>&quot;json&quot; - 以 JSON 运行响应，并以对象返回 </li>
+
+</ul>
+</li>
+<li><p>error(xhr,status,error)：如果请求失败要运行的函数, 其中 xhr, status, error 是自定义的形参名 </p>
+</li>
+<li><p>success(result,status,xhr)：当请求成功时运行的函数，其中 result, status, xhr 是自定义的形参名 </p>
+</li>
+<li><p>type：规定请求的类型（GET 或 POST 等），默认是 GET， get，post 不用区分大小写 </p>
+</li>
+<li><p>url：规定发送请求的 URL。</p>
+</li>
+
+</ul>
+<p>举例：</p>
+<pre><code class='language-javascript' lang='javascript'>        $(function () {
+            $(&quot;#search&quot;).click(function () { // 为按钮加上点击事件
+
+                var userId = $(&quot;#id&quot;).val(); // 获取dom的value
+                // 发起ajax请求
+                $.ajax({
+                    url:&quot;result&quot;, // 键值对，字符串值用引号引起来
+					// data的值大多是json类型
+                    data: { 
+						// 为什么前一个id要用引号引起来？
+						// 答：这个id是一个参数名，我们要在后台根据这个参数名称用 request.getPatameter(&quot;id&quot;); 取出里面的数据
+                        &quot;id&quot;: userId
+                    },
+                    dataType:&quot;json&quot;,
+                    success: function (resp) {
+                        // resp是返回的json对象，就是后端的 PrinterWriter 输出的值
+						// 更新页面
+                        $(&quot;#name&quot;).val(resp.name);
+                        $(&quot;#jiancheng&quot;).val(resp.jiancheng);
+                        $(&quot;#shenghui&quot;).val(resp.shenghui);
+                    }
+                });
+            })
+        })
+</code></pre>
+<h4>$.get()</h4>
+<p>$.get() 方法使用 HTTP GET 请求从服务器加载数据。 </p>
+<p>语法：<code>$.get(url,data,function(data,status,xhr),dataType)</code></p>
+<ul>
+<li><p>url 必需。规定您需要请求的 URL。 </p>
+</li>
+<li><p>data 可选。规定连同请求发送到服务器的数据。 </p>
+</li>
+<li><p>function(data,status,xhr)可选。当请求成功时运行的函数。data,status,xhr 是自定义形参名。 </p>
+</li>
+<li><p>参数说明： </p>
+<ul>
+<li>data - 包含来自请求的结果数据 </li>
+<li>status - 包含请求的状态（&quot;success&quot;、&quot;notmodified&quot;、&quot;error&quot;、&quot;timeout&quot;、&quot;parsererror&quot;） </li>
+<li>xhr - 包含 XMLHttpRequest 对象 </li>
+
+</ul>
+</li>
+<li><p>dataType 可选。规定预期的服务器响应的数据类型。默认地，jQuery 会智能判断。可能的</p>
+<ul>
+<li>类型： </li>
+<li>&quot;xml&quot; - 一个 XML 文档 </li>
+<li>&quot;html&quot; - HTML 作为纯文本 </li>
+<li>&quot;text&quot; - 纯文本字符串</li>
+<li>&quot;json&quot; - 以 JSON 运行响应，并以对象返回</li>
+
+</ul>
+</li>
+
+</ul>
+<p>实际开发中使用较少，例子略。</p>
+<h4>$.post()</h4>
+<p>$.post() 方法使用 HTTP POST 请求从服务器加载数据。 </p>
+<p>语法：<code>$.post(URL,data,function(data,status,xhr),dataType)</code></p>
+<p>参数同$get()</p>
+<h3>普通查询</h3>
+<p>代码见 <code>D:\GITHUB\Learning\JavaWeb\Ajax\jQuery&amp;Ajax-普通查询</code></p>
+<p>具体细节不再详细说了。</p>
+<h3>级联查询</h3>
+<p>代码见 <code>D:\GITHUB\Learning\JavaWeb\Ajax\jQuery&amp;Ajax-级联查询</code></p>
+<p>具体细节就不再详细写了。</p>
+</body>
+</html>

@@ -34,7 +34,7 @@ public class UserController {
             session.setAttribute("user", user);
             return Msg.success().add("user", user);
         }else{
-            return Msg.fail().add("userName", null);
+            return Msg.fail().add("user", null);
         }
     }
 
