@@ -83,16 +83,6 @@
                     </td>
                 </tr>
 
-                <!-- 创建日期 -->
-                <!-- <tr> -->
-                <!-- <td>创建日期</td> -->
-                <!-- <td></td> -->
-                <!-- </tr> -->
-                <!-- 用户生日 -->
-                <!-- <tr> -->
-                <!-- <td>用户生日</td> -->
-                <!-- <td></td> -->
-                <!-- </tr> -->
             </table>
         </form>
         <button id="edit-personal-info">编辑</button>
@@ -142,6 +132,20 @@
         // 直接去第 pn 页
         to_page(1);
     });
+
+    //修改按钮，应该打开写文章的页面并填充上相应的文章
+    $(document).on("click", ".edit-btn", function () {
+
+
+    });
+
+    //删除按钮，点击按钮之后，从数据库中删除这一条记录并在服务端删除文件
+    $(document).on("click", ".delete-btn", function () {
+
+
+
+    });
+
 
     //去第 pn 页
     function to_page(pn) {
@@ -194,6 +198,7 @@
 
     //建立分页导航栏
     function build_nav_bar(result) {
+        $("#page-nav-bar").empty();
         var ul = $("<ul></ul>").addClass("pagination");
         $(".page-nav-bar").empty();
         //构建元素

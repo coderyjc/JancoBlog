@@ -124,18 +124,33 @@ h1{
 
 .pagination{
 	list-style-type: none;
+	padding-left: 0;
+	margin: 20px 0;
 	display: inline-block;
-	/* text-align: center; */
 }
 
-.pagination nav{
-	/* text-align: center; */
+#page-nav-bar nav{
+	text-align: center;
 }
 
-.pagination li{
+.pagination>li{
+	text-align: center;
 	float: left;
+	display: inline;
 	padding: 5px 10px;
 	border: 1px solid #989898;
+}
+
+.pagination>li:hover{
+	background-color: #cfcfcf;
+}
+
+.pagination .active{
+	background-color: #a6a6a6;
+}
+
+.pagination .disabled{
+	pointer-events: none;
 }
 
 /* 

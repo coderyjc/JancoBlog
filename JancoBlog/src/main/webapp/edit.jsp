@@ -15,64 +15,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>编辑博客</title>
+    <title>编辑</title>
     <base href="<%=basePath%>"/>
+
 	<link rel="stylesheet" href="./static/js/editor.md/css/editormd.min.css" />
-	<script src="static/js/editor.md/editormd.min.js"></script>
+	<script src="./static/js/editor.md/editormd.min.js"></script>
 	<script type="text/javascript">
-		//初始化编辑器
-		var testEditor;
-		$(function () {
-			testEditor = editormd("txtblogcontent", {
-				width: "100%",
-				height: 740,
-				path: '/Content/editormd/lib/',
-				theme: "dark",
-				previewTheme: "dark",
-				editorTheme: "pastel-on-dark",
-				markdown: "",
-				codeFold: true,
-				//syncScrolling : false,
-				saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
-				searchReplace: true,
-				//watch : false,                // 关闭实时预览
-				htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
-				//toolbar  : false,             //关闭工具栏
-				//previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
-				emoji: true,
-				taskList: true,
-				tocm: true,         // Using [TOCM]
-				tex: true,                   // 开启科学公式TeX语言支持，默认关闭
-				flowChart: true,             // 开启流程图支持，默认关闭
-				sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
-				//dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
-				//dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
-				//dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
-				//dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
-				//dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
-				imageUpload: true,
-				imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-				// imageUploadURL: "/Center/RichTextUpload",
-				onload: function () {
-					//console.log('onload', this);
-					//this.fullscreen();
-					//this.unwatch();
-					//this.watch().fullscreen();
-	
-					//this.setMarkdown("#PHP");
-					//this.width("100%");
-					//this.height(480);
-					//this.resize("100%", 640);
-				}
+		$(function() {
+			navAddClass('read_write');
+			md_edit = editormd("blog_mdedit", { //注意1：这里的就是上面的DIV的id属性值
+				placeholder : '  欢迎使用'+'${title}' +" 博客",
+				width : "90%",
+				height : 400,
+				syncScrolling : "single",
+				emoji : true,
+				path : "${proPath }/js/md/lib/", //注意2：你的路径
+				saveHTMLToTextarea : true,
+				tocm : true, // Using [TOCM]
+				tex : true, // 开启科学公式TeX语言支持，默认关闭
+				flowChart : true, // 开启流程图支持，默认关闭
+				/* 上传图片配置 */
+				imageUpload : true,
+				imageFormats : [ "jpg", "jpeg", "gif", "png", "bmp", "webp" ],
+				imageUploadURL : "${proPath }/base/blog/upFile", //注意你后端的上传图片服务地址
 			});
 		});
-	
-		//获取编辑器内容
-		var blogcontent = encodeURIComponent(testEditor.getMarkdown());
 	</script>
 </head>
 <body>
-	
-	
+<!--模拟表单传输数据到后台-->
+<form method="post" enctype="multipart/form-data" accept-charset="UTF-8">
+	<div id="my-editormd">
+		<!--Editor.md可以自动附加<textarea>标签-->
+		<textarea id="my-editormd-markdown-doc" name="my-editormd-markdown-doc" style="display:none;"></textarea>
+		<!-- 注意：name属性的值-->
+		<!--textarea中name属性值，应该跟着div的ID"my-editormd"值来定，即(div的id值+)-markdown-doc-->
+	</div>
+	<input type="submit" value="  Send the artcile !" />
+	</form>
+	<!--需要引入的js文件和js配置-->
+	<script type="text/javascript">
+		$(function() {
+			var editor = editormd("my-editormd", {//上面div的id值
+				width: "90%",
+				height: 540,
+				theme : "dark", //主题
+				path: "editor.md-master/lib/", // 这里我的html文件和editor.md-master文件位置如下图
+				saveHTMLToTextarea : true//这个配置，方便post提交html源码表单，保存 HTML 到 Textarea它关乎后端是否可以获取到值
+			});
+		});
+		//更多的editormd配置请参考下面或官网
+	</script>
 </body>
 </html>
