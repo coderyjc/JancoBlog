@@ -23,7 +23,7 @@ public class ArticleController {
     ArticleService articleService;
 
     /**
-     *
+     * 获取索引页的初始文章
      * @param pn 要请求的页码
      * @return
      */
@@ -54,5 +54,24 @@ public class ArticleController {
         PageInfo pageInfo = new PageInfo(articles, 5);
         return Msg.success().add("pageInfo", pageInfo);
     }
+
+    /**
+     * 根据文章的类型和页码获取文章
+     * @param id
+     * @param pn
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/articles/type/{id}", method = RequestMethod.GET)
+    public Msg getArticlesByType(
+        @PathVariable("id") Integer id,
+        @RequestParam(value = "pn", defaultValue = "1") Integer pn
+    ){
+        PageHelper.startPage(pn, 10);
+        List<Article> articles = articleService.getArticlesByTypeId(id);
+        PageInfo pageInfo = new PageInfo(articles, 5);
+        return Msg.success().add("pageInfo", pageInfo);
+    }
+
 
 }

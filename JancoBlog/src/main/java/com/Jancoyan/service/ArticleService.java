@@ -35,4 +35,17 @@ public class ArticleService {
         List<Article> articles = articleMapper.selectByExample(example);
         return articles;
     }
+
+    /**
+     * 根据文章的类型筛选文章
+     * @param id 类型id
+     * @return 文章列表
+     */
+    public List<Article> getArticlesByTypeId(Integer id) {
+        ArticleExample example = new ArticleExample();
+        ArticleExample.Criteria criteria = example.createCriteria();
+        criteria.andArticleTypeEqualTo(id);
+        List<Article> articles = articleMapper.selectByExample(example);
+        return articles;
+    }
 }

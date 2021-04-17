@@ -51,8 +51,8 @@
             <!-- 搜索功能 -->
             <div class="search">
                 <form action="#" method="POST" class="search-form">
-                    <input type="text" name="search" placeholder="搜索博文标题" class="search-text">
-                    <input type="submit" name="submit" value="搜索" class="search-btn">
+                    <input type="text" name="search" placeholder="搜索博文标题" id="search-text">
+                    <input type="submit" name="submit" value="搜索" id="search-btn">
                 </form>
             </div>
         </ul>
@@ -95,29 +95,35 @@
             data : "pn=" + pn,
             type : "GET",
             success: function (result) {
-                var articleList = result.extend.PageInfo.list;
-                $.each(articleList, function (index, item) {
-                    // 博文的图片
-                    var img = $("<div></div>").addClass("image").append($("<img />").attr({
-                        "src" : "./static/image/test.png",
-                        "alt" : "这是图片",
-                        "height" : "180px",
-                        "width" : "280px"
-                    }));
-
-                    var articlePath = "./static/p/" + item.articleId + ".html";
-
-                    var title = $("<div></div>").addClass("title").append($("<a target='_blank'></a>").append(item.articleTitle).attr("href", articlePath));
-                    var discription = $("<div></div>").addClass("discription").append(item.articleAbstract);
-                    var time = $("<div></div>").addClass("datetime").append(new Date(item.articlePostDate));
-                    var articleBox = $("<div></div>").addClass("article-box").append(title).append(discription).append(time);
-                    $("<li></li>").addClass("article")
-                        .append(img)
-                        .append(articleBox)
-                        .appendTo(".articles>ul");
-                })
+                // 调用建立文章的函数
+                build_article_list(result);
             }
         });
+    }
+
+    // 传入result，建立文章列表
+    function build_article_list(result) {
+        var articleList = result.extend.PageInfo.list;
+        $.each(articleList, function (index, item) {
+            // 博文的图片
+            var img = $("<div></div>").addClass("image").append($("<img />").attr({
+                "src" : "./static/image/test.png",
+                "alt" : "这是图片",
+                "height" : "180px",
+                "width" : "280px"
+            }));
+
+            var articlePath = "./static/p/" + item.articleId + ".html";
+
+            var title = $("<div></div>").addClass("title").append($("<a target='_blank'></a>").append(item.articleTitle).attr("href", articlePath));
+            var discription = $("<div></div>").addClass("discription").append(item.articleAbstract);
+            var time = $("<div></div>").addClass("datetime").append(new Date(item.articlePostDate));
+            var articleBox = $("<div></div>").addClass("article-box").append(title).append(discription).append(time);
+            $("<li></li>").addClass("article")
+                .append(img)
+                .append(articleBox)
+                .appendTo(".articles>ul");
+        })
     }
 
     // 创建导航条，从数据库中拿到数据来创建
@@ -133,8 +139,12 @@
                     var currSuperTypeDrop = $("<div></div>").addClass("drop-content");
                     //创建第二级分类列表
                     var subTypes = item.subTypes;
-                    $.each(subTypes, function (index, item) {
-                        currSuperTypeDrop.append($("<a></a>").attr("href", "#").append(item.typeName));
+                    $.each(subTypes, function (index, item1) {
+                        currSuperTypeDrop
+                            .append($("<a></a>")
+                                .attr("href", "#")
+                                .append(item1.typeName)
+                            );
                     });
                     $("<li></li>").addClass("drop-down clearfix")
                         .append(currTypeName)
@@ -144,6 +154,33 @@
             }
         });
     }
+
+    //为搜索按钮绑定搜索事件
+    $("#search-btn").click(function () {
+        var searchKey = $("#search-text").val();
+        if("" == searchKey){
+            alert("搜索内容不能为空！");
+            return;
+        }
+        //发送ajax请求，返回到view中的searchresult页面
+
+    });
+
+    // function get_articles_by_typeId(typeId, pn) {
+    //     // ajax请求获取typeId类型的所有文章
+    //     $.ajax({
+    //         url: "/articles/type/" + typeId,
+    //         type: "GET",
+    //         data: pn,
+    //         success: function (result) {
+    //             // 清空原有的文章列表
+    //             $(".articles>ul").empty();
+    //         //    添加执行类型的文章
+    //             build_article_list(result);
+    //         }
+    //     });
+    // }
+
 </script>
 
 

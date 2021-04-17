@@ -36,7 +36,7 @@
     <!-- 功能选择栏 -->
     <div class="function-list">
         <ul class="operate-list">
-            <li><a href="#">写博文</a></li>
+            <li><a href="./edit.jsp">写博文</a></li>
             <br>
             <li><a href="javascript:;" id="personal-info-item">个人信息</a></li>
             <li><a href="javascript:;" id="article-manage-item">文章管理</a></li>

@@ -47,11 +47,11 @@
         <!--        表相关数据-->
         <!--        tableName表示需要生成的表名字
                        domainObjectName 表示生成的类名-->
-        <table tableName="t_article" domainObjectName="Article" />
-        <table tableName="t_user" domainObjectName="User" />
-        <table tableName="t_article_tag" domainObjectName="ArticleTag" />
-        <table tableName="t_tag" domainObjectName="Tag" />
-        <table tableName="t_type" domainObjectName="Type" />
+<!--        <table tableName="t_article" domainObjectName="Article" />-->
+<!--        <table tableName="t_user" domainObjectName="User" />-->
+<!--        <table tableName="t_article_tag" domainObjectName="ArticleTag" />-->
+<!--        <table tableName="t_tag" domainObjectName="Tag" />-->
+<!--        <table tableName="t_type" domainObjectName="Type" />-->
 
     </context>
 </generatorConfiguration>
