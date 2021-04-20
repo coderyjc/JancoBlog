@@ -18,6 +18,10 @@ public class ArticleService {
     @Autowired
     ArticleMapper articleMapper;
 
+    /**
+     * 获取所有文章
+     * @return
+     */
     public List<Article> getAll() {
         return articleMapper.selectByExample(null);
     }
@@ -48,4 +52,18 @@ public class ArticleService {
         List<Article> articles = articleMapper.selectByExample(example);
         return articles;
     }
+
+    /**
+     * 根据文章名称查找文章 like
+     * @param articleName
+     * @return
+     */
+    public List<Article> getArticlesLikeName(String articleName) {
+        ArticleExample articleExample = new ArticleExample();
+        ArticleExample.Criteria criteria = articleExample.createCriteria();
+        criteria.andArticleTitleLike(articleName);
+        List<Article> articles = articleMapper.selectByExample(articleExample);
+        return articles;
+    }
+
 }

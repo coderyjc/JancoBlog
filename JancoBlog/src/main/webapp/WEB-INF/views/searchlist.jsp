@@ -18,6 +18,9 @@
     <title>搜索结果</title>
     <base href="<%=basePath%>"/>
 </head>
+<script>
+    console.log(${articles});
+</script>
 <body>
 
 

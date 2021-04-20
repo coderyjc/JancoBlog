@@ -15,7 +15,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>编辑</title>
+    <title>编辑博文</title>
     <base href="<%=basePath%>"/>
 
 	<link rel="stylesheet" href="./static/js/editor.md/css/editormd.min.css">
@@ -41,7 +41,6 @@
 				imageFormats: ["jpg", "gif", "png", "jpeg"],
 				imageUploadURL:"",
 			});
-
 			get_super_type();
 		});
 	</script>
@@ -97,7 +96,39 @@
 				}
 			});
 		}
-		
+
+		// 绑定点击事件
+		$("#submit_btn").click(function () {
+			// 文章标题
+			var articleTitle = $("#title_input_text").val();
+			var content = $(".markdown-body.editormd-preview-container").innerHTML;
+			var articleType = $("");
+			console.log(articleTitle); // debug
+			console.log(content); // debug
+			// 这个事件已经绑定好了，找时间把这个上传文字和图片的功能给做了。
+			if("" == articleTitle){
+				alert("标题不能为空");
+				return;
+			}
+			if("" == content){
+				alert("内容不能为空");
+				return;
+			}
+
+			$.ajax({
+				url:"article",
+				type:"PUT",
+				data: {
+					'innerHTML': content,
+
+				},
+				success: function (result) {
+
+				}
+			});
+
+		});
+
 	</script>
 	</body>
 </html>

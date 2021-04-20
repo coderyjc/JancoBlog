@@ -1,5 +1,7 @@
-body{
-    margin-top: 0;
+/* 清除浏览器默认样式 */
+*{
+    margin:0;
+    padding:0;
 }
 /* 顶部导航栏 */
 .nav{
