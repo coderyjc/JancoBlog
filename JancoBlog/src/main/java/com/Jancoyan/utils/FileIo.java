@@ -1,6 +1,10 @@
 package com.Jancoyan.utils;
 
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 /**
  * 这个类是一个工具类
  * 专门用来做文件的写入和读取
@@ -9,14 +13,31 @@ package com.Jancoyan.utils;
 public class FileIo {
 
     /**
-     * 写入博客文件
+     * 写文件
      * @param path 要写入的文件的路径
-     * @param id 文件名
      * @param content 文件的内容
      * @return
      */
-    public static boolean writeHTMLFile(String path, String id, String content){
-
+    public static boolean writeHTMLFile(String path, String content){
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(path, true);
+            byte[] bytes = content.getBytes();
+            fos.write(bytes);
+            fos.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return true;
     }
 

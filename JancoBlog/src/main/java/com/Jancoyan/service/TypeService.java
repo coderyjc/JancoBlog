@@ -17,6 +17,17 @@ public class TypeService {
     @Autowired
     TypeMapper typeMapper;
 
+
+    /**
+     * 根据主键查找
+     * @param id 类型id
+     * @return 根据主键找到的类型
+     */
+    public Type getTypeByPrimaryKey(Integer id){
+        return typeMapper.selectByPrimaryKey(id);
+    }
+
+
     /**
      *  获取所有的父类型和子类型
      *  封装在List中

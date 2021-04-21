@@ -141,7 +141,7 @@
 
     //删除按钮，点击按钮之后，从数据库中删除这一条记录并在服务端删除文件
     $(document).on("click", ".delete-btn", function () {
-
+        alert("确定要删除" + $(this).)
 
 
     });
@@ -174,8 +174,8 @@
         $.each(articles, function (index, item) {
             var no = $("<td></td>").append(index + 1);
             var titleTd = $("<td></td>").append(item.articleTitle);
-            var createTd = $("<td></td>").append(item.articlePostDate);
-            var updateTd = $("<td></td>").append(item.articleEditTime);
+            var createTd = $("<td></td>").append(dateFormat(item.articlePostDate));
+            var updateTd = $("<td></td>").append(dateFormat(item.articleEditTime));
             var viewtimeTd = $("<td></td>").append(item.articleViewTime);
             var commentTd = $("<td></td>").append(item.articleCommentCount);
             var likeTd = $("<td></td>").append(item.articleLikeCount);
@@ -251,6 +251,24 @@
         var navEle = $("<nav></nav>").append(ul);
         navEle.appendTo("#page-nav-bar");
     }
+
+    /**
+     * 将时间戳转化为标准时间
+     * @param date 时间戳
+     * @returns {string} 标准时间字符串
+     */
+    function dateFormat(date) {
+        var s = new Date(date)
+        var y = s.getFullYear()
+        var m = (s.getMonth() + 1) < 10 ? '0' + (s.getMonth() + 1) : (s.getMonth() + 1)
+        var dd = s.getDate() < 10 ? '0' + s.getDate() : s.getDate()
+        var hh = s.getHours() < 10 ? '0' + s.getHours() : s.getHours()
+        var mm = s.getMinutes() < 10 ? '0' + s.getMinutes() : s.getMinutes()
+        var ss = s.getSeconds() < 10 ? '0' + s.getSeconds() : s.getSeconds()
+        var enddate = y + '-' + m + '-' + dd + ' ' + hh + ':' + mm + ":" + ss
+        return enddate
+    }
+
 
 </script>
 </body>

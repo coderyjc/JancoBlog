@@ -65,6 +65,10 @@ a{
     color: #ffffff;
 }
 
+#submit_btn:active{
+    background-color: #8F938F;
+}
+
 /* 文章类型选择 */
 
 #type-select{

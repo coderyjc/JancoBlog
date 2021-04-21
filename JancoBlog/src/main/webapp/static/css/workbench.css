@@ -83,7 +83,6 @@ h1{
 	height: 600px;
 	width: 920px;
 	display: none;
-	border: black solid 1px;
 }
 
 /* 写博文 */
@@ -96,8 +95,6 @@ h1{
 	display: block;
 }
 
-
-
 /* 文章管理的表格 */
 #article-list{
   border: 1px solid black;
@@ -107,7 +104,7 @@ h1{
 
 /* 单元格属性 */
 #article-list td, #article-list th{	
-	border-left: 1px solid #c7cdd0;
+	border: 1px solid #c7cdd0;
 	padding: 8px;
 	text-align: center;
 }
@@ -125,6 +122,25 @@ h1{
 	margin: 0px 5px;
 	border-radius: 5px;
 }
+
+.edit-btn{
+    color: white;
+    background-color: #54ccff;
+    border: #000;
+}
+.edit-btn:active{
+    background-color: #2a98c0;
+}
+
+.delete-btn{
+    color: white;
+    background-color: #d31f3a;
+    border: #000;
+}
+.delete-btn:active{
+    background-color: #A52A2A;
+}
+
 
 /* 分页条 */
 

@@ -51,12 +51,12 @@ a:visited{
     width: 300px;
 }
 /* 登录按钮 */
-#submit{
+#login-btn{
     background-color:rgb(66, 139, 202);
     border: blue;
     color: white;
 }
 /* 划过登录按钮的效果 */
-#submit:hover{
+#login-btn:hover{
     background-color: #3071a9;
 }

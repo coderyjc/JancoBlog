@@ -20,10 +20,13 @@ public class ArticleService {
 
     /**
      * 获取所有文章
+     * 按照发表日期降序排序
      * @return
      */
     public List<Article> getAll() {
-        return articleMapper.selectByExample(null);
+        ArticleExample example = new ArticleExample();
+        example.setOrderByClause("article_post_date DESC");
+        return articleMapper.selectByExample(example);
     }
 
 
@@ -66,4 +69,11 @@ public class ArticleService {
         return articles;
     }
 
+    /**
+     * 直接插入文章
+     * @param article
+     */
+    public void submitArticle(Article article) {
+        articleMapper.insert(article);
+    }
 }

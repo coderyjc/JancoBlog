@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.Jancoyan.domain.User" %><%--
   Created by Jancoyan.
   User: Jancoyan
   Date: 2021/4/12
@@ -22,7 +22,7 @@
 	<link rel="stylesheet" href="./static/css/edit_other.css">
 	<script src="./static/js/jquery-1.12.js"></script>
 	<script src="./static/js/editor.md/editormd.min.js"></script>
-	<script type="text/javascript">
+	<script>
 		$(function(){
 			// 进行输入区的相关绑定
 			var testEditor;
@@ -30,7 +30,7 @@
 				palceholder:'欢迎',
 				htmlDecode:"style, script, iframe",
 				width: "100%",
-				height:700,
+				height: 700,
 				syncScrilling:"single",
 				emoji: true,
 				path: "./static/js/editor.md/lib/",
@@ -41,8 +41,31 @@
 				imageFormats: ["jpg", "gif", "png", "jpeg"],
 				imageUploadURL:"",
 			});
-			get_super_type();
+
+			// 直接发送请求拿到文章类型
+			$.ajax({
+				url: "types",
+				type: "get",
+				success: function (result) {
+					var selectList = $("<select></select>");
+					var superType = result.extend.types;
+					$.each(superType, function (index, item) {
+						var currGroup = $("<optgroup></optgroup>").attr("label", item.typeName);
+						$.each(item.subTypes, function (index, item) {
+							currGroup.append($("<option></option>")
+									.append(item.typeName)
+									.attr("value", item.typeId)
+							);
+						});
+						selectList.append(currGroup);
+					});
+					selectList.appendTo("#type-select");
+				}
+			});
+
 		});
+
+
 	</script>
 </head>
 <body>
@@ -55,7 +78,7 @@
 		<!-- 标题框 -->
 		<div id="title">
 			<input id="title_input_text" type="text" placeholder="请输入文章标题">
-			<button id="submit_btn">发布文章</button>
+			<input type="button" id="submit_btn" value="发布文章">
 		</div>
 		<!-- 文章输入框 -->
 		<div class="clearfix">
@@ -73,62 +96,42 @@
 		<!-- 选择文章标签 -->
 	</div>
 	<script>
-		// 直接获取父类型
-		function get_super_type() {
-			$.ajax({
-				url: "types",
-				type: "get",
-				success: function (result) {
-					var selectList = $("<select></select>");
-					var superType = result.extend.types;
-					$.each(superType, function (index, item) {
-						var currGroup = $("<optgroup></optgroup>").attr("label", item.typeName);
-						console.log(item);
-						$.each(item.subTypes, function (index, item) {
-							currGroup.append($("<option></option>")
-									.append(item.typeName)
-									.attr("value", item.typeId)
-							);
-						});
-						selectList.append(currGroup);
-					});
-					selectList.appendTo("#type-select");
-				}
-			});
-		}
 
 		// 绑定点击事件
-		$("#submit_btn").click(function () {
+		$(document).on("click", "#submit_btn", function () {
 			// 文章标题
 			var articleTitle = $("#title_input_text").val();
-			var content = $(".markdown-body.editormd-preview-container").innerHTML;
+			var articleContent = $(".editormd-preview")[0].innerHTML;
 			var articleType = $("");
 			console.log(articleTitle); // debug
-			console.log(content); // debug
+			console.log(articleContent); // debug
 			// 这个事件已经绑定好了，找时间把这个上传文字和图片的功能给做了。
 			if("" == articleTitle){
 				alert("标题不能为空");
 				return;
 			}
-			if("" == content){
+			if("" == articleContent){
 				alert("内容不能为空");
 				return;
 			}
-
+			<%
+				User user = (User) session.getAttribute("user");
+			%>
 			$.ajax({
 				url:"article",
 				type:"PUT",
 				data: {
-					'innerHTML': content,
-
+					'innerHTML': articleContent,
+					'userId': <%=user.getUserId()%>,
+					'userNickname': <%=user.getUserNickname()%>,
+					'title': $("#title_input_text").val(),
+					'type': 101 // 先用101试试
 				},
 				success: function (result) {
-
+					alert("发布成功!");
 				}
 			});
-
 		});
-
 	</script>
 	</body>
 </html>

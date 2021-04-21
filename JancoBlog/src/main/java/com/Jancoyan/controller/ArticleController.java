@@ -2,14 +2,15 @@ package com.Jancoyan.controller;
 
 import com.Jancoyan.domain.Article;
 import com.Jancoyan.service.ArticleService;
-import com.Jancoyan.utils.Msg;
+import com.Jancoyan.service.TypeService;
+import com.Jancoyan.utils.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.FileOutputStream;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,30 +22,59 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
+    @Autowired
+    TypeService typeService;
+
+
     /**
-     * 博客的提交，步骤 ：
-     *
-     * @param content 文章的内容
-     * @return
+     * 提交文章
+     * @param innerHTML 从前端传过来的带有标签的html
+     * @param userId 用户id
+     * @param userNickname 用户昵称
+     * @param title 文章的名称
+     * @param type 文章类型
+     * @return 操作成功
      */
     @ResponseBody
     @RequestMapping(value = "/article", method = RequestMethod.PUT)
     public Msg submitArticle(
             String innerHTML,
-            
+            String userId,
+            String userNickname,
+            String title,
+            String type
     ){
-        //        构造html页面
-        // 在主体之前的html标签
-        String preHtml = "";
+        // 构造html页面
+        String content = ArticleUtils.createArticle(title, userNickname, innerHTML);
+        //将html页面写入文件
+        String fileName = userId + TimeUtils.getCurrentTimestamp();
+        String path = ConstUtils.CURRENTPATH + "\\static\\p\\" + fileName + ".html";
+        FileIo.writeHTMLFile(path, content);
 
-        // 在主体之后的html标签
-        String beforeHtml = "";
+        //创建Article对象
+        Article article = new Article();
+        // 文章编号
+        article.setArticleId(fileName);
+        // 文章作者的id
+        article.setArticleAuthorId(Integer.parseInt(userId));
+        // 文章的摘要
+        article.setArticleAbstract(ArticleUtils.getArticleAbstract(innerHTML));
+        // 文章标题
+        article.setArticleTitle(title);
+        // 文章类型
+        article.setArticleType(Integer.parseInt(type));
+        // 文章的点赞数
+        article.setArticleLikeCount(0);
+        // 文章的浏览量
+        article.setArticleViewTime(0);
+        // 文章的评论数
+        article.setArticleCommentCount(0);
+        // 文章的修改时间
+        article.setArticleEditTime(new Date());
+        // 文章的创建时间
+        article.setArticlePostDate(new Date());
 
-        String content = preHtml + innerHtml + beforeHtml;
-
-//        将html页面写入文件夹内
-
-//        创建Article对象
+        articleService.submitArticle(article);
 
         return Msg.success();
     }
@@ -54,7 +84,7 @@ public class ArticleController {
     /**
      * 获取索引页的初始文章
      * @param pn 要请求的页码
-     * @return
+     * @return 搜索结果消息
      */
     @ResponseBody
     @RequestMapping(value = "/articles", method = RequestMethod.GET)
@@ -70,7 +100,7 @@ public class ArticleController {
      * 根据用户id获取用户的所有文章
      * @param pn 第几页
      * @param id 用户的id是多少
-     * @return
+     * @return 结果消息
      */
     @ResponseBody
     @RequestMapping(value = "/articles/{id}", method = RequestMethod.GET)
@@ -78,7 +108,7 @@ public class ArticleController {
             @RequestParam(value = "pn", defaultValue = "1") Integer pn,
             @PathVariable("id") Integer id
     ){
-        PageHelper.startPage(pn, 10);
+        PageHelper.startPage(pn, 11);
         List<Article> articles = articleService.getArticlesByUserId(id);
         PageInfo pageInfo = new PageInfo(articles, 5);
         return Msg.success().add("pageInfo", pageInfo);

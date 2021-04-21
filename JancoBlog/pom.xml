@@ -140,5 +140,37 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <resources>
+      <!--将src/main/java中所有的文件，包括空目录进行生成-->
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.properties</include>
+          <include>**/*.xml</include>
+        </includes>
+      </resource>
+      <resource>
+        <!--将src/main/resources中所有的文件，包括空目录进行生成-->
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.xml</include>
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
+    </resources>
+
+    <plugins>
+      <!--让Maven打包不自动忽略空文件夹(双重保险)-->
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <includeEmptyDirectories>true</includeEmptyDirectories>
+        </configuration>
+      </plugin>
+    </plugins>
+
+  </build>
 
 </project>
