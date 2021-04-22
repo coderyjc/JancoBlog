@@ -29,6 +29,14 @@ public class ArticleService {
         return articleMapper.selectByExample(example);
     }
 
+    /**
+     * 根据主键查找
+     * @param id 主键 - 文章编号
+     * @return 查询到的结果
+     */
+    public Article selectByPrimaryKey(String id){
+        return articleMapper.selectByPrimaryKey(id);
+    }
 
     /**
      * 根据作者的id筛选文章
@@ -58,13 +66,13 @@ public class ArticleService {
 
     /**
      * 根据文章名称查找文章 like
-     * @param articleName
-     * @return
+     * @param articleName 文章的名字
+     * @return 相似文章列表
      */
     public List<Article> getArticlesLikeName(String articleName) {
         ArticleExample articleExample = new ArticleExample();
         ArticleExample.Criteria criteria = articleExample.createCriteria();
-        criteria.andArticleTitleLike(articleName);
+        criteria.andArticleTitleLike("%" + articleName + "%");
         List<Article> articles = articleMapper.selectByExample(articleExample);
         return articles;
     }
@@ -75,5 +83,21 @@ public class ArticleService {
      */
     public void submitArticle(Article article) {
         articleMapper.insert(article);
+    }
+
+    /**
+     * 根据主键删除文章
+     * @param id
+     */
+    public void deleteByPrimaryKey(String id) {
+        articleMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 更新不为空的字段
+     * @param article
+     */
+    public void updateByPrimaryKeySelective(Article article) {
+        articleMapper.updateByPrimaryKeySelective(article);
     }
 }

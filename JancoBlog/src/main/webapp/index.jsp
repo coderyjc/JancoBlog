@@ -51,8 +51,8 @@
             <!-- 搜索功能 -->
             <div class="search">
                 <form action="#" method="POST" class="search-form">
-                    <input type="text" name="search" placeholder="博文标题" id="search-text">
-                    <input type="submit" name="submit" value="搜索" id="search-btn">
+                    <input type="text" name="search" placeholder="博文标题" id="search-text" />
+                    <input type="submit" name="submit" value="搜索" id="search-btn" />
                 </form>
             </div>
         </ul>
@@ -119,10 +119,15 @@
             var discription = $("<div></div>").addClass("discription").append(item.articleAbstract);
             var time = $("<div></div>").addClass("datetime").append(new Date(item.articlePostDate));
             var articleBox = $("<div></div>").addClass("article-box").append(title).append(discription).append(time);
-            $("<li></li>").addClass("article")
+            var articleLi = $("<li></li>");
+            articleLi.addClass("article")
                 .append(img)
                 .append(articleBox)
+                .attr("click-id", item.articleId)
                 .appendTo(".articles>ul");
+            articleLi.click(function (){
+                add_article_view(item.articleId, item.articleViewTime);
+            });
         })
     }
 
@@ -154,42 +159,33 @@
             }
         });
     }
-    //
-    // //为搜索按钮绑定搜索事件
-    // $("#search-btn").click(function () {
-    //     var searchKey = $("#search-text").val();
-    //     if("" == searchKey){
-    //         alert("搜索内容不能为空！");
-    //         return;
-    //     }
-    //
-    //     //发送ajax请求，分页返回到view中的searchlist页面
-    //     $.ajax({
-    //         url: "searcharticles/" + $("#search-text").val(),
-    //         type: "GET",
-    //         success: function (result) {
-    //          //   build_article_list(result);
-    //         }
-    //     });
-    //
-    //
-    // });
 
-    // function get_articles_by_typeId(typeId, pn) {
-    //     // ajax请求获取typeId类型的所有文章返回到view
-    //     $.ajax({
-    //         url: "/articles/type/" + typeId,
-    //         type: "GET",
-    //         data: pn,
-    //         success: function (result) {
-    //             // 清空原有的文章列表
-    //             $(".articles>ul").empty();
-    //         //    添加执行类型的文章
-    //             build_article_list(result);
-    //         }
-    //     });
-    // }
+    // 点击文章的时候增加文章阅读量
+    function add_article_view(articleId, viewCount) {
+        $.ajax({
+            url: "article/view",
+            type: "POST",
+            data: {
+                "id": articleId,
+                "viewCount": viewCount
+            }
+        });
+    }
 
+    $(document).on("click", "#search-btn", function () {
+        var searchKey = $("#search-text").val();
+        if("" == searchKey){
+            alert("搜索内容不能为空！");
+            return;
+        }
+        $.ajax({
+            url: "search/" + searchKey,
+            type: "GET",
+            success: function (result){
+                console.log(result);
+            }
+        });
+    });
 </script>
 
 

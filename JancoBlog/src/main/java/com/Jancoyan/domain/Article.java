@@ -27,6 +27,16 @@ public class Article {
         return articleId;
     }
 
+    @Override
+    public String toString() {
+        return "Article{" +
+                "articleId='" + articleId + '\'' +
+                ", articleTitle='" + articleTitle + '\'' +
+                ", articleAuthorId=" + articleAuthorId +
+                ", articleType=" + articleType +
+                '}';
+    }
+
     public void setArticleId(String articleId) {
         this.articleId = articleId == null ? null : articleId.trim();
     }

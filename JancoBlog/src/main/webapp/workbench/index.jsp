@@ -1,4 +1,5 @@
-<%@ page import="com.Jancoyan.domain.User" %><%--
+<%@ page import="com.Jancoyan.domain.User" %>
+<%--
   Created by Jancoyan.
   User: Jancoyan
   Date: 2021/4/11
@@ -135,17 +136,13 @@
 
     //修改按钮，应该打开写文章的页面并填充上相应的文章
     $(document).on("click", ".edit-btn", function () {
-
-
+        alert("这是修改按钮！");
     });
 
     //删除按钮，点击按钮之后，从数据库中删除这一条记录并在服务端删除文件
     $(document).on("click", ".delete-btn", function () {
-        alert("确定要删除" + $(this).)
-
-
+        alert("删除按钮！");
     });
-
 
     //去第 pn 页
     function to_page(pn) {

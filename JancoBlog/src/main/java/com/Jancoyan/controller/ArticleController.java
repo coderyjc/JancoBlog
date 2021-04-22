@@ -25,6 +25,14 @@ public class ArticleController {
     @Autowired
     TypeService typeService;
 
+    /**
+     * 约定:
+     * /article:
+     *  -PUT 提交发布文章
+     *  -DELETE 删除文章
+     *  -POST 修改文章
+     */
+
 
     /**
      * 提交文章
@@ -75,6 +83,28 @@ public class ArticleController {
         article.setArticlePostDate(new Date());
 
         articleService.submitArticle(article);
+
+        return Msg.success();
+    }
+
+
+    /**
+     * 删除文章
+     * @param id 文章id
+     * @return 删除成功还是失败
+     */
+    @ResponseBody
+    @RequestMapping(value = "/article", method = RequestMethod.DELETE)
+    public Msg deleteArticle(String id){
+        articleService.deleteByPrimaryKey(id);
+        String path = ConstUtils.CURRENTPATH + "\\static\\p\\" + id + ".html";
+        boolean success = FileIo.deleteFile(path);
+        return Msg.success().add("success", success);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/article", method = RequestMethod.POST)
+    public Msg updateArticle(){
 
         return Msg.success();
     }
@@ -138,7 +168,7 @@ public class ArticleController {
      * @return 文章列表
      */
     @ResponseBody
-    @RequestMapping(value = "/searcharticles/{name}", method = RequestMethod.GET)
+    @RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
     public Msg searchArticle(
             @PathVariable("name") String name,
             @RequestParam(value = "pn", defaultValue = "1") Integer pn
@@ -149,5 +179,21 @@ public class ArticleController {
         return Msg.success().add("articles", pageInfo);
     }
 
+    /**
+     * @param id 文章id
+     * @param viewCount 文章浏览量
+     * @return 成功
+     */
+    @ResponseBody
+    @RequestMapping(value = "/article/view", method = RequestMethod.POST)
+    public Msg addViewCount(String id, Integer viewCount){
+        // 组装新的article
+        Article article = new Article();
+        article.setArticleId(id);
+        // 这一步从数据库中拿到数据，把选中的字段+1，而不是直接使用前端传来的数据
+        article.setArticleViewTime(articleService.selectByPrimaryKey(id).getArticleViewTime() + 1);
+        articleService.updateByPrimaryKeySelective(article);
+        return Msg.success();
+    }
 
 }

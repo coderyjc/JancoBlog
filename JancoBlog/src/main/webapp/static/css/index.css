@@ -127,13 +127,13 @@ h1{
 }
 
 /* 搜索文本框 */
-.search-text{
+#search-text{
     height: 30px;
     width: 280px;
 }
 
 /* 搜索按钮 */
-.search-btn{
+#search-btn{
     height: 30px;
     width: 50px;
 }

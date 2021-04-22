@@ -1,5 +1,6 @@
 package com.Jancoyan.test;
 
+import com.Jancoyan.dao.ArticleMapper;
 import com.Jancoyan.dao.TypeMapper;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,10 @@ public class MapperTest {
 
     @Autowired
     TypeMapper typeMapper;
+
+    @Autowired
+    ArticleMapper articleMapper;
+
 
     /**
      * 获取所有完整的类型

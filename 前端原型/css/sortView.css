@@ -1,0 +1,63 @@
+/* 清除浏览器默认样式 */
+*{
+    margin:0;
+    padding:0;
+}
+
+/* 全局的a */
+a{
+    text-decoration: none;
+}
+
+a:visited{
+	color: black;
+}
+
+/* body */
+body{
+    /* 最上面的小白条 */
+    margin-top: 0px;
+    background-color: rgba(240, 240, 240, 0.76);
+}
+
+/* 全局ul的标识符 */
+ul{
+	list-style-type: none;
+}
+
+/*清除浮动*/
+.clearfix:before,.clearfix:after{
+    content: "";
+    display: table;
+}
+.clearfix:after{
+    clear: both;
+}
+.clearfix{
+    *zoom: 1;
+}
+
+/* 导航条 */
+.nav{
+    background-color: #2f2e34;
+    color: white;
+    font-size: 40px;
+    padding: 5px 200px;
+
+}
+.nav a:link, .nav a:visited{
+    color: white;
+}
+
+/* 左边的文章类别导航栏 */
+
+.super-type{
+	height: 50px;
+	width: 100px;
+	background-color: grey;
+	text-align: center;
+}
+.super-type>a{
+	height: 100%;
+	width: 100%;
+}

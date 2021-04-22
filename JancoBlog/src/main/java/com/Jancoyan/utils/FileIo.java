@@ -1,6 +1,7 @@
 package com.Jancoyan.utils;
 
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,6 +38,22 @@ public class FileIo {
                     e.printStackTrace();
                 }
             }
+        }
+        return true;
+    }
+
+    /**
+     * 删除文件
+     * @param path 文件路径
+     */
+    public static boolean deleteFile(String path){
+        File file = new File(path);
+
+        if(!file.exists()){
+            // 文件不存在
+            return false;
+        }else{
+            file.delete();
         }
         return true;
     }
