@@ -17,6 +17,10 @@
     <title>Welcome</title>
     <script src="./static/js/jquery-1.12.js"></script>
     <link rel="stylesheet" href="./static/css/index.css">
+    <script>
+        var totalPage = 0;
+        var currentPage = 1;
+    </script>
 </head>
 <body>
 <!-- 导航条 -->
@@ -78,7 +82,6 @@
 </footer>
 
 <script>
-    var currentPage = 1;
 
     // 页面加载之前执行
     $(function(){
@@ -104,6 +107,7 @@
     // 传入result，建立文章列表
     function build_article_list(result) {
         var articleList = result.extend.pageInfo.list;
+        totalPage = result.extend.pageInfo.pages;
         $.each(articleList, function (index, item) {
             // 博文的图片
             var img = $("<div></div>").addClass("image").append($("<img />").attr({
@@ -172,6 +176,7 @@
         });
     }
 
+    // 搜索按钮
     $(document).on("click", "#search-btn", function () {
         var searchKey = $("#search-text").val();
         if("" == searchKey){
@@ -186,6 +191,22 @@
             }
         });
     });
+
+    // 监听页面到底部的事件，拉取更多的文章
+    $(window).scroll(function(){
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if(scrollTop + windowHeight == scrollHeight){
+            currentPage += 1;
+            get_article_page(currentPage);
+        }
+        // 如果文章拉取完了，就在最下面显示到底了
+        if(currentPage == totalPage){
+            $(".load-more span").text("已经到底了...");
+        }
+    });
+
 </script>
 
 

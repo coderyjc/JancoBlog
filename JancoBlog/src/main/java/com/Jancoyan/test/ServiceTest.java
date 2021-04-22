@@ -15,7 +15,7 @@ public class ServiceTest {
 
     @Test
     public void searchTest(){
-        List<Article> articles = articleService.getArticlesLikeName("asd");
+        List<Article> articles = articleService.getArticlesLikeName("a");
         for(Article article : articles){
             System.out.println(article);
         }

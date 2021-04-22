@@ -4,6 +4,10 @@
     padding:0;
 }
 
+a{
+    text-decoration: none;
+}
+
 /* 全局的a标签的初始状态 */
 a:link, a:visited, a:hover, a:active{
     color: black;

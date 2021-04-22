@@ -21,7 +21,7 @@ public class ArticleService {
     /**
      * 获取所有文章
      * 按照发表日期降序排序
-     * @return
+     * @return alllist
      */
     public List<Article> getAll() {
         ArticleExample example = new ArticleExample();
@@ -72,14 +72,15 @@ public class ArticleService {
     public List<Article> getArticlesLikeName(String articleName) {
         ArticleExample articleExample = new ArticleExample();
         ArticleExample.Criteria criteria = articleExample.createCriteria();
-        criteria.andArticleTitleLike("%" + articleName + "%");
+        String pattern = "%" + articleName + "%";
+        criteria.andArticleTitleLike(pattern);
         List<Article> articles = articleMapper.selectByExample(articleExample);
         return articles;
     }
 
     /**
      * 直接插入文章
-     * @param article
+     * @param article 文章实体
      */
     public void submitArticle(Article article) {
         articleMapper.insert(article);
@@ -87,7 +88,7 @@ public class ArticleService {
 
     /**
      * 根据主键删除文章
-     * @param id
+     * @param id 文章id
      */
     public void deleteByPrimaryKey(String id) {
         articleMapper.deleteByPrimaryKey(id);
@@ -95,7 +96,7 @@ public class ArticleService {
 
     /**
      * 更新不为空的字段
-     * @param article
+     * @param article 文章id
      */
     public void updateByPrimaryKeySelective(Article article) {
         articleMapper.updateByPrimaryKeySelective(article);
