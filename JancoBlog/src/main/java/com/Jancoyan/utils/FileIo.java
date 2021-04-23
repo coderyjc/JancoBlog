@@ -47,8 +47,8 @@ public class FileIo {
      * @param path 文件路径
      */
     public static boolean deleteFile(String path){
+        System.out.println(path);
         File file = new File(path);
-
         if(!file.exists()){
             // 文件不存在
             return false;

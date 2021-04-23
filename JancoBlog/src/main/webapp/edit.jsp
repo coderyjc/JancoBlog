@@ -102,9 +102,6 @@
 			// 文章标题
 			var articleTitle = $("#title_input_text").val();
 			var articleContent = $(".editormd-preview")[0].innerHTML;
-			var articleType = $("");
-			console.log(articleTitle); // debug
-			console.log(articleContent); // debug
 			// 这个事件已经绑定好了，找时间把这个上传文字和图片的功能给做了。
 			if("" == articleTitle){
 				alert("标题不能为空");
@@ -129,6 +126,8 @@
 				},
 				success: function (result) {
 					alert("发布成功!");
+					// 跳转到首页
+					window.location.href="./index.jsp";
 				}
 			});
 		});

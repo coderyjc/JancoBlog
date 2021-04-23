@@ -118,8 +118,7 @@ public class ArticleController {
      */
     @ResponseBody
     @RequestMapping(value = "/articles", method = RequestMethod.GET)
-    public Msg getIndexArticles(
-            @RequestParam(value = "pn", defaultValue = "1") Integer pn){
+    public Msg getIndexArticles(Integer pn){
         PageHelper.startPage(pn, 5);
         List<Article> articles = articleService.getAll();
         PageInfo pageInfo = new PageInfo(articles, 5);
@@ -138,7 +137,7 @@ public class ArticleController {
             @RequestParam(value = "pn", defaultValue = "1") Integer pn,
             @PathVariable("id") Integer id
     ){
-        PageHelper.startPage(pn, 11);
+        PageHelper.startPage(pn, 10);
         List<Article> articles = articleService.getArticlesByUserId(id);
         PageInfo pageInfo = new PageInfo(articles, 5);
         return Msg.success().add("pageInfo", pageInfo);

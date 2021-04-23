@@ -141,7 +141,22 @@
 
     //删除按钮，点击按钮之后，从数据库中删除这一条记录并在服务端删除文件
     $(document).on("click", ".delete-btn", function () {
-        alert("删除按钮！");
+        var articleTitle = $(this).parents("tr").find("td:eq(1)").text();
+        var articleId = $(this).attr("delete-id");
+        if(confirm("确认删除" + articleTitle + "吗？")){
+            $.ajax({
+                url: "article",
+                type:"DELETE",
+                success: function (result) {
+                    if(result.extend.success == true){
+                        alert("删除成功");
+                    }else{
+                        alert("删除失败");
+                    }
+                    to_page(currentPage);
+                }
+            });
+        }
     });
 
     //去第 pn 页
@@ -152,8 +167,9 @@
         $.ajax({
             url:"articles/" + "<%=user.getUserId()%>",
             type:"GET",
-            data: pn,
+            data: "pn=" + pn,
             success: function (result) {
+                currentPage = result.extend.pageInfo.pages;
                 // 建立文章表格
                 build_article_table(result);
                 // 建立导航栏
@@ -169,7 +185,7 @@
         //建立新表格
         var articles = result.extend.pageInfo.list;
         $.each(articles, function (index, item) {
-            var no = $("<td></td>").append(index + 1);
+            var no = $("<td></td>").append((currentPage - 1) * 10 + index + 1);
             var titleTd = $("<td></td>").append(item.articleTitle);
             var createTd = $("<td></td>").append(dateFormat(item.articlePostDate));
             var updateTd = $("<td></td>").append(dateFormat(item.articleEditTime));
@@ -197,11 +213,12 @@
     function build_nav_bar(result) {
         $("#page-nav-bar").empty();
         var ul = $("<ul></ul>").addClass("pagination");
-        $(".page-nav-bar").empty();
+        var pageInfo = result.extend.pageInfo;
         //构建元素
-        var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
+        var firstPageLi =
+            $("<li></li>").append($("<a></a>").append("首页").attr("href","javascript:;"));
         var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));
-        if(result.extend.pageInfo.hasPreviousPage == false){
+        if(pageInfo.hasPreviousPage == false){
             firstPageLi.addClass("disabled");
             prePageLi.addClass("disabled");
         }else{
@@ -210,30 +227,29 @@
                 to_page(1);
             });
             prePageLi.click(function(){
-                to_page(result.extend.pageInfo.pageNum -1);
+                to_page(pageInfo.pageNum - 1);
             });
         }
-
-        var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;"));
-        var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
-        if(result.extend.pageInfo.hasNextPage == false){
+        var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;").attr("href", "javascript:;"));
+        var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href","javascript:;"));
+        if(pageInfo.hasNextPage == false){
             nextPageLi.addClass("disabled");
             lastPageLi.addClass("disabled");
         }else{
             nextPageLi.click(function(){
-                to_page(result.extend.pageInfo.pageNum +1);
+                to_page(pageInfo.pageNum + 1);
             });
             lastPageLi.click(function(){
-                to_page(result.extend.pageInfo.pages);
+                to_page(pageInfo.pages);
             });
         }
 
         //添加首页和前一页 的提示
         ul.append(firstPageLi).append(prePageLi);
         //1,2，3遍历给ul中添加页码提示
-        $.each(result.extend.pageInfo.navigatepageNums,function(index,item){
-            var numLi = $("<li></li>").append($("<a></a>").append(item));
-            if(result.extend.pageInfo.pageNum == item){
+        $.each(pageInfo.navigatepageNums,function(index,item){
+            var numLi = $("<li></li>").append($("<a></a>").attr("href", "javascript:;").append(item));
+            if(pageInfo.pageNum == item){
                 numLi.addClass("active");
             }
             numLi.click(function(){

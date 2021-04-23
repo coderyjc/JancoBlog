@@ -10,9 +10,15 @@ public class ArticleUtils {
      * @return 文章的摘要
      */
     public static String getArticleAbstract(String innerHTML){
-        return innerHTML.replaceAll("<.*?>", "")
-                .replaceAll("\\s}", " ")
-                .substring(0, 180) + "......";
+        // 去掉所有的HTML标签
+        String rst = innerHTML.replaceAll("<.*?>", "");
+        // 转换所有的空格
+        rst = rst.replaceAll("\\s}", " ");
+        // 过长截取
+        if(rst.length() > 150){
+            rst = rst.substring(0, 150) + "......";
+        }
+        return rst;
     }
 
 
