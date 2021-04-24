@@ -24,9 +24,9 @@ public class ArticleUtils {
 
     /**
      * 创建文章
-     * @param title
-     * @param userNickname
-     * @param innerHTML
+     * @param title 文章名
+     * @param userNickname 作者昵称
+     * @param innerHTML innerHTML
      * @return HTML content
      */
     public static String createArticle(String title, String userNickname, String innerHTML){

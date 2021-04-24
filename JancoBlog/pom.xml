@@ -158,6 +158,14 @@
           <include>**/*.properties</include>
         </includes>
       </resource>
+      <resource>
+        <!--将src/main/webapp/static中所有的文件，包括空目录进行生成-->
+        <directory>src/main/webapp/static/</directory>
+        <includes>
+          <include>**/*.md</include>
+          <include>**/*.html</include>
+        </includes>
+      </resource>
     </resources>
 
     <plugins>

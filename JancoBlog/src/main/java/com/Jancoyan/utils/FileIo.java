@@ -2,7 +2,6 @@ package com.Jancoyan.utils;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -14,20 +13,29 @@ import java.io.IOException;
 public class FileIo {
 
     /**
-     * 写文件
-     * @param path 要写入的文件的路径
-     * @param content 文件的内容
-     * @return
+     * 如果文件夹不存在，就创建文件夹
+     * @param path 文件夹路径
      */
-    public static boolean writeHTMLFile(String path, String content){
+    public static void createDirectoryIfNotExists(String path){
+        File file = new File(path);
+        if(!file.isDirectory()){
+            // 创建文件夹
+            file.mkdir();
+        }
+    }
+
+    /**
+     * 写入文件
+     * @param path 文件路径
+     * @param content 文件内容
+     */
+    public static void writeFile(String path, String content) {
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(path, true);
             byte[] bytes = content.getBytes();
             fos.write(bytes);
             fos.flush();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -39,8 +47,9 @@ public class FileIo {
                 }
             }
         }
-        return true;
     }
+
+
 
     /**
      * 删除文件

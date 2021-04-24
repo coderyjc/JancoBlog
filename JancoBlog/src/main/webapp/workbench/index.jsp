@@ -135,7 +135,9 @@
     });
 
     //修改按钮，应该打开写文章的页面并填充上相应的文章
+    //发送请求直接返回到edit页面
     $(document).on("click", ".edit-btn", function () {
+
         alert("这是修改按钮！");
     });
 
@@ -143,16 +145,15 @@
     $(document).on("click", ".delete-btn", function () {
         var articleTitle = $(this).parents("tr").find("td:eq(1)").text();
         var articleId = $(this).attr("delete-id");
+
+        console.log(articleId);
+
         if(confirm("确认删除" + articleTitle + "吗？")){
             $.ajax({
-                url: "article",
+                url: "article/" + articleId,
                 type:"DELETE",
                 success: function (result) {
-                    if(result.extend.success == true){
-                        alert("删除成功");
-                    }else{
-                        alert("删除失败");
-                    }
+                    alert("删除成功");
                     to_page(currentPage);
                 }
             });
@@ -169,7 +170,7 @@
             type:"GET",
             data: "pn=" + pn,
             success: function (result) {
-                currentPage = result.extend.pageInfo.pages;
+                currentPage = result.extend.pageInfo.pageNum;
                 // 建立文章表格
                 build_article_table(result);
                 // 建立导航栏

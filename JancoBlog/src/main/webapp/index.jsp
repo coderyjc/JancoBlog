@@ -26,7 +26,7 @@
 <!-- 导航条 -->
 <div class="nav">
     <!-- 回主页的"图标" -->
-    <a href="#" class="back-to-index">JancoBlog</a>
+    <a href="./index.jsp" class="back-to-index">JancoBlog</a>
     <!-- 登录和注册 -->
     <div class="signin">
         <%
@@ -185,10 +185,7 @@
         }
         $.ajax({
             url: "search/" + searchKey,
-            type: "GET",
-            success: function (result){
-                console.log(result);
-            }
+            type: "GET"
         });
     });
 

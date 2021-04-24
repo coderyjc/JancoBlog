@@ -8,6 +8,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -47,6 +48,7 @@ public class ArticleController {
     @RequestMapping(value = "/article", method = RequestMethod.PUT)
     public Msg submitArticle(
             String innerHTML,
+            String innerMD,
             String userId,
             String userNickname,
             String title,
@@ -57,7 +59,12 @@ public class ArticleController {
         //将html页面写入文件
         String fileName = userId + TimeUtils.getCurrentTimestamp();
         String path = ConstUtils.CURRENTPATH + "\\static\\p\\" + fileName + ".html";
-        FileIo.writeHTMLFile(path, content);
+        FileIo.writeFile(path, content);
+
+        //将对应的md文件直接写入文件
+        FileIo.createDirectoryIfNotExists(ConstUtils.CURRENTPATH +  "\\static\\md");
+        String mdPath = ConstUtils.CURRENTPATH +  "\\static\\md\\" + fileName + ".md";
+        FileIo.writeFile(mdPath, innerMD);
 
         //创建Article对象
         Article article = new Article();
@@ -94,13 +101,18 @@ public class ArticleController {
      * @return 删除成功还是失败
      */
     @ResponseBody
-    @RequestMapping(value = "/article", method = RequestMethod.DELETE)
-    public Msg deleteArticle(String id){
+    @RequestMapping(value = "/article/{id}", method = RequestMethod.DELETE)
+    public Msg deleteArticle(
+            @PathVariable("id") String id
+    ){
         articleService.deleteByPrimaryKey(id);
         String path = ConstUtils.CURRENTPATH + "\\static\\p\\" + id + ".html";
-        boolean success = FileIo.deleteFile(path);
+        String mdPath = ConstUtils.CURRENTPATH + "\\static\\md\\" + id + ".md";
+        boolean success = FileIo.deleteFile(path) && FileIo.deleteFile(mdPath);
         return Msg.success().add("success", success);
     }
+
+
 
     @ResponseBody
     @RequestMapping(value = "/article", method = RequestMethod.POST)
@@ -162,23 +174,25 @@ public class ArticleController {
 //    }
 
     /**
-     *
+     * 全局搜索文章
      * @param name 查找模式
      * @return 文章列表
      */
-    @ResponseBody
     @RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
-    public Msg searchArticle(
+    public String searchArticle(
             @PathVariable("name") String name,
-            @RequestParam(value = "pn", defaultValue = "1") Integer pn
+            @RequestParam(value = "pn", defaultValue = "1") Integer pn,
+            Model model
     ){
         PageHelper.startPage(pn, 10);
         List<Article> articles = articleService.getArticlesLikeName(name);
         PageInfo pageInfo = new PageInfo(articles, 5);
-        return Msg.success().add("articles", pageInfo);
+        model.addAttribute("searchRst", pageInfo);
+        return "./search";
     }
 
     /**
+     * 文章浏览量的增加
      * @param id 文章id
      * @param viewCount 文章浏览量
      * @return 成功

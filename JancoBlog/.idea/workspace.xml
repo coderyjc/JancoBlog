@@ -33,12 +33,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1396a05c-84b7-4b67-ad6a-3fd7d55d47cd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/statistic.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/statistic.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/ArticleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/ArticleUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/ArticleUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/FileIo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/FileIo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/searchlist.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/search.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/edit.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/edit.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/workbench/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/workbench/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../前端原型/css/sortView.css" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/css/sortView.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../前端原型/sortView.html" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/sortView.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,11 +129,12 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/static/p" />
+    <property name="extract.method.default.visibility" value="private" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/static/md" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.statistic.project.settings" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
@@ -140,11 +148,11 @@
       <recent name="R:\GITHUB\JancoBlog\JancoBlog\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="R:\GITHUB\JancoBlog\JancoBlog\src\main\webapp" />
       <recent name="R:\GITHUB\JancoBlog\JancoBlog\src\main\webapp\static\css" />
       <recent name="R:\GITHUB\JancoBlog\JancoBlog\src\main\webapp\workbench\css" />
       <recent name="R:\GITHUB\JancoBlog\JancoBlog" />
       <recent name="R:\GITHUB\JancoBlog\JancoBlog\src\main\java" />
-      <recent name="R:\GITHUB\JancoBlog\JancoBlog\src\main\webapp" />
     </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.431">
@@ -396,6 +404,8 @@
       <workItem from="1619077814319" duration="2695000" />
       <workItem from="1619088260037" duration="5693000" />
       <workItem from="1619133458207" duration="5266000" />
+      <workItem from="1619225971385" duration="5759000" />
+      <workItem from="1619248186712" duration="4384000" />
     </task>
     <task id="LOCAL-00001" summary="change directory structure">
       <created>1617886671821</created>
