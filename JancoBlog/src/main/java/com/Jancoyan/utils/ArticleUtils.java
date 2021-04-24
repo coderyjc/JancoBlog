@@ -4,6 +4,17 @@ public class ArticleUtils {
 
 
     /**
+     * 把换行的\n转换为文本的\n
+     * @param str 要替换的文本
+     * @return 替换完毕的文本
+     */
+    public static String NextLineToText(String str){
+        String content = str.replaceAll("\n", "\\\\n");
+        return content;
+    }
+
+
+    /**
      * 删除所有的html标签
      * 并把所有的tab和换行符都换成空格
      * @param innerHTML 作者写入的md转成的html（带有格式）
@@ -13,7 +24,7 @@ public class ArticleUtils {
         // 去掉所有的HTML标签
         String rst = innerHTML.replaceAll("<.*?>", "");
         // 转换所有的空格
-        rst = rst.replaceAll("\\s}", " ");
+        rst = rst.replaceAll("\\s", " ");
         // 过长截取
         if(rst.length() > 150){
             rst = rst.substring(0, 150) + "......";

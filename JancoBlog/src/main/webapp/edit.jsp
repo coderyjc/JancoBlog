@@ -1,4 +1,5 @@
-<%@ page import="com.Jancoyan.domain.User" %><%--
+<%@ page import="com.Jancoyan.domain.User" %>
+<%@ page import="com.Jancoyan.domain.Article" %><%--
   Created by Jancoyan.
   User: Jancoyan
   Date: 2021/4/12
@@ -23,6 +24,13 @@
 	<script src="./static/js/jquery-1.12.js"></script>
 	<script src="./static/js/editor.md/editormd.min.js"></script>
 	<script>
+		<%
+			Article article = (Article) session.getAttribute("article");
+			String content = (String) session.getAttribute("content");
+			String title = null;
+			if(article != null) article.getArticleTitle();
+		%>
+
 		$(function(){
 			// 进行输入区的相关绑定
 			var testEditor;
@@ -40,6 +48,7 @@
 				flowChart: true,
 				imageFormats: ["jpg", "gif", "png", "jpeg"],
 				imageUploadURL:"",
+				value: '<%=content == null ? "" : content%>'
 			});
 
 			// 直接发送请求拿到文章类型
@@ -62,7 +71,6 @@
 					selectList.appendTo("#type-select");
 				}
 			});
-
 		});
 
 
@@ -77,7 +85,8 @@
 	<div class="main">
 		<!-- 标题框 -->
 		<div id="title">
-			<input id="title_input_text" type="text" placeholder="请输入文章标题">
+			<input id="title_input_text" type="text" placeholder="请输入文章标题" value="<%=title ==
+			null ? "" : title%>">
 			<input type="button" id="submit_btn" value="发布文章">
 		</div>
 		<!-- 文章输入框 -->
@@ -114,6 +123,7 @@
 			}
 			<%
 				User user = (User) session.getAttribute("user");
+				if(article == null){
 			%>
 			$.ajax({
 				url:"article",
@@ -124,7 +134,8 @@
 					'userId': <%=user.getUserId()%>,
 					'userNickname': <%=user.getUserNickname()%>,
 					'title': $("#title_input_text").val(),
-					'type': 101 // 先用101试试
+					'type': 101, // 先用101试试
+					'isUpdate': <%=article == null ? 0 : 1%>
 				},
 				success: function (result) {
 					alert("发布成功!");
@@ -132,6 +143,34 @@
 					window.location.href="./index.jsp";
 				}
 			});
+			<%
+			} else {
+			%>
+<%--如果null， 就是要提交修改这个文章--%>
+			$.ajax({
+				url: "article/update",
+				type:"POST",
+				data: {
+					'innerHTML': articleContent,
+					'innerMD' : mdContent,
+					'userNickname': <%=user.getUserNickname()%>,
+					'title': $("#title_input_text").val(),
+					'type': 101, // 先用101试试
+				},
+				success: function (result) {
+					alert("修改成功!");
+					// 跳转到首页
+					<%
+					session.removeAttribute("article");
+					session.removeAttribute("content");
+					%>
+					window.location.href="./index.jsp";
+				}
+			})
+			<%
+			}
+			%>
+
 		});
 	</script>
 	</body>

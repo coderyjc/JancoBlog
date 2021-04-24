@@ -137,8 +137,15 @@
     //修改按钮，应该打开写文章的页面并填充上相应的文章
     //发送请求直接返回到edit页面
     $(document).on("click", ".edit-btn", function () {
-
-        alert("这是修改按钮！");
+        var id = $(this).attr("edit-id");
+        $.ajax({
+            url: "updateArticle",
+            type: "POST",
+            data: "id=" + id,
+            success : function (){
+                window.location.href = "./edit.jsp";
+            }
+        });
     });
 
     //删除按钮，点击按钮之后，从数据库中删除这一条记录并在服务端删除文件

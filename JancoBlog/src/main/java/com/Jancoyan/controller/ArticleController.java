@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -30,9 +31,64 @@ public class ArticleController {
      * 约定:
      * /article:
      *  -PUT 提交发布文章
+     *  -GET 修改发布的文章
      *  -DELETE 删除文章
-     *  -POST 修改文章
+     *  -POST 获取要修改的文章的信息
      */
+
+
+    /**
+     * 更新文章
+     * @param innerHTML 内部HTML代码
+     * @param innerMD 完整的md
+     * @param userNickname 昵称
+     * @param title 标题
+     * @param type 类型
+     * @param session session
+     * @return 返回的消息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/article/update", method = RequestMethod.POST)
+    public Msg updateArticle(
+            String innerHTML,
+            String innerMD,
+            String userNickname,
+            String title,
+            Integer type,
+            HttpSession session
+    ){
+        Article article = (Article) session.getAttribute("article");
+
+        System.out.println(article);
+
+        Article newArticle = new Article();
+        // 构造html页面
+        String content = ArticleUtils.createArticle(title, userNickname, innerHTML);
+        // 写入HTML
+        String fileName = article.getArticleId();
+        String path = ConstUtils.CURRENTPATH + "\\static\\p\\" + fileName + ".html";
+        FileIo.writeFile(path, content);
+
+        //将md文件直接写入文件
+        FileIo.createDirectoryIfNotExists(ConstUtils.CURRENTPATH +  "\\static\\md");
+        String mdPath = ConstUtils.CURRENTPATH +  "\\static\\md\\" + fileName + ".md";
+        FileIo.writeFile(mdPath, innerMD);
+
+        // 设置主键
+        newArticle.setArticleId(article.getArticleId());
+        // 类型
+        newArticle.setArticleType(type);
+        // 摘要
+        newArticle.setArticleAbstract(ArticleUtils.getArticleAbstract(innerHTML));
+        // 标题
+        newArticle.setArticleTitle(title);
+        // 修改时间
+        newArticle.setArticleEditTime(new Date());
+
+        articleService.updateByPrimaryKeySelective(newArticle);
+
+        return Msg.success();
+    }
 
 
     /**
@@ -56,18 +112,20 @@ public class ArticleController {
     ){
         // 构造html页面
         String content = ArticleUtils.createArticle(title, userNickname, innerHTML);
+
         //将html页面写入文件
         String fileName = userId + TimeUtils.getCurrentTimestamp();
         String path = ConstUtils.CURRENTPATH + "\\static\\p\\" + fileName + ".html";
         FileIo.writeFile(path, content);
 
-        //将对应的md文件直接写入文件
+        //将md文件直接写入文件
         FileIo.createDirectoryIfNotExists(ConstUtils.CURRENTPATH +  "\\static\\md");
         String mdPath = ConstUtils.CURRENTPATH +  "\\static\\md\\" + fileName + ".md";
         FileIo.writeFile(mdPath, innerMD);
 
         //创建Article对象
         Article article = new Article();
+
         // 文章编号
         article.setArticleId(fileName);
         // 文章作者的id
@@ -84,16 +142,34 @@ public class ArticleController {
         article.setArticleViewTime(0);
         // 文章的评论数
         article.setArticleCommentCount(0);
+        Date now = new Date();
         // 文章的修改时间
-        article.setArticleEditTime(new Date());
+        article.setArticleEditTime(now);
         // 文章的创建时间
-        article.setArticlePostDate(new Date());
-
+        article.setArticlePostDate(now);
         articleService.submitArticle(article);
 
         return Msg.success();
     }
 
+    /**
+     *
+     * @param id 文章id
+     * @param session 暂时用session保存数据吧
+     */
+    @ResponseBody
+    @RequestMapping(value = "/updateArticle", method = RequestMethod.POST)
+    public void updateArticle(String id, HttpSession session){
+        // 获取文章对象
+        Article article = articleService.getArticleByPrimaryKey(id);
+        // 获取md文件的内容
+        String path = ConstUtils.CURRENTPATH +  "\\static\\md\\" + id + ".md";
+        String articleContent = FileIo.readMarkDownFile(path);
+        // 把数据放在session中，编辑提交完页面之后再删掉
+        session.setAttribute("article", article);
+        // 传入过滤之后的文本
+        session.setAttribute("content", ArticleUtils.NextLineToText(articleContent));
+    }
 
     /**
      * 删除文章
@@ -114,12 +190,6 @@ public class ArticleController {
 
 
 
-    @ResponseBody
-    @RequestMapping(value = "/article", method = RequestMethod.POST)
-    public Msg updateArticle(){
-
-        return Msg.success();
-    }
 
 
 

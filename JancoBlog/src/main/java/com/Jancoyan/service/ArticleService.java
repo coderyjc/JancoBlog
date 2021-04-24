@@ -101,4 +101,8 @@ public class ArticleService {
     public void updateByPrimaryKeySelective(Article article) {
         articleMapper.updateByPrimaryKeySelective(article);
     }
+
+    public Article getArticleByPrimaryKey(String id) {
+        return articleMapper.selectByPrimaryKey(id);
+    }
 }

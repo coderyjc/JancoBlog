@@ -5,6 +5,13 @@ import org.junit.Test;
 
 public class ArticleUtilsTest {
 
+    @Test
+    public void testNextLineToText(){
+        String content = ArticleUtils.NextLineToText("\n\nasd\n");
+        System.out.println(content);
+    }
+
+
 
     @Test
     public void testArticleAbstract(){

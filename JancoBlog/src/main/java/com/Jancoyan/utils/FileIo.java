@@ -1,9 +1,7 @@
 package com.Jancoyan.utils;
 
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * 这个类是一个工具类
@@ -11,6 +9,7 @@ import java.io.IOException;
  * @author Jancoyan
  */
 public class FileIo {
+
 
     /**
      * 如果文件夹不存在，就创建文件夹
@@ -56,7 +55,6 @@ public class FileIo {
      * @param path 文件路径
      */
     public static boolean deleteFile(String path){
-        System.out.println(path);
         File file = new File(path);
         if(!file.exists()){
             // 文件不存在
@@ -67,4 +65,34 @@ public class FileIo {
         return true;
     }
 
+    /**
+     * 读文件
+     * @param path 文件全路径
+     * @return 文件内容
+     */
+    public static String readMarkDownFile(String path) {
+        FileReader reader = null;
+        String content = "";
+        try {
+            reader = new FileReader(path);
+            //准备一个char数组
+            char[] chars = new char[40];
+            // 开始读
+            int readCount = 0;
+            while((readCount = reader.read(chars)) != -1) {
+                content += new String(chars,0,readCount);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return content;
+    }
 }
