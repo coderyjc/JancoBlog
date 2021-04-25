@@ -5,17 +5,28 @@
     <title>Welcome</title>
     <script src="./js/jquery-1.12.js"></script>
 </head>
-<link rel="stylesheet" href="./css/index.css">
+<link rel="stylesheet" href="./css/articlelist.css">
 <body>
     <!-- 导航条 -->
     <div class="nav">
         <!-- 回主页的"图标" -->
         <a href="#" class="back-to-index">JancoBlog</a>
         <!-- 登录和注册 -->
-        <div class="signin"><a href="#">登录/注册</a></div>
+        <div class="signin"><a href="#">
+		<%
+            String aTag = null;
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                aTag = "<a href='login.jsp'>登录</a>";
+            } else {
+                aTag = "<a href='./workbench'>后台管理</a>";
+            }
+        %>
+        <%=aTag%>
+		</a></div>
     </div>
     <!-- 除去导航条和footer的部分是主体main -->
-    <div class="main">
+    <div class="main clearfix">
         <!-- 博客标题和签名 -->
         <div class="title-and-signature">
             <h1>JANCOYAN</h1> <br>
@@ -61,62 +72,84 @@
 
         <!-- 文章列表和标签导航 -->
         <!-- 列表和分页 -->
-        <div class="article-list">
+        <div class="index-content clearfix">
             <!-- 文章列表 -->
-            <div class="articles">
-                <ul>
-                    <li class="article">
-                        <div class="image">
-                            <img src="./image/login.jpg" alt="这是图片" height="180px" width="280px">
-                        </div>
-                        <div class="article-box">
-                            <div class="title"><a href="#">这是标题这是标题这是标题这是标题这是标题这是标题</a></div>
-                            <div class="discription">这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这...</div>
-                            <div class="datetime">2021-3-14</div>
-                        </div>
-                    </li>
-                    <li class="article">
-                        <div class="image">
-                            <img src="./image/login.jpg" alt="这是图片" height="180px" width="280px">
-                        </div>
-                        <div class="article-box">
-                            <div class="title"><a href="#">这是标题这是标题这是标题这是标题这是标题这是标题</a></div>
-                            <div class="discription">这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这...</div>
-                            <div class="datetime">2021-3-14</div>
-                        </div>
-                    </li>
-					<li class="article">
-					    <div class="image">
-					        <img src="./image/login.jpg" alt="这是图片" height="180px" width="280px">
-					    </div>
-					    <div class="article-box">
-					        <div class="title"><a href="#">这是标题这是标题这是标题这是标题这是标题这是标题</a></div>
-					        <div class="discription">这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这...</div>
-					        <div class="datetime">2021-3-14</div>
-					    </div>
+            <div class="left-content clearfix">
+                <ul class="clearfix">
+					<li class="article-box">
+						<a href="">这是标题</a>
+						<div class="segment-line"></div>
+						<div class="article-abstract">这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要</div>
+						<div class="article-info">
+							<div class="view-count">浏览量:63</div>
+							<div class="post-time">发布日期:2021-4-12</div>
+						</div>
 					</li>
-					<li class="article">
-					    <div class="image">
-					        <img src="./image/login.jpg" alt="这是图片" height="180px" width="280px">
-					    </div>
-					    <div class="article-box">
-					        <div class="title"><a href="#">这是标题这是标题这是标题这是标题这是标题这是标题</a></div>
-					        <div class="discription">这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这是简介这...</div>
-					        <div class="datetime">2021-3-14</div>
-					    </div>
+					<li class="article-box">
+						<a href="">这是标题</a>
+						<div class="segment-line"></div>
+						<div class="article-abstract">这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要</div>
+						<div class="article-info">
+							<div class="view-count">浏览量:63</div>
+							<div class="post-time">发布日期:2021-4-12</div>
+						</div>
+					</li>
+					<li class="article-box">
+						<a href="">这是标题</a>
+						<div class="segment-line"></div>
+						<div class="article-abstract">这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要</div>
+						<div class="article-info">
+							<div class="view-count">浏览量:63</div>
+							<div class="post-time">发布日期:2021-4-12</div>
+						</div>
 					</li>
                 </ul>
             </div>
-            <div class="load-more">
-              <span>下滑加载更多...</span>
-            </div>
+			
+			<!-- 文章热榜和标签分类 -->
+			<div class="right-content">
+				<!-- 文章热榜 -->
+				<div class="article-rank-list">
+					<div class="article-rank-title">
+						热门文章
+					</div>
+					<div class="segment-line"></div>
+					<ul class="hot-articles">
+						<li class="hot-article">
+							<div class="hot-order">1</div>
+							<a href="">jdbc</a>
+							<div class="hot-article-views">12</div>							
+							<br>
+						</li>
+						<li class="hot-article">
+							<div class="hot-order">2</div>
+							<a href="">jdbc</a>
+							<div class="hot-article-views">12</div>							
+							<br>
+						</li>
+						<li class="hot-article">
+							<div class="hot-order">3</div>
+							<a href="">jdbc</a>
+							<div class="hot-article-views">12</div>							
+							<br>
+						</li>
+						<li class="hot-article">
+							<div class="hot-order">4</div>
+							<a href="">jdbc</a>
+							<div class="hot-article-views">12</div>							
+							<br>
+						</li>
+						<li class="hot-article">
+							<div class="hot-order">5</div>
+							<a href="">jdbc</a>
+							<div class="hot-article-views">12</div>							
+							<br>
+						</li>
+					</ul>
+				</div>
+				
+			</div>
         </div>
     </div>
-    <!-- 页脚 -->
-    <footer>
-        <ul>
-            <li><a href="#">关于</a></li>
-        </ul>
-    </footer>
 </body>
 </html>

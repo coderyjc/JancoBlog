@@ -16,7 +16,7 @@
     <meta charset="UTF-8">
     <title>Welcome</title>
     <script src="./static/js/jquery-1.12.js"></script>
-    <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="stylesheet" href="./static/css/articlelist.css">
     <script>
         var totalPage = 0;
         var currentPage = 1;
@@ -35,14 +35,14 @@
             if(user == null){
                 aTag = "<a href='login.jsp'>登录</a>";
             } else {
-                aTag = "<a href='./workbench'>后台管理</a>";
+                aTag = "<a href='./workbench'>后台</a>";
             }
         %>
         <%=aTag%>
     </div>
 </div>
 <!-- 除去导航条和footer的部分是主体main -->
-<div class="main">
+<div class="main clearfix">
     <!-- 博客标题和签名 -->
     <div class="title-and-signature">
         <h1>JANCOYAN</h1> <br>
@@ -54,41 +54,45 @@
         <ul class="types clearfix">
             <!-- 搜索功能 -->
             <div class="search">
-                <form action="#" method="POST" class="search-form">
-                    <input type="text" name="search" placeholder="博文标题" id="search-text" />
-                    <input type="submit" name="submit" value="搜索" id="search-btn" />
-                </form>
+                <input type="text" name="search" placeholder="博文标题" id="search-text" />
+                <button id="search-btn">搜索</button>
             </div>
         </ul>
     </div>
 
     <!-- 文章列表和标签导航 -->
     <!-- 列表和分页 -->
-    <div class="article-list clearfix">
+    <div class="index-content clearfix">
         <!-- 文章列表 -->
-        <div class="articles clearfix">
+        <div class="left-content clearfix">
             <ul class="clearfix"></ul>
         </div>
-        <div class="load-more">
-            <span>下滑加载更多...</span>
+        <!-- 文章热榜和标签分类 -->
+        <div class="right-content">
+            <!-- 文章热榜 -->
+            <div class="article-rank-list">
+                <div class="article-rank-title">
+                    热门文章
+                </div>
+                <div class="segment-line"></div>
+                <ul class="hot-articles"></ul>
+            </div>
+
         </div>
     </div>
 </div>
-<!-- 页脚 -->
-<footer>
-    <ul>
-        <li><a href="#">关于</a></li>
-    </ul>
-</footer>
+
 
 <script>
 
-    // 页面加载之前执行
+    // 页面加载完毕立即执行
     $(function(){
     //    从数据库拿到数据建立导航栏
         build_nav_bar();
-    //    获取数据库中最新的10条记录
+    //   获取数据库中最新的10条记录
         get_article_page(1);
+        // 加载文章热榜，也就是按照浏览量排序的前十名
+        build_hot_rank();
     });
 
     // 获取文章，然后添加到主页的末尾
@@ -109,29 +113,31 @@
         var articleList = result.extend.pageInfo.list;
         totalPage = result.extend.pageInfo.pages;
         $.each(articleList, function (index, item) {
-            // 博文的图片
-            var img = $("<div></div>").addClass("image").append($("<img />").attr({
-                "src" : "./static/image/test.png",
-                "alt" : "这是图片",
-                "height" : "180px",
-                "width" : "280px"
-            }));
 
+            var articleBoxLi = $("<li></li>").addClass("article-box");
             var articlePath = "./static/p/" + item.articleId + ".html";
-
-            var title = $("<div></div>").addClass("title").append($("<a target='_blank'></a>").append(item.articleTitle).attr("href", articlePath));
-            var discription = $("<div></div>").addClass("discription").append(item.articleAbstract);
-            var time = $("<div></div>").addClass("datetime").append(new Date(item.articlePostDate));
-            var articleBox = $("<div></div>").addClass("article-box").append(title).append(discription).append(time);
-            var articleLi = $("<li></li>");
-            articleLi.addClass("article")
-                .append(img)
-                .append(articleBox)
-                .attr("click-id", item.articleId)
-                .appendTo(".articles>ul");
-            articleLi.click(function (){
+            // box内部的a标签
+            var aTitle = $("<a></a>").attr("href", articlePath).append(item.articleTitle);
+            // 绑定增加浏览量的函数
+            aTitle.click(function () {
                 add_article_view(item.articleId);
             });
+            //分割线
+            var segmentLine = $('<div class="segment-line"></div>');
+            // 摘要
+            var articleAbstract = $("<div></div>").addClass("article-abstract")
+                .append(item.articleAbstract);
+            // 发布时间和浏览量
+            var articleInfo = $("<div></div>")
+                .addClass("article-info")
+                .append($("<div></div>").addClass("view-count").append("浏览量："+item.articleViewTime))
+                .append($("<div></div>").addClass("post-time").append("发布日期："+dateFormat(item.articlePostDate)));
+            // 向盒子中添加元素
+            articleBoxLi.append(aTitle)
+                .append(segmentLine)
+                .append(articleAbstract)
+                .append(articleInfo)
+                .appendTo(".left-content ul");
         })
     }
 
@@ -145,14 +151,15 @@
                 $.each(superType, function (index, item) {
                     //第一级分类列表
                     var currTypeName =
-                        $("<a target='_blank'></a>").attr("href", "./sortlist.jsp?type="+item.typeId).text(item.typeName);
+                        $("<a target='_blank' ></a>").attr("href",
+                            "./sortlist.jsp?type="+item.typeId).text(item.typeName);
                     var currSuperTypeDrop = $("<div></div>").addClass("drop-content");
                     //创建第二级分类列表
                     var subTypes = item.subTypes;
                     $.each(subTypes, function (index, item1) {
                         currSuperTypeDrop
                             .append($("<a target='_blank'></a>")
-                                .attr("href", "./sortlist.jsp?type=" + item1.typeId)
+                                .attr("href", "sortlist.jsp?type=" + item1.typeId)
                                 .append(item1.typeName)
                             );
                     });
@@ -160,6 +167,33 @@
                         .append(currTypeName)
                         .append(currSuperTypeDrop)
                         .prependTo(".types");
+                });
+            }
+        });
+    }
+
+    // 页面加载完毕之后加载文章热榜
+    function build_hot_rank() {
+        $.ajax({
+            url:"articles",
+            type :"POST",
+            success: function (result) {
+                var hotArticles = result.extend.hotArticles;
+                $.each(hotArticles, function (index, item) {
+                    var hotArticleLi = $("<li></li>").addClass("hot-article");
+                    var orderDiv = $("<div></div>").addClass("hot-order").append(index + 1);
+                    var articlePath = "./static/p/" + item.articleId + ".html";
+                    var titleA = $("<a></a>").attr("href", articlePath).append(item.articleTitle);
+                    // 点击的时候增加阅读量
+                    titleA.click(function (){
+                        add_article_view(item.articleId);
+                    })
+                    var viewTime =
+                        $("<div></div>").addClass("hot-article-views").append(item.articleViewTime);
+                    hotArticleLi.append(orderDiv)
+                    .append(titleA)
+                    .append(viewTime)
+                    .appendTo(".hot-articles");
                 });
             }
         });
@@ -176,20 +210,15 @@
         });
     }
 
-    // 搜索按钮
-    $(document).on("click", "#search-btn", function () {
-        var searchKey = $("#search-text").val();
-        if("" == searchKey){
-            alert("搜索内容不能为空！");
-            return;
-        }
-        $.ajax({
-            url: "search/" + searchKey,
-            type: "GET",
-            success: function (){
-                window.location.href = "search.jsp";
-            }
-        });
+    // 监听搜索按钮，搜索字段为空的时候
+    $("#search-btn").click(function (){
+       var keyWord = $("#search-text").val();
+       if(keyWord == ""){
+           alert("搜索字段不能为空");
+           return;
+       } else {
+           window.location.href = "./search.jsp?keyword=" + keyWord;
+       }
     });
 
     // 监听页面到底部的事件，拉取更多的文章
@@ -201,11 +230,24 @@
             currentPage += 1;
             get_article_page(currentPage);
         }
-        // 如果文章拉取完了，就在最下面显示到底了
-        if(currentPage == totalPage){
-            $(".load-more span").text("已经到底了...");
-        }
     });
+
+    /**
+     * 将时间戳转化为标准时间
+     * @param date 时间戳
+     * @returns {string} 标准时间字符串
+     */
+    function dateFormat(date) {
+        var s = new Date(date)
+        var y = s.getFullYear()
+        var m = (s.getMonth() + 1) < 10 ? '0' + (s.getMonth() + 1) : (s.getMonth() + 1)
+        var dd = s.getDate() < 10 ? '0' + s.getDate() : s.getDate()
+        var hh = s.getHours() < 10 ? '0' + s.getHours() : s.getHours()
+        var mm = s.getMinutes() < 10 ? '0' + s.getMinutes() : s.getMinutes()
+        var ss = s.getSeconds() < 10 ? '0' + s.getSeconds() : s.getSeconds()
+        var enddate = y + '-' + m + '-' + dd + ' ' + hh + ':' + mm + ":" + ss
+        return enddate
+    }
 
 </script>
 

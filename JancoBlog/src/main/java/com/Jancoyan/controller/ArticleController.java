@@ -42,6 +42,7 @@ public class ArticleController {
      *
      *  /articles
      *  -GET 获取索引页的初始文章
+     *  -POST 获取最热门的10篇文章
      *
      *  /articles/{id}
      *  - GET 获取用户id的所有文章
@@ -49,6 +50,17 @@ public class ArticleController {
      *  /article/view
      *  - POST 增加文章的浏览量
      */
+
+    /**
+     * 获取最热门的10篇文章
+     * @return 带有文章列表的消息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/articles", method = RequestMethod.POST)
+    public Msg getHotArticles(){
+        List<Article> articles = articleService.getArticlesLimit();
+        return Msg.success().add("hotArticles", articles);
+    }
 
     /**
      * 更新文章
@@ -104,7 +116,6 @@ public class ArticleController {
 
         return Msg.success();
     }
-
 
     /**
      * 提交文章
@@ -211,9 +222,9 @@ public class ArticleController {
     @ResponseBody
     @RequestMapping(value = "/articles", method = RequestMethod.GET)
     public Msg getIndexArticles(Integer pn){
-        PageHelper.startPage(pn, 5);
+        PageHelper.startPage(pn, 10);
         List<Article> articles = articleService.getAll();
-        PageInfo pageInfo = new PageInfo(articles, 5);
+        PageInfo<Article> pageInfo = new PageInfo<>(articles, 5);
         return Msg.success().add("pageInfo", pageInfo);
     }
 
@@ -231,7 +242,7 @@ public class ArticleController {
     ){
         PageHelper.startPage(pn, 10);
         List<Article> articles = articleService.getArticlesByUserId(id);
-        PageInfo pageInfo = new PageInfo(articles, 5);
+        PageInfo<Article> pageInfo = new PageInfo<>(articles, 5);
         return Msg.success().add("pageInfo", pageInfo);
     }
 
@@ -247,9 +258,15 @@ public class ArticleController {
         @PathVariable("id") Integer id,
         @RequestParam(value = "pn", defaultValue = "1") Integer pn
     ){
-        PageHelper.startPage(pn, 10);
-        List<Article> articles = articleService.getArticlesByTypeId(id);
-        PageInfo pageInfo = new PageInfo(articles, 5);
+        PageHelper.startPage(pn, 5);
+        List<Article> articles;
+        // 加一步判断，如果id小于100，也就是父类别，就获取其下面所有子类的文章
+        if(id < 100){
+            articles = articleService.getArticlesBySuperId(id);
+        }else{
+            articles = articleService.getArticlesByTypeId(id);
+        }
+        PageInfo<Article> pageInfo = new PageInfo<>(articles, 5);
         return Msg.success().add("pageInfo", pageInfo);
     }
 
@@ -266,7 +283,7 @@ public class ArticleController {
     ){
         PageHelper.startPage(pn, 10);
         List<Article> articles = articleService.getArticlesLikeName(name);
-        PageInfo pageInfo = new PageInfo(articles, 5);
+        PageInfo<Article> pageInfo = new PageInfo<>(articles, 5);
         // 把搜索到的结果放在session中
         session.setAttribute("searchResult", pageInfo);
         return Msg.success();

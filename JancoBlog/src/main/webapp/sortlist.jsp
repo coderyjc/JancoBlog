@@ -18,20 +18,19 @@
     <base href="<%=basePath%>"/>
     <meta charset="utf-8">
     <title>文章分类</title>
-    <link rel="stylesheet" href="./static/css/sortlist.css">
+    <link rel="stylesheet" href="./static/css/articlelist.css">
     <script type="text/javascript" src="./static/js/jquery-1.12.js"></script>
 </head>
 <script type="text/javascript">
 
-    var typeid = 0;
-    typeid = <%=request.getParameter("type")%>;
+    var typeid = <%=request.getParameter("type")%>;
     var currentPage = 1;
 
     $(function(){
         // 建立导航栏
         build_nav_bar();
         // 获得这个类型第一页的文章
-        get_articles(typeid, 1);
+        get_articles(typeid, currentPage);
 
         $(document).on("click", ".nav-title", function () {
             // 给所有菜单项的主标题添加事件
@@ -69,7 +68,7 @@
 <div class="main">
     <!-- 左边的文章类别导航栏 -->
     <div class="side-nav-bar">
-        <div class="nav-bar-title"><a href="">分类查看</a></div>
+        <div class="nav-bar-title"><a href="javascript:;">分类查看</a></div>
         <div class="segment-line"></div>
         <!-- 菜单栏导航 -->
         <div class="nav-list"></div>
@@ -77,27 +76,7 @@
 
     <!-- 右边的文章列表 -->
     <div class="article-sort-list">
-        <ul>
-            <li class="article-box">
-                <a href="">这是标题</a>
-                <div class="segment-line"></div>
-                <div class="article-abstract">这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要</div>
-                <div class="article-info">
-                    <div class="view-count">浏览量:63</div>
-                    <div class="post-time">发布日期:2021-4-12</div>
-                </div>
-            </li>
-            <li class="article-box">
-                <a href="">这是标题</a>
-                <div class="segment-line"></div>
-                <div class="article-abstract">这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要</div>
-                <div class="article-info">
-                    <div class="view-count">浏览量:63</div>
-                    <div class="post-time">发布日期:2021-4-12</div>
-                </div>
-            </li>
-
-        </ul>
+        <ul></ul>
     </div>
 
 </div>
@@ -111,7 +90,6 @@
             type: "get",
             success: function (result) {
                 var superType = result.extend.types;
-                console.log(superType);
                 $.each(superType, function (index, item) {
                     //第一级分类列表
                     var navMenu = $("<div></div>").addClass("nav-menu");
@@ -123,7 +101,7 @@
                     $.each(subTypes, function (index, item1) {
                         navContent
                             .append($("<a></a>")
-                                .attr("href", "#")
+                                .attr("href", "./sortlist.jsp?type=" + item1.typeId)
                                 .append(item1.typeName)
                             );
                     });
@@ -140,7 +118,11 @@
             type: "GET",
             data:"pn=" + pn,
             success: function (result) {
-                console.log(result);
+                // 数据库中没有这类型的文章
+                if(result.extend.pageInfo.pages === 0){
+                    alert("暂时没有这方面的文章...");
+                    return;
+                }
                 build_article_list(result);
             }
         });
@@ -152,7 +134,7 @@
         var articleList = result.extend.pageInfo.list;
         // 建立文章列表
         $.each(articleList, function (index, item){
-            var articleBoxLi = $("<li><\li>").addClass("article-box");
+            var articleBoxLi = $("<li></li>").addClass("article-box");
             var articlePath = "./static/p/" + item.articleId + ".html";
             // box内部的a标签
             var aTitle = $("<a></a>").attr("href", articlePath).append(item.articleTitle);
@@ -167,7 +149,7 @@
             .append(item.articleAbstract);
             // 发布时间和浏览量
             var articleInfo = $("<div></div>")
-                .addClass("article--info")
+                .addClass("article-info")
             .append($("<div></div>").addClass("view-count").append("浏览量："+item.articleViewTime))
             .append($("<div></div>").addClass("post-time").append("发布日期："+dateFormat(item.articlePostDate)));
             // 向盒子中添加元素
@@ -179,6 +161,17 @@
         });
     }
 
+    // 监听页面到底部的事件，拉取更多的文章
+    $(window).scroll(function(){
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if(scrollTop + windowHeight === scrollHeight){
+            currentPage += 1;
+            get_articles(typeid, currentPage);
+        }
+        // 如果文章拉取完了
+    });
 
     // 点击文章的时候增加文章阅读量
     function add_article_view(articleId) {
@@ -186,7 +179,7 @@
             url: "article/view",
             type: "POST",
             data: {
-                "id": articleId,
+                "id": articleId
             }
         });
     }
@@ -207,6 +200,7 @@
         var enddate = y + '-' + m + '-' + dd + ' ' + hh + ':' + mm + ":" + ss
         return enddate
     }
+
 </script>
 </body>
 </html>

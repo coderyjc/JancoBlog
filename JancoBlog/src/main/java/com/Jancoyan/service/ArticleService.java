@@ -102,7 +102,36 @@ public class ArticleService {
         articleMapper.updateByPrimaryKeySelective(article);
     }
 
+    /**
+     * 根据主键查找
+     * @param id
+     * @return
+     */
     public Article getArticleByPrimaryKey(String id) {
         return articleMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 获取前10名最热的文章
+     * @return 文章列表
+     */
+    public List<Article> getArticlesLimit() {
+        ArticleExample example = new ArticleExample();
+        example.setOrderByClause("article_view_time desc limit 10");
+        List<Article> articles = articleMapper.selectByExample(example);
+        return articles;
+    }
+
+    /**
+     * 获取父类id下面的所有子类型的文章
+     * @param id 父类型
+     * @return 所有文章
+     */
+    public List<Article> getArticlesBySuperId(Integer id) {
+        ArticleExample example = new ArticleExample();
+        ArticleExample.Criteria criteria = example.createCriteria();
+        criteria.andArticleIdLike(id.toString() + "%");
+        List<Article> articles = articleMapper.selectByExample(example);
+        return articles;
     }
 }
