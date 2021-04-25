@@ -27,8 +27,8 @@
 		<%
 			Article article = (Article) session.getAttribute("article");
 			String content = (String) session.getAttribute("content");
-			String title = null;
-			if(article != null) article.getArticleTitle();
+			String title = "";
+			if(article != null) title = article.getArticleTitle();
 		%>
 
 		$(function(){
@@ -160,10 +160,6 @@
 				success: function (result) {
 					alert("修改成功!");
 					// 跳转到首页
-					<%
-					session.removeAttribute("article");
-					session.removeAttribute("content");
-					%>
 					window.location.href="./index.jsp";
 				}
 			})

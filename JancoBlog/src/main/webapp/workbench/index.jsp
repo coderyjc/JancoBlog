@@ -139,7 +139,7 @@
     $(document).on("click", ".edit-btn", function () {
         var id = $(this).attr("edit-id");
         $.ajax({
-            url: "updateArticle",
+            url: "redirect/article",
             type: "POST",
             data: "id=" + id,
             success : function (){

@@ -34,7 +34,6 @@ body{
     color: white;
     font-size: 40px;
     padding: 5px 200px;
-
 }
 .nav a:link, .nav a:visited{
     color: white;
@@ -185,8 +184,6 @@ h1{
     font-weight: 500;
     margin: 50px 20px;
 }
-
-
 
 /* 标题的a标签 */
 .title>a{

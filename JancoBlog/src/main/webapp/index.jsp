@@ -130,7 +130,7 @@
                 .attr("click-id", item.articleId)
                 .appendTo(".articles>ul");
             articleLi.click(function (){
-                add_article_view(item.articleId, item.articleViewTime);
+                add_article_view(item.articleId);
             });
         })
     }
@@ -144,14 +144,15 @@
                 var superType = result.extend.types;
                 $.each(superType, function (index, item) {
                     //第一级分类列表
-                    var currTypeName = $("<a></a>").attr("href", "#").text(item.typeName);
+                    var currTypeName =
+                        $("<a target='_blank'></a>").attr("href", "./sortlist.jsp?type="+item.typeId).text(item.typeName);
                     var currSuperTypeDrop = $("<div></div>").addClass("drop-content");
                     //创建第二级分类列表
                     var subTypes = item.subTypes;
                     $.each(subTypes, function (index, item1) {
                         currSuperTypeDrop
-                            .append($("<a></a>")
-                                .attr("href", "#")
+                            .append($("<a target='_blank'></a>")
+                                .attr("href", "./sortlist.jsp?type=" + item1.typeId)
                                 .append(item1.typeName)
                             );
                     });
@@ -165,13 +166,12 @@
     }
 
     // 点击文章的时候增加文章阅读量
-    function add_article_view(articleId, viewCount) {
+    function add_article_view(articleId) {
         $.ajax({
             url: "article/view",
             type: "POST",
             data: {
                 "id": articleId,
-                "viewCount": viewCount
             }
         });
     }
@@ -185,7 +185,10 @@
         }
         $.ajax({
             url: "search/" + searchKey,
-            type: "GET"
+            type: "GET",
+            success: function (){
+                window.location.href = "search.jsp";
+            }
         });
     });
 

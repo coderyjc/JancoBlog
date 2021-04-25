@@ -8,7 +8,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -34,8 +33,22 @@ public class ArticleController {
      *  -GET 修改发布的文章
      *  -DELETE 删除文章
      *  -POST 获取要修改的文章的信息
+     *
+     *  /article/update
+     *  -POST 提交修改后的文章
+     *
+     *  /redirect/article
+     *  -POST 转发到edit.jsp
+     *
+     *  /articles
+     *  -GET 获取索引页的初始文章
+     *
+     *  /articles/{id}
+     *  - GET 获取用户id的所有文章
+     *
+     *  /article/view
+     *  - POST 增加文章的浏览量
      */
-
 
     /**
      * 更新文章
@@ -58,8 +71,6 @@ public class ArticleController {
             HttpSession session
     ){
         Article article = (Article) session.getAttribute("article");
-
-        System.out.println(article);
 
         Article newArticle = new Article();
         // 构造html页面
@@ -86,6 +97,10 @@ public class ArticleController {
         newArticle.setArticleEditTime(new Date());
 
         articleService.updateByPrimaryKeySelective(newArticle);
+
+        //修改完之后移除掉session中的文章
+        session.removeAttribute("article");
+        session.removeAttribute("content");
 
         return Msg.success();
     }
@@ -153,12 +168,12 @@ public class ArticleController {
     }
 
     /**
-     *
+     * 修改文章的转发操作
      * @param id 文章id
      * @param session 暂时用session保存数据吧
      */
     @ResponseBody
-    @RequestMapping(value = "/updateArticle", method = RequestMethod.POST)
+    @RequestMapping(value = "/redirect/article", method = RequestMethod.POST)
     public void updateArticle(String id, HttpSession session){
         // 获取文章对象
         Article article = articleService.getArticleByPrimaryKey(id);
@@ -187,11 +202,6 @@ public class ArticleController {
         boolean success = FileIo.deleteFile(path) && FileIo.deleteFile(mdPath);
         return Msg.success().add("success", success);
     }
-
-
-
-
-
 
     /**
      * 获取索引页的初始文章
@@ -225,23 +235,23 @@ public class ArticleController {
         return Msg.success().add("pageInfo", pageInfo);
     }
 
-//    /**
-//     * 根据文章的类型和页码获取文章
-//     * @param id
-//     * @param pn
-//     * @return
-//     */
-//    @ResponseBody
-//    @RequestMapping(value = "/articles/type/{id}", method = RequestMethod.GET)
-//    public Msg getArticlesByType(
-//        @PathVariable("id") Integer id,
-//        @RequestParam(value = "pn", defaultValue = "1") Integer pn
-//    ){
-//        PageHelper.startPage(pn, 10);
-//        List<Article> articles = articleService.getArticlesByTypeId(id);
-//        PageInfo pageInfo = new PageInfo(articles, 5);
-//        return Msg.success().add("pageInfo", pageInfo);
-//    }
+    /**
+     * 根据文章的类型和页码获取文章
+     * @param id
+     * @param pn
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/type/{id}", method = RequestMethod.GET)
+    public Msg getArticlesByType(
+        @PathVariable("id") Integer id,
+        @RequestParam(value = "pn", defaultValue = "1") Integer pn
+    ){
+        PageHelper.startPage(pn, 10);
+        List<Article> articles = articleService.getArticlesByTypeId(id);
+        PageInfo pageInfo = new PageInfo(articles, 5);
+        return Msg.success().add("pageInfo", pageInfo);
+    }
 
     /**
      * 全局搜索文章
@@ -249,27 +259,27 @@ public class ArticleController {
      * @return 文章列表
      */
     @RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
-    public String searchArticle(
+    public Msg searchArticle(
             @PathVariable("name") String name,
             @RequestParam(value = "pn", defaultValue = "1") Integer pn,
-            Model model
+            HttpSession session
     ){
         PageHelper.startPage(pn, 10);
         List<Article> articles = articleService.getArticlesLikeName(name);
         PageInfo pageInfo = new PageInfo(articles, 5);
-        model.addAttribute("searchRst", pageInfo);
-        return "./search";
+        // 把搜索到的结果放在session中
+        session.setAttribute("searchResult", pageInfo);
+        return Msg.success();
     }
 
     /**
      * 文章浏览量的增加
      * @param id 文章id
-     * @param viewCount 文章浏览量
      * @return 成功
      */
     @ResponseBody
     @RequestMapping(value = "/article/view", method = RequestMethod.POST)
-    public Msg addViewCount(String id, Integer viewCount){
+    public Msg addViewCount(String id){
         // 组装新的article
         Article article = new Article();
         article.setArticleId(id);
