@@ -77,7 +77,6 @@
                 <div class="segment-line"></div>
                 <ul class="hot-articles"></ul>
             </div>
-
         </div>
     </div>
 </div>

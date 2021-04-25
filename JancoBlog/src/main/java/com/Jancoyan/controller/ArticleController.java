@@ -246,11 +246,12 @@ public class ArticleController {
         return Msg.success().add("pageInfo", pageInfo);
     }
 
+
     /**
      * 根据文章的类型和页码获取文章
-     * @param id
-     * @param pn
-     * @return
+     * @param id 类型id
+     * @param pn 第n页
+     * @return 包含文章的消息
      */
     @ResponseBody
     @RequestMapping(value = "/type/{id}", method = RequestMethod.GET)
@@ -275,18 +276,16 @@ public class ArticleController {
      * @param name 查找模式
      * @return 文章列表
      */
-    @RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
+    @ResponseBody
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
     public Msg searchArticle(
-            @PathVariable("name") String name,
-            @RequestParam(value = "pn", defaultValue = "1") Integer pn,
-            HttpSession session
+            @RequestParam(value = "keyword") String name,
+            @RequestParam(value = "pn", defaultValue = "1") Integer pn
     ){
         PageHelper.startPage(pn, 10);
         List<Article> articles = articleService.getArticlesLikeName(name);
         PageInfo<Article> pageInfo = new PageInfo<>(articles, 5);
-        // 把搜索到的结果放在session中
-        session.setAttribute("searchResult", pageInfo);
-        return Msg.success();
+        return Msg.success().add("pageInfo", pageInfo);
     }
 
     /**
