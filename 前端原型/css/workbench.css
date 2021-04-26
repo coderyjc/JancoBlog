@@ -170,6 +170,14 @@ h1{
 }
 
 
+.manage-articles{
+	display: none;
+}
+
+.personal-info{
+	display: block;
+}
+
 /* 显示个人信息的表单 */
 .personal-info form{
 	margin: 20px 30px;

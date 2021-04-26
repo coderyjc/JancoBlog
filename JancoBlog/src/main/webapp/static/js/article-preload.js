@@ -53,7 +53,7 @@ function get_super_types() {
 }
 
 function build_page(){
-    $(".article-view-time").append("æµè§ˆé‡ï¼š"+ article.articleViewTime);
+    $(".article-view-time").append("ä¯ÀÀÁ¿£º"+ article.articleViewTime);
 
     var superPath = "../../sortlist.jsp?type=" + superType.typeId;
     var superTypeA = $("<a></a>").attr("href", superPath).append(superType.typeName);
