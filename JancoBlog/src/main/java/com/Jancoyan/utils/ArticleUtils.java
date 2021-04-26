@@ -47,18 +47,20 @@ public class ArticleUtils {
                 "<meta charset=\"utf-8\">" +
                 "<title>" + title + "</title>" +
                 "    <link rel=\"stylesheet\" href=\"../js/editor.md/css/editormd.min.css\">" +
+                "   <script src=\"../js/jquery-1.12.js\" type=\"text/javascript\" " +
+                "charset=\"utf-8\"></script>\n" +
+                "   <script src=\"../js/article-preload.js\" type=\"text/javascript\" " +
+                "charset=\"utf-8\"></script>\n"+
                 "<link rel=\"stylesheet\" href=\"../css/article.css\">" +
                 "</head>" +
                 "<body><!-- 导航条 -->" +
                 "<div class=\"nav\">" +
                 "    <!-- 回主页的\"图标\" -->" +
-                "    <a href=\"./index.jsp\" class=\"back-to-index\">JancoBlog</a>" +
+                "    <a href=\"../../index.jsp\" class=\"back-to-index\">JancoBlog</a>" +
                 "</div>" +
                 "" +
                 "<!-- 所属分类 -->" +
-                "<!-- 这个分类标签是提前写死在网页里的，把相关的js写在另一个文件中-->" +
                 "<div class=\"article-sort\">" +
-                "首页 > JavaWeb > Maven" +
                 "</div>" +
                 "<!-- 标题栏 -->" +
                 "<h1 class=\"article-title\">" + title + "</h1>" +
@@ -66,14 +68,8 @@ public class ArticleUtils {
                 "<div class=\"article-info\">" +
                 "<div class=\"article-author\">作者：" + userNickname + "</div>" +
                 "<div class=\"article-submit-time\">发布时间：" + TimeUtils.getCurrentTimeString() + "</div>" +
-                "<div class=\"article-view-time\">浏览量：21</div>" +
+                "<div class=\"article-view-time\"></div>" +
                 "</div><div class=\"article-content\">" + innerHTML + "</div>" +
-                "<!-- 页脚 -->" +
-                "<footer>" +
-                "<ul>" +
-                "    <li><a href=\"#\">关于</a></li>" +
-                "</ul>" +
-                "</footer>" +
                 "</body>" +
                 "</html>";
         return content;

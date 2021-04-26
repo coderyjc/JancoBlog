@@ -33,10 +33,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1396a05c-84b7-4b67-ad6a-3fd7d55d47cd" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js/article-preload.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/statistic.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/statistic.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/ArticleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/search.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/search.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/TypeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/TypeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/ArticleUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/ArticleUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/css/article.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/css/article.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../前端原型/article.html" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/article.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../前端原型/css/article.css" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/css/article.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +61,7 @@
         <option value="JspFile" />
         <option value="Class" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -122,7 +128,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/static/md" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/static/js/editor.md" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
@@ -405,6 +411,9 @@
       <workItem from="1619323948890" duration="8725000" />
       <workItem from="1619343832275" duration="168000" />
       <workItem from="1619347182804" duration="3363000" />
+      <workItem from="1619393348074" duration="5917000" />
+      <workItem from="1619423073723" duration="611000" />
+      <workItem from="1619426674369" duration="1359000" />
     </task>
     <task id="LOCAL-00001" summary="change directory structure">
       <created>1617886671821</created>

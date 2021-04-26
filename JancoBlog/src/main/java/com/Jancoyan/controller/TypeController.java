@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -30,6 +32,19 @@ public class TypeController {
     public Msg getAll(){
         List<Type> typeList = typeService.getAll();
         return Msg.success().add("types", typeList);
+    }
+
+    /**
+     * 根据主键返回类型
+     * @param id 主键
+     * @return 类型
+     */
+    @ResponseBody
+    @RequestMapping(value = "/types", method = RequestMethod.POST)
+    public Msg getTypeByPrimaryKey(String id, HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("UTF-8");
+        Type type = typeService.getTypeByPrimaryKey(Integer.parseInt(id));
+        return Msg.success().add("type", type);
     }
 
 }

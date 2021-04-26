@@ -5,9 +5,9 @@
       <list>
         <option value="$PROJECT_DIR$/../前端原型" />
         <option value="$PROJECT_DIR$/target" />
-        <option value="$PROJECT_DIR$/src/main/webapp/static/js" />
         <option value="$PROJECT_DIR$/src/main/webapp/static/p" />
         <option value="$PROJECT_DIR$/src/main/webapp/static/md" />
+        <option value="$PROJECT_DIR$/src/main/webapp/static/js/editor.md" />
       </list>
     </option>
   </component>

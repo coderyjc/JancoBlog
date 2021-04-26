@@ -43,6 +43,7 @@ public class ArticleController {
      *  /articles
      *  -GET 获取索引页的初始文章
      *  -POST 获取最热门的10篇文章
+     *  -PUT 通过主键查找文章
      *
      *  /articles/{id}
      *  - GET 获取用户id的所有文章
@@ -50,6 +51,20 @@ public class ArticleController {
      *  /article/view
      *  - POST 增加文章的浏览量
      */
+
+    /**
+     * 根据主键查找文章
+     * @param id 文章id
+     * @return 文章查找消息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/articles", method = RequestMethod.PUT)
+    public Msg getArticleByPrimaryKey(String id){
+        Article article = articleService.selectByPrimaryKey(id);
+        return Msg.success().add("article", article);
+    }
+
+
 
     /**
      * 获取最热门的10篇文章
