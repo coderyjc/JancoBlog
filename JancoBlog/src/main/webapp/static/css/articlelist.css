@@ -272,6 +272,28 @@ h1{
 }
 
 
+/* 文章信息 */
+.article-info{
+    height: 30px;
+    line-height: 30px;
+}
+
+.article-box>.article-info>div{
+    display: inline-block;
+    float: right;
+    margin-left: 15px;
+    font-size: 13px;
+    color: gray;
+}
+
+.like-articles{
+    cursor: pointer;
+}
+
+.like-articles>.like-logo{
+    color: red;
+}
+
 .left-content{
     float: left;
     width: 70%;

@@ -150,9 +150,7 @@ h1{
 
 /* 文章列表 */
 .article{
-    /* border-radius: 5px; */
     border-bottom: solid 1px #978f8f;
-    /* border-top: solid 1px #c3bbbb; */
     padding: 20px 25px;
     overflow: hidden;
 }

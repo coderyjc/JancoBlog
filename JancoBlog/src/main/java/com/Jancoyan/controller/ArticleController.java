@@ -50,7 +50,29 @@ public class ArticleController {
      *
      *  /article/view
      *  - POST 增加文章的浏览量
+     *  /article/like
+     *  - POST 文章点赞功能
      */
+
+
+    /**
+     * 文章点赞功能的实现
+     * @param id 文章id
+     * @return 消息状态
+     */
+    @ResponseBody
+    @RequestMapping(value = "/article/like", method = RequestMethod.POST)
+    public Msg addLikeCount(String id, String count){
+        // 组装新的article对象
+        Article article = new Article();
+        article.setArticleId(id);
+        // 拿到数据之后+1, 然后在前端再+1
+        Integer cnt = Integer.valueOf(count);
+        cnt += 1;
+        article.setArticleLikeCount(cnt);
+        articleService.updateByPrimaryKeySelective(article);
+        return Msg.success().add("count", cnt);
+    }
 
     /**
      * 根据主键查找文章

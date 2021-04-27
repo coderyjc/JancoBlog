@@ -126,9 +126,18 @@
             // 摘要
             var articleAbstract = $("<div></div>").addClass("article-abstract")
                 .append(item.articleAbstract);
+            // 点赞的数量, 图标 和 数量
+            var likeArticles = $("<div></div>").addClass("like-articles")
+                .append("<span class='like-logo'>♥ </span>")
+                .append($("<span class='like-count'></span>").append(item.articleLikeCount));
+            // 绑定点击事件
+            likeArticles.click(function(){
+               add_like_count(this.childNodes[1], item.articleId);
+            });
             // 发布时间和浏览量
             var articleInfo = $("<div></div>")
-                .addClass("article-info")
+                .addClass("article-info clearfix")
+                .append(likeArticles)
                 .append($("<div></div>").addClass("view-count").append("浏览量："+item.articleViewTime))
                 .append($("<div></div>").addClass("post-time").append("发布日期："+dateFormat(item.articlePostDate)));
             // 向盒子中添加元素
@@ -186,7 +195,7 @@
                     // 点击的时候增加阅读量
                     titleA.click(function (){
                         add_article_view(item.articleId);
-                    })
+                    });
                     var viewTime =
                         $("<div></div>").addClass("hot-article-views").append(item.articleViewTime);
                     hotArticleLi.append(orderDiv)
@@ -197,6 +206,26 @@
             }
         });
     }
+
+    // 点赞功能的实现
+    function add_like_count(element, id){
+        // 当前点赞的数量
+        var nowCount = element.innerHTML;
+        // 请求成功之后应该顺便把这个数量+1
+        $.ajax({
+            url: "article/like",
+            type: "post",
+            data: {
+              "count": nowCount,
+              "id" : id
+            },
+            success: function (result) {
+                var nowCount = result.extend.count;
+                element.innerHTML = nowCount;
+            }
+        });
+    }
+
 
     // 点击文章的时候增加文章阅读量
     function add_article_view(articleId) {

@@ -47,7 +47,8 @@
 				tex: true,
 				flowChart: true,
 				imageFormats: ["jpg", "gif", "png", "jpeg"],
-				imageUploadURL:"",
+				imageUpload: true,
+				imageUploadURL:"uploadarticlepicture",
 				value: '<%=content == null ? "" : content%>'
 			});
 

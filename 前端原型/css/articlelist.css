@@ -7,6 +7,7 @@
 /* 全局的a */
 a{
     text-decoration: none;
+	color: black;
 }
 
 a:visited{
@@ -261,7 +262,14 @@ h1{
 	height: 80px;
 }
 
+
+
 /* 文章信息 */
+.article-info{
+	height: 30px;
+	line-height: 30px;
+}
+
 .article-box>.article-info>div{
 	display: inline-block;
 	float: right;
@@ -269,6 +277,12 @@ h1{
 	font-size: 13px;
 	color: gray;
 }
+
+.like-articles>.like-logo{
+	color: red;
+	cursor: pointer;
+}
+
 
 
 .left-content{
@@ -336,3 +350,4 @@ h1{
 	margin-left: 10px;
 	text-align: center;
 }
+

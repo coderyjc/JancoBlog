@@ -1,6 +1,8 @@
 package com.Jancoyan.utils;
 
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.*;
 
 /**
@@ -9,6 +11,11 @@ import java.io.*;
  * @author Jancoyan
  */
 public class FileIo {
+
+
+    public static void uploadPicture(String path, MultipartFile multipartFile){
+
+    }
 
 
     /**
@@ -47,8 +54,6 @@ public class FileIo {
             }
         }
     }
-
-
 
     /**
      * 删除文件
