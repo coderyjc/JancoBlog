@@ -83,21 +83,91 @@ h1{
 
 /* 功能实现 */
 .personal-info, .manage-articles{
-	float: left;
-	height: 600px;
-	width: 920px;
-	display: none;
+    float: left;
+    width: 80%;
+    display: none;
 }
-
-/* 写博文 */
-/* .manage-articles{
-	display: block;
-}
- */
 
 .manage-articles{
 	display: block;
 }
+
+.personal-info{
+    text-align: center;
+}
+
+.personal-info>div{
+    height: 50px;
+    margin-bottom: 10px;
+
+}
+
+.personal-info>table{
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+    padding-left: 60px;
+}
+
+.personal-info td{
+    width: 200px;
+}
+
+.personal-info input{
+    height: 30px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.user-sex{
+    height: 40px;
+}
+
+.user-sex>div{
+    display: inline-block;
+    width: 30%;
+    height: 60%;
+    border: gray 1px solid;
+    border-radius: 10px;
+    line-height: 24px;
+    curser: pointer;
+}
+
+.user-sex>.choose{
+    background-color: #14d0ff;
+    border-color: #14d0ff;
+    color: white;
+}
+
+.personal-info>button{
+    border-radius: 15px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 20px auto;
+    height: 30px;
+    width: 80px;
+}
+
+#edit-personal-info,#save-personal-info{
+    background-color: #14D0FF;
+}
+
+#cancel-personal-info{
+    background-color: #a3a3a3;
+}
+
+#save-personal-info, #cancel-personal-info{
+    display: none;
+}
+
+#edit-personal-info:active,#save-personal-info:active{
+    background-color: #0c9eff;
+}
+#cancel-personal-info:active{
+    background-color: #818181;
+}
+
 
 /* 文章管理的表格 */
 #article-list{
@@ -189,24 +259,3 @@ h1{
 	width: 100%;
 	heigh: 30px;
 }
-
-/* 表格中的每一行 */
-#personal-info-table input{
-	border: none;
-	border-bottom: 1px solid black;
-	height: 35px;
-	font-size: 25px;
-	
-}
-
-.userSex{
-	padding-top: 10px;
-}
-
-/* 编辑按钮 */
-#edit-personal-info{
-	margin: 20px 20px;
-	width: 100px;
-	height: 30px;
-}
-

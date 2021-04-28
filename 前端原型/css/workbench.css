@@ -100,8 +100,8 @@ h1{
 }
 
 .personal-info>table{
-	height: 40px;
-	line-height: 40px;
+	height: 50px;
+	line-height: 50px;
 	font-size: 20px;
 	padding-left: 60px;
 }
@@ -113,12 +113,53 @@ h1{
 .personal-info input{
 	height: 30px;
 	width: 100%;
+	border-radius: 10px;
 }
 
-#edit-personal-info{
+.user-sex{
+	height: 40px;
+}
+
+.user-sex>div{
+	display: inline-block;
+	width: 40%;
+	height: 80%;
+	border: gray 1px solid;
+	border-radius: 10px;
+	line-height: 40px;
+	curser: pointer;
+}
+
+.user-sex>.choose{
+	background-color: #14d0ff;
+	border-color: #14d0ff;
+	color: white;
+}
+
+.personal-info>button{
+	border-radius: 15px;
+	color: white;
+	border: none;
+	cursor: pointer;
 	margin: 20px auto;
+	height: 30px;
+	width: 80px;
 }
 
+#edit-personal-info,#save-personal-info{
+	background-color: #14D0FF;
+}	
+
+#cancel-personal-info{
+	background-color: #a3a3a3;
+}
+
+#edit-personal-info:active,#save-personal-info:active{
+	background-color: #0c9eff;
+}
+#cancel-personal-info:active{
+	background-color: #818181;
+}
 
 /* 文章管理的表格 */
 #article-list{

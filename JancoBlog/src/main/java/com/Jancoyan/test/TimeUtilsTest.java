@@ -4,6 +4,8 @@ package com.Jancoyan.test;
 import com.Jancoyan.utils.TimeUtils;
 import org.junit.Test;
 
+import java.util.Date;
+
 public class TimeUtilsTest {
 
     /**
@@ -22,5 +24,10 @@ public class TimeUtilsTest {
     public void testCurrentTimeMillions(){
         String timeMillion = TimeUtils.getCurrentTimestamp();
         System.out.println(timeMillion);
+    }
+
+    @Test
+    public void testConvert(){
+        System.out.println(TimeUtils.convertDateToTimeString(new Date()));
     }
 }

@@ -1,4 +1,5 @@
 <%@ page import="com.Jancoyan.domain.User" %>
+<%@ page import="com.Jancoyan.utils.TimeUtils" %>
 <%--
   Created by Jancoyan.
   User: Jancoyan
@@ -22,6 +23,10 @@
     <script src="./static/js/jquery-1.12.js"></script>
     <link rel="stylesheet" href="./static/css/workbench.css">
 </head>
+<%--获取用户对象--%>
+<%
+    User user = (User) session.getAttribute("user");
+%>
 <body>    <!-- 导航条 -->
 <div class="nav">
     <!-- 回主页的"图标" -->
@@ -46,47 +51,35 @@
     <!-- 功能实现栏  -->
     <!--个人信息管理-->
     <div class="personal-info">
-        <form>
-            <table id="personal-info-table">
-
-                <!-- 用户id -->
-                <tr>
-                    <td>用户ID</td>
-                    <td><input type="text" id="fname" name="firstname" placeholder="Your name.."></td>
-                </tr>
-
-                <!-- 用户昵称 -->
-                <tr>
-                    <td>用户昵称</td>
-                    <td><input type="text" id="fname" name="firstname" placeholder="Your name.."></td>
-                </tr>
-
-                <!-- 用户名 -->
-                <tr>
-                    <td>用户名</td>
-                    <td><input type="text" id="fname" name="firstname" placeholder="Your name.."></td>
-                </tr>
-
-                <!-- 邮箱 -->
-                <tr>
-                    <td>邮箱</td>
-                    <td><input type="text" id="fname" name="firstname" placeholder="Your name.."></td>
-                </tr>
-
-                <!-- 性别 -->
-                <tr>
-                    <td class="userSex">性别</td>
-                    <td class="userSex">
-                        <select id="userSex" name="userSex">
-                            <option value="australia">M</option>
-                            <option value="usa">F</option>
-                        </select>
-                    </td>
-                </tr>
-
-            </table>
-        </form>
+        <table>
+            <tr>
+                <td>用户名</td>
+                <td><input type="text" disabled="disabled" name="name" id="user-name" value="<%=user.getUserNickname()%>"/></td>
+            </tr>
+            <tr>
+                <td>邮箱</td>
+                <td><input type="text" disabled="disabled" name="name" id="user-name"
+                           value="<%=user.getUserEmail()%>" /></td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td>
+                    <div class="user-sex">
+                        <div class="male <%=user.getUserSex() == 1 ? "choose" : ""%>">男</div>
+                        <div class="famali <%=user.getUserSex() == 0 ? "choose" : ""%>">女</div>
+                        <div class="none <%=user.getUserSex() == null ? "choose" : ""%>">未知</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>账号创建日期</td>
+                <td><input type="text" disabled="disabled" name="name" id="user-name"
+                           value="<%=TimeUtils.convertDateToTimeString(user.getUserCreateDate())%>" /></td>
+            </tr>
+        </table>
         <button id="edit-personal-info">编辑</button>
+        <button id="save-personal-info">保存</button>
+        <button id="cancel-personal-info">取消</button>
     </div>
 
     <!-- 文章管理 -->
@@ -128,11 +121,46 @@
     // 点击“文章管理”按钮之后，隐藏其他卡片，显示文章管理的卡片，发送ajax请求，拿到分页数据
     $("#article-manage-item").click(function () {
         // 显示和隐藏卡片
-        $("#personal-info-table").attr("display","none");
-        $("#manage-articles").attr("display","block");
+        $(".personal-info").css("display","none");
+        $(".manage-articles").css("display","block");
         // 直接去第 pn 页
         to_page(1);
     });
+
+    // 点击”个人信息“按钮之后，隐藏其他卡片，显示个人信息卡片
+    $("#personal-info-item").click(function () {
+       // 显示和隐藏卡片
+        $(".personal-info").css("display","block");
+        $(".manage-articles").css("display","none");
+    });
+
+    //绑定修改个人信息点击事件
+    $("#edit-personal-info").click(function () {
+        // 显示保存和取消按钮
+        $("#save-personal-info").css("display", "block");
+        $("#cancel-personal-info").css("display", "block");
+        $("#edit-personal-info").css("display", "none");
+        // 将input标签变为可修改的
+        $(".personal-info input").removeAttr("disabled");
+        // 添加性别的选择click
+        $.each($(".user-sex>div"), function (item, index) {
+            item.onclick = function (){
+                alert("hello");
+            }
+        });
+    });
+
+    // 保存并更新用户信息，也就是要更新user信息并重新跳转到这个页面
+    $("#save-personal-info").click(function () {
+
+    })
+
+    // 取消保存用户信息，也就是直接返回
+    $("#cancel-personal-info").click(function () {
+
+    })
+
+
 
     //修改按钮，应该打开写文章的页面并填充上相应的文章
     //发送请求直接返回到edit页面
@@ -169,9 +197,6 @@
 
     //去第 pn 页
     function to_page(pn) {
-        <%
-            User user = (User)session.getAttribute("user");
-        %>
         $.ajax({
             url:"articles/" + "<%=user.getUserId()%>",
             type:"GET",

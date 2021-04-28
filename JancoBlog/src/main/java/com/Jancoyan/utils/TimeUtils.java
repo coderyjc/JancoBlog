@@ -27,5 +27,14 @@ public class TimeUtils {
         return String.valueOf(System.currentTimeMillis());
     }
 
+    /**
+     * 将java Date 将对象转化为日期字符串形式
+     * @param date
+     * @return
+     */
+    public static String convertDateToTimeString(Date date){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return simpleDateFormat.format(date);
+    }
 
 }
