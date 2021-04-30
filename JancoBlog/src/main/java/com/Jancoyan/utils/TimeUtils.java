@@ -1,6 +1,7 @@
 package com.Jancoyan.utils;
 
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -9,6 +10,23 @@ import java.util.Date;
  * @author Jancoyan
  */
 public class TimeUtils {
+
+    /**
+     * 把日期字符串转化为日期类型
+     * @param dateStr 日期字符串
+     * @return 日期类型
+     */
+    public static Date castDateStringToDateType(String dateStr){
+        Date date = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            date = sdf.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
 
     /**
      * 获取当前系统时间，格式为 yyyy-MM-dd HH:mm:ss
@@ -32,7 +50,7 @@ public class TimeUtils {
      * @param date
      * @return
      */
-    public static String convertDateToTimeString(Date date){
+    public static String castDateTypeToDateString(Date date){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return simpleDateFormat.format(date);
     }

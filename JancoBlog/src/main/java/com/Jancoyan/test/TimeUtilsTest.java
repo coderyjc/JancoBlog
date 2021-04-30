@@ -9,6 +9,15 @@ import java.util.Date;
 public class TimeUtilsTest {
 
     /**
+     * 把时间字符串转化为Date类型
+     */
+    @Test
+    public void testCastTimeStringToDateType(){
+        System.out.println(TimeUtils.castDateStringToDateType("2021-11-23"));
+    }
+
+
+    /**
      * 测试获取当前时间 年-月-日 时:分:秒
      */
     @Test
@@ -28,6 +37,6 @@ public class TimeUtilsTest {
 
     @Test
     public void testConvert(){
-        System.out.println(TimeUtils.convertDateToTimeString(new Date()));
+        System.out.println(TimeUtils.castDateTypeToDateString(new Date()));
     }
 }

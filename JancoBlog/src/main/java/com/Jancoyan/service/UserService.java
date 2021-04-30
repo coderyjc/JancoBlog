@@ -18,13 +18,23 @@ public class UserService {
     @Autowired
     UserMapper userMapper;
 
+
     /**
-     *
+     * 更新不为空的字端
+     * @param user 用户
+     * @return 更新完成的用户
+     */
+    public User updateUserSelective(User user) {
+        userMapper.updateByPrimaryKeySelective(user);
+        return user;
+    }
+
+    /**
+     * 登录
      * @param user 用户，其中只有用户名和密码
-     * @return
+     * @return 登录成功返回用户对象存到session中
      */
     public User login(User user) {
-        boolean success = false;
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         criteria.andUserNameEqualTo(user.getUserName());

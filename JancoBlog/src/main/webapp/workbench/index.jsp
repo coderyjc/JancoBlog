@@ -58,7 +58,7 @@
             </tr>
             <tr>
                 <td>邮箱</td>
-                <td><input type="text" disabled="disabled" name="name" id="user-name"
+                <td><input type="text" disabled="disabled" name="name" id="user-email"
                            value="<%=user.getUserEmail()%>" /></td>
             </tr>
             <tr>
@@ -66,15 +66,15 @@
                 <td>
                     <div class="user-sex">
                         <div class="male <%=user.getUserSex() == 1 ? "choose" : ""%>">男</div>
-                        <div class="famali <%=user.getUserSex() == 0 ? "choose" : ""%>">女</div>
-                        <div class="none <%=user.getUserSex() == null ? "choose" : ""%>">未知</div>
+                        <div class="famale <%=user.getUserSex() == 0 ? "choose" : ""%>">女</div>
+                        <div class="none <%=user.getUserSex() == -1 ? "choose" : ""%>">未知</div>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>账号创建日期</td>
-                <td><input type="text" disabled="disabled" name="name" id="user-name"
-                           value="<%=TimeUtils.convertDateToTimeString(user.getUserCreateDate())%>" /></td>
+                <td><input type="text" disabled="disabled" name="name" id="user-create-date"
+                           value="<%=TimeUtils.castDateTypeToDateString(user.getUserCreateDate())%>" placeholder="格式：2001-12-1"/></td>
             </tr>
         </table>
         <button id="edit-personal-info">编辑</button>
@@ -137,30 +137,99 @@
     //绑定修改个人信息点击事件
     $("#edit-personal-info").click(function () {
         // 显示保存和取消按钮
-        $("#save-personal-info").css("display", "block");
-        $("#cancel-personal-info").css("display", "block");
+        $("#save-personal-info").css("display", "inline");
+        $("#cancel-personal-info").css("display", "inline");
         $("#edit-personal-info").css("display", "none");
         // 将input标签变为可修改的
         $(".personal-info input").removeAttr("disabled");
         // 添加性别的选择click
         $.each($(".user-sex>div"), function (item, index) {
-            item.onclick = function (){
-                alert("hello");
+            item.onclick = function () {
+                alert("Hello!");
             }
         });
     });
 
+    // 目前还没有对用户名或邮箱进行查重
     // 保存并更新用户信息，也就是要更新user信息并重新跳转到这个页面
     $("#save-personal-info").click(function () {
+        // 完成赋值
+        var userName =  $("#user-name").val();
+        var email = $("#user-email").val();
+        var creat = $("#user-create-date").val();
+        var sex = -1;
+        if($(".male").hasClass("choose")){
+            sex = 1;
+        } else if($(".famale").hasClass("choose")) {
+            sex = 0;
+        }
 
-    })
+        console.log(userName);
+        console.log(email);
+        console.log(creat);
+        console.log(sex);
+
+        // 进行正则表达式格式判断
+        var nameReg = /^[\u4E00-\u9FA5A-Za-z0-9]{2,20}$/;
+        if(!nameReg.test(userName)){
+            alert("用户名格式不对");
+            return;
+        }
+        var emailReg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        if(!emailReg.test(email)){
+            alert("用户邮箱格式不对")
+            return;
+        }
+        var birthdayReg =
+            /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
+        if(!birthdayReg.test(creat)){
+            alert("用户生日日期不对");
+        }
+
+        $.ajax({
+            url: "user",
+            type: "POST",
+            data: {
+                "userNickName": userName,
+                "userEmail" : email,
+                "userSex" : sex,
+                "userBirthdayDay" : creat
+            },
+            success : function (result) {
+                alert("更新成功");
+            //    变更当前的页面的信息，并加上disabled
+            //    更新成功意味着修改之后的值全都符合规范，所以直接锁上输入文本框就行了
+            //    锁上输入框的文本
+                $("#user-name").attr("disabled", "disabled");
+                $("#user-email").attr("disabled", "disabled");
+                $("#user-create-date").attr("disabled", "disabled");
+            //    移除性别按钮的点击事件
+                $(".user-sex>div").removeAttr("click");
+            //    隐藏“保存” 和“取消” 按钮
+                $("#save-personal-info").css("display", "none");
+                $("#cancel-personal-info").css("display", "none");
+                $("#edit-personal-info").css("display", "inline");
+            }
+        })
+    });
 
     // 取消保存用户信息，也就是直接返回
     $("#cancel-personal-info").click(function () {
-
-    })
-
-
+        // 填充input的信息
+        $("#user-name").val("<%=user.getUserNickname()%>");
+        $("#user-email").val("<%=user.getUserEmail()%>");
+        $("#user-create-date").val("<%=TimeUtils.castDateTypeToDateString(user.getUserCreateDate())%>");
+        //先把性别的选择去掉
+        $(".user-sex>div").removeClass("active");
+        //然后把应该选择的选上
+        if(1 == <%=user.getUserSex()%>){
+            alert("1");
+        }else if(0 == <%=user.getUserSex()%>){
+            alert("23");
+        }else {
+            alert('asd');
+        }
+    });
 
     //修改按钮，应该打开写文章的页面并填充上相应的文章
     //发送请求直接返回到edit页面
