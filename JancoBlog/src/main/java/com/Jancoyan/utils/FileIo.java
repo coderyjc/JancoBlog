@@ -1,10 +1,9 @@
 package com.Jancoyan.utils;
 
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.*;
 
 /**
  * 这个类是一个工具类
@@ -15,14 +14,48 @@ public class FileIo {
 
 
     /**
+     * 上传保存文件
+     * @param multipartFile 多文件对象
+     * @param directory 文件夹全程
+     * @param fileName 文件名
+     */
+    public static void uploadPicture(MultipartFile multipartFile,
+                                     String directory,
+                                     String fileName){
+        // 文件夹不存在就创建
+        createDirectoryIfNotExists(directory);
+
+        FileOutputStream fileOutputStream = null;
+        String fullPath = directory + "/" + fileName;
+
+        try {
+            fileOutputStream = new FileOutputStream(fullPath);
+            // 文件写入
+            fileOutputStream.write(multipartFile.getBytes());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    /**
      * 如果文件夹不存在，就创建文件夹
      * @param path 文件夹路径
      */
     public static void createDirectoryIfNotExists(String path){
+        System.out.println(path);
         File file = new File(path);
         if(!file.isDirectory()){
-            // 创建文件夹
-            file.mkdir();
+            // 递归创建文件夹
+            file.mkdirs();
         }
     }
 

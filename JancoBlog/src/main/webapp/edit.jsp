@@ -48,7 +48,7 @@
 				flowChart: true,
 				imageFormats: ["jpg", "gif", "png", "jpeg"],
 				imageUpload: true,
-				// imageUploadURL:"uploadarticlepicture",
+				imageUploadURL:"uploadarticlepicture",
 				value: '<%=content == null ? "" : content%>'
 			});
 
@@ -179,7 +179,7 @@
 					'innerHTML': articleContent,
 					'innerMD' : mdContent,
 					'userId': <%=user.getUserId()%>,
-					'userNickname': <%=user.getUserNickname()%>,
+					'userNickname': '<%=user.getUserNickname()%>',
 					'title': $("#title_input_text").val(),
 					'type': typeId, // 先用101试试
 				},
