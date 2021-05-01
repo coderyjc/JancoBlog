@@ -78,6 +78,80 @@ body{
 }
 
 
+/* 评论区 */
+.article-comment{
+    margin: 10px auto;
+    width: 70%;
+}
+
+.comment-title{
+    font-size: 30px;
+}
+
+/* ajax拉取的评论列表 */
+.comment-box:nth-child(1){
+    margin-top: 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.comment-box:last-child{
+    margin-bottom: 15px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.comment-box{
+    margin: 0 auto;
+    border: 1px solid black;
+    width: 90%;
+    padding: 15px;
+    background-color: #FFFFFC;
+}
+
+.comment-conetnt{
+    margin-top: 10px;
+    word-wrap: break-word;
+}
+
+.comment-author{
+    color: gray;
+    float: left;
+}
+
+.comment-ip{
+    color: gray;
+    float: right;
+}
+
+/* 用户添加评论 */
+.add-comment>textarea{
+    resize: none;
+    overflow: auto;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 10px;
+    border: 1px solid gray;
+}
+
+.add-comment>button{
+    font-size: 15px;
+    width: 100px;
+    height: 30px;
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 10px;
+    border: 1px solid gray;
+}
+
+.add-comment>button:hover{
+    background-color: #bababa;
+}
+
+.add-comment>button:active{
+    background-color: #888888;
+    color: white;
+}
 
 /* 页脚 */
 footer{

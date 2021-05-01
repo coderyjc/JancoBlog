@@ -9,8 +9,19 @@ $(function(){
     get_sub_types();
     get_super_types()
     build_page();
+    // è·å–æ–‡ç« è¯„è®º
+    get_comments();
 
+    $(".add-comment-btn").click(function (){
+        alert("Hello");
+    });
 });
+
+
+function get_comments(){
+    alert("è·å–è¯„è®ºï¼");
+}
+
 
 
 function get_article(){
@@ -53,7 +64,7 @@ function get_super_types() {
 }
 
 function build_page(){
-    $(".article-view-time").append("ä¯ÀÀÁ¿£º"+ article.articleViewTime);
+    $(".article-view-time").append("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"+ article.articleViewTime);
 
     var superPath = "../../sortlist.jsp?type=" + superType.typeId;
     var superTypeA = $("<a></a>").attr("href", superPath).append(superType.typeName);
