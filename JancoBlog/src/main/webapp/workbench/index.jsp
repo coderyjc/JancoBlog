@@ -72,7 +72,7 @@
                 </td>
             </tr>
             <tr>
-                <td>账号创建日期</td>
+                <td>生日</td>
                 <td><input type="text" disabled="disabled" name="name" id="user-create-date"
                            value="<%=TimeUtils.castDateTypeToDateString(user.getUserCreateDate())%>" placeholder="格式：2001-12-1"/></td>
             </tr>
@@ -143,9 +143,10 @@
         // 将input标签变为可修改的
         $(".personal-info input").removeAttr("disabled");
         // 添加性别的选择click
-        $.each($(".user-sex>div"), function (item, index) {
-            item.onclick = function () {
-                alert("Hello!");
+        $.each($(".user-sex>div"), function (index, item) {
+            item.onclick = function(){
+                $(".user-sex>div").removeClass("choose");
+                item.classList.add("choose");
             }
         });
     });
@@ -164,11 +165,6 @@
             sex = 0;
         }
 
-        console.log(userName);
-        console.log(email);
-        console.log(creat);
-        console.log(sex);
-
         // 进行正则表达式格式判断
         var nameReg = /^[\u4E00-\u9FA5A-Za-z0-9]{2,20}$/;
         if(!nameReg.test(userName)){
@@ -184,6 +180,7 @@
             /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
         if(!birthdayReg.test(creat)){
             alert("用户生日日期不对");
+            return;
         }
 
         $.ajax({
@@ -208,7 +205,7 @@
             //    隐藏“保存” 和“取消” 按钮
                 $("#save-personal-info").css("display", "none");
                 $("#cancel-personal-info").css("display", "none");
-                $("#edit-personal-info").css("display", "inline");
+                $("#edit-personal-info").css("display", "block");
             }
         })
     });
@@ -216,19 +213,22 @@
     // 取消保存用户信息，也就是直接返回
     $("#cancel-personal-info").click(function () {
         // 填充input的信息
-        $("#user-name").val("<%=user.getUserNickname()%>");
-        $("#user-email").val("<%=user.getUserEmail()%>");
-        $("#user-create-date").val("<%=TimeUtils.castDateTypeToDateString(user.getUserCreateDate())%>");
+        $("#user-name").val("<%=user.getUserNickname()%>").attr("disabled", "disabled");
+        $("#user-email").val("<%=user.getUserEmail()%>").attr("disabled", "disabled");
+        $("#user-create-date").val("<%=TimeUtils.castDateTypeToDateString(user.getUserCreateDate())%>").attr("disabled", "disabled");
         //先把性别的选择去掉
         $(".user-sex>div").removeClass("active");
         //然后把应该选择的选上
         if(1 == <%=user.getUserSex()%>){
-            alert("1");
+            $(".male").addClass("choose");
         }else if(0 == <%=user.getUserSex()%>){
-            alert("23");
+            $(".famale").addClass("choose");
         }else {
-            alert('asd');
+            $(".none").addClass("choose");
         }
+        $("#edit-personal-info").css("display","block");
+        $("#cancel-personal-info").css("display", "none");
+        $("#save-personal-info").css("display", "none");
     });
 
     //修改按钮，应该打开写文章的页面并填充上相应的文章
@@ -249,8 +249,6 @@
     $(document).on("click", ".delete-btn", function () {
         var articleTitle = $(this).parents("tr").find("td:eq(1)").text();
         var articleId = $(this).attr("delete-id");
-
-        console.log(articleId);
 
         if(confirm("确认删除" + articleTitle + "吗？")){
             $.ajax({
