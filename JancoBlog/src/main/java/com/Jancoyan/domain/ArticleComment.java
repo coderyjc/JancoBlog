@@ -9,6 +9,16 @@ public class ArticleComment extends ArticleCommentKey {
 
     private String commentContent;
 
+    @Override
+    public String toString() {
+        return "ArticleComment{" +
+                "authorNickname='" + authorNickname + '\'' +
+                ", authorIp='" + authorIp + '\'' +
+                ", likeCount=" + likeCount +
+                ", commentContent='" + commentContent + '\'' +
+                '}';
+    }
+
     public String getAuthorNickname() {
         return authorNickname;
     }

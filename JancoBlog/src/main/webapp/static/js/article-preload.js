@@ -9,27 +9,99 @@ $(function(){
     get_sub_types();
     get_super_types()
     build_page();
-    // è·å–æ–‡ç« è¯„è®º
+    // »ñÈ¡ÎÄÕÂÆÀÂÛ
     get_comments();
 
+    // Ìí¼Ó±Ê¼ÇµÄ°´Å¥ÊÂ¼ş
     $(".add-comment-btn").click(function (){
-        // è·å–ç›¸å…³ä¿¡æ¯
-        var nickName = $("#edit-comment-author").val();
-        var email = $("#edit-comment-email").val();
-        var content = $("#edit-comment-content").val();
-        console.log(nickName);
-        console.log(email);
-        console.log(content);
+        // »ñÈ¡Ïà¹ØĞÅÏ¢
+        let nickName = $("#edit-comment-author").val();
+        let email = $("#edit-comment-email").val();
+        let content = $("#edit-comment-content").val();
+        // ½øĞĞºÏ·¨Ğ£Ñé
+        var nameReg = /^[\u4E00-\u9FA5A-Za-z0-9]{2,20}$/;
+        if(!nameReg.test(nickName)){
+            alert("ÓÃ»§Ãû¸ñÊ½²»¶Ô");
+            return;
+        }
+        var emailReg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        if(!emailReg.test(email)){
+            alert("ÓÃ»§ÓÊÏä¸ñÊ½²»¶Ô");
+            return;
+        }
+        if("" === content){
+            alert("ÄÚÈİ²»ÄÜÎª¿Õ");
+            return;
+        }
+
+        // ·¢ËÍajaxÇëÇó½øĞĞÌí¼Ó
+        $.ajax({
+            url: "../../comment",
+            type: "POST",
+            data: {
+                "id" : article.articleId,
+                "nickName": nickName,
+                "email": email,
+                "content" : content
+            },
+            success: function (result) {
+                let comment = result.extend.comment;
+                // ÔÚÆÀÂÛÇøÌí¼ÓÕâÒ»ÌõÆÀÂÛ
+                $(".comment-list").append(create_comment_box(comment));
+                // Çå¿Õ±à¼­Çø
+                $("#edit-comment-author").val("");
+                $("#edit-comment-email").val("");
+                $("#edit-comment-content").val("");
+            }
+        });
     });
 });
 
 
+/**
+ * Ò³Ãæ¼ÓÔØÍê±ÏÖ®ºó¼ÓÔØÆÀÂÛ
+ */
 function get_comments(){
     $.ajax({
-
+        url: "../../comments",
+        data: "id=" + article.articleId,
+        type : "GET",
+        success: function (result) {
+            var comments = result.extend.comments;
+            var list = $(".comment-list");
+            // ±éÀúÌí¼Ó
+            $.each(comments, function (index, item) {
+                list.append(create_comment_box(item));
+            });
+        }
     })
 }
 
+/**
+ * ´´ÔìÆÀÂÛbox
+ * @param comment ÆÀÂÛ¶ÔÏó
+ * @returns {*|jQuery} ·µ»ØÆÀÂÛbox
+ */
+function create_comment_box(comment) {
+    var commentBox = $("<div></div>").addClass("comment-box clearfix");
+
+    var commentAuthorInfo = $("<div></div>").addClass("comment-author-info")
+        .append($("<div class='comment-author'></div>").append("êÇ³Æ£º" + comment.authorNickname))
+        .append($("<div class='comment-ip'></div>").append("µØÖ·£º" + comment.authorIp));
+    var commentContent = $("<div></div>").addClass("comment-conetnt").append(comment.commentContent);
+    var otherInfo = $("<div class='comment-other-info'></div>")
+        .append($("<div class='comment-date'></div>").append(dateFormat(comment.commentDate)));
+
+    commentBox.append(commentAuthorInfo)
+        .append("<br>")
+        .append(commentContent)
+        .append(otherInfo);
+    return commentBox;
+}
+
+/**
+ * ajax»ñÈ¡ÎÄÕÂ
+ */
 function get_article(){
     var currentPath = window.location.href;
     var prop = currentPath.split("/");
@@ -45,6 +117,9 @@ function get_article(){
     });
 }
 
+/**
+ * ajax»ñÈ¡¶ş¼¶ÀàĞÍ
+ */
 function get_sub_types() {
     $.ajax({
         url: "../../types",
@@ -57,6 +132,9 @@ function get_sub_types() {
     })
 }
 
+/**
+ * ajax»ñÈ¡¸¸¼¶ÀàĞÍ
+ */
 function get_super_types() {
     $.ajax({
         url: "../../types",
@@ -69,15 +147,37 @@ function get_super_types() {
     })
 }
 
+/**
+ * ¸ù¾İ»ñÈ¡µ½µÄÎÄÕÂºÍÀàĞÍ½øĞĞÒ³ÃæµÄ½¨Á¢
+ */
 function build_page(){
-    $(".article-view-time").append("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"+ article.articleViewTime);
+    $(".article-view-time").append("ä¯ÀÀÁ¿£º"+ article.articleViewTime);
+    if(superType != null){
+        var superPath = "../../sortlist.jsp?type=" + superType.typeId;
+        var superTypeA = $("<a></a>").attr("href", superPath).append(superType.typeName);
+        $(".article-sort").append(superTypeA);
+    }
+    if(subType != null){
+        var subPath = "../../sortlist.jsp?type=" + subType.typeId;
+        var subTypeA = $("<a></a>").attr("href", subPath).append(subType.typeName);
+        $(".article-sort").append(" > ")
+        $(".article-sort").append(subTypeA);
+    }
+}
 
-    var superPath = "../../sortlist.jsp?type=" + superType.typeId;
-    var superTypeA = $("<a></a>").attr("href", superPath).append(superType.typeName);
-    var subPath = "../../sortlist.jsp?type=" + subType.typeId;
-    var subTypeA = $("<a></a>").attr("href", subPath).append(subType.typeName);
-    $(".article-sort")
-        .append(superTypeA)
-        .append(" > ")
-        .append(subTypeA);
+/**
+ * ½«Ê±¼ä´Á×ª»¯Îª±ê×¼Ê±¼ä
+ * @param date Ê±¼ä´Á
+ * @returns {string} ±ê×¼Ê±¼ä×Ö·û´®
+ */
+function dateFormat(date) {
+    var s = new Date(date)
+    var y = s.getFullYear()
+    var m = (s.getMonth() + 1) < 10 ? '0' + (s.getMonth() + 1) : (s.getMonth() + 1)
+    var dd = s.getDate() < 10 ? '0' + s.getDate() : s.getDate()
+    var hh = s.getHours() < 10 ? '0' + s.getHours() : s.getHours()
+    var mm = s.getMinutes() < 10 ? '0' + s.getMinutes() : s.getMinutes()
+    var ss = s.getSeconds() < 10 ? '0' + s.getSeconds() : s.getSeconds()
+    var enddate = y + '-' + m + '-' + dd + ' ' + hh + ':' + mm + ":" + ss
+    return enddate
 }

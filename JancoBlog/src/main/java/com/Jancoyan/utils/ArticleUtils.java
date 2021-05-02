@@ -70,8 +70,9 @@ public class ArticleUtils {
                 "<div class=\"article-submit-time\">发布时间：" + TimeUtils.getCurrentTimeString() + "</div>" +
                 "<div class=\"article-view-time\"></div>" +
                 "</div><div class=\"article-content\">" + innerHTML + "</div>" +
-                "<div class=\"article-comment\">\n" +
+                "<div class=\"article-comment\">" +
                 "<div class=\"comment-title\">添加笔记</div> <hr>" +
+                "<div class=\"comment-list\"></div>" +
                 "<div class=\"add-comment\">" +
                 "<textarea placeholder=\"昵称\" id=\"edit-comment-author\" rows=\"1\" cols=\"110\"></textarea>" +
                 "<textarea placeholder=\"邮箱\" id=\"edit-comment-email\" rows=\"1\" cols=\"110\"></textarea>" +

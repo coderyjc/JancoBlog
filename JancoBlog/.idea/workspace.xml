@@ -33,20 +33,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1396a05c-84b7-4b67-ad6a-3fd7d55d47cd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/CommentController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/dao/ArticleCommentMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/ArticleComment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/ArticleCommentExample.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/ArticleCommentKey.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/service/CommentService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/ArticleCommentMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mbg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mbg.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/FileIo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/FileIo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/css/article.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/css/article.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/CommentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/ArticleComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/ArticleComment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/ArticleUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/ArticleUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/article-preload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/article-preload.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../前端原型/article.html" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/article.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../前端原型/css/article.css" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/css/article.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -436,7 +428,7 @@
       <workItem from="1619697762837" duration="439000" />
       <workItem from="1619826650323" duration="18891000" />
       <workItem from="1619852926590" duration="55000" />
-      <workItem from="1619910325868" duration="3027000" />
+      <workItem from="1619910325868" duration="8791000" />
     </task>
     <task id="LOCAL-00001" summary="change directory structure">
       <created>1617886671821</created>
