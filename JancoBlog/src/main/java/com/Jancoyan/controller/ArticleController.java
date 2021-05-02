@@ -52,6 +52,8 @@ public class ArticleController {
      *  - POST 增加文章的浏览量
      *  /article/like
      *  - POST 文章点赞功能
+     *  /article/comment
+     *  - POST 文章评论数量的增加
      */
 
 
@@ -85,8 +87,6 @@ public class ArticleController {
         Article article = articleService.selectByPrimaryKey(id);
         return Msg.success().add("article", article);
     }
-
-
 
     /**
      * 获取最热门的10篇文章
@@ -127,6 +127,9 @@ public class ArticleController {
         // 写入HTML
         String fileName = article.getArticleId();
         String path = ConstUtils.CURRENTPATH + "\\static\\p\\" + fileName + ".html";
+        // 先删除这个文章
+        FileIo.deleteFileIfExists(path);
+        // 再写入这个文章
         FileIo.writeFile(path, content);
 
         //将md文件直接写入文件
@@ -227,7 +230,7 @@ public class ArticleController {
         Article article = articleService.getArticleByPrimaryKey(id);
         // 获取md文件的内容
         String path = ConstUtils.CURRENTPATH +  "\\static\\md\\" + id + ".md";
-        String articleContent = FileIo.readMarkDownFile(path);
+        String articleContent = FileIo.readFile(path);
         // 把数据放在session中，编辑提交完页面之后再删掉
         session.setAttribute("article", article);
         // 传入过滤之后的文本
@@ -247,7 +250,8 @@ public class ArticleController {
         articleService.deleteByPrimaryKey(id);
         String path = ConstUtils.CURRENTPATH + "\\static\\p\\" + id + ".html";
         String mdPath = ConstUtils.CURRENTPATH + "\\static\\md\\" + id + ".md";
-        boolean success = FileIo.deleteFile(path) && FileIo.deleteFile(mdPath);
+        boolean success =
+                FileIo.deleteFile(path) && FileIo.deleteFile(mdPath) && FileIo.deleteImagesInHtmlFile(path);
         return Msg.success().add("success", success);
     }
 
@@ -338,6 +342,22 @@ public class ArticleController {
         article.setArticleId(id);
         // 这一步从数据库中拿到数据，把选中的字段+1，而不是直接使用前端传来的数据
         article.setArticleViewTime(articleService.selectByPrimaryKey(id).getArticleViewTime() + 1);
+        articleService.updateByPrimaryKeySelective(article);
+        return Msg.success();
+    }
+
+    /**
+     * 文章评论数量的增加
+     * @param id 文章id
+     * @return 成功
+     */
+    @ResponseBody
+    @RequestMapping(value = "/article/comment", method = RequestMethod.POST)
+    public Msg addCommentCount(String id){
+        Article article = new Article();
+        article.setArticleId(id);
+        // 从数据库中拿到数据之后把选中的字段+1
+        article.setArticleCommentCount(articleService.selectByPrimaryKey(id).getArticleCommentCount() + 1);
         articleService.updateByPrimaryKeySelective(article);
         return Msg.success();
     }

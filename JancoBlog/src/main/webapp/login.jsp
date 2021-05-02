@@ -38,13 +38,6 @@
 </div>
 <script>
 
-<%--&lt;%&ndash;按下回车键进行登录&ndash;%&gt;--%>
-<%--    $("#userPwd").keydown(function (event) {--%>
-<%--        if(event.which == 13 && $("#userPwd").val() != "" && $("#userName").val() != ""){--%>
-<%--            login();--%>
-<%--        }--%>
-<%--    });--%>
-
 <%--点击登录按钮进行登录--%>
     $("#login-btn").click( function() {
         $.ajax({

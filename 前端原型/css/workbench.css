@@ -4,6 +4,10 @@
     padding:0;
 }
 
+a{
+    text-decoration: none;
+}
+
 /* 全局的a标签的初始状态 */
 a:link, a:visited, a:hover, a:active{
     color: black;
@@ -78,88 +82,92 @@ h1{
 }
 
 /* 功能实现 */
-.personal-info, .manage-articles{
-	float: left;
-	width: 80%;
-	height: 600px;
-	display: none;
+
+/* 整个workbench的所有box开始的时候是隐藏的,然后设置全局属性 */
+.personal-info,.manage-articles,.manage-comment,.change-password{
+    float: left;
+    width: 80%;
+    display: none;
 }
 
-.manage-articles{
-	display: block;
-}
+/* 个人信息管理box */
 
 .personal-info{
-	text-align: center;
+    text-align: center;
 }
 
 .personal-info>div{
-	height: 50px;
-	margin-bottom: 10px;
-	
+    height: 50px;
+    margin-bottom: 10px;
+
 }
 
 .personal-info>table{
-	height: 50px;
-	line-height: 50px;
-	font-size: 20px;
-	padding-left: 60px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+    padding-left: 60px;
 }
 
 .personal-info td{
-	width: 200px;
+    width: 200px;
 }
 
 .personal-info input{
-	height: 30px;
-	width: 100%;
-	border-radius: 10px;
+    height: 30px;
+    width: 100%;
+    border-radius: 10px;
 }
 
 .user-sex{
-	height: 40px;
+    height: 40px;
 }
 
 .user-sex>div{
-	display: inline-block;
-	width: 40%;
-	height: 80%;
-	border: gray 1px solid;
-	border-radius: 10px;
-	line-height: 40px;
-	curser: pointer;
+    display: inline-block;
+    width: 30%;
+    height: 60%;
+    border: gray 1px solid;
+    border-radius: 10px;
+    line-height: 24px;
+    curser: pointer;
 }
 
 .user-sex>.choose{
-	background-color: #14d0ff;
-	border-color: #14d0ff;
-	color: white;
+    background-color: #14d0ff;
+    border-color: #14d0ff;
+    color: white;
 }
 
 .personal-info>button{
-	border-radius: 15px;
-	color: white;
-	border: none;
-	cursor: pointer;
-	margin: 20px auto;
-	height: 30px;
-	width: 80px;
+    border-radius: 15px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 20px auto;
+    height: 30px;
+    width: 80px;
 }
 
 #edit-personal-info,#save-personal-info{
-	background-color: #14D0FF;
-}	
+    background-color: #14D0FF;
+}
 
 #cancel-personal-info{
-	background-color: #a3a3a3;
+    background-color: #a3a3a3;
+}
+
+#save-personal-info,#cancel-personal-info{
+    display: none;
 }
 
 #edit-personal-info:active,#save-personal-info:active{
-	background-color: #0c9eff;
+    background-color: #0c9eff;
 }
 #cancel-personal-info:active{
-	background-color: #818181;
+    background-color: #818181;
 }
+
 
 /* 文章管理的表格 */
 #article-list{
@@ -189,62 +197,102 @@ h1{
 	border-radius: 5px;
 }
 
-#edit-btn{
-	color: white;
-	background-color: #54ccff;
-	border: #000;
+.edit-btn{
+    color: white;
+    background-color: #54ccff;
+    border: #000;
 }
-#edit-btn:active{
-	background-color: #2a98c0;
-}
-
-#del-btn{
-	color: white;
-	background-color: #d31f3a;
-	border: #000;
-}
-#del-btn:active{
-	background-color: #A52A2A;
+.edit-btn:active{
+    background-color: #2a98c0;
 }
 
+.delete-btn{
+    color: white;
+    background-color: #d31f3a;
+    border: #000;
+}
+.delete-btn:active{
+    background-color: #A52A2A;
+}
+
+
+/* 评论管理 */
+
+
+
+
+
+/* 修改密码 */
+
+.change-password{
+	text-align: center;
+}
+
+.change-password input{
+	font-size: 20px;
+	margin: 10px;
+	padding: 5px;
+	width: 50%;
+}
+
+.change-password button{
+	font-size: 20px;
+	margin: 10px auto;
+	border-radius: 10px;
+	padding: 5px 10px;
+	border: none;
+	background-color: #3dd5ff;
+	color: #000000;
+}
+
+.change-password button:hover{
+	background-color: #3aecff;
+}
+
+.change-password button:active{
+	color: white;
+}
+
+/* 分页条 */
 
 .pagination{
-	list-style-type: none;
-	padding-left: 0;
-	margin: 20px 0;
-	display: inline-block;
+    list-style-type: none;
+    padding-left: 0;
+    margin: 20px 0;
+    display: inline-block;
 }
 
 #page-nav-bar nav{
-	text-align: center;
+    text-align: center;
 }
 
 .pagination>li{
-	text-align: center;
-	float: left;
-	display: inline;
-	padding: 5px 10px;
-	border: 1px solid #989898;
+    text-align: center;
+    float: left;
+    display: inline;
+    padding: 5px 10px;
+    border: 1px solid #989898;
 }
 
 .pagination>li:hover{
-	background-color: #cfcfcf;
+    background-color: #cfcfcf;
 }
 
 .pagination .active{
-	background-color: #a6a6a6;
+    background-color: #a6a6a6;
 }
 
 .pagination .disabled{
-	pointer-events: none;
+    pointer-events: none;
 }
 
-
-.manage-articles{
-	display: none;
+/* 显示个人信息的表单 */
+.personal-info form{
+	margin: 20px 30px;
 }
 
-.personal-info{
-	display: block;
+#personal-info-table{
+	border: none;
+	width: 100%;
+	heigh: 30px;
 }
-

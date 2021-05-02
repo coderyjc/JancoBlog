@@ -33,12 +33,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1396a05c-84b7-4b67-ad6a-3fd7d55d47cd" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/test/MD5Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/MD5Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/CommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/ArticleComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/ArticleComment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/ArticleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/test/FileIOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/test/FileIOTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/ArticleUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/ArticleUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/FileIo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/FileIo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/edit.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/edit.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/article-preload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/article-preload.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/workbench/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/workbench/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../前端原型/css/workbench.css" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/css/workbench.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../前端原型/workbench/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/workbench/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +87,7 @@
     <setting file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/Jancoyan/service/TypeService.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/dispatcherServlet-servlet.xml" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/workbench/index.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/workbench/index.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/pom.xml" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/mbg.xml" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/mybatis.xml" root0="SKIP_INSPECTION" />
@@ -85,8 +95,10 @@
     <setting file="file://$PROJECT_DIR$/src/main/webapp/index.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/applicationContext.xml" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/mapper/TypeMapper.xml" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/static/js/article-preload.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/ArticleController.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/Msg.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/CommentController.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/edit.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/static/css/index.css" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/static/css/edit_other.css" root0="FORCE_HIGHLIGHTING" />
@@ -151,7 +163,7 @@
       <recent name="R:\GITHUB\JancoBlog\JancoBlog\src\main\java" />
     </key>
   </component>
-  <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.431">
+  <component name="RunManager" selected="JUnit.FileIOTest.testDeleteImagesFromHtml">
     <configuration name="MBGTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.Jancoyan.test.MBGTest" />
       <module name="JancoBlog" />
@@ -176,7 +188,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ArticleUtilsTest.testNextLineToText" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="FileIOTest.testDeleteImagesFromHtml" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JancoBlog" />
       <extension name="coverage">
         <pattern>
@@ -185,14 +197,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.Jancoyan.test" />
-      <option name="MAIN_CLASS_NAME" value="com.Jancoyan.test.ArticleUtilsTest" />
-      <option name="METHOD_NAME" value="testNextLineToText" />
+      <option name="MAIN_CLASS_NAME" value="com.Jancoyan.test.FileIOTest" />
+      <option name="METHOD_NAME" value="testDeleteImagesFromHtml" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ArticleUtilsTest.testReplaceNextLine" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MD5Test.testMD5" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JancoBlog" />
       <extension name="coverage">
         <pattern>
@@ -201,8 +213,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.Jancoyan.test" />
-      <option name="MAIN_CLASS_NAME" value="com.Jancoyan.test.ArticleUtilsTest" />
-      <option name="METHOD_NAME" value="testReplaceNextLine" />
+      <option name="MAIN_CLASS_NAME" value="com.Jancoyan.test.MD5Test" />
+      <option name="METHOD_NAME" value="testMD5" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -329,20 +341,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.ArticleUtilsTest.testReplaceNextLine" />
-      <item itemvalue="JUnit.ArticleUtilsTest.testNextLineToText" />
+      <item itemvalue="Application.MBGTest" />
       <item itemvalue="JUnit.TimeUtilsTest.testConvert" />
       <item itemvalue="JUnit.TimeUtilsTest.testCastTimeStringToDateType" />
+      <item itemvalue="JUnit.MD5Test.testMD5" />
       <item itemvalue="Tomcat Server.Tomcat 9.0.431" />
-      <item itemvalue="Application.MBGTest" />
+      <item itemvalue="JUnit.FileIOTest.testDeleteImagesFromHtml" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.FileIOTest.testDeleteImagesFromHtml" />
+        <item itemvalue="JUnit.MD5Test.testMD5" />
         <item itemvalue="Application.MBGTest" />
         <item itemvalue="JUnit.TimeUtilsTest.testCastTimeStringToDateType" />
         <item itemvalue="JUnit.TimeUtilsTest.testConvert" />
-        <item itemvalue="JUnit.ArticleUtilsTest.testNextLineToText" />
-        <item itemvalue="JUnit.ArticleUtilsTest.testReplaceNextLine" />
       </list>
     </recent_temporary>
   </component>
@@ -428,7 +440,11 @@
       <workItem from="1619697762837" duration="439000" />
       <workItem from="1619826650323" duration="18891000" />
       <workItem from="1619852926590" duration="55000" />
-      <workItem from="1619910325868" duration="8791000" />
+      <workItem from="1619910325868" duration="8915000" />
+      <workItem from="1619919856693" duration="2390000" />
+      <workItem from="1619956520217" duration="26000" />
+      <workItem from="1619956836291" duration="1008000" />
+      <workItem from="1619960030917" duration="5623000" />
     </task>
     <task id="LOCAL-00001" summary="change directory structure">
       <created>1617886671821</created>

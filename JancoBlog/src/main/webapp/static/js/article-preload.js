@@ -48,6 +48,7 @@ $(function(){
                 let comment = result.extend.comment;
                 // 在评论区添加这一条评论
                 $(".comment-list").append(create_comment_box(comment));
+                add_article_comment_count();
                 // 清空编辑区
                 $("#edit-comment-author").val("");
                 $("#edit-comment-email").val("");
@@ -163,6 +164,14 @@ function build_page(){
         $(".article-sort").append(" > ")
         $(".article-sort").append(subTypeA);
     }
+}
+
+function add_article_comment_count() {
+    $.ajax({
+        url:"../../article/comment",
+        type:"POST",
+        data: "id=" + article.articleId
+    });
 }
 
 /**

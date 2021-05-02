@@ -199,7 +199,7 @@
 				data: {
 					'innerHTML': articleContent,
 					'innerMD' : mdContent,
-					'userNickname': <%=user.getUserNickname()%>,
+					'userNickname': '<%=user.getUserNickname()%>',
 					'title': $("#title_input_text").val(),
 					'type': typeId, // 先用101试试
 				},

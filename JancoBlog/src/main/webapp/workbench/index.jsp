@@ -42,7 +42,7 @@
     <!-- 功能选择栏 -->
     <div class="function-list">
         <ul class="operate-list">
-            <li><a href="./edit.jsp">写博文</a></li>
+            <li><a href="./edit.jsp" id="write-eassy">写博文</a></li>
             <br>
             <li><a href="javascript:;" id="personal-info-item">个人信息</a></li>
             <li><a href="javascript:;" id="article-manage-item">文章管理</a></li>
@@ -103,8 +103,6 @@
         <div id="page-nav-bar">
         </div>
     </div>
-
-
 </div>
 
 <!-- 页脚 -->
@@ -132,6 +130,18 @@
        // 显示和隐藏卡片
         $(".personal-info").css("display","block");
         $(".manage-articles").css("display","none");
+    });
+
+    // 点击“写博文”按钮之后，删除当前session中的article和content
+    $("#write-eassy").click(function () {
+        <%
+        if(session.getAttribute("content") != null){
+            session.removeAttribute("content");
+        }
+        if(session.getAttribute("article") != null){
+            session.removeAttribute("article");
+        }
+        %>
     });
 
     //绑定修改个人信息点击事件

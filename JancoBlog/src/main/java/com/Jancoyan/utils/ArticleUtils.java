@@ -2,7 +2,6 @@ package com.Jancoyan.utils;
 
 public class ArticleUtils {
 
-
     /**
      * 把换行的\n转换为文本的\n
      * @param str 要替换的文本
@@ -12,7 +11,6 @@ public class ArticleUtils {
         String content = str.replaceAll("\n", "\\\\n");
         return content;
     }
-
 
     /**
      * 删除所有的html标签
@@ -31,7 +29,6 @@ public class ArticleUtils {
         }
         return rst;
     }
-
 
     /**
      * 创建文章

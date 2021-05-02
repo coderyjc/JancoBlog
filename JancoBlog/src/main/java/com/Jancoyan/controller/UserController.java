@@ -2,6 +2,7 @@ package com.Jancoyan.controller;
 
 import com.Jancoyan.domain.User;
 import com.Jancoyan.service.UserService;
+import com.Jancoyan.utils.MD5Util;
 import com.Jancoyan.utils.Msg;
 import com.Jancoyan.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,8 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Msg login(User user, HttpSession session) {
+        // 对密码进行加密
+        user.setUserPwd(MD5Util.getMD5(user.getUserPwd()));
         user = userService.login(user);
         if(user != null){
             session.setAttribute("user", user);

@@ -4,6 +4,8 @@ package com.Jancoyan.utils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 这个类是一个工具类
@@ -12,6 +14,34 @@ import java.io.*;
  */
 public class FileIo {
 
+    /**
+     * 删除指定路径html下面的图像文件
+     * @param path 路径
+     */
+    public static boolean deleteImagesInHtmlFile(String path){
+        // 内容
+        String content = readFile(path);
+        String pattern = "<img (.*?)>";
+        Pattern r = Pattern.compile(pattern);
+        Matcher matcher = r.matcher(content);
+        if (matcher.find()){
+
+        }
+        return true;
+    }
+
+
+
+    /**
+     * 删除指定路径的文件
+     * @param path 文件的全路径
+     */
+    public static void deleteFileIfExists(String path){
+        File file = new File(path);
+        if(file.exists()){
+            file.delete();
+        }
+    }
 
     /**
      * 上传保存文件
@@ -103,7 +133,7 @@ public class FileIo {
      * @param path 文件全路径
      * @return 文件内容
      */
-    public static String readMarkDownFile(String path) {
+    public static String readFile(String path) {
         FileReader reader = null;
         String content = "";
         try {

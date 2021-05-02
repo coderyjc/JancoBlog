@@ -17,6 +17,8 @@ public class CommentService {
     @Autowired
     ArticleCommentMapper articleCommentMapper;
 
+
+
     /**
      * 获取某文章的所有评论, 按照事件降序
      * @param id 文章id
@@ -32,7 +34,7 @@ public class CommentService {
     }
 
     /**
-     * 直接插入文章的评论
+     * 直接插入文章的评论,然后让文章的评论数量+1
      * @param articleComment 文章评论
      */
     public void insertComment(ArticleComment articleComment) {
