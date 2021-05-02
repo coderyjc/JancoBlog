@@ -21,6 +21,17 @@ body{
 
 }
 
+/*清除浮动*/
+.clearfix:before,.clearfix:after{
+    content: "";
+    display: table;
+}
+.clearfix:after{
+    clear: both;
+}
+.clearfix{
+    *zoom: 1;
+}
 
 /* 导航条 */
 .nav{
@@ -100,6 +111,7 @@ body{
     border-bottom-left-radius: 10px;
 }
 
+
 .comment-box{
     margin: 0 auto;
     border: 1px solid black;
@@ -121,6 +133,12 @@ body{
 .comment-ip{
     color: gray;
     float: right;
+}
+
+.comment-date{
+    color: gray;
+    float: left;
+    margin-top: 5px;
 }
 
 /* 用户添加评论 */
@@ -152,6 +170,8 @@ body{
     background-color: #888888;
     color: white;
 }
+
+
 
 /* 页脚 */
 footer{

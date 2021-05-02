@@ -13,16 +13,22 @@ $(function(){
     get_comments();
 
     $(".add-comment-btn").click(function (){
-        alert("Hello");
+        // 获取相关信息
+        var nickName = $("#edit-comment-author").val();
+        var email = $("#edit-comment-email").val();
+        var content = $("#edit-comment-content").val();
+        console.log(nickName);
+        console.log(email);
+        console.log(content);
     });
 });
 
 
 function get_comments(){
-    alert("获取评论！");
+    $.ajax({
+
+    })
 }
-
-
 
 function get_article(){
     var currentPath = window.location.href;

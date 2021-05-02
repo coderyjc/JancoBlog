@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Jancoyan.dao.ArticleCommentMapper">
+  <resultMap id="BaseResultMap" type="com.Jancoyan.domain.ArticleComment">
+    <id column="article_id" jdbcType="VARCHAR" property="articleId" />
+    <id column="author_email" jdbcType="VARCHAR" property="authorEmail" />
+    <id column="comment_date" jdbcType="TIMESTAMP" property="commentDate" />
+    <result column="author_nickname" jdbcType="VARCHAR" property="authorNickname" />
+    <result column="author_ip" jdbcType="VARCHAR" property="authorIp" />
+    <result column="like_count" jdbcType="INTEGER" property="likeCount" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.Jancoyan.domain.ArticleComment">
+    <result column="comment_content" jdbcType="LONGVARCHAR" property="commentContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    article_id, author_email, comment_date, author_nickname, author_ip, like_count
+  </sql>
+  <sql id="Blob_Column_List">
+    comment_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.Jancoyan.domain.ArticleCommentExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_article_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.Jancoyan.domain.ArticleCommentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_article_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.Jancoyan.domain.ArticleCommentKey" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_article_comment
+    where article_id = #{articleId,jdbcType=VARCHAR}
+      and author_email = #{authorEmail,jdbcType=VARCHAR}
+      and comment_date = #{commentDate,jdbcType=TIMESTAMP}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.Jancoyan.domain.ArticleCommentKey">
+    delete from t_article_comment
+    where article_id = #{articleId,jdbcType=VARCHAR}
+      and author_email = #{authorEmail,jdbcType=VARCHAR}
+      and comment_date = #{commentDate,jdbcType=TIMESTAMP}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.Jancoyan.domain.ArticleCommentExample">
+    delete from t_article_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.Jancoyan.domain.ArticleComment">
+    insert into t_article_comment (article_id, author_email, comment_date, 
+      author_nickname, author_ip, like_count, 
+      comment_content)
+    values (#{articleId,jdbcType=VARCHAR}, #{authorEmail,jdbcType=VARCHAR}, #{commentDate,jdbcType=TIMESTAMP}, 
+      #{authorNickname,jdbcType=VARCHAR}, #{authorIp,jdbcType=VARCHAR}, #{likeCount,jdbcType=INTEGER}, 
+      #{commentContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.Jancoyan.domain.ArticleComment">
+    insert into t_article_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="articleId != null">
+        article_id,
+      </if>
+      <if test="authorEmail != null">
+        author_email,
+      </if>
+      <if test="commentDate != null">
+        comment_date,
+      </if>
+      <if test="authorNickname != null">
+        author_nickname,
+      </if>
+      <if test="authorIp != null">
+        author_ip,
+      </if>
+      <if test="likeCount != null">
+        like_count,
+      </if>
+      <if test="commentContent != null">
+        comment_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="articleId != null">
+        #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="authorEmail != null">
+        #{authorEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="commentDate != null">
+        #{commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorNickname != null">
+        #{authorNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="authorIp != null">
+        #{authorIp,jdbcType=VARCHAR},
+      </if>
+      <if test="likeCount != null">
+        #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null">
+        #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.Jancoyan.domain.ArticleCommentExample" resultType="java.lang.Long">
+    select count(*) from t_article_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_article_comment
+    <set>
+      <if test="record.articleId != null">
+        article_id = #{record.articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authorEmail != null">
+        author_email = #{record.authorEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentDate != null">
+        comment_date = #{record.commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.authorNickname != null">
+        author_nickname = #{record.authorNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authorIp != null">
+        author_ip = #{record.authorIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.likeCount != null">
+        like_count = #{record.likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentContent != null">
+        comment_content = #{record.commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_article_comment
+    set article_id = #{record.articleId,jdbcType=VARCHAR},
+      author_email = #{record.authorEmail,jdbcType=VARCHAR},
+      comment_date = #{record.commentDate,jdbcType=TIMESTAMP},
+      author_nickname = #{record.authorNickname,jdbcType=VARCHAR},
+      author_ip = #{record.authorIp,jdbcType=VARCHAR},
+      like_count = #{record.likeCount,jdbcType=INTEGER},
+      comment_content = #{record.commentContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_article_comment
+    set article_id = #{record.articleId,jdbcType=VARCHAR},
+      author_email = #{record.authorEmail,jdbcType=VARCHAR},
+      comment_date = #{record.commentDate,jdbcType=TIMESTAMP},
+      author_nickname = #{record.authorNickname,jdbcType=VARCHAR},
+      author_ip = #{record.authorIp,jdbcType=VARCHAR},
+      like_count = #{record.likeCount,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Jancoyan.domain.ArticleComment">
+    update t_article_comment
+    <set>
+      <if test="authorNickname != null">
+        author_nickname = #{authorNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="authorIp != null">
+        author_ip = #{authorIp,jdbcType=VARCHAR},
+      </if>
+      <if test="likeCount != null">
+        like_count = #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null">
+        comment_content = #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where article_id = #{articleId,jdbcType=VARCHAR}
+      and author_email = #{authorEmail,jdbcType=VARCHAR}
+      and comment_date = #{commentDate,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.Jancoyan.domain.ArticleComment">
+    update t_article_comment
+    set author_nickname = #{authorNickname,jdbcType=VARCHAR},
+      author_ip = #{authorIp,jdbcType=VARCHAR},
+      like_count = #{likeCount,jdbcType=INTEGER},
+      comment_content = #{commentContent,jdbcType=LONGVARCHAR}
+    where article_id = #{articleId,jdbcType=VARCHAR}
+      and author_email = #{authorEmail,jdbcType=VARCHAR}
+      and comment_date = #{commentDate,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Jancoyan.domain.ArticleComment">
+    update t_article_comment
+    set author_nickname = #{authorNickname,jdbcType=VARCHAR},
+      author_ip = #{authorIp,jdbcType=VARCHAR},
+      like_count = #{likeCount,jdbcType=INTEGER}
+    where article_id = #{articleId,jdbcType=VARCHAR}
+      and author_email = #{authorEmail,jdbcType=VARCHAR}
+      and comment_date = #{commentDate,jdbcType=TIMESTAMP}
+  </update>
+</mapper>

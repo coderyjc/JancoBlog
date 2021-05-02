@@ -51,7 +51,6 @@ public class FileIo {
      * @param path 文件夹路径
      */
     public static void createDirectoryIfNotExists(String path){
-        System.out.println(path);
         File file = new File(path);
         if(!file.isDirectory()){
             // 递归创建文件夹
