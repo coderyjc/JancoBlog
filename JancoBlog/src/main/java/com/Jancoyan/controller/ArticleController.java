@@ -251,7 +251,9 @@ public class ArticleController {
         String path = ConstUtils.CURRENTPATH + "\\static\\p\\" + id + ".html";
         String mdPath = ConstUtils.CURRENTPATH + "\\static\\md\\" + id + ".md";
         boolean success =
-                FileIo.deleteFile(path) && FileIo.deleteFile(mdPath) && FileIo.deleteImagesInHtmlFile(path);
+                FileIo.deleteImagesInHtmlFile(path) &&
+                FileIo.deleteFile(path) &&
+                FileIo.deleteFile(mdPath);
         return Msg.success().add("success", success);
     }
 

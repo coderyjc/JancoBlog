@@ -46,6 +46,7 @@
             <br>
             <li><a href="javascript:;" id="personal-info-item">个人信息</a></li>
             <li><a href="javascript:;" id="article-manage-item">文章管理</a></li>
+            <li><a href="javascript:;" id="change-password-item">修改密码</a></li>
         </ul>
     </div>
     <!-- 功能实现栏  -->
@@ -103,6 +104,21 @@
         <div id="page-nav-bar">
         </div>
     </div>
+
+    <!-- 修改密码 -->
+    <div class="change-password">
+        <div class="old-password">
+            <input type="password" placeholder="旧密码" id="old-password" />
+        </div>
+        <div class="new-password">
+            <input type="password" placeholder="新密码" id="new-password" />
+        </div>
+        <div class="repeat-new-password">
+            <input type="password" placeholder="重复新密码" id="repeat-new-password" />
+        </div>
+        <button class="submit-password">提交修改</button>
+    </div>
+
 </div>
 
 <!-- 页脚 -->
@@ -120,6 +136,7 @@
     $("#article-manage-item").click(function () {
         // 显示和隐藏卡片
         $(".personal-info").css("display","none");
+        $(".change-password").css("display", "none");
         $(".manage-articles").css("display","block");
         // 直接去第 pn 页
         to_page(1);
@@ -128,9 +145,18 @@
     // 点击”个人信息“按钮之后，隐藏其他卡片，显示个人信息卡片
     $("#personal-info-item").click(function () {
        // 显示和隐藏卡片
-        $(".personal-info").css("display","block");
         $(".manage-articles").css("display","none");
+        $(".change-password").css("display", "none");
+        $(".personal-info").css("display","block");
     });
+
+    // 点击”修改密码“按钮之后，隐藏其他卡片，显示修改密码卡片
+    $("#change-password-item").click(function (){
+        // 显示和隐藏卡片
+        $(".manage-articles").css("display","none");
+        $(".personal-info").css("display","none");
+        $(".change-password").css("display", "block");
+    })
 
     // 点击“写博文”按钮之后，删除当前session中的article和content
     $("#write-eassy").click(function () {
@@ -239,6 +265,30 @@
         $("#edit-personal-info").css("display","block");
         $("#cancel-personal-info").css("display", "none");
         $("#save-personal-info").css("display", "none");
+    });
+
+    // 修改密码的提交
+    $(".submit-password").click(function () {
+        var oldPwd = $("#old-password").val();
+        var newPwd = $("#new-password").val();
+        var repeat = $("#repeat-new-password").val();
+
+        // 发送修改密码的请求
+        $.ajax({
+            url: "user/password",
+            type: "POST",
+            data: {
+                "oldPwd": oldPwd,
+                "newPwd": newPwd,
+                "repeat": repeat
+            },
+            success: function (result){
+                alert(result.extend.msg);
+                var oldPwd = $("#old-password").val("");
+                var newPwd = $("#new-password").val("");
+                var repeat = $("#repeat-new-password").val("");
+            }
+        });
     });
 
     //修改按钮，应该打开写文章的页面并填充上相应的文章

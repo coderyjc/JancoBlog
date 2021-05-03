@@ -4,6 +4,8 @@ package com.Jancoyan.utils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,12 +22,22 @@ public class FileIo {
      */
     public static boolean deleteImagesInHtmlFile(String path){
         // 内容
+        List<String> tmp = new ArrayList<>();
         String content = readFile(path);
-        String pattern = "<img (.*?)>";
-        Pattern r = Pattern.compile(pattern);
-        Matcher matcher = r.matcher(content);
-        if (matcher.find()){
-
+        String regex = "<img (.*?)>";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(content);
+        String prefix = path.substring(0, path.lastIndexOf("static"));
+        while (matcher.find()){
+            String temp = matcher.group(1).toString().replace('/', '\\');
+            temp =
+                    prefix + temp.substring(temp.indexOf("static"),
+                    temp.lastIndexOf("\" alt"));
+            temp = temp.replaceAll("[\\\\]", "\\\\\\\\");
+            tmp.add(temp);
+        }
+        for (String s : tmp){
+            deleteFileIfExists(s);
         }
         return true;
     }
@@ -41,6 +53,7 @@ public class FileIo {
         if(file.exists()){
             file.delete();
         }
+        System.out.println("已经删除文件" + path);
     }
 
     /**

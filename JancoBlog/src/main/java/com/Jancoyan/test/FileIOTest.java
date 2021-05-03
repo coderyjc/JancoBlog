@@ -5,9 +5,12 @@ import org.junit.Test;
 
 public class FileIOTest {
 
+    /**
+     * 删除HTML中所用到的所有img文件
+     */
     @Test
     public void testDeleteImagesFromHtml(){
-        String path = "D:\\JavaWEB\\apache-tomcat-9.0.43\\webapps\\JancoBlog" + "\\static\\p\\" + "100001619965461564" + ".html";
+        String path = "D:\\JavaWEB\\apache-tomcat-9.0.43\\webapps\\JancoBlog" + "\\static\\p\\" + "100001619996921484" + ".html";
         FileIo.deleteImagesInHtmlFile(path);
     }
 

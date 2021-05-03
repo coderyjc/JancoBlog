@@ -23,6 +23,45 @@ public class UserController {
     UserService userService;
 
     /**
+     * /login
+     *  - POST 登录
+     *
+     * /user
+     *  - POST 更新个人信息
+     *
+     * /user/password
+     *  - POST 更新密码
+     */
+
+
+    /**
+     * 修改密码
+     * @param oldPwd 旧密码
+     * @param newPwd 新密码
+     * @param repeat 重复新密码
+     * @param session session对象
+     * @return 修改的结果
+     */
+    @ResponseBody
+    @RequestMapping(value = "/user/password", method = RequestMethod.POST)
+    public Msg changePassword(String oldPwd, String newPwd, String repeat,
+                              HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (!user.getUserPwd().equals(MD5Util.getMD5(oldPwd))){
+            return Msg.success().add("msg", "旧密码错误");
+        } else if(!newPwd.equals(repeat)){
+            return Msg.success().add("msg", "两次密码不一致");
+        }
+        user.setUserPwd(MD5Util.getMD5(newPwd));
+        // 数据库字段更新
+        userService.updateUserSelective(user);
+        // 更新session中的值
+        session.setAttribute("user", user);
+        return Msg.success().add("msg", "修改成功");
+    }
+
+
+    /**
      * 更新用户信息，更新之后将更新的字段重新赋值给user，【造成参数缺失！！！】
      * @param userNickName 昵称
      * @param userEmail 邮箱
