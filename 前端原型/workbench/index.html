@@ -62,7 +62,7 @@
 		
 		<!-- 文章管理 -->
         <div class="manage-articles">
-			<table id="article-list">
+			<table class="list">
 				<tr>
 					<th>#</th>
 					<th>文章标题</th>
@@ -82,19 +82,17 @@
 					<td>32</td>
 					<td>112</td>
 					<td>
-						<button type="button" class="edit-btn">编辑</button>
-						<button type="button" class="delete-btn">删除</button>
+						<button type="button" id="edit-article-btn" class="edit-btn">编辑</button>
+						<button type="button" id="delete-article-btn" class="delete-btn">删除</button>
 					</td>
 				</tr>
 				</table>
-			<div id="page-nav-bar">
+			<div id="article-page-nav-bar">
 				<nav>
 					<ul class="pagination">
 						<li class="disabled"><a href="#">首页</a></li>
 						<li class="disabled"><a>«</a></li>
 						<li class="active"><a>1</a></li>
-						<li class=""><a>2</a></li>
-						<li class=""><a>3</a></li>
 						<li ><a>»</a></li>
 						<li class="disabled"><a href="#">末页</a></li>
 					</ul>
@@ -104,7 +102,49 @@
 
 		<!-- 评论管理 -->
 		<div class="manage-comment">
-			
+			<table class="list" id="comment-list">
+				<tr>
+					<th>#</th>
+					<th>文章名</th>
+					<th>评论摘要</th>
+					<th>时间</th>
+					<th>邮箱</th>
+					<th>操作</th>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>mysql从入门到入土</td>
+					<td>啊啊啊是阿斯顿阿斯顿阿斯顿阿萨啊实打实...</td>
+					<td>2021-5-2</td>
+					<td>123332211@qq.com</td>
+					<td>
+						<button type="button" class="show-btn">查看</button>
+						<button type="button" class="delete-btn">删除</button>
+					</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>mysql从入门到入土</td>
+					<td>666666666666666666asdasd6...</td>
+					<td>2021-5-2</td>
+					<td>123332211@qq.com</td>
+					<td>
+						<button type="button" class="show-btn">查看</button>
+						<button type="button" class="delete-btn">删除</button>
+					</td>
+				</tr>
+			</table>
+			<div id="comment-page-nav-bar">
+				<nav>
+					<ul class="pagination">
+						<li class="disabled"><a href="#">首页</a></li>
+						<li class="disabled"><a>«</a></li>
+						<li class="active"><a>1</a></li>
+						<li><a>»</a></li>
+						<li class="disabled"><a href="#">末页</a></li>
+					</ul>
+				</nav>
+			</div>
 		</div>
 
 		<!-- 修改密码 -->

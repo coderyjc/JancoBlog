@@ -56,9 +56,9 @@ h1{
 
 /* 功能列表的列表 */
 .function-list{
-	float: left;
+    float: left;
     display: inline-block;
-	margin: 0px 5px;
+    margin: 0px 5px;
 }
 
 .operate-list{
@@ -82,14 +82,14 @@ h1{
 }
 
 /* 功能实现 */
-.personal-info, .manage-articles, .change-password{
+.personal-info, .manage-articles, .change-password, .manage-comment{
     float: left;
     width: 80%;
     display: none;
 }
 
 .manage-articles{
-	display: block;
+    display: block;
 }
 
 .personal-info{
@@ -170,31 +170,31 @@ h1{
 
 
 /* 文章管理的表格 */
-#article-list{
-  border: 1px solid black;
-  border-collapse: collapse;
-  width: 100%;
+.list{
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 /* 单元格属性 */
-#article-list td, #article-list th{	
-	border: 1px solid #c7cdd0;
-	padding: 8px;
-	text-align: center;
+.list td, .list th{
+    border: 1px solid #c7cdd0;
+    padding: 8px;
+    text-align: center;
 }
 
 /* 隔行变色 */
-#article-list tr:nth-child(even){background-color: #f2f2f2;}
+.list tr:nth-child(even){background-color: #f2f2f2;}
 
 /* 鼠标悬停突出显示 */
-#article-list tr:hover {background-color: #ddd;}
+.list tr:hover {background-color: #ddd;}
 
 /* 删除和编辑按钮 */
-#article-list button{
-	width: 50px;
-	height: 30px;
-	margin: 0px 5px;
-	border-radius: 5px;
+.list button{
+    width: 50px;
+    height: 30px;
+    margin: 0px 5px;
+    border-radius: 5px;
 }
 
 .edit-btn{
@@ -211,9 +211,29 @@ h1{
     background-color: #d31f3a;
     border: #000;
 }
-.delete-btn:active{
-    background-color: #A52A2A;
+.delete-btn:hover{
+    background-color: #b51a31;
 }
+.delete-btn:active{
+    background-color: #7d1f1f;
+}
+
+/* 评论管理 */
+
+.show-btn{
+    color: white;
+    background-color: #1dd3b8;
+    border: #000;
+}
+.show-btn:hover{
+    background-color: #1abfa6;
+}
+.show-btn:active{
+    background-color: #16a690;
+}
+
+
+
 
 /* 修改密码 */
 
@@ -256,7 +276,7 @@ h1{
     display: inline-block;
 }
 
-#page-nav-bar nav{
+#article-page-nav-bar nav,#comment-page-nav-bar nav{
     text-align: center;
 }
 
@@ -282,11 +302,11 @@ h1{
 
 /* 显示个人信息的表单 */
 .personal-info form{
-	margin: 20px 30px;
+    margin: 20px 30px;
 }
 
 #personal-info-table{
-	border: none;
-	width: 100%;
-	heigh: 30px;
+    border: none;
+    width: 100%;
+    heigh: 30px;
 }

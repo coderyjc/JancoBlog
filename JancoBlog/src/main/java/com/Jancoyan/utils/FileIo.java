@@ -53,7 +53,6 @@ public class FileIo {
         if(file.exists()){
             file.delete();
         }
-        System.out.println("已经删除文件" + path);
     }
 
     /**

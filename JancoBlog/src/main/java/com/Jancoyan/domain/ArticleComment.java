@@ -9,6 +9,8 @@ public class ArticleComment extends ArticleCommentKey {
 
     private String commentContent;
 
+    private String articleTitle;
+
     @Override
     public String toString() {
         return "ArticleComment{" +
@@ -49,5 +51,13 @@ public class ArticleComment extends ArticleCommentKey {
 
     public void setCommentContent(String commentContent) {
         this.commentContent = commentContent == null ? null : commentContent.trim();
+    }
+
+    public String getArticleTitle() {
+        return articleTitle;
+    }
+
+    public void setArticleTitle(String articleTitle) {
+        this.articleTitle = articleTitle;
     }
 }

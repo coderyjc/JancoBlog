@@ -71,9 +71,14 @@ public class ArticleUtils {
                 "<div class=\"comment-title\">添加笔记</div> <hr>" +
                 "<div class=\"comment-list\"></div>" +
                 "<div class=\"add-comment\">" +
-                "<textarea placeholder=\"昵称\" id=\"edit-comment-author\" rows=\"1\" cols=\"110\"></textarea>" +
-                "<textarea placeholder=\"邮箱\" id=\"edit-comment-email\" rows=\"1\" cols=\"110\"></textarea>" +
-                "<textarea placeholder=\"笔记\" id=\"edit-comment-content\" rows=\"5\" cols=\"110\"></textarea>" +
+                "<textarea maxlength=\"20\" placeholder=\"昵称\" id=\"edit-comment-author\" rows=\"1\" " +
+                "cols=\"110\"></textarea>" +
+                "<textarea maxlength=\"50\" placeholder=\"邮箱\" id=\"edit-comment-email\" " +
+                "rows=\"1\" " +
+                "cols=\"110\"></textarea>" +
+                "<textarea maxlength=\"1000\" placeholder=\"笔记\" id=\"edit-comment-content\" " +
+                "rows=\"5\" " +
+                "cols=\"110\"></textarea>" +
                 "<button class=\"add-comment-btn\">添加</button>" +
                 "</div>" +
                 "</div>" +

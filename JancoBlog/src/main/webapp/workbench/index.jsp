@@ -27,7 +27,8 @@
 <%
     User user = (User) session.getAttribute("user");
 %>
-<body>    <!-- 导航条 -->
+<body>
+<!-- 导航条 -->
 <div class="nav">
     <!-- 回主页的"图标" -->
     <a href="./index.jsp" class="back-to-index">JancoBlog</a>
@@ -46,6 +47,7 @@
             <br>
             <li><a href="javascript:;" id="personal-info-item">个人信息</a></li>
             <li><a href="javascript:;" id="article-manage-item">文章管理</a></li>
+            <li><a href="javascript:;" id="comment-manage-item">评论管理</a></li>
             <li><a href="javascript:;" id="change-password-item">修改密码</a></li>
         </ul>
     </div>
@@ -85,7 +87,7 @@
 
     <!-- 文章管理 -->
     <div class="manage-articles">
-        <table id="article-list">
+        <table class="list" id="article-list">
             <thead>
                 <tr>
                     <th>#</th>
@@ -101,8 +103,48 @@
             <tbody>
             </tbody>
         </table>
-        <div id="page-nav-bar">
-        </div>
+        <div id="article-page-nav-bar"></div>
+    </div>
+
+    <!-- 评论管理 -->
+    <div class="manage-comment">
+        <table class="list" id="comment-list">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>文章名</th>
+                    <th>评论摘要</th>
+                    <th>时间</th>
+                    <th>邮箱</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>mysql从入门到入土</td>
+                    <td>6666666666666666666...</td>
+                    <td>2021-5-2</td>
+                    <td>123332211@qq.com</td>
+                    <td>
+                        <button type="button" class="show-btn">查看</button>
+                        <button type="button" class="delete-btn">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>mysql从入门到入土</td>
+                    <td>6666666666666666666...</td>
+                    <td>2021-5-2</td>
+                    <td>123332211@qq.com</td>
+                    <td>
+                        <button type="button" class="show-btn">查看</button>
+                        <button type="button" class="delete-btn">删除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="comment-page-nav-bar"></div>
     </div>
 
     <!-- 修改密码 -->
@@ -127,9 +169,12 @@
 </footer>
 
 <script type="text/javascript">
+    var currentArticlePage = 1;
+    var currentCommentPage = 1;
+
     // 点击相应的功能之后隐藏显示对应的功能，显示其他的功能
     $(function () {
-        to_page(1);
+        to_article_page(1);
     });
 
     // 点击“文章管理”按钮之后，隐藏其他卡片，显示文章管理的卡片，发送ajax请求，拿到分页数据
@@ -137,9 +182,10 @@
         // 显示和隐藏卡片
         $(".personal-info").css("display","none");
         $(".change-password").css("display", "none");
+        $(".manage-comment").css("display", "none");
         $(".manage-articles").css("display","block");
         // 直接去第 pn 页
-        to_page(1);
+        to_article_page(1);
     });
 
     // 点击”个人信息“按钮之后，隐藏其他卡片，显示个人信息卡片
@@ -147,6 +193,7 @@
        // 显示和隐藏卡片
         $(".manage-articles").css("display","none");
         $(".change-password").css("display", "none");
+        $(".manage-comment").css("display", "none");
         $(".personal-info").css("display","block");
     });
 
@@ -155,7 +202,17 @@
         // 显示和隐藏卡片
         $(".manage-articles").css("display","none");
         $(".personal-info").css("display","none");
+        $(".manage-comment").css("display", "none");
         $(".change-password").css("display", "block");
+    })
+
+    // 点击评论管理，显示评论管理box
+    $("#comment-manage-item").click(function () {
+        $(".manage-articles").css("display","none");
+        $(".personal-info").css("display","none");
+        $(".change-password").css("display", "none");
+        $(".manage-comment").css("display", "block");
+        to_comment_page(1);
     })
 
     // 点击“写博文”按钮之后，删除当前session中的article和content
@@ -293,7 +350,7 @@
 
     //修改按钮，应该打开写文章的页面并填充上相应的文章
     //发送请求直接返回到edit页面
-    $(document).on("click", ".edit-btn", function () {
+    $(document).on("click", "#edit-article-btn", function () {
         var id = $(this).attr("edit-id");
         $.ajax({
             url: "redirect/article",
@@ -306,7 +363,7 @@
     });
 
     //删除按钮，点击按钮之后，从数据库中删除这一条记录并在服务端删除文件
-    $(document).on("click", ".delete-btn", function () {
+    $(document).on("click", "#delete-article-btn", function () {
         var articleTitle = $(this).parents("tr").find("td:eq(1)").text();
         var articleId = $(this).attr("delete-id");
 
@@ -316,46 +373,74 @@
                 type:"DELETE",
                 success: function (result) {
                     alert("删除成功");
-                    to_page(currentPage);
+                    to_article_page(currentArticlePage);
                 }
             });
         }
     });
 
-    //去第 pn 页
-    function to_page(pn) {
+    // 显示评论的详细信息
+    $(document).on("click", "#show-comment-btn", function () {
+        alert("详细信息");
+    })
+
+    // 删除评论
+    $(document).on("click", "#delete-comment-btn", function () {
+        var articleAbstract = $(this).parents("tr").find("td:eq(2)").text();
+        var articleId =
+            $(this).parents("tr").find("td:eq(5)").find("#delete-comment-btn").attr("delete-id");
+        var authorEmail = $(this).parents("tr").find("td:eq(4)").text();
+        var commentDate = $(this).parents("tr").find("td:eq(3)").text();
+        var ajaxStr = articleId + "&" + authorEmail + "&" + commentDate;
+
+        if(confirm("确认删除 " + articleAbstract + " 吗？")){
+            $.ajax({
+                url: "comment",
+                type: "DELETE",
+                data: "ajaxStr=" + ajaxStr,
+                success: function (result) {
+                    alert("删除成功");
+                    to_comment_page(currentCommentPage);
+                }
+            });
+        }
+    })
+
+
+    //去文章管理的第 pn 页
+    function to_article_page(pn) {
         $.ajax({
             url:"articles/" + "<%=user.getUserId()%>",
             type:"GET",
             data: "pn=" + pn,
             success: function (result) {
-                currentPage = result.extend.pageInfo.pageNum;
+                currentArticlePage = result.extend.pageInfo.pageNum;
                 // 建立文章表格
                 build_article_table(result);
                 // 建立导航栏
-                build_nav_bar(result);
+                build_article_nav_bar(result);
             }
         });
     }
     
-    //传入ajax请求拿到的结果，建立新的分页显示页面
+    //传入ajax请求拿到的结果，建立新的文章分页显示页面
     function build_article_table(result) {
         //清空表格原有信息
         $("#article-list tbody").empty();
         //建立新表格
         var articles = result.extend.pageInfo.list;
         $.each(articles, function (index, item) {
-            var no = $("<td></td>").append((currentPage - 1) * 10 + index + 1);
+            var no = $("<td></td>").append((currentArticlePage - 1) * 10 + index + 1);
             var titleTd = $("<td></td>").append(item.articleTitle);
             var createTd = $("<td></td>").append(dateFormat(item.articlePostDate));
             var updateTd = $("<td></td>").append(dateFormat(item.articleEditTime));
             var viewtimeTd = $("<td></td>").append(item.articleViewTime);
             var commentTd = $("<td></td>").append(item.articleCommentCount);
             var likeTd = $("<td></td>").append(item.articleLikeCount);
-            var editButton = $("<button></button>").addClass("edit-btn").append("编辑");
+            var editButton = $("<button id='edit-article-btn'></button>").addClass("edit-btn").append("编辑");
             editButton.attr("edit-id", item.articleId);
-            var deleteButton = $("<button></button>").addClass("delete-btn").append("删除");
-            deleteButton.attr("delete-id", item.articleId)
+            var deleteButton = $("<button id='delete-article-btn'></button>").addClass("delete-btn").append("删除");
+            deleteButton.attr("delete-id", item.articleId);
             var operateTd = $("<td></td>").append(editButton).append(deleteButton);
             $("<tr></tr>").append(no)
             .append(titleTd)
@@ -369,9 +454,9 @@
         });
     }
 
-    //建立分页导航栏
-    function build_nav_bar(result) {
-        $("#page-nav-bar").empty();
+    //建立文章页面的分页导航栏
+    function build_article_nav_bar(result) {
+        $("#article-page-nav-bar").empty();
         var ul = $("<ul></ul>").addClass("pagination");
         var pageInfo = result.extend.pageInfo;
         //构建元素
@@ -384,10 +469,10 @@
         }else{
             //为元素添加点击翻页的事件
             firstPageLi.click(function(){
-                to_page(1);
+                to_article_page(1);
             });
             prePageLi.click(function(){
-                to_page(pageInfo.pageNum - 1);
+                to_article_page(pageInfo.pageNum - 1);
             });
         }
         var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;").attr("href", "javascript:;"));
@@ -397,10 +482,10 @@
             lastPageLi.addClass("disabled");
         }else{
             nextPageLi.click(function(){
-                to_page(pageInfo.pageNum + 1);
+                to_article_page(pageInfo.pageNum + 1);
             });
             lastPageLi.click(function(){
-                to_page(pageInfo.pages);
+                to_article_page(pageInfo.pages);
             });
         }
 
@@ -413,7 +498,7 @@
                 numLi.addClass("active");
             }
             numLi.click(function(){
-                to_page(item);
+                to_article_page(item);
             });
             ul.append(numLi);
         });
@@ -422,7 +507,110 @@
 
         //把ul加入到nav
         var navEle = $("<nav></nav>").append(ul);
-        navEle.appendTo("#page-nav-bar");
+        navEle.appendTo("#article-page-nav-bar");
+    }
+
+    // 去评论管理的第pn页
+    function to_comment_page(pn) {
+        $.ajax({
+            url:"comment",
+            type:"GET",
+            data: "pn=" + pn,
+            success: function (result) {
+                currentCommentPage = result.extend.pageInfo.pageNum;
+                // 建立文章表格
+                build_comment_table(result);
+                // 建立导航栏
+                build_comment_nav_bar(result);
+            }
+        });
+    }
+
+    // 传入ajax请求拿到的结果，建立新的评论分页显示页面
+    function build_comment_table(result) {
+        // 清空表格原有信息
+        $("#comment-list tbody").empty();
+        // 建立新表格
+        var comments = result.extend.pageInfo.list;
+        $.each(comments, function (index, item) {
+            var no = $("<td></td>").append((currentCommentPage - 1) * 15 + index + 1);
+            var titleTd = $("<td></td>").append(item.articleTitle);
+            var commentAbstract = $("<td></td>").append(get_comment_abstract(item.commentContent));
+            var postDate = $("<td></td>").append(dateFormat(item.commentDate));
+            var authorEmail = $("<td></td>").append(item.authorEmail);
+            var showButton =
+                $("<button id='show-comment-btn'></button>").addClass("show-btn").append("查看");
+            showButton.attr("show-id", item.articleId);
+            var deleteButton =
+                $("<button id='delete-comment-btn'></button>").addClass("delete-btn").append("删除");
+            deleteButton.attr("delete-id", item.articleId);
+            var operateTd = $("<td></td>").append(showButton).append(deleteButton);
+            $("<tr></tr>").append(no)
+                .append(titleTd)
+                .append(commentAbstract)
+                .append(postDate)
+                .append(authorEmail)
+                .append(operateTd)
+                .appendTo("#comment-list tbody")
+        })
+    }
+
+    //建立评论页面的分页导航栏
+    function build_comment_nav_bar(result) {
+        //清除之前的nav-bar
+        $("#comment-page-nav-bar").empty();
+        //添加新的
+        var ul = $("<ul></ul>").addClass("pagination");
+        var pageInfo = result.extend.pageInfo;
+        //构建元素
+        var firstPageLi =
+            $("<li></li>").append($("<a></a>").append("首页").attr("href","javascript:;"));
+        var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));
+        if(pageInfo.hasPreviousPage == false){
+            firstPageLi.addClass("disabled");
+            prePageLi.addClass("disabled");
+        }else{
+            //为元素添加点击翻页的事件
+            firstPageLi.click(function(){
+                to_comment_page(1);
+            });
+            prePageLi.click(function(){
+                to_comment_page(pageInfo.pageNum - 1);
+            });
+        }
+        var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;").attr("href", "javascript:;"));
+        var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href","javascript:;"));
+        if(pageInfo.hasNextPage == false){
+            nextPageLi.addClass("disabled");
+            lastPageLi.addClass("disabled");
+        }else{
+            nextPageLi.click(function(){
+                to_comment_page(pageInfo.pageNum + 1);
+            });
+            lastPageLi.click(function(){
+                to_comment_page(pageInfo.pages);
+            });
+        }
+
+        //添加首页和前一页 的提示
+        ul.append(firstPageLi).append(prePageLi);
+        //1,2，3遍历给ul中添加页码提示
+        $.each(pageInfo.navigatepageNums,function(index,item){
+            var numLi = $("<li></li>").append($("<a></a>").attr("href", "javascript:;").append(item));
+            if(pageInfo.pageNum == item){
+                numLi.addClass("active");
+            }
+            numLi.click(function(){
+                to_comment_page(item);
+            });
+            ul.append(numLi);
+        });
+        //添加下一页和末页 的提示
+        ul.append(nextPageLi).append(lastPageLi);
+
+        //把ul加入到nav
+        var navEle = $("<nav></nav>").append(ul);
+        navEle.appendTo("#comment-page-nav-bar");
     }
 
     /**
@@ -442,6 +630,16 @@
         return enddate
     }
 
+    // 获取评论的摘要
+    function get_comment_abstract(comment) {
+        var str = "";
+        if(comment.length > 10){
+            str = comment.substring(0, 5) + "......" + comment.substr(-5);
+        } else {
+            str = comment;
+        }
+        return str;
+    }
 
 </script>
 </body>

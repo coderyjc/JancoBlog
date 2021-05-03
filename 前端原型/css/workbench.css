@@ -82,15 +82,11 @@ h1{
 }
 
 /* 功能实现 */
-
-/* 整个workbench的所有box开始的时候是隐藏的,然后设置全局属性 */
-.personal-info,.manage-articles,.manage-comment,.change-password{
+.personal-info, .manage-articles, .change-password, .manage-comment{
     float: left;
     width: 80%;
     display: none;
 }
-
-/* 个人信息管理box */
 
 .personal-info{
     text-align: center;
@@ -157,7 +153,7 @@ h1{
     background-color: #a3a3a3;
 }
 
-#save-personal-info,#cancel-personal-info{
+#save-personal-info, #cancel-personal-info{
     display: none;
 }
 
@@ -170,27 +166,27 @@ h1{
 
 
 /* 文章管理的表格 */
-#article-list{
+.list{
   border: 1px solid black;
   border-collapse: collapse;
   width: 100%;
 }
 
 /* 单元格属性 */
-#article-list td, #article-list th{	
+.list td, .list th{
 	border: 1px solid #c7cdd0;
 	padding: 8px;
 	text-align: center;
 }
 
 /* 隔行变色 */
-#article-list tr:nth-child(even){background-color: #f2f2f2;}
+.list tr:nth-child(even){background-color: #f2f2f2;}
 
 /* 鼠标悬停突出显示 */
-#article-list tr:hover {background-color: #ddd;}
+.list tr:hover {background-color: #ddd;}
 
 /* 删除和编辑按钮 */
-#article-list button{
+.list button{
 	width: 50px;
 	height: 30px;
 	margin: 0px 5px;
@@ -211,13 +207,29 @@ h1{
     background-color: #d31f3a;
     border: #000;
 }
-.delete-btn:active{
-    background-color: #A52A2A;
+.delete-btn:hover{
+	background-color: #b51a31;
 }
-
+.delete-btn:active{
+    background-color: #7d1f1f;
+}
 
 /* 评论管理 */
 
+.manage-comment{
+    display: block;
+}
+.show-btn{
+	color: white;
+	background-color: #1dd3b8;
+	border: #000;
+}
+.show-btn:hover{
+	background-color: #1abfa6;
+}
+.show-btn:active{
+    background-color: #16a690;
+}
 
 
 
@@ -225,33 +237,34 @@ h1{
 /* 修改密码 */
 
 .change-password{
-	text-align: center;
+    text-align: center;
 }
 
 .change-password input{
-	font-size: 20px;
-	margin: 10px;
-	padding: 5px;
-	width: 50%;
+    font-size: 20px;
+    margin: 10px;
+    padding: 5px;
+    width: 50%;
 }
 
 .change-password button{
-	font-size: 20px;
-	margin: 10px auto;
-	border-radius: 10px;
-	padding: 5px 10px;
-	border: none;
-	background-color: #3dd5ff;
-	color: #000000;
+    font-size: 20px;
+    margin: 10px auto;
+    border-radius: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #3dd5ff;
+    color: #000000;
 }
 
 .change-password button:hover{
-	background-color: #3aecff;
+    background-color: #3aecff;
 }
 
 .change-password button:active{
-	color: white;
+    color: white;
 }
+
 
 /* 分页条 */
 
@@ -262,7 +275,7 @@ h1{
     display: inline-block;
 }
 
-#page-nav-bar nav{
+#article-page-nav-bar nav, {
     text-align: center;
 }
 

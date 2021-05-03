@@ -9,6 +9,9 @@
     <result column="author_ip" jdbcType="VARCHAR" property="authorIp" />
     <result column="like_count" jdbcType="INTEGER" property="likeCount" />
   </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithArticleTitle" type="com.Jancoyan.domain.ArticleComment">
+    <result column="article_title" jdbcType="VARCHAR" property="articleTitle" />
+  </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.Jancoyan.domain.ArticleComment">
     <result column="comment_content" jdbcType="LONGVARCHAR" property="commentContent" />
   </resultMap>
@@ -105,6 +108,21 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
+  </select>
+  <select id="selectWithArticleTitle" parameterType="com.Jancoyan.domain.ArticleComment"
+          resultMap="ResultMapWithArticleTitle">
+    select
+           a.article_title,
+           c.article_id,
+           c.author_nickname,
+           c.comment_content,
+           c.author_email,
+           c.comment_date,
+           c.author_ip,
+           c.like_count
+    from t_article_comment c
+        join t_article a
+    where a.article_id = c.article_id
   </select>
   <select id="selectByPrimaryKey" parameterType="com.Jancoyan.domain.ArticleCommentKey" resultMap="ResultMapWithBLOBs">
     select 

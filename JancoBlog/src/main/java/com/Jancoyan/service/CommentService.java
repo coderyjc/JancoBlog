@@ -17,8 +17,6 @@ public class CommentService {
     @Autowired
     ArticleCommentMapper articleCommentMapper;
 
-
-
     /**
      * 获取某文章的所有评论, 按照事件降序
      * @param id 文章id
@@ -41,5 +39,11 @@ public class CommentService {
         articleCommentMapper.insert(articleComment);
     }
 
-
+    /**
+     * 获取所有评论，按照文章题目分类
+     * @return 评论列表
+     */
+    public List<ArticleComment> getAll() {
+        return articleCommentMapper.selectWithArticleTitle();
+    }
 }

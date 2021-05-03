@@ -166,6 +166,7 @@ function build_page(){
     }
 }
 
+//评论之后增加数据库中文章的评论数量
 function add_article_comment_count() {
     $.ajax({
         url:"../../article/comment",

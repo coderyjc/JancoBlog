@@ -3,6 +3,8 @@ package com.Jancoyan.controller;
 import com.Jancoyan.domain.ArticleComment;
 import com.Jancoyan.service.CommentService;
 import com.Jancoyan.utils.Msg;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +28,36 @@ public class CommentController {
      *
      * /comment
      *  -POST 添加评论
+     *  -GET 获取所有评论（分页）
+     *  -DELETE 删除一条评论
      */
+
+
+
+    @ResponseBody
+    @RequestMapping(value = "/comment", method = RequestMethod.DELETE)
+    public Msg deleteComment(String ajaxStr){
+        System.out.println(ajaxStr);
+        return Msg.success();
+    }
+
+
+    /**
+     * 获取所有评论（分页）, 按照文章排序
+     * @param pn 页码
+     * @return 包含分页信息的消息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/comment", method = RequestMethod.GET)
+    public Msg getAll(
+            Integer pn
+    ){
+        PageHelper.startPage(pn, 15);
+        List<ArticleComment> comments = commentService.getAll();
+        PageInfo<ArticleComment> pageInfo = new PageInfo<>(comments, 5);
+        return Msg.success().add("pageInfo", pageInfo);
+    }
+
 
     /**
      * 插入评论
