@@ -3,6 +3,7 @@ package com.Jancoyan.service;
 import com.Jancoyan.dao.ArticleCommentMapper;
 import com.Jancoyan.domain.ArticleComment;
 import com.Jancoyan.domain.ArticleCommentExample;
+import com.Jancoyan.domain.ArticleCommentKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +46,28 @@ public class CommentService {
      */
     public List<ArticleComment> getAll() {
         return articleCommentMapper.selectWithArticleTitle();
+    }
+
+    /**
+     * 由主键删除
+     * @param articleCommentKey 主键class
+     */
+    public void deleteByPrimaryKey(ArticleCommentKey articleCommentKey) {
+        articleCommentMapper.deleteByPrimaryKey(articleCommentKey);
+    }
+
+    /**
+     * 由主键获取文章所有信息
+     * @param articleCommentKey 主键
+     * @return 查询到的一个comment
+     */
+    public ArticleComment getCommentByPrimaryKey(ArticleCommentKey articleCommentKey) {
+        ArticleCommentExample example = new ArticleCommentExample();
+        ArticleCommentExample.Criteria criteria = example.createCriteria();
+        criteria.andArticleIdEqualTo(articleCommentKey.getArticleId());
+        criteria.andCommentDateEqualTo(articleCommentKey.getCommentDate());
+        criteria.andAuthorEmailEqualTo(articleCommentKey.getAuthorEmail());
+        List<ArticleComment> comments = articleCommentMapper.selectByExampleWithBLOBs(example);
+        return comments.get(0);
     }
 }

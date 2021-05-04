@@ -81,7 +81,7 @@ public class UserController {
         user.setUserNickname(userNickName);
         user.setUserEmail(userEmail);
         user.setUserSex(Integer.valueOf(userSex));
-        user.setUserBirthday(TimeUtils.castDateStringToDateType(userBirthdayDay));
+        user.setUserBirthday(TimeUtils.castDateStringToDateTypeYMD(userBirthdayDay));
         // 调用函数进行更新
         userService.updateUserSelective(user);
         // 更新完毕之后将user重新赋值

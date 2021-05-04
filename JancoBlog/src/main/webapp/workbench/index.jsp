@@ -119,30 +119,7 @@
                     <th>操作</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>mysql从入门到入土</td>
-                    <td>6666666666666666666...</td>
-                    <td>2021-5-2</td>
-                    <td>123332211@qq.com</td>
-                    <td>
-                        <button type="button" class="show-btn">查看</button>
-                        <button type="button" class="delete-btn">删除</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>mysql从入门到入土</td>
-                    <td>6666666666666666666...</td>
-                    <td>2021-5-2</td>
-                    <td>123332211@qq.com</td>
-                    <td>
-                        <button type="button" class="show-btn">查看</button>
-                        <button type="button" class="delete-btn">删除</button>
-                    </td>
-                </tr>
-            </tbody>
+            <tbody></tbody>
         </table>
         <div id="comment-page-nav-bar"></div>
     </div>
@@ -159,6 +136,25 @@
             <input type="password" placeholder="重复新密码" id="repeat-new-password" />
         </div>
         <button class="submit-password">提交修改</button>
+    </div>
+
+    <!-- 模态框 -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="show-details">评论详细信息查看</div>
+                <span id="closeBtn" class="close">×</span>
+            </div>
+            <div class="modal-body">
+                <p>所在文章id：100001000003000289</p>
+                <p>文章名称：这是名称</p>
+                <p>评论人昵称：asdasdji</p>
+                <p>内容：这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容</p>
+                <p>邮箱：216451365@qq.com</p>
+                <p>评论日期：2019.2.1 12:32:05</p>
+                <p>评论人地址：192.165.3.5</p>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -348,6 +344,11 @@
         });
     });
 
+    // 关闭模态框的叉
+    $("#closeBtn").click(function(){
+        $(".modal").css("display", "none");
+    });
+
     //修改按钮，应该打开写文章的页面并填充上相应的文章
     //发送请求直接返回到edit页面
     $(document).on("click", "#edit-article-btn", function () {
@@ -381,23 +382,67 @@
 
     // 显示评论的详细信息
     $(document).on("click", "#show-comment-btn", function () {
-        alert("详细信息");
+
+        var articleId =
+            $(this).parents("tr").find("td:eq(5)").find("#delete-comment-btn").attr("delete-id");
+        var authorEmail = $(this).parents("tr").find("td:eq(4)").text();
+        var commentDate = $(this).parents("tr").find("td:eq(3)").text();
+        var articleTitle = $(this).parents("tr").find("td:eq(1)").text();
+        // 发送ajax请求拿到评论详细数据
+        $.ajax({
+            url: "getcomment",
+            type: "GET",
+            data: {
+                "articleId": articleId,
+                "email" : authorEmail,
+                "commentDate" : commentDate
+            },
+            success: function (result) {
+                var comment = result.extend.comment;
+                // 填充模态框的内容
+                $(".modal-body").empty();
+                $(".modal-body")
+                    .append($("<p></p>").append("所在文章id：" + comment.articleId))
+                    .append($("<p></p>").append("文章名称：" + articleTitle))
+                    .append($("<p></p>").append("评论人昵称：" + comment.authorNickname))
+                    .append($("<p></p>").append("内容：" + comment.commentContent))
+                    .append($("<p></p>").append("邮箱：" + comment.authorEmail))
+                    .append($("<p></p>").append("评论日期：" + dateFormat(comment.commentDate)))
+                    .append($("<p></p>").append("评论人地址：" + comment.authorIp));
+                // 打开模态框进行展示
+                $(".modal").css("display", "block");
+                $(window).click(function(event){
+                    if(event.target == $(".modal")[0]){
+                        $(".modal").css("display", "none");
+                    }
+                })
+            }
+        })
     })
 
     // 删除评论
     $(document).on("click", "#delete-comment-btn", function () {
+        /**
+         * 在ajax中后端参数不支持RequestParam注解，支持PathVarible
+         * 并且前台传递的字符串不能有特殊符号
+         * 有特殊符号应该将其在前端分割
+         * 然后在后端拼接
+         * */
         var articleAbstract = $(this).parents("tr").find("td:eq(2)").text();
         var articleId =
             $(this).parents("tr").find("td:eq(5)").find("#delete-comment-btn").attr("delete-id");
         var authorEmail = $(this).parents("tr").find("td:eq(4)").text();
         var commentDate = $(this).parents("tr").find("td:eq(3)").text();
-        var ajaxStr = articleId + "&" + authorEmail + "&" + commentDate;
 
         if(confirm("确认删除 " + articleAbstract + " 吗？")){
             $.ajax({
                 url: "comment",
-                type: "DELETE",
-                data: "ajaxStr=" + ajaxStr,
+                type: "PUT",
+                data: {
+                    "articleId" : articleId,
+                    "email" : authorEmail,
+                    "commentDate" : commentDate
+                },
                 success: function (result) {
                     alert("删除成功");
                     to_comment_page(currentCommentPage);
@@ -405,7 +450,6 @@
             });
         }
     })
-
 
     //去文章管理的第 pn 页
     function to_article_page(pn) {
@@ -640,6 +684,8 @@
         }
         return str;
     }
+
+
 
 </script>
 </body>

@@ -1,8 +1,10 @@
 package com.Jancoyan.controller;
 
 import com.Jancoyan.domain.ArticleComment;
+import com.Jancoyan.domain.ArticleCommentKey;
 import com.Jancoyan.service.CommentService;
 import com.Jancoyan.utils.Msg;
+import com.Jancoyan.utils.TimeUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +31,59 @@ public class CommentController {
      * /comment
      *  -POST 添加评论
      *  -GET 获取所有评论（分页）
-     *  -DELETE 删除一条评论
+     *  -PUT 删除一条评论
+     *
+     * /getcomment
+     *  -GET从主键获取一条评论
      */
 
-
-
+    /**
+     * 由主键查询
+     * @param articleId 文章id
+     * @param email 用户邮箱
+     * @param commentDate 评论日期
+     * @return 查到的评论
+     */
     @ResponseBody
-    @RequestMapping(value = "/comment", method = RequestMethod.DELETE)
-    public Msg deleteComment(String ajaxStr){
-        System.out.println(ajaxStr);
+    @RequestMapping(value = "/getcomment", method = RequestMethod.GET)
+    public Msg getCommentByPrimaryKey(
+            String articleId,
+            String email,
+            String commentDate
+    ){
+        // 进行封装
+        ArticleCommentKey articleCommentKey = new ArticleCommentKey();
+        articleCommentKey.setAuthorEmail(email);
+        articleCommentKey.setArticleId(articleId);
+        articleCommentKey.setCommentDate(TimeUtils.caseDateStringToDateTypeYMDHMS(commentDate));
+        // 进行传输
+        ArticleComment articleComment = commentService.getCommentByPrimaryKey(articleCommentKey);
+        return Msg.success().add("comment", articleComment);
+    }
+
+
+    /**
+     * 删除评论
+     * @param articleId 文章id
+     * @param email 评论人邮箱
+     * @param commentDate 评论日期
+     * @return 成功msg
+     */
+    @ResponseBody
+    @RequestMapping(value = "/comment", method = RequestMethod.PUT)
+    public Msg deleteComment(
+        String articleId,
+        String email,
+        String commentDate
+    ){
+        // 构造主键
+        ArticleCommentKey articleCommentKey = new ArticleCommentKey();
+        articleCommentKey.setArticleId(articleId);
+        articleCommentKey.setAuthorEmail(email);
+        articleCommentKey.setCommentDate(TimeUtils.caseDateStringToDateTypeYMDHMS(commentDate));
+
+        // 由主键删除
+        commentService.deleteByPrimaryKey(articleCommentKey);
         return Msg.success();
     }
 

@@ -12,13 +12,29 @@ import java.util.Date;
 public class TimeUtils {
 
     /**
-     * 把日期字符串转化为日期类型
+     * 把日期字符串转化为 yyyy-MM-dd 日期类型
      * @param dateStr 日期字符串
      * @return 日期类型
      */
-    public static Date castDateStringToDateType(String dateStr){
+    public static Date castDateStringToDateTypeYMD(String dateStr){
         Date date = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            date = sdf.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    /**
+     * 把日期字符串转化为日期 yyyy-MM-dd HH:mm:ss 形式
+     * @param dateStr 字符串类型
+     * @return date对象
+     */
+    public static Date caseDateStringToDateTypeYMDHMS(String dateStr){
+        Date date = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             date = sdf.parse(dateStr);
         } catch (ParseException e) {
@@ -54,5 +70,6 @@ public class TimeUtils {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return simpleDateFormat.format(date);
     }
+
 
 }

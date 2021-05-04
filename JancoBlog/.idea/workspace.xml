@@ -35,18 +35,13 @@
     <list default="true" id="1396a05c-84b7-4b67-ad6a-3fd7d55d47cd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/CommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/dao/ArticleCommentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/dao/ArticleCommentMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/ArticleComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/ArticleComment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/service/CommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/ArticleUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/ArticleUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/FileIo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/FileIo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/ArticleCommentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/ArticleCommentMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/test/TimeUtilsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/test/TimeUtilsTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/TimeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/utils/TimeUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/static/css/workbench.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/css/workbench.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/article-preload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/article-preload.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/workbench/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/workbench/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../前端原型/article.html" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/article.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../前端原型/css/workbench.css" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/css/workbench.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../前端原型/workbench/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/workbench/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -435,7 +430,8 @@
       <workItem from="1619996632906" duration="6920000" />
       <workItem from="1620009857681" duration="7579000" />
       <workItem from="1620033307307" duration="13443000" />
-      <workItem from="1620052688627" duration="1552000" />
+      <workItem from="1620052688627" duration="2886000" />
+      <workItem from="1620083594882" duration="9905000" />
     </task>
     <task id="LOCAL-00001" summary="change directory structure">
       <created>1617886671821</created>

@@ -13,7 +13,7 @@ public class TimeUtilsTest {
      */
     @Test
     public void testCastTimeStringToDateType(){
-        System.out.println(TimeUtils.castDateStringToDateType("2021-11-23"));
+        System.out.println(TimeUtils.castDateStringToDateTypeYMD("2021-11-23"));
     }
 
 

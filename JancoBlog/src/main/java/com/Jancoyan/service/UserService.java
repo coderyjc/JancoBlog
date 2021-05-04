@@ -40,6 +40,9 @@ public class UserService {
         criteria.andUserNameEqualTo(user.getUserName());
         criteria.andUserPwdEqualTo(user.getUserPwd());
         List<User> users = userMapper.selectByExample(example);
-        return users.get(0);
+        if(users.size() == 1){
+            return users.get(0);
+        } else
+            return null;
     }
 }
