@@ -143,16 +143,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="show-details">评论详细信息查看</div>
-                <span id="closeBtn" class="close">×</span>
             </div>
             <div class="modal-body">
-                <p>所在文章id：100001000003000289</p>
-                <p>文章名称：这是名称</p>
-                <p>评论人昵称：asdasdji</p>
-                <p>内容：这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容</p>
-                <p>邮箱：216451365@qq.com</p>
-                <p>评论日期：2019.2.1 12:32:05</p>
-                <p>评论人地址：192.165.3.5</p>
             </div>
         </div>
     </div>
@@ -306,7 +298,7 @@
         $("#user-email").val("<%=user.getUserEmail()%>").attr("disabled", "disabled");
         $("#user-create-date").val("<%=TimeUtils.castDateTypeToDateString(user.getUserCreateDate())%>").attr("disabled", "disabled");
         //先把性别的选择去掉
-        $(".user-sex>div").removeClass("active");
+        $(".user-sex>div").removeClass("choose");
         //然后把应该选择的选上
         if(1 == <%=user.getUserSex()%>){
             $(".male").addClass("choose");
@@ -318,6 +310,10 @@
         $("#edit-personal-info").css("display","block");
         $("#cancel-personal-info").css("display", "none");
         $("#save-personal-info").css("display", "none");
+
+        $.each($(".user-sex>div"), function (index, item) {
+            item.onclick = null;
+        })
     });
 
     // 修改密码的提交
@@ -342,11 +338,6 @@
                 var repeat = $("#repeat-new-password").val("");
             }
         });
-    });
-
-    // 关闭模态框的叉
-    $("#closeBtn").click(function(){
-        $(".modal").css("display", "none");
     });
 
     //修改按钮，应该打开写文章的页面并填充上相应的文章

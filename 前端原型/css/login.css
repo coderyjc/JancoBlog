@@ -1,5 +1,7 @@
-body{
-    margin-top: 0;
+/* 清除浏览器默认样式 */
+*{
+    margin:0;
+    padding:0;
 }
 /* 顶部导航栏 */
 .nav{
@@ -42,19 +44,91 @@ a:visited{
 }
 /* 登录item，也就是用户名和密码条 */
 .login-item{
-    margin: 25px auto;
+    margin: 15px auto;
     font-size: large;
     border-radius: 5px;
     height: 35px;
     width: 300px;
 }
 /* 登录按钮 */
-#submit{
+#login-btn{
     background-color:rgb(66, 139, 202);
     border: blue;
     color: white;
 }
 /* 划过登录按钮的效果 */
-#submit:hover{
+#login-btn:hover{
     background-color: #3071a9;
+}
+#login-btn:active{
+	background-color: #1c5581;
+}
+/* 注册按钮 */
+#register-btn{
+	background-color:rgb(32, 202, 177);
+	border: rgb(32, 202, 177);
+	color: white;
+}
+#register-btn:hover{
+	background-color: rgb(28, 181, 158);
+}
+#register-btn:active{
+	background-color: rgb(20, 129, 113);
+}
+
+/*模态框*/
+.modal {
+    display: none; /* 默认隐藏 */
+    position: fixed; /* 根据浏览器定位 */
+    z-index: 1; /* 放在顶部 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 全宽 */
+    height: 100%; /* 全高 */
+    overflow: auto; /* 允许滚动 */
+    background-color: rgba(0,0,0,0.4); /* 背景色 */
+}
+/*模态框内容*/
+.modal-content {
+    display: flex; /*采用flexbox布局*/
+    flex-direction: column; /*垂直排列*/
+    position: relative;
+    background-color: #fefefe;
+    margin: 15% auto; /*距顶部15% 水平居中*/
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    animation: topDown 0.4s; /*自定义动画，从模态框内容上到下出现*/
+}
+@keyframes topDown {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+/*模态框头部*/
+.modal-header {
+    display: flex; /*采用flexbox布局*/
+    flex-direction: row; /*水平布局*/
+    align-items: center; /*内容垂直居中*/
+    justify-content: space-between;
+    margin: 5px auto;
+}
+.modal-body>p{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+/*关闭X 样式*/
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.modal-header>.show-details{
+    font-size: 25px;
+    font-weight: 600;
 }

@@ -181,6 +181,7 @@ public class ArticleController {
 
         //将html页面写入文件
         String fileName = userId + TimeUtils.getCurrentTimestamp();
+        FileIo.createDirectoryIfNotExists(ConstUtils.CURRENTPATH +  "\\static\\p");
         String path = ConstUtils.CURRENTPATH + "\\static\\p\\" + fileName + ".html";
         FileIo.writeFile(path, content);
 

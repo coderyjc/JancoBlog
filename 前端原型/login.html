@@ -3,83 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <style>
-        body{
-            margin-top: 0;
-        }
-        /* 顶部导航栏 */
-        .nav{
-            font-size: 40px;
-            font-weight: 500;
-            color: white;
-            background-color: rgb(60, 60, 60);
-            padding: 0px 200px;
-        }
-
-        /* 导航栏里面的@后面的字 */
-        .nav-author{
-            font-size: 10px;
-        }
-        /* Janco 超链接 */
-        a{
-            text-decoration: none;
-        }
-        a:link{
-           color: white;
-        }
-        a:visited{
-            color: white;
-        }
-        /* 登录div */
-        .login{
-            border: solid rgb(175, 165, 165) 0.7px ;
-            border-radius: 15px;
-            padding: 30px 60px;
-            width: 330px;
-            height: 350px;
-            margin: auto;
-            margin-top: 150px;
-            background-color: white;
-        }
-        /* 登录界面的登录字体 */
-        .login-text{
-            font-size: 30px;
-            margin: 10px auto;
-        }
-        /* 登录item，也就是用户名和密码条 */
-        .login-item{
-            margin: 25px auto;
-            font-size: large;
-            border-radius: 5px;
-            height: 35px;
-            width: 300px;
-        }
-        /* 登录按钮 */
-        #submit{
-            background-color:rgb(66, 139, 202);
-            border: blue;
-            color: white;
-        }
-        /* 划过登录按钮的效果 */
-        #submit:hover{
-            background-color: #3071a9;
-        }
-    </style>
+	<link rel="stylesheet" type="text/css" href="./css/login.css"/>
+	<script type="text/javascript" src="js/jquery-1.12.js"></script>
 </head>
 <body>
-    <!-- 页面最上面的导航栏 -->
-    <div class="nav"><a href="index.html">JancoBlog</a><span class="nav-author">@Jancoyan</span></div>
-    <!-- 登录面板 -->
-    <div class="login">
-        <!-- "登录"字样 -->
-        <div class="login-text">登录</div>
-        <hr>
-        <!-- 用户名和密码表单 -->
-        <form action="./index.html" >
-            <input type="text" name="uname" id="uname" class="login-item" placeholder="用户名"> <br>
-            <input type="text" name="uname" id="pwd" class="login-item" placeholder="密码"> <br>
-            <input type="submit" name="uname" value="登 录" id="submit" class="login-item">
-        </form>
-    </div>
+	<!-- 页面最上面的导航栏 -->
+	<div class="nav"><a href="index.jsp">JancoBlog</a><span class="nav-author">@Jancoyan</span></div>
+	<!-- 登录面板 -->
+	<div class="login">
+		<!-- "登录"字样 -->
+		<div class="login-text">登录/注册</div>
+		<hr>
+		<!-- 用户名和密码表单 -->
+		<form>
+			<input type="text" name="userName" id="userName" class="login-item" placeholder="用户名"> <br>
+			<input type="password" name="userPwd" id="userPwd" class="login-item" placeholder="密码"> <br>
+		</form>
+		<button id="login-btn" class="login-item">登录</button>
+		<button id="register-btn" class="login-item">注册</button>
+	</div>
+	<!-- 模态框 -->
+	<div id="myModal" class="modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="show-details">注册</div>
+			</div>
+			<div class="modal-body">
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			$(".modal").css("display", "block");
+		})
+	</script>
 </body>
 </html>

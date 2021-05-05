@@ -60,3 +60,6 @@ a:visited{
 #login-btn:hover{
     background-color: #3071a9;
 }
+#login-btn:active{
+    background-color: #1c5581;
+}
