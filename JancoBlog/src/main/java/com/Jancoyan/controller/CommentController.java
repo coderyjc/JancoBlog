@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
@@ -49,8 +50,10 @@ public class CommentController {
     public Msg getCommentByPrimaryKey(
             String articleId,
             String email,
-            String commentDate
-    ){
+            String commentDate,
+            HttpServletRequest request
+    ) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         // 进行封装
         ArticleCommentKey articleCommentKey = new ArticleCommentKey();
         articleCommentKey.setAuthorEmail(email);
@@ -74,8 +77,10 @@ public class CommentController {
     public Msg deleteComment(
         String articleId,
         String email,
-        String commentDate
-    ){
+        String commentDate,
+        HttpServletRequest request
+    ) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         // 构造主键
         ArticleCommentKey articleCommentKey = new ArticleCommentKey();
         articleCommentKey.setArticleId(articleId);
@@ -96,8 +101,10 @@ public class CommentController {
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.GET)
     public Msg getAll(
-            Integer pn
-    ){
+            Integer pn,
+            HttpServletRequest request
+    ) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         PageHelper.startPage(pn, 15);
         List<ArticleComment> comments = commentService.getAll();
         PageInfo<ArticleComment> pageInfo = new PageInfo<>(comments, 5);
@@ -121,8 +128,8 @@ public class CommentController {
             String nickName,
             String email,
             String content,
-            HttpServletRequest request){
-
+            HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         // 设置其中的属性
         ArticleComment articleComment = new ArticleComment();
         articleComment.setCommentContent(content);
@@ -144,7 +151,9 @@ public class CommentController {
      */
     @ResponseBody
     @RequestMapping(value = "/comments", method = RequestMethod.GET)
-    public Msg getCommentByArticleId(String id){
+    public Msg getCommentByArticleId(String id,
+                                     HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         List<ArticleComment> articleComments =
                 commentService.getCommmentByArticleId(id);
         return Msg.success().add("comments", articleComments);

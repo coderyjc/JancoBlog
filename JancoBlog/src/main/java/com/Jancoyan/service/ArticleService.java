@@ -7,6 +7,7 @@ import com.Jancoyan.domain.ArticleExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,19 +48,6 @@ public class ArticleService {
         ArticleExample example = new ArticleExample();
         ArticleExample.Criteria criteria = example.createCriteria();
         criteria.andArticleAuthorIdEqualTo(id);
-        List<Article> articles = articleMapper.selectByExample(example);
-        return articles;
-    }
-
-    /**
-     * 根据文章的类型筛选文章
-     * @param id 类型id
-     * @return 文章列表
-     */
-    public List<Article> getArticlesByTypeId(Integer id) {
-        ArticleExample example = new ArticleExample();
-        ArticleExample.Criteria criteria = example.createCriteria();
-        criteria.andArticleTypeEqualTo(id);
         List<Article> articles = articleMapper.selectByExample(example);
         return articles;
     }
@@ -130,8 +118,26 @@ public class ArticleService {
     public List<Article> getArticlesBySuperId(Integer id) {
         ArticleExample example = new ArticleExample();
         ArticleExample.Criteria criteria = example.createCriteria();
-        criteria.andArticleIdLike(id.toString() + "%");
+        List<Integer> ids = new ArrayList<>(100);
+        ids.add(id);
+        for(int i = id * 100 + 1; i < 100*(id + 1); i++)
+            ids.add(i);
+        criteria.andArticleTypeIn(ids);
         List<Article> articles = articleMapper.selectByExample(example);
         return articles;
     }
+
+    /**
+     * 根据文章的类型筛选文章
+     * @param id 类型id
+     * @return 文章列表
+     */
+    public List<Article> getArticlesByTypeId(Integer id) {
+        ArticleExample example = new ArticleExample();
+        ArticleExample.Criteria criteria = example.createCriteria();
+        criteria.andArticleTypeEqualTo(id);
+        List<Article> articles = articleMapper.selectByExample(example);
+        return articles;
+    }
+
 }

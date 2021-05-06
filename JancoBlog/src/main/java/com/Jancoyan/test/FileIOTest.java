@@ -10,7 +10,7 @@ public class FileIOTest {
      */
     @Test
     public void testDeleteImagesFromHtml(){
-        String path = "D:\\JavaWEB\\apache-tomcat-9.0.43\\webapps\\JancoBlog" + "\\static\\p\\" + "100001619996921484" + ".html";
+        String path = "D:\\JavaWEB\\apache-tomcat-9.0.43\\webapps\\JancoBlog" + "\\static\\p\\" + "100001620256930347" + ".html";
         FileIo.deleteImagesInHtmlFile(path);
     }
 

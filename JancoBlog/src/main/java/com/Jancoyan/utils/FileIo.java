@@ -33,7 +33,7 @@ public class FileIo {
             temp =
                     prefix + temp.substring(temp.indexOf("static"),
                     temp.lastIndexOf("\" alt"));
-            temp = temp.replaceAll("[\\\\]", "\\\\\\\\");
+            temp = temp.replaceAll("[\\\\]", Matcher.quoteReplacement(File.separator));
             tmp.add(temp);
         }
         for (String s : tmp){

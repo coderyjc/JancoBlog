@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 
 @Controller
 public class PictureController {
@@ -30,7 +31,8 @@ public class PictureController {
     public JSONObject uploadArticlePicture(@RequestParam(value = "editormd-image-file",
                                                    required = true)MultipartFile multipartFile,
                                            HttpServletRequest request,
-                                           HttpSession session){
+                                           HttpSession session) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         // 获取用户id
         User user = (User) session.getAttribute("user");
         String userId = String.valueOf(user.getUserId());

@@ -29,7 +29,8 @@ public class TypeController {
      */
     @ResponseBody
     @RequestMapping(value = "/types", method = RequestMethod.GET)
-    public Msg getAll(){
+    public Msg getAll(HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         List<Type> typeList = typeService.getAll();
         return Msg.success().add("types", typeList);
     }
@@ -42,7 +43,7 @@ public class TypeController {
     @ResponseBody
     @RequestMapping(value = "/types", method = RequestMethod.POST)
     public Msg getTypeByPrimaryKey(String id, HttpServletRequest request) throws UnsupportedEncodingException {
-        request.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("utf-8");
         Type type = typeService.getTypeByPrimaryKey(Integer.parseInt(id));
         return Msg.success().add("type", type);
     }

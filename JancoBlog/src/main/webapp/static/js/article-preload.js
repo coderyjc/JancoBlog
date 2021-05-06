@@ -1,6 +1,6 @@
 var article;
-var subType;
-var superType;
+var subType = null;
+var superType = null;
 
 
 $(function(){
@@ -9,32 +9,32 @@ $(function(){
     get_sub_types();
     get_super_types()
     build_page();
-    // »ñÈ¡ÎÄÕÂÆÀÂÛ
+    // è·å–æ–‡ç« è¯„è®º
     get_comments();
 
-    // Ìí¼Ó±Ê¼ÇµÄ°´Å¥ÊÂ¼ş
+    // æ·»åŠ ç¬”è®°çš„æŒ‰é’®äº‹ä»¶
     $(".add-comment-btn").click(function (){
-        // »ñÈ¡Ïà¹ØĞÅÏ¢
+        // è·å–ç›¸å…³ä¿¡æ¯
         let nickName = $("#edit-comment-author").val();
         let email = $("#edit-comment-email").val();
         let content = $("#edit-comment-content").val();
-        // ½øĞĞºÏ·¨Ğ£Ñé
+        // è¿›è¡Œåˆæ³•æ ¡éªŒ
         var nameReg = /^[\u4E00-\u9FA5A-Za-z0-9]{2,20}$/;
         if(!nameReg.test(nickName)){
-            alert("ÓÃ»§Ãû¸ñÊ½²»¶Ô");
+            alert("ç”¨æˆ·åæ ¼å¼ä¸å¯¹");
             return;
         }
         var emailReg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
         if(!emailReg.test(email)){
-            alert("ÓÃ»§ÓÊÏä¸ñÊ½²»¶Ô");
+            alert("ç”¨æˆ·é‚®ç®±æ ¼å¼ä¸å¯¹");
             return;
         }
         if("" === content){
-            alert("ÄÚÈİ²»ÄÜÎª¿Õ");
+            alert("å†…å®¹ä¸èƒ½ä¸ºç©º");
             return;
         }
 
-        // ·¢ËÍajaxÇëÇó½øĞĞÌí¼Ó
+        // å‘é€ajaxè¯·æ±‚è¿›è¡Œæ·»åŠ 
         $.ajax({
             url: "../../comment",
             type: "POST",
@@ -46,10 +46,10 @@ $(function(){
             },
             success: function (result) {
                 let comment = result.extend.comment;
-                // ÔÚÆÀÂÛÇøÌí¼ÓÕâÒ»ÌõÆÀÂÛ
+                // åœ¨è¯„è®ºåŒºæ·»åŠ è¿™ä¸€æ¡è¯„è®º
                 $(".comment-list").append(create_comment_box(comment));
                 add_article_comment_count();
-                // Çå¿Õ±à¼­Çø
+                // æ¸…ç©ºç¼–è¾‘åŒº
                 $("#edit-comment-author").val("");
                 $("#edit-comment-email").val("");
                 $("#edit-comment-content").val("");
@@ -60,7 +60,7 @@ $(function(){
 
 
 /**
- * Ò³Ãæ¼ÓÔØÍê±ÏÖ®ºó¼ÓÔØÆÀÂÛ
+ * é¡µé¢åŠ è½½å®Œæ¯•ä¹‹ååŠ è½½è¯„è®º
  */
 function get_comments(){
     $.ajax({
@@ -70,7 +70,7 @@ function get_comments(){
         success: function (result) {
             var comments = result.extend.comments;
             var list = $(".comment-list");
-            // ±éÀúÌí¼Ó
+            // éå†æ·»åŠ 
             $.each(comments, function (index, item) {
                 list.append(create_comment_box(item));
             });
@@ -79,16 +79,16 @@ function get_comments(){
 }
 
 /**
- * ´´ÔìÆÀÂÛbox
- * @param comment ÆÀÂÛ¶ÔÏó
- * @returns {*|jQuery} ·µ»ØÆÀÂÛbox
+ * åˆ›é€ è¯„è®ºbox
+ * @param comment è¯„è®ºå¯¹è±¡
+ * @returns {*|jQuery} è¿”å›è¯„è®ºbox
  */
 function create_comment_box(comment) {
     var commentBox = $("<div></div>").addClass("comment-box clearfix");
 
     var commentAuthorInfo = $("<div></div>").addClass("comment-author-info")
-        .append($("<div class='comment-author'></div>").append("êÇ³Æ£º" + comment.authorNickname))
-        .append($("<div class='comment-ip'></div>").append("µØÖ·£º" + comment.authorIp));
+        .append($("<div class='comment-author'></div>").append("æ˜µç§°ï¼š" + comment.authorNickname))
+        .append($("<div class='comment-ip'></div>").append("åœ°å€ï¼š" + comment.authorIp));
     var commentContent = $("<div></div>").addClass("comment-conetnt").append(comment.commentContent);
     var otherInfo = $("<div class='comment-other-info'></div>")
         .append($("<div class='comment-date'></div>").append(dateFormat(comment.commentDate)));
@@ -101,7 +101,7 @@ function create_comment_box(comment) {
 }
 
 /**
- * ajax»ñÈ¡ÎÄÕÂ
+ * ajaxè·å–æ–‡ç« 
  */
 function get_article(){
     var currentPath = window.location.href;
@@ -119,7 +119,7 @@ function get_article(){
 }
 
 /**
- * ajax»ñÈ¡¶ş¼¶ÀàĞÍ
+ * ajaxè·å–äºŒçº§ç±»å‹
  */
 function get_sub_types() {
     $.ajax({
@@ -134,7 +134,7 @@ function get_sub_types() {
 }
 
 /**
- * ajax»ñÈ¡¸¸¼¶ÀàĞÍ
+ * ajaxè·å–çˆ¶çº§ç±»å‹
  */
 function get_super_types() {
     $.ajax({
@@ -149,10 +149,10 @@ function get_super_types() {
 }
 
 /**
- * ¸ù¾İ»ñÈ¡µ½µÄÎÄÕÂºÍÀàĞÍ½øĞĞÒ³ÃæµÄ½¨Á¢
+ * æ ¹æ®è·å–åˆ°çš„æ–‡ç« å’Œç±»å‹è¿›è¡Œé¡µé¢çš„å»ºç«‹
  */
 function build_page(){
-    $(".article-view-time").append("ä¯ÀÀÁ¿£º"+ article.articleViewTime);
+    $(".article-view-time").append("æµè§ˆé‡ï¼š"+ article.articleViewTime);
     if(superType != null){
         var superPath = "../../sortlist.jsp?type=" + superType.typeId;
         var superTypeA = $("<a></a>").attr("href", superPath).append(superType.typeName);
@@ -166,7 +166,7 @@ function build_page(){
     }
 }
 
-//ÆÀÂÛÖ®ºóÔö¼ÓÊı¾İ¿âÖĞÎÄÕÂµÄÆÀÂÛÊıÁ¿
+//è¯„è®ºä¹‹åå¢åŠ æ•°æ®åº“ä¸­æ–‡ç« çš„è¯„è®ºæ•°é‡
 function add_article_comment_count() {
     $.ajax({
         url:"../../article/comment",
@@ -176,9 +176,9 @@ function add_article_comment_count() {
 }
 
 /**
- * ½«Ê±¼ä´Á×ª»¯Îª±ê×¼Ê±¼ä
- * @param date Ê±¼ä´Á
- * @returns {string} ±ê×¼Ê±¼ä×Ö·û´®
+ * å°†æ—¶é—´æˆ³è½¬åŒ–ä¸ºæ ‡å‡†æ—¶é—´
+ * @param date æ—¶é—´æˆ³
+ * @returns {string} æ ‡å‡†æ—¶é—´å­—ç¬¦ä¸²
  */
 function dateFormat(date) {
     var s = new Date(date)

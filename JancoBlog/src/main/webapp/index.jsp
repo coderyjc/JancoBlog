@@ -234,6 +234,8 @@
             type: "POST",
             data: {
                 "id": articleId,
+            },
+            success: function () {
             }
         });
     }
@@ -254,7 +256,7 @@
         var scrollTop = $(this).scrollTop();
         var scrollHeight = $(document).height();
         var windowHeight = $(this).height();
-        if(scrollTop + windowHeight == scrollHeight){
+        if(scrollTop + windowHeight == scrollHeight && currentPage < totalPage){
             currentPage += 1;
             get_article_page(currentPage);
         }

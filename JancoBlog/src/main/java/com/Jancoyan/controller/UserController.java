@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author Jancoyan
@@ -44,8 +46,12 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/user/password", method = RequestMethod.POST)
-    public Msg changePassword(String oldPwd, String newPwd, String repeat,
-                              HttpSession session){
+    public Msg changePassword(String oldPwd,
+                              String newPwd,
+                              String repeat,
+                              HttpSession session,
+                              HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         User user = (User) session.getAttribute("user");
         if (!user.getUserPwd().equals(MD5Util.getMD5(oldPwd))){
             return Msg.success().add("msg", "旧密码错误");
@@ -75,7 +81,9 @@ public class UserController {
                           String userEmail,
                           String userSex,
                           String userBirthdayDay,
-                          HttpSession session){
+                          HttpSession session,
+                          HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         User user = (User) session.getAttribute("user");
         // 设置相关信息
         user.setUserNickname(userNickName);
@@ -90,8 +98,6 @@ public class UserController {
         return Msg.success();
     }
 
-
-
     /**
      * 登录功能实现
      * @param user 用户
@@ -100,7 +106,8 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Msg login(User user, HttpSession session) {
+    public Msg login(User user, HttpSession session, HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         // 对密码进行加密
         user.setUserPwd(MD5Util.getMD5(user.getUserPwd()));
         user = userService.login(user);

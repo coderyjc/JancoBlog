@@ -43,12 +43,14 @@ public class ArticleUtils {
                 "<head>" +
                 "<meta charset=\"utf-8\">" +
                 "<title>" + title + "</title>" +
-                "    <link rel=\"stylesheet\" href=\"../js/editor.md/css/editormd.min.css\">" +
-                "   <script src=\"../js/jquery-1.12.js\" type=\"text/javascript\" " +
+                "    <link rel=\"stylesheet\" href=\""+ ConstUtils.LINK_EDITOR_PATH + "\">" +
+                "   <script src=\"" + ConstUtils.SCRIPT_JQUERY_PATH + "\" type=\"text/javascript" +
+                "\" " +
                 "charset=\"utf-8\"></script>\n" +
-                "   <script src=\"../js/article-preload.js\" type=\"text/javascript\" " +
+                "   <script src=\"" + ConstUtils.SCRIPT_PRELOAD_PATH + "\" type=\"text/javascript" +
+                "\" " +
                 "charset=\"utf-8\"></script>\n"+
-                "<link rel=\"stylesheet\" href=\"../css/article.css\">" +
+                "<link rel=\"stylesheet\" href=\"" + ConstUtils.LINK_ARTICLE_PATH + "\">" +
                 "</head>" +
                 "<body><!-- 导航条 -->" +
                 "<div class=\"nav\">" +

@@ -49,9 +49,9 @@
     /**
      * editormd
      * 
-     * @param   {String} id           ±à¼­Æ÷µÄID
-     * @param   {Object} options      ÅäÖÃÑ¡Ïî Key/Value
-     * @returns {Object} editormd     ·µ»Øeditormd¶ÔÏó
+     * @param   {String} id           ç¼–è¾‘å™¨çš„ID
+     * @param   {Object} options      é…ç½®é€‰é¡¹ Key/Value
+     * @returns {Object} editormd     è¿”å›editormdå¯¹è±¡
      */
     
     var editormd         = function (id, options) {
@@ -228,97 +228,97 @@
         
         lang : {
             name        : "zh-cn",
-            description : "¿ªÔ´ÔÚÏßMarkdown±à¼­Æ÷<br/>Open source online Markdown editor.",
-            tocTitle    : "Ä¿Â¼",
+            description : "å¼€æºåœ¨çº¿Markdownç¼–è¾‘å™¨<br/>Open source online Markdown editor.",
+            tocTitle    : "ç›®å½•",
             toolbar     : {
-                undo             : "³·Ïú£¨Ctrl+Z£©",
-                redo             : "ÖØ×ö£¨Ctrl+Y£©",
-                bold             : "´ÖÌå",
-                del              : "É¾³ıÏß",
-                italic           : "Ğ±Ìå",
-                quote            : "ÒıÓÃ",
-                ucwords          : "½«Ã¿¸öµ¥´ÊÊ××ÖÄ¸×ª³É´óĞ´",
-                uppercase        : "½«ËùÑ¡×ª»»³É´óĞ´",
-                lowercase        : "½«ËùÑ¡×ª»»³ÉĞ¡Ğ´",
-                h1               : "±êÌâ1",
-                h2               : "±êÌâ2",
-                h3               : "±êÌâ3",
-                h4               : "±êÌâ4",
-                h5               : "±êÌâ5",
-                h6               : "±êÌâ6",
-                "list-ul"        : "ÎŞĞòÁĞ±í",
-                "list-ol"        : "ÓĞĞòÁĞ±í",
-                hr               : "ºáÏß",
-                link             : "Á´½Ó",
-                "reference-link" : "ÒıÓÃÁ´½Ó",
-                image            : "Ìí¼ÓÍ¼Æ¬",
-                code             : "ĞĞÄÚ´úÂë",
-                "preformatted-text" : "Ô¤¸ñÊ½ÎÄ±¾ / ´úÂë¿é£¨Ëõ½ø·ç¸ñ£©",
-                "code-block"     : "´úÂë¿é£¨¶àÓïÑÔ·ç¸ñ£©",
-                table            : "Ìí¼Ó±í¸ñ",
-                datetime         : "ÈÕÆÚÊ±¼ä",
-                emoji            : "Emoji±íÇé",
-                "html-entities"  : "HTMLÊµÌå×Ö·û",
-                pagebreak        : "²åÈë·ÖÒ³·û",
-                "goto-line"      : "Ìø×ªµ½ĞĞ",
-                watch            : "¹Ø±ÕÊµÊ±Ô¤ÀÀ",
-                unwatch          : "¿ªÆôÊµÊ±Ô¤ÀÀ",
-                preview          : "È«´°¿ÚÔ¤ÀÀHTML£¨°´ Shift + ESC»¹Ô­£©",
-                fullscreen       : "È«ÆÁ£¨°´ESC»¹Ô­£©",
-                clear            : "Çå¿Õ",
-                search           : "ËÑË÷",
-                help             : "Ê¹ÓÃ°ïÖú",
-                info             : "¹ØÓÚ" + editormd.title
+                undo             : "æ’¤é”€ï¼ˆCtrl+Zï¼‰",
+                redo             : "é‡åšï¼ˆCtrl+Yï¼‰",
+                bold             : "ç²—ä½“",
+                del              : "åˆ é™¤çº¿",
+                italic           : "æ–œä½“",
+                quote            : "å¼•ç”¨",
+                ucwords          : "å°†æ¯ä¸ªå•è¯é¦–å­—æ¯è½¬æˆå¤§å†™",
+                uppercase        : "å°†æ‰€é€‰è½¬æ¢æˆå¤§å†™",
+                lowercase        : "å°†æ‰€é€‰è½¬æ¢æˆå°å†™",
+                h1               : "æ ‡é¢˜1",
+                h2               : "æ ‡é¢˜2",
+                h3               : "æ ‡é¢˜3",
+                h4               : "æ ‡é¢˜4",
+                h5               : "æ ‡é¢˜5",
+                h6               : "æ ‡é¢˜6",
+                "list-ul"        : "æ— åºåˆ—è¡¨",
+                "list-ol"        : "æœ‰åºåˆ—è¡¨",
+                hr               : "æ¨ªçº¿",
+                link             : "é“¾æ¥",
+                "reference-link" : "å¼•ç”¨é“¾æ¥",
+                image            : "æ·»åŠ å›¾ç‰‡",
+                code             : "è¡Œå†…ä»£ç ",
+                "preformatted-text" : "é¢„æ ¼å¼æ–‡æœ¬ / ä»£ç å—ï¼ˆç¼©è¿›é£æ ¼ï¼‰",
+                "code-block"     : "ä»£ç å—ï¼ˆå¤šè¯­è¨€é£æ ¼ï¼‰",
+                table            : "æ·»åŠ è¡¨æ ¼",
+                datetime         : "æ—¥æœŸæ—¶é—´",
+                emoji            : "Emojiè¡¨æƒ…",
+                "html-entities"  : "HTMLå®ä½“å­—ç¬¦",
+                pagebreak        : "æ’å…¥åˆ†é¡µç¬¦",
+                "goto-line"      : "è·³è½¬åˆ°è¡Œ",
+                watch            : "å…³é—­å®æ—¶é¢„è§ˆ",
+                unwatch          : "å¼€å¯å®æ—¶é¢„è§ˆ",
+                preview          : "å…¨çª—å£é¢„è§ˆHTMLï¼ˆæŒ‰ Shift + ESCè¿˜åŸï¼‰",
+                fullscreen       : "å…¨å±ï¼ˆæŒ‰ESCè¿˜åŸï¼‰",
+                clear            : "æ¸…ç©º",
+                search           : "æœç´¢",
+                help             : "ä½¿ç”¨å¸®åŠ©",
+                info             : "å…³äº" + editormd.title
             },
             buttons : {
-                enter  : "È·¶¨",
-                cancel : "È¡Ïû",
-                close  : "¹Ø±Õ"
+                enter  : "ç¡®å®š",
+                cancel : "å–æ¶ˆ",
+                close  : "å…³é—­"
             },
             dialog : {
                 link : {
-                    title    : "Ìí¼ÓÁ´½Ó",
-                    url      : "Á´½ÓµØÖ·",
-                    urlTitle : "Á´½Ó±êÌâ",
-                    urlEmpty : "´íÎó£ºÇëÌîĞ´Á´½ÓµØÖ·¡£"
+                    title    : "æ·»åŠ é“¾æ¥",
+                    url      : "é“¾æ¥åœ°å€",
+                    urlTitle : "é“¾æ¥æ ‡é¢˜",
+                    urlEmpty : "é”™è¯¯ï¼šè¯·å¡«å†™é“¾æ¥åœ°å€ã€‚"
                 },
                 referenceLink : {
-                    title    : "Ìí¼ÓÒıÓÃÁ´½Ó",
-                    name     : "ÒıÓÃÃû³Æ",
-                    url      : "Á´½ÓµØÖ·",
-                    urlId    : "Á´½ÓID",
-                    urlTitle : "Á´½Ó±êÌâ",
-                    nameEmpty: "´íÎó£ºÒıÓÃÁ´½ÓµÄÃû³Æ²»ÄÜÎª¿Õ¡£",
-                    idEmpty  : "´íÎó£ºÇëÌîĞ´ÒıÓÃÁ´½ÓµÄID¡£",
-                    urlEmpty : "´íÎó£ºÇëÌîĞ´ÒıÓÃÁ´½ÓµÄURLµØÖ·¡£"
+                    title    : "æ·»åŠ å¼•ç”¨é“¾æ¥",
+                    name     : "å¼•ç”¨åç§°",
+                    url      : "é“¾æ¥åœ°å€",
+                    urlId    : "é“¾æ¥ID",
+                    urlTitle : "é“¾æ¥æ ‡é¢˜",
+                    nameEmpty: "é”™è¯¯ï¼šå¼•ç”¨é“¾æ¥çš„åç§°ä¸èƒ½ä¸ºç©ºã€‚",
+                    idEmpty  : "é”™è¯¯ï¼šè¯·å¡«å†™å¼•ç”¨é“¾æ¥çš„IDã€‚",
+                    urlEmpty : "é”™è¯¯ï¼šè¯·å¡«å†™å¼•ç”¨é“¾æ¥çš„URLåœ°å€ã€‚"
                 },
                 image : {
-                    title    : "Ìí¼ÓÍ¼Æ¬",
-                    url      : "Í¼Æ¬µØÖ·",
-                    link     : "Í¼Æ¬Á´½Ó",
-                    alt      : "Í¼Æ¬ÃèÊö",
-                    uploadButton     : "±¾µØÉÏ´«",
-                    imageURLEmpty    : "´íÎó£ºÍ¼Æ¬µØÖ·²»ÄÜÎª¿Õ¡£",
-                    uploadFileEmpty  : "´íÎó£ºÉÏ´«µÄÍ¼Æ¬²»ÄÜÎª¿Õ¡£",
-                    formatNotAllowed : "´íÎó£ºÖ»ÔÊĞíÉÏ´«Í¼Æ¬ÎÄ¼ş£¬ÔÊĞíÉÏ´«µÄÍ¼Æ¬ÎÄ¼ş¸ñÊ½ÓĞ£º"
+                    title    : "æ·»åŠ å›¾ç‰‡",
+                    url      : "å›¾ç‰‡åœ°å€",
+                    link     : "å›¾ç‰‡é“¾æ¥",
+                    alt      : "å›¾ç‰‡æè¿°",
+                    uploadButton     : "æœ¬åœ°ä¸Šä¼ ",
+                    imageURLEmpty    : "é”™è¯¯ï¼šå›¾ç‰‡åœ°å€ä¸èƒ½ä¸ºç©ºã€‚",
+                    uploadFileEmpty  : "é”™è¯¯ï¼šä¸Šä¼ çš„å›¾ç‰‡ä¸èƒ½ä¸ºç©ºã€‚",
+                    formatNotAllowed : "é”™è¯¯ï¼šåªå…è®¸ä¸Šä¼ å›¾ç‰‡æ–‡ä»¶ï¼Œå…è®¸ä¸Šä¼ çš„å›¾ç‰‡æ–‡ä»¶æ ¼å¼æœ‰ï¼š"
                 },
                 preformattedText : {
-                    title             : "Ìí¼ÓÔ¤¸ñÊ½ÎÄ±¾»ò´úÂë¿é", 
-                    emptyAlert        : "´íÎó£ºÇëÌîĞ´Ô¤¸ñÊ½ÎÄ±¾»ò´úÂëµÄÄÚÈİ¡£"
+                    title             : "æ·»åŠ é¢„æ ¼å¼æ–‡æœ¬æˆ–ä»£ç å—", 
+                    emptyAlert        : "é”™è¯¯ï¼šè¯·å¡«å†™é¢„æ ¼å¼æ–‡æœ¬æˆ–ä»£ç çš„å†…å®¹ã€‚"
                 },
                 codeBlock : {
-                    title             : "Ìí¼Ó´úÂë¿é",                    
-                    selectLabel       : "´úÂëÓïÑÔ£º",
-                    selectDefaultText : "ÇëÑ¡Ôñ´úÂëÓïÑÔ",
-                    otherLanguage     : "ÆäËûÓïÑÔ",
-                    unselectedLanguageAlert : "´íÎó£ºÇëÑ¡Ôñ´úÂëËùÊôµÄÓïÑÔÀàĞÍ¡£",
-                    codeEmptyAlert    : "´íÎó£ºÇëÌîĞ´´úÂëÄÚÈİ¡£"
+                    title             : "æ·»åŠ ä»£ç å—",                    
+                    selectLabel       : "ä»£ç è¯­è¨€ï¼š",
+                    selectDefaultText : "è¯·é€‰æ‹©ä»£ç è¯­è¨€",
+                    otherLanguage     : "å…¶ä»–è¯­è¨€",
+                    unselectedLanguageAlert : "é”™è¯¯ï¼šè¯·é€‰æ‹©ä»£ç æ‰€å±çš„è¯­è¨€ç±»å‹ã€‚",
+                    codeEmptyAlert    : "é”™è¯¯ï¼šè¯·å¡«å†™ä»£ç å†…å®¹ã€‚"
                 },
                 htmlEntities : {
-                    title : "HTML ÊµÌå×Ö·û"
+                    title : "HTML å®ä½“å­—ç¬¦"
                 },
                 help : {
-                    title : "Ê¹ÓÃ°ïÖú"
+                    title : "ä½¿ç”¨å¸®åŠ©"
                 }
             }
         }
@@ -346,12 +346,12 @@
         },
         
         /**
-         * ¹¹Ôìº¯Êı/ÊµÀı³õÊ¼»¯
+         * æ„é€ å‡½æ•°/å®ä¾‹åˆå§‹åŒ–
          * Constructor / instance initialization
          * 
-         * @param   {String}   id            ±à¼­Æ÷µÄID
-         * @param   {Object}   [options={}]  ÅäÖÃÑ¡Ïî Key/Value
-         * @returns {editormd}               ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {String}   id            ç¼–è¾‘å™¨çš„ID
+         * @param   {Object}   [options={}]  é…ç½®é€‰é¡¹ Key/Value
+         * @returns {editormd}               è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         init : function (id, options) {
@@ -486,10 +486,10 @@
         },
         
         /**
-         * ËùĞè×é¼ş¼ÓÔØ¶ÓÁĞ
+         * æ‰€éœ€ç»„ä»¶åŠ è½½é˜Ÿåˆ—
          * Required components loading queue
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         loadQueues : function() {
@@ -603,10 +603,10 @@
         },
         
         /**
-         * ÉèÖÃ Editor.md µÄÕûÌåÖ÷Ìâ£¬Ö÷ÒªÊÇ¹¤¾ßÀ¸
+         * è®¾ç½® Editor.md çš„æ•´ä½“ä¸»é¢˜ï¼Œä¸»è¦æ˜¯å·¥å…·æ 
          * Setting Editor.md theme
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         setTheme : function(theme) {
@@ -622,10 +622,10 @@
         },
         
         /**
-         * ÉèÖÃ CodeMirror£¨±à¼­Çø£©µÄÖ÷Ìâ
+         * è®¾ç½® CodeMirrorï¼ˆç¼–è¾‘åŒºï¼‰çš„ä¸»é¢˜
          * Setting CodeMirror (Editor area) theme
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         setEditorTheme : function(theme) {  
@@ -643,10 +643,10 @@
         },
         
         /**
-         * setEditorTheme() µÄ±ğÃû
+         * setEditorTheme() çš„åˆ«å
          * setEditorTheme() alias
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         setCodeMirrorTheme : function (theme) {            
@@ -656,10 +656,10 @@
         },
         
         /**
-         * ÉèÖÃ Editor.md µÄÖ÷Ìâ
+         * è®¾ç½® Editor.md çš„ä¸»é¢˜
          * Setting Editor.md theme
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         setPreviewTheme : function(theme) {  
@@ -675,10 +675,10 @@
         },
         
         /**
-         * ÅäÖÃºÍ³õÊ¼»¯CodeMirror×é¼ş
+         * é…ç½®å’Œåˆå§‹åŒ–CodeMirrorç»„ä»¶
          * CodeMirror initialization
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         setCodeMirror : function() { 
@@ -745,7 +745,7 @@
         },
         
         /**
-         * »ñÈ¡CodeMirrorµÄÅäÖÃÑ¡Ïî
+         * è·å–CodeMirrorçš„é…ç½®é€‰é¡¹
          * Get CodeMirror setting options
          * 
          * @returns {Mixed}                  return CodeMirror setting option value
@@ -756,10 +756,10 @@
         },
         
         /**
-         * ÅäÖÃºÍÖØÅäÖÃCodeMirrorµÄÑ¡Ïî
+         * é…ç½®å’Œé‡é…ç½®CodeMirrorçš„é€‰é¡¹
          * CodeMirror setting options / resettings
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         setCodeMirrorOption : function(key, value) {
@@ -770,10 +770,10 @@
         },
         
         /**
-         * Ìí¼Ó CodeMirror ¼üÅÌ¿ì½İ¼ü
+         * æ·»åŠ  CodeMirror é”®ç›˜å¿«æ·é”®
          * Add CodeMirror keyboard shortcuts key map
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         addKeyMap : function(map, bottom) {
@@ -783,10 +783,10 @@
         },
         
         /**
-         * ÒÆ³ı CodeMirror ¼üÅÌ¿ì½İ¼ü
+         * ç§»é™¤ CodeMirror é”®ç›˜å¿«æ·é”®
          * Remove CodeMirror keyboard shortcuts key map
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         removeKeyMap : function(map) {
@@ -796,11 +796,11 @@
         },
         
         /**
-         * Ìø×ªµ½Ö¸¶¨µÄĞĞ
+         * è·³è½¬åˆ°æŒ‡å®šçš„è¡Œ
          * Goto CodeMirror line
          * 
          * @param   {String|Intiger}   line      line number or "first"|"last"
-         * @returns {editormd}                   ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}                   è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         gotoLine : function (line) {
@@ -880,7 +880,7 @@
         },
         
         /**
-         * À©Õ¹µ±Ç°ÊµÀı¶ÔÏó£¬¿ÉÍ¬Ê±ÉèÖÃ¶à¸ö»òÕßÖ»ÉèÖÃÒ»¸ö
+         * æ‰©å±•å½“å‰å®ä¾‹å¯¹è±¡ï¼Œå¯åŒæ—¶è®¾ç½®å¤šä¸ªæˆ–è€…åªè®¾ç½®ä¸€ä¸ª
          * Extend editormd instance object, can mutil setting.
          * 
          * @returns {editormd}                  this(editormd instance object.)
@@ -906,7 +906,7 @@
         },
         
         /**
-         * ÉèÖÃ»òÀ©Õ¹µ±Ç°ÊµÀı¶ÔÏó£¬µ¥¸öÉèÖÃ
+         * è®¾ç½®æˆ–æ‰©å±•å½“å‰å®ä¾‹å¯¹è±¡ï¼Œå•ä¸ªè®¾ç½®
          * Extend editormd instance object, one by one
          * 
          * @param   {String|Object}   key       option key
@@ -927,7 +927,7 @@
         },
         
         /**
-         * ÖØĞÂÅäÖÃ
+         * é‡æ–°é…ç½®
          * Resetting editor options
          * 
          * @param   {String|Object}   key       option key
@@ -955,11 +955,11 @@
         },
         
         /**
-         * ×¢²áÊÂ¼ş´¦Àí·½·¨
+         * æ³¨å†Œäº‹ä»¶å¤„ç†æ–¹æ³•
          * Bind editor event handle
          * 
          * @param   {String}     eventType      event type
-         * @param   {Function}   callback       »Øµ÷º¯Êı
+         * @param   {Function}   callback       å›è°ƒå‡½æ•°
          * @returns {editormd}                  this(editormd instance object.)
          */
         
@@ -975,7 +975,7 @@
         },
         
         /**
-         * ½â³ıÊÂ¼ş´¦Àí·½·¨
+         * è§£é™¤äº‹ä»¶å¤„ç†æ–¹æ³•
          * Unbind editor event handle
          * 
          * @param   {String}   eventType          event type
@@ -994,11 +994,11 @@
         },
         
         /**
-         * ÏÔÊ¾¹¤¾ßÀ¸
+         * æ˜¾ç¤ºå·¥å…·æ 
          * Display toolbar
          * 
-         * @param   {Function} [callback=function(){}] »Øµ÷º¯Êı
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {Function} [callback=function(){}] å›è°ƒå‡½æ•°
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         showToolbar : function(callback) {
@@ -1024,10 +1024,10 @@
         },
         
         /**
-         * Òş²Ø¹¤¾ßÀ¸
+         * éšè—å·¥å…·æ 
          * Hide toolbar
          * 
-         * @param   {Function} [callback=function(){}] »Øµ÷º¯Êı
+         * @param   {Function} [callback=function(){}] å›è°ƒå‡½æ•°
          * @returns {editormd}                         this(editormd instance object.)
          */
         
@@ -1044,10 +1044,10 @@
         },
         
         /**
-         * Ò³Ãæ¹ö¶¯Ê±¹¤¾ßÀ¸µÄ¹Ì¶¨¶¨Î»
+         * é¡µé¢æ»šåŠ¨æ—¶å·¥å…·æ çš„å›ºå®šå®šä½
          * Set toolbar in window scroll auto fixed position
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         setToolbarAutoFixed : function(fixed) {
@@ -1098,10 +1098,10 @@
         },
         
         /**
-         * ÅäÖÃºÍ³õÊ¼»¯¹¤¾ßÀ¸
+         * é…ç½®å’Œåˆå§‹åŒ–å·¥å…·æ 
          * Set toolbar and Initialization
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         setToolbar : function() {
@@ -1200,12 +1200,12 @@
         },
         
         /**
-         * ¹¤¾ßÀ¸Í¼±êÊÂ¼ş´¦Àí¶ÔÏóĞòÁĞ
+         * å·¥å…·æ å›¾æ ‡äº‹ä»¶å¤„ç†å¯¹è±¡åºåˆ—
          * Get toolbar icons event handlers
          * 
-         * @param   {Object}   cm    CodeMirrorµÄÊµÀı¶ÔÏó
-         * @param   {String}   name  Òª»ñÈ¡µÄÊÂ¼ş´¦ÀíÆ÷Ãû³Æ
-         * @returns {Object}         ·µ»Ø´¦Àí¶ÔÏóĞòÁĞ
+         * @param   {Object}   cm    CodeMirrorçš„å®ä¾‹å¯¹è±¡
+         * @param   {String}   name  è¦è·å–çš„äº‹ä»¶å¤„ç†å™¨åç§°
+         * @returns {Object}         è¿”å›å¤„ç†å¯¹è±¡åºåˆ—
          */
             
         dialogLockScreen : function() {
@@ -1227,10 +1227,10 @@
         },
         
         /**
-         * ¹¤¾ßÀ¸Í¼±êÊÂ¼ş´¦ÀíÆ÷
+         * å·¥å…·æ å›¾æ ‡äº‹ä»¶å¤„ç†å™¨
          * Bind toolbar icons event handle
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         setToolbarHandler : function() {
@@ -1286,11 +1286,11 @@
         },
         
         /**
-         * ¶¯Ì¬´´½¨¶Ô»°¿ò
+         * åŠ¨æ€åˆ›å»ºå¯¹è¯æ¡†
          * Creating custom dialogs
          * 
-         * @param   {Object} options  ÅäÖÃÏî¼üÖµ¶Ô Key/Value
-         * @returns {dialog}          ·µ»Ø´´½¨µÄdialogµÄjQueryÊµÀı¶ÔÏó
+         * @param   {Object} options  é…ç½®é¡¹é”®å€¼å¯¹ Key/Value
+         * @returns {dialog}          è¿”å›åˆ›å»ºçš„dialogçš„jQueryå®ä¾‹å¯¹è±¡
          */
         
         createDialog : function(options) {            
@@ -1298,10 +1298,10 @@
         },
         
         /**
-         * ´´½¨¹ØÓÚEditor.mdµÄ¶Ô»°¿ò
+         * åˆ›å»ºå…³äºEditor.mdçš„å¯¹è¯æ¡†
          * Create about Editor.md dialog
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         createInfoDialog : function() {
@@ -1337,10 +1337,10 @@
         },
         
         /**
-         * ¹ØÓÚEditor.md¶Ô»°¾ÓÖĞ¶¨Î»
+         * å…³äºEditor.mdå¯¹è¯å±…ä¸­å®šä½
          * Editor.md dialog position handle
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         infoDialogPosition : function() {
@@ -1361,10 +1361,10 @@
         },
         
         /**
-         * ÏÔÊ¾¹ØÓÚEditor.md
+         * æ˜¾ç¤ºå…³äºEditor.md
          * Display about Editor.md dialog
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         showInfoDialog : function() {
@@ -1396,10 +1396,10 @@
         },
         
         /**
-         * Òş²Ø¹ØÓÚEditor.md
+         * éšè—å…³äºEditor.md
          * Hide about Editor.md dialog
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         hideInfoDialog : function() {            
@@ -1412,11 +1412,11 @@
         },
         
         /**
-         * ËøÆÁ
+         * é”å±
          * lock screen
          * 
-         * @param   {Boolean}    lock    Boolean ²¼¶ûÖµ£¬ÊÇ·ñËøÆÁ
-         * @returns {editormd}           ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {Boolean}    lock    Boolean å¸ƒå°”å€¼ï¼Œæ˜¯å¦é”å±
+         * @returns {editormd}           è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         lockScreen : function(lock) {
@@ -1427,10 +1427,10 @@
         },
         
         /**
-         * ±à¼­Æ÷½çÃæÖØ½¨£¬ÓÃÓÚ¶¯Ì¬ÓïÑÔ°ü»òÄ£¿é¼ÓÔØµÈ
+         * ç¼–è¾‘å™¨ç•Œé¢é‡å»ºï¼Œç”¨äºåŠ¨æ€è¯­è¨€åŒ…æˆ–æ¨¡å—åŠ è½½ç­‰
          * Recreate editor
          * 
-         * @returns {editormd}  ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}  è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         recreate : function() {
@@ -1461,10 +1461,10 @@
         },
         
         /**
-         * ¸ßÁÁÔ¤ÀÀHTMLµÄpre´úÂë²¿·Ö
+         * é«˜äº®é¢„è§ˆHTMLçš„preä»£ç éƒ¨åˆ†
          * highlight of preview codes
          * 
-         * @returns {editormd}             ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}             è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         previewCodeHighlight : function() {    
@@ -1485,10 +1485,10 @@
         },
         
         /**
-         * ½âÎöTeX(KaTeX)¿ÆÑ§¹«Ê½
+         * è§£æTeX(KaTeX)ç§‘å­¦å…¬å¼
          * TeX(KaTeX) Renderer
          * 
-         * @returns {editormd}             ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}             è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         katexRender : function() {
@@ -1509,10 +1509,10 @@
         },
         
         /**
-         * ½âÎöºÍäÖÈ¾Á÷³ÌÍ¼¼°Ê±ĞòÍ¼
+         * è§£æå’Œæ¸²æŸ“æµç¨‹å›¾åŠæ—¶åºå›¾
          * FlowChart and SequenceDiagram Renderer
          * 
-         * @returns {editormd}             ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}             è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         flowChartAndSequenceDiagramRender : function() {
@@ -1569,7 +1569,7 @@
         },
         
         /**
-         * ×¢²á¼üÅÌ¿ì½İ¼ü´¦Àí
+         * æ³¨å†Œé”®ç›˜å¿«æ·é”®å¤„ç†
          * Register CodeMirror keyMaps (keyboard shortcuts).
          * 
          * @param   {Object}    keyMap      KeyMap key/value {"(Ctrl/Shift/Alt)-Key" : function(){}}
@@ -1653,7 +1653,7 @@
         },
         
         /**
-         * °ó¶¨Í¬²½¹ö¶¯
+         * ç»‘å®šåŒæ­¥æ»šåŠ¨
          * 
          * @returns {editormd} return this
          */
@@ -1785,11 +1785,11 @@
         },
         
         /**
-         * ¼ÓÔØ¶ÓÁĞÍê³ÉÖ®ºóµÄÏÔÊ¾´¦Àí
+         * åŠ è½½é˜Ÿåˆ—å®Œæˆä¹‹åçš„æ˜¾ç¤ºå¤„ç†
          * Display handle of the module queues loaded after.
          * 
-         * @param   {Boolean}   recreate   ÊÇ·ñÎªÖØ½¨±à¼­Æ÷
-         * @returns {editormd}             ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {Boolean}   recreate   æ˜¯å¦ä¸ºé‡å»ºç¼–è¾‘å™¨
+         * @returns {editormd}             è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         loadedDisplay : function(recreate) {
@@ -1809,7 +1809,7 @@
                 preview.show();
             }
             
-            editor.data("oldWidth", editor.width()).data("oldHeight", editor.height()); // ÎªÁË¼æÈİZepto
+            editor.data("oldWidth", editor.width()).data("oldHeight", editor.height()); // ä¸ºäº†å…¼å®¹Zepto
             
             this.resize();
             this.registerKeyMaps();
@@ -1831,11 +1831,11 @@
         },
         
         /**
-         * ÉèÖÃ±à¼­Æ÷µÄ¿í¶È
+         * è®¾ç½®ç¼–è¾‘å™¨çš„å®½åº¦
          * Set editor width
          * 
-         * @param   {Number|String} width  ±à¼­Æ÷¿í¶ÈÖµ
-         * @returns {editormd}             ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {Number|String} width  ç¼–è¾‘å™¨å®½åº¦å€¼
+         * @returns {editormd}             è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         width : function(width) {
@@ -1847,11 +1847,11 @@
         },
         
         /**
-         * ÉèÖÃ±à¼­Æ÷µÄ¸ß¶È
+         * è®¾ç½®ç¼–è¾‘å™¨çš„é«˜åº¦
          * Set editor height
          * 
-         * @param   {Number|String} height  ±à¼­Æ÷¸ß¶ÈÖµ
-         * @returns {editormd}              ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {Number|String} height  ç¼–è¾‘å™¨é«˜åº¦å€¼
+         * @returns {editormd}              è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         height : function(height) {
@@ -1863,12 +1863,12 @@
         },
         
         /**
-         * µ÷Õû±à¼­Æ÷µÄ³ß´çºÍ²¼¾Ö
+         * è°ƒæ•´ç¼–è¾‘å™¨çš„å°ºå¯¸å’Œå¸ƒå±€
          * Resize editor layout
          * 
-         * @param   {Number|String} [width=null]  ±à¼­Æ÷¿í¶ÈÖµ
-         * @param   {Number|String} [height=null] ±à¼­Æ÷¸ß¶ÈÖµ
-         * @returns {editormd}                    ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {Number|String} [width=null]  ç¼–è¾‘å™¨å®½åº¦å€¼
+         * @param   {Number|String} [height=null] ç¼–è¾‘å™¨é«˜åº¦å€¼
+         * @returns {editormd}                    è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         resize : function(width, height) {
@@ -1957,10 +1957,10 @@
         },
         
         /**
-         * ½âÎöºÍ±£´æMarkdown´úÂë
+         * è§£æå’Œä¿å­˜Markdownä»£ç 
          * Parse & Saving Markdown source code
          * 
-         * @returns {editormd}     ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}     è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         save : function() {
@@ -2008,7 +2008,7 @@
                 tables      : true,
                 breaks      : true,
                 pedantic    : false,
-                sanitize    : (settings.htmlDecode) ? false : true,  // ¹Ø±ÕºöÂÔHTML±êÇ©£¬¼´¿ªÆôÊ¶±ğHTML±êÇ©£¬Ä¬ÈÏÎªfalse
+                sanitize    : (settings.htmlDecode) ? false : true,  // å…³é—­å¿½ç•¥HTMLæ ‡ç­¾ï¼Œå³å¼€å¯è¯†åˆ«HTMLæ ‡ç­¾ï¼Œé»˜è®¤ä¸ºfalse
                 smartLists  : true,
                 smartypants : true
             };
@@ -2099,10 +2099,10 @@
         },
         
         /**
-         * ¾Û½¹¹â±êÎ»ÖÃ
+         * èšç„¦å…‰æ ‡ä½ç½®
          * Focusing the cursor position
          * 
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         focus : function() {
@@ -2112,11 +2112,11 @@
         },
         
         /**
-         * ÉèÖÃ¹â±êµÄÎ»ÖÃ
+         * è®¾ç½®å…‰æ ‡çš„ä½ç½®
          * Set cursor position
          * 
-         * @param   {Object}    cursor ÒªÉèÖÃµÄ¹â±êÎ»ÖÃ¼üÖµ¶ÔÏó£¬Àı£º{line:1, ch:0}
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {Object}    cursor è¦è®¾ç½®çš„å…‰æ ‡ä½ç½®é”®å€¼å¯¹è±¡ï¼Œä¾‹ï¼š{line:1, ch:0}
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         setCursor : function(cursor) {
@@ -2126,10 +2126,10 @@
         },
         
         /**
-         * »ñÈ¡µ±Ç°¹â±êµÄÎ»ÖÃ
+         * è·å–å½“å‰å…‰æ ‡çš„ä½ç½®
          * Get the current position of the cursor
          * 
-         * @returns {Cursor}         ·µ»ØÒ»¸ö¹â±êCursor¶ÔÏó
+         * @returns {Cursor}         è¿”å›ä¸€ä¸ªå…‰æ ‡Cursorå¯¹è±¡
          */
         
         getCursor : function() {
@@ -2137,12 +2137,12 @@
         },
         
         /**
-         * ÉèÖÃ¹â±êÑ¡ÖĞµÄ·¶Î§
+         * è®¾ç½®å…‰æ ‡é€‰ä¸­çš„èŒƒå›´
          * Set cursor selected ranges
          * 
-         * @param   {Object}    from   ¿ªÊ¼Î»ÖÃµÄ¹â±ê¼üÖµ¶ÔÏó£¬Àı£º{line:1, ch:0}
-         * @param   {Object}    to     ½áÊøÎ»ÖÃµÄ¹â±ê¼üÖµ¶ÔÏó£¬Àı£º{line:1, ch:0}
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {Object}    from   å¼€å§‹ä½ç½®çš„å…‰æ ‡é”®å€¼å¯¹è±¡ï¼Œä¾‹ï¼š{line:1, ch:0}
+         * @param   {Object}    to     ç»“æŸä½ç½®çš„å…‰æ ‡é”®å€¼å¯¹è±¡ï¼Œä¾‹ï¼š{line:1, ch:0}
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         setSelection : function(from, to) {
@@ -2153,10 +2153,10 @@
         },
         
         /**
-         * »ñÈ¡¹â±êÑ¡ÖĞµÄÎÄ±¾
+         * è·å–å…‰æ ‡é€‰ä¸­çš„æ–‡æœ¬
          * Get the texts from cursor selected
          * 
-         * @returns {String}         ·µ»ØÑ¡ÖĞÎÄ±¾µÄ×Ö·û´®ĞÎÊ½
+         * @returns {String}         è¿”å›é€‰ä¸­æ–‡æœ¬çš„å­—ç¬¦ä¸²å½¢å¼
          */
         
         getSelection : function() {
@@ -2164,7 +2164,7 @@
         },
         
         /**
-         * ÉèÖÃ¹â±êÑ¡ÖĞµÄÎÄ±¾·¶Î§
+         * è®¾ç½®å…‰æ ‡é€‰ä¸­çš„æ–‡æœ¬èŒƒå›´
          * Set the cursor selection ranges
          * 
          * @param   {Array}    ranges  cursor selection ranges array
@@ -2178,7 +2178,7 @@
         },
         
         /**
-         * »ñÈ¡¹â±êÑ¡ÖĞµÄÎÄ±¾·¶Î§
+         * è·å–å…‰æ ‡é€‰ä¸­çš„æ–‡æœ¬èŒƒå›´
          * Get the cursor selection ranges
          * 
          * @returns {Array}         return selection ranges array
@@ -2189,11 +2189,11 @@
         },
         
         /**
-         * Ìæ»»µ±Ç°¹â±êÑ¡ÖĞµÄÎÄ±¾»òÔÚµ±Ç°¹â±ê´¦²åÈëĞÂ×Ö·û
+         * æ›¿æ¢å½“å‰å…‰æ ‡é€‰ä¸­çš„æ–‡æœ¬æˆ–åœ¨å½“å‰å…‰æ ‡å¤„æ’å…¥æ–°å­—ç¬¦
          * Replace the text at the current cursor selected or insert a new character at the current cursor position
          * 
-         * @param   {String}    value  Òª²åÈëµÄ×Ö·ûÖµ
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {String}    value  è¦æ’å…¥çš„å­—ç¬¦å€¼
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         replaceSelection : function(value) {
@@ -2203,14 +2203,14 @@
         },
         
         /**
-         * ÔÚµ±Ç°¹â±ê´¦²åÈëĞÂ×Ö·û
+         * åœ¨å½“å‰å…‰æ ‡å¤„æ’å…¥æ–°å­—ç¬¦
          * Insert a new character at the current cursor position
          *
-         * Í¬replaceSelection()·½·¨
+         * åŒreplaceSelection()æ–¹æ³•
          * With the replaceSelection() method
          * 
-         * @param   {String}    value  Òª²åÈëµÄ×Ö·ûÖµ
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {String}    value  è¦æ’å…¥çš„å­—ç¬¦å€¼
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         insertValue : function(value) {
@@ -2220,11 +2220,11 @@
         },
         
         /**
-         * ×·¼Ómarkdown
+         * è¿½åŠ markdown
          * append Markdown to editor
          * 
-         * @param   {String}    md     Òª×·¼ÓµÄmarkdownÔ´ÎÄµµ
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {String}    md     è¦è¿½åŠ çš„markdownæºæ–‡æ¡£
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         appendMarkdown : function(md) {
@@ -2237,11 +2237,11 @@
         },
         
         /**
-         * ÉèÖÃºÍ´«Èë±à¼­Æ÷µÄmarkdownÔ´ÎÄµµ
+         * è®¾ç½®å’Œä¼ å…¥ç¼–è¾‘å™¨çš„markdownæºæ–‡æ¡£
          * Set Markdown source document
          * 
-         * @param   {String}    md     Òª´«ÈëµÄmarkdownÔ´ÎÄµµ
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {String}    md     è¦ä¼ å…¥çš„markdownæºæ–‡æ¡£
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         setMarkdown : function(md) {
@@ -2251,10 +2251,10 @@
         },
         
         /**
-         * »ñÈ¡±à¼­Æ÷µÄmarkdownÔ´ÎÄµµ
+         * è·å–ç¼–è¾‘å™¨çš„markdownæºæ–‡æ¡£
          * Set Editor.md markdown/CodeMirror value
          * 
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         getMarkdown : function() {
@@ -2262,10 +2262,10 @@
         },
         
         /**
-         * »ñÈ¡±à¼­Æ÷µÄÔ´ÎÄµµ
+         * è·å–ç¼–è¾‘å™¨çš„æºæ–‡æ¡£
          * Get CodeMirror value
          * 
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         getValue : function() {
@@ -2273,11 +2273,11 @@
         },
         
         /**
-         * ÉèÖÃ±à¼­Æ÷µÄÔ´ÎÄµµ
+         * è®¾ç½®ç¼–è¾‘å™¨çš„æºæ–‡æ¡£
          * Set CodeMirror value
          * 
          * @param   {String}     value   set code/value/string/text
-         * @returns {editormd}           ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}           è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         setValue : function(value) {
@@ -2287,10 +2287,10 @@
         },
         
         /**
-         * Çå¿Õ±à¼­Æ÷
+         * æ¸…ç©ºç¼–è¾‘å™¨
          * Empty CodeMirror editor container
          * 
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         clear : function() {
@@ -2300,10 +2300,10 @@
         },
         
         /**
-         * »ñÈ¡½âÎöºó´æ·ÅÔÚTextareaµÄHTMLÔ´Âë
+         * è·å–è§£æåå­˜æ”¾åœ¨Textareaçš„HTMLæºç 
          * Get parsed html code from Textarea
          * 
-         * @returns {String}               ·µ»ØHTMLÔ´Âë
+         * @returns {String}               è¿”å›HTMLæºç 
          */
         
         getHTML : function() {
@@ -2318,10 +2318,10 @@
         },
         
         /**
-         * getHTML()µÄ±ğÃû
+         * getHTML()çš„åˆ«å
          * getHTML (alias)
          * 
-         * @returns {String}           Return html code ·µ»ØHTMLÔ´Âë
+         * @returns {String}           Return html code è¿”å›HTMLæºç 
          */
         
         getTextareaSavedHTML : function() {
@@ -2329,10 +2329,10 @@
         },
         
         /**
-         * »ñÈ¡Ô¤ÀÀ´°¿ÚµÄHTMLÔ´Âë
+         * è·å–é¢„è§ˆçª—å£çš„HTMLæºç 
          * Get html from preview container
          * 
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         getPreviewedHTML : function() {
@@ -2347,10 +2347,10 @@
         },
         
         /**
-         * ¿ªÆôÊµÊ±Ô¤ÀÀ
+         * å¼€å¯å®æ—¶é¢„è§ˆ
          * Enable real-time watching
          * 
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         watch : function(callback) {     
@@ -2391,10 +2391,10 @@
         },
         
         /**
-         * ¹Ø±ÕÊµÊ±Ô¤ÀÀ
+         * å…³é—­å®æ—¶é¢„è§ˆ
          * Disable real-time watching
          * 
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         unwatch : function(callback) {
@@ -2427,11 +2427,11 @@
         },
         
         /**
-         * ÏÔÊ¾±à¼­Æ÷
+         * æ˜¾ç¤ºç¼–è¾‘å™¨
          * Show editor
          * 
-         * @param   {Function} [callback=function()] »Øµ÷º¯Êı
-         * @returns {editormd}                       ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {Function} [callback=function()] å›è°ƒå‡½æ•°
+         * @returns {editormd}                       è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         show : function(callback) {
@@ -2446,11 +2446,11 @@
         },
         
         /**
-         * Òş²Ø±à¼­Æ÷
+         * éšè—ç¼–è¾‘å™¨
          * Hide editor
          * 
-         * @param   {Function} [callback=function()] »Øµ÷º¯Êı
-         * @returns {editormd}                       ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @param   {Function} [callback=function()] å›è°ƒå‡½æ•°
+         * @returns {editormd}                       è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         hide : function(callback) {
@@ -2465,10 +2465,10 @@
         },
         
         /**
-         * Òş²Ø±à¼­Æ÷²¿·Ö£¬Ö»Ô¤ÀÀHTML
+         * éšè—ç¼–è¾‘å™¨éƒ¨åˆ†ï¼Œåªé¢„è§ˆHTML
          * Enter preview html state
          * 
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         previewing : function() {
@@ -2498,7 +2498,7 @@
                 }
             };
 
-            if (codeMirror.css("display") === "none") // ÎªÁË¼æÈİZepto£¬¶ø²»Ê¹ÓÃcodeMirror.is(":hidden")
+            if (codeMirror.css("display") === "none") // ä¸ºäº†å…¼å®¹Zeptoï¼Œè€Œä¸ä½¿ç”¨codeMirror.is(":hidden")
             {
                 this.state.preview = true;
 
@@ -2543,10 +2543,10 @@
         },
         
         /**
-         * ÏÔÊ¾±à¼­Æ÷²¿·Ö£¬ÍË³öÖ»Ô¤ÀÀHTML
+         * æ˜¾ç¤ºç¼–è¾‘å™¨éƒ¨åˆ†ï¼Œé€€å‡ºåªé¢„è§ˆHTML
          * Exit preview html state
          * 
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         previewed : function() {
@@ -2594,10 +2594,10 @@
         },
         
         /**
-         * ±à¼­Æ÷È«ÆÁÏÔÊ¾
+         * ç¼–è¾‘å™¨å…¨å±æ˜¾ç¤º
          * Fullscreen show
          * 
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         fullscreen : function() {
@@ -2651,10 +2651,10 @@
         },
         
         /**
-         * ±à¼­Æ÷ÍË³öÈ«ÆÁÏÔÊ¾
+         * ç¼–è¾‘å™¨é€€å‡ºå…¨å±æ˜¾ç¤º
          * Exit fullscreen state
          * 
-         * @returns {editormd}         ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}         è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         fullscreenExit : function() {
@@ -2685,12 +2685,12 @@
         },
         
         /**
-         * ¼ÓÔØ²¢Ö´ĞĞ²å¼ş
+         * åŠ è½½å¹¶æ‰§è¡Œæ’ä»¶
          * Load and execute the plugin
          * 
          * @param   {String}     name    plugin name / function name
          * @param   {String}     path    plugin load path
-         * @returns {editormd}           ·µ»ØeditormdµÄÊµÀı¶ÔÏó
+         * @returns {editormd}           è¿”å›editormdçš„å®ä¾‹å¯¹è±¡
          */
         
         executePlugin : function(name, path) {
@@ -2731,7 +2731,7 @@
         },
                 
         /**
-         * ËÑË÷Ìæ»»
+         * æœç´¢æ›¿æ¢
          * Search & replace
          * 
          * @param   {String}     command    CodeMirror serach commands, "find, fintNext, fintPrev, clearSearch, replace, replaceAll"
@@ -2771,7 +2771,7 @@
     editormd.fn.init.prototype = editormd.fn; 
    
     /**
-     * ËøÆÁ
+     * é”å±
      * lock screen when dialog opening
      * 
      * @returns {void}
@@ -2788,7 +2788,7 @@
     };
    
     /**
-     * ÏÔÊ¾Í¸Ã÷±³¾°²ã
+     * æ˜¾ç¤ºé€æ˜èƒŒæ™¯å±‚
      * Display mask layer when dialog opening
      * 
      * @param   {Object}     dialog    dialog jQuery object
@@ -3300,7 +3300,7 @@
     };
     
     /**
-     * Çå³ı×Ö·û´®Á½±ßµÄ¿Õ¸ñ
+     * æ¸…é™¤å­—ç¬¦ä¸²ä¸¤è¾¹çš„ç©ºæ ¼
      * Clear the space of strings both sides.
      * 
      * @param   {String}    str            string
@@ -3314,7 +3314,7 @@
     editormd.trim = trim;
     
     /**
-     * ËùÓĞµ¥´ÊÊ××ÖÄ¸´óĞ´
+     * æ‰€æœ‰å•è¯é¦–å­—æ¯å¤§å†™
      * Words first to uppercase
      * 
      * @param   {String}    str            string
@@ -3330,7 +3330,7 @@
     editormd.ucwords = editormd.wordsFirstUpperCase = ucwords;
     
     /**
-     * ×Ö·û´®Ê××ÖÄ¸´óĞ´
+     * å­—ç¬¦ä¸²é¦–å­—æ¯å¤§å†™
      * Only string first char to uppercase
      * 
      * @param   {String}    str            string
@@ -3376,11 +3376,11 @@
     };
 
     /**
-     * ×Ô¶¨ÒåmarkedµÄ½âÎöÆ÷
+     * è‡ªå®šä¹‰markedçš„è§£æå™¨
      * Custom Marked renderer rules
      * 
-     * @param   {Array}    markdownToC     ´«ÈëÓÃÓÚ½ÓÊÕTOCµÄÊı×é
-     * @returns {Renderer} markedRenderer  ·µ»ØmarkedµÄRenderer×Ô¶¨Òå¶ÔÏó
+     * @param   {Array}    markdownToC     ä¼ å…¥ç”¨äºæ¥æ”¶TOCçš„æ•°ç»„
+     * @returns {Renderer} markedRenderer  è¿”å›markedçš„Rendererè‡ªå®šä¹‰å¯¹è±¡
      */
 
     editormd.markedRenderer = function(markdownToC, options) {
@@ -3666,13 +3666,13 @@
     
     /**
      *
-     * Éú³ÉTOC(Table of Contents)
+     * ç”ŸæˆTOC(Table of Contents)
      * Creating ToC (Table of Contents)
      * 
-     * @param   {Array}    toc             ´Ómarked»ñÈ¡µÄTOCÊı×éÁĞ±í
-     * @param   {Element}  container       ²åÈëTOCµÄÈİÆ÷ÔªËØ
-     * @param   {Integer}  startLevel      Hx ÆğÊ¼²ã¼¶
-     * @returns {Object}   tocContainer    ·µ»ØToCÁĞ±íÈİÆ÷²ãµÄjQuery¶ÔÏóÔªËØ
+     * @param   {Array}    toc             ä»markedè·å–çš„TOCæ•°ç»„åˆ—è¡¨
+     * @param   {Element}  container       æ’å…¥TOCçš„å®¹å™¨å…ƒç´ 
+     * @param   {Integer}  startLevel      Hx èµ·å§‹å±‚çº§
+     * @returns {Object}   tocContainer    è¿”å›ToCåˆ—è¡¨å®¹å™¨å±‚çš„jQueryå¯¹è±¡å…ƒç´ 
      */
     
     editormd.markdownToCRenderer = function(toc, container, tocDropdown, startLevel) {
@@ -3734,10 +3734,10 @@
     
     /**
      *
-     * Éú³ÉTOCÏÂÀ­²Ëµ¥
+     * ç”ŸæˆTOCä¸‹æ‹‰èœå•
      * Creating ToC dropdown menu
      * 
-     * @param   {Object}   container       ²åÈëTOCµÄÈİÆ÷jQuery¶ÔÏóÔªËØ
+     * @param   {Object}   container       æ’å…¥TOCçš„å®¹å™¨jQueryå¯¹è±¡å…ƒç´ 
      * @param   {String}   tocTitle        ToC title
      * @returns {Object}                   return toc-menu object
      */
@@ -3799,12 +3799,12 @@
     };
     
     /**
-     * ¼òµ¥µØ¹ıÂËÖ¸¶¨µÄHTML±êÇ©
+     * ç®€å•åœ°è¿‡æ»¤æŒ‡å®šçš„HTMLæ ‡ç­¾
      * Filter custom html tags
      * 
-     * @param   {String}   html          Òª¹ıÂËHTML
-     * @param   {String}   filters       Òª¹ıÂËµÄ±êÇ©
-     * @returns {String}   html          ·µ»Ø¹ıÂËµÄHTML
+     * @param   {String}   html          è¦è¿‡æ»¤HTML
+     * @param   {String}   filters       è¦è¿‡æ»¤çš„æ ‡ç­¾
+     * @returns {String}   html          è¿”å›è¿‡æ»¤çš„HTML
      */
     
     editormd.filterHTMLTags = function(html, filters) {
@@ -3884,12 +3884,12 @@
     };
     
     /**
-     * ½«MarkdownÎÄµµ½âÎöÎªHTMLÓÃÓÚÇ°Ì¨ÏÔÊ¾
+     * å°†Markdownæ–‡æ¡£è§£æä¸ºHTMLç”¨äºå‰å°æ˜¾ç¤º
      * Parse Markdown to HTML for Font-end preview.
      * 
-     * @param   {String}   id            ÓÃÓÚÏÔÊ¾HTMLµÄ¶ÔÏóID
-     * @param   {Object}   [options={}]  ÅäÖÃÑ¡Ïî£¬¿ÉÑ¡
-     * @returns {Object}   div           ·µ»ØjQuery¶ÔÏóÔªËØ
+     * @param   {String}   id            ç”¨äºæ˜¾ç¤ºHTMLçš„å¯¹è±¡ID
+     * @param   {Object}   [options={}]  é…ç½®é€‰é¡¹ï¼Œå¯é€‰
+     * @returns {Object}   div           è¿”å›jQueryå¯¹è±¡å…ƒç´ 
      */
     
     editormd.markdownToHTML = function(id, options) {
@@ -3898,7 +3898,7 @@
             toc                  : true,
             tocm                 : false,
             tocStartLevel        : 1,
-            tocTitle             : "Ä¿Â¼",
+            tocTitle             : "ç›®å½•",
             tocDropdown          : false,
             tocContainer         : "",
             markdown             : "",
@@ -3952,7 +3952,7 @@
             tables      : true,
             breaks      : true,
             pedantic    : false,
-            sanitize    : (settings.htmlDecode) ? false : true, // ÊÇ·ñºöÂÔHTML±êÇ©£¬¼´ÊÇ·ñ¿ªÆôHTML±êÇ©½âÎö£¬ÎªÁË°²È«ĞÔ£¬Ä¬ÈÏ²»¿ªÆô
+            sanitize    : (settings.htmlDecode) ? false : true, // æ˜¯å¦å¿½ç•¥HTMLæ ‡ç­¾ï¼Œå³æ˜¯å¦å¼€å¯HTMLæ ‡ç­¾è§£æï¼Œä¸ºäº†å®‰å…¨æ€§ï¼Œé»˜è®¤ä¸å¼€å¯
             smartLists  : true,
             smartypants : true
         };
@@ -4077,12 +4077,12 @@
     };
     
     /**
-     * ¶¯Ì¬¼ÓÔØEditor.md²å¼ş£¬µ«²»Á¢¼´Ö´ĞĞ
+     * åŠ¨æ€åŠ è½½Editor.mdæ’ä»¶ï¼Œä½†ä¸ç«‹å³æ‰§è¡Œ
      * Load editor.md plugins
      * 
-     * @param {String}   fileName              ²å¼şÎÄ¼şÂ·¾¶
-     * @param {Function} [callback=function()] ¼ÓÔØ³É¹¦ºóÖ´ĞĞµÄ»Øµ÷º¯Êı
-     * @param {String}   [into="head"]         Ç¶ÈëÒ³ÃæµÄÎ»ÖÃ
+     * @param {String}   fileName              æ’ä»¶æ–‡ä»¶è·¯å¾„
+     * @param {Function} [callback=function()] åŠ è½½æˆåŠŸåæ‰§è¡Œçš„å›è°ƒå‡½æ•°
+     * @param {String}   [into="head"]         åµŒå…¥é¡µé¢çš„ä½ç½®
      */
     
     editormd.loadPlugin = function(fileName, callback, into) {
@@ -4095,12 +4095,12 @@
     };
     
     /**
-     * ¶¯Ì¬¼ÓÔØCSSÎÄ¼şµÄ·½·¨
+     * åŠ¨æ€åŠ è½½CSSæ–‡ä»¶çš„æ–¹æ³•
      * Load css file method
      * 
-     * @param {String}   fileName              CSSÎÄ¼şÃû
-     * @param {Function} [callback=function()] ¼ÓÔØ³É¹¦ºóÖ´ĞĞµÄ»Øµ÷º¯Êı
-     * @param {String}   [into="head"]         Ç¶ÈëÒ³ÃæµÄÎ»ÖÃ
+     * @param {String}   fileName              CSSæ–‡ä»¶å
+     * @param {Function} [callback=function()] åŠ è½½æˆåŠŸåæ‰§è¡Œçš„å›è°ƒå‡½æ•°
+     * @param {String}   [into="head"]         åµŒå…¥é¡µé¢çš„ä½ç½®
      */
     
     editormd.loadCSS   = function(fileName, callback, into) {
@@ -4128,12 +4128,12 @@
     editormd.isIE8   = (editormd.isIE && navigator.appVersion.match(/8./i) == "8.");
 
     /**
-     * ¶¯Ì¬¼ÓÔØJSÎÄ¼şµÄ·½·¨
+     * åŠ¨æ€åŠ è½½JSæ–‡ä»¶çš„æ–¹æ³•
      * Load javascript file method
      * 
-     * @param {String}   fileName              JSÎÄ¼şÃû
-     * @param {Function} [callback=function()] ¼ÓÔØ³É¹¦ºóÖ´ĞĞµÄ»Øµ÷º¯Êı
-     * @param {String}   [into="head"]         Ç¶ÈëÒ³ÃæµÄÎ»ÖÃ
+     * @param {String}   fileName              JSæ–‡ä»¶å
+     * @param {Function} [callback=function()] åŠ è½½æˆåŠŸåæ‰§è¡Œçš„å›è°ƒå‡½æ•°
+     * @param {String}   [into="head"]         åµŒå…¥é¡µé¢çš„ä½ç½®
      */
 
     editormd.loadScript = function(fileName, callback, into) {
@@ -4176,7 +4176,7 @@
         }
     };
     
-    // Ê¹ÓÃ¹úÍâµÄCDN£¬¼ÓÔØËÙ¶ÈÓĞÊ±»áºÜÂı£¬»òÕß×Ô¶¨ÒåURL
+    // ä½¿ç”¨å›½å¤–çš„CDNï¼ŒåŠ è½½é€Ÿåº¦æœ‰æ—¶ä¼šå¾ˆæ…¢ï¼Œæˆ–è€…è‡ªå®šä¹‰URL
     // You can custom KaTeX load url.
     editormd.katexURL  = {
         css : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min",
@@ -4186,10 +4186,10 @@
     editormd.kaTeXLoaded = false;
     
     /**
-     * ¼ÓÔØKaTeXÎÄ¼ş
+     * åŠ è½½KaTeXæ–‡ä»¶
      * load KaTeX files
      * 
-     * @param {Function} [callback=function()]  ¼ÓÔØ³É¹¦ºóÖ´ĞĞµÄ»Øµ÷º¯Êı
+     * @param {Function} [callback=function()]  åŠ è½½æˆåŠŸåæ‰§è¡Œçš„å›è°ƒå‡½æ•°
      */
     
     editormd.loadKaTeX = function (callback) {
@@ -4199,10 +4199,10 @@
     };
         
     /**
-     * ËøÆÁ
+     * é”å±
      * lock screen
      * 
-     * @param   {Boolean}   lock   Boolean ²¼¶ûÖµ£¬ÊÇ·ñËøÆÁ
+     * @param   {Boolean}   lock   Boolean å¸ƒå°”å€¼ï¼Œæ˜¯å¦é”å±
      * @returns {void}
      */
     
@@ -4211,11 +4211,11 @@
     };
         
     /**
-     * ¶¯Ì¬´´½¨¶Ô»°¿ò
+     * åŠ¨æ€åˆ›å»ºå¯¹è¯æ¡†
      * Creating custom dialogs
      * 
-     * @param   {Object} options ÅäÖÃÏî¼üÖµ¶Ô Key/Value
-     * @returns {dialog} ·µ»Ø´´½¨µÄdialogµÄjQueryÊµÀı¶ÔÏó
+     * @param   {Object} options é…ç½®é¡¹é”®å€¼å¯¹ Key/Value
+     * @returns {dialog} è¿”å›åˆ›å»ºçš„dialogçš„jQueryå®ä¾‹å¯¹è±¡
      */
 
     editormd.createDialog = function(options) {
@@ -4457,12 +4457,12 @@
     };
     
     /**
-     * Êó±êºÍ´¥ÃşÊÂ¼şµÄÅĞ¶Ï/Ñ¡Ôñ·½·¨
+     * é¼ æ ‡å’Œè§¦æ‘¸äº‹ä»¶çš„åˆ¤æ–­/é€‰æ‹©æ–¹æ³•
      * MouseEvent or TouchEvent type switch
      * 
-     * @param   {String} [mouseEventType="click"]    ¹©Ñ¡ÔñµÄÊó±êÊÂ¼ş
-     * @param   {String} [touchEventType="touchend"] ¹©Ñ¡ÔñµÄ´¥ÃşÊÂ¼ş
-     * @returns {String} EventType                   ·µ»ØÊÂ¼şÀàĞÍÃû³Æ
+     * @param   {String} [mouseEventType="click"]    ä¾›é€‰æ‹©çš„é¼ æ ‡äº‹ä»¶
+     * @param   {String} [touchEventType="touchend"] ä¾›é€‰æ‹©çš„è§¦æ‘¸äº‹ä»¶
+     * @returns {String} EventType                   è¿”å›äº‹ä»¶ç±»å‹åç§°
      */
     
     editormd.mouseOrTouch = function(mouseEventType, touchEventType) {
@@ -4480,11 +4480,11 @@
     };
     
     /**
-     * ÈÕÆÚÊ±¼äµÄ¸ñÊ½»¯·½·¨
+     * æ—¥æœŸæ—¶é—´çš„æ ¼å¼åŒ–æ–¹æ³•
      * Datetime format method
      * 
-     * @param   {String}   [format=""]  ÈÕÆÚÊ±¼äµÄ¸ñÊ½£¬ÀàËÆPHPµÄ¸ñÊ½
-     * @returns {String}   datefmt      ·µ»Ø¸ñÊ½»¯ºóµÄÈÕÆÚÊ±¼ä×Ö·û´®
+     * @param   {String}   [format=""]  æ—¥æœŸæ—¶é—´çš„æ ¼å¼ï¼Œç±»ä¼¼PHPçš„æ ¼å¼
+     * @returns {String}   datefmt      è¿”å›æ ¼å¼åŒ–åçš„æ—¥æœŸæ—¶é—´å­—ç¬¦ä¸²
      */
     
     editormd.dateFormat = function(format) {                
@@ -4536,8 +4536,8 @@
 
             case "cn-week-day" :
             case "cn-wd" :
-                    var cnWeekDays = ["ÈÕ", "Ò»", "¶ş", "Èı", "ËÄ", "Îå", "Áù"];
-                    datefmt = "ĞÇÆÚ" + cnWeekDays[weekDay];
+                    var cnWeekDays = ["æ—¥", "ä¸€", "äºŒ", "ä¸‰", "å››", "äº”", "å…­"];
+                    datefmt = "æ˜ŸæœŸ" + cnWeekDays[weekDay];
                 break;
 
             case "week-day" :

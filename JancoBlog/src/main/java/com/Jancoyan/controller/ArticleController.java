@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
@@ -64,7 +67,8 @@ public class ArticleController {
      */
     @ResponseBody
     @RequestMapping(value = "/article/like", method = RequestMethod.POST)
-    public Msg addLikeCount(String id, String count){
+    public Msg addLikeCount(String id, String count, HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         // 组装新的article对象
         Article article = new Article();
         article.setArticleId(id);
@@ -83,7 +87,8 @@ public class ArticleController {
      */
     @ResponseBody
     @RequestMapping(value = "/articles", method = RequestMethod.PUT)
-    public Msg getArticleByPrimaryKey(String id){
+    public Msg getArticleByPrimaryKey(String id, HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         Article article = articleService.selectByPrimaryKey(id);
         return Msg.success().add("article", article);
     }
@@ -94,7 +99,8 @@ public class ArticleController {
      */
     @ResponseBody
     @RequestMapping(value = "/articles", method = RequestMethod.POST)
-    public Msg getHotArticles(){
+    public Msg getHotArticles(HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         List<Article> articles = articleService.getArticlesLimit();
         return Msg.success().add("hotArticles", articles);
     }
@@ -117,8 +123,10 @@ public class ArticleController {
             String userNickname,
             String title,
             Integer type,
-            HttpSession session
-    ){
+            HttpSession session,
+            HttpServletRequest request
+    ) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         Article article = (Article) session.getAttribute("article");
 
         Article newArticle = new Article();
@@ -126,15 +134,20 @@ public class ArticleController {
         String content = ArticleUtils.createArticle(title, userNickname, innerHTML);
         // 写入HTML
         String fileName = article.getArticleId();
-        String path = ConstUtils.CURRENTPATH + "\\static\\p\\" + fileName + ".html";
+        String path = ConstUtils.CURRENTPATH + File.separator +
+                "static" + File.separator +
+                "p" + File.separator + fileName + ".html";
         // 先删除这个文章
         FileIo.deleteFileIfExists(path);
         // 再写入这个文章
         FileIo.writeFile(path, content);
 
         //将md文件直接写入文件
-        FileIo.createDirectoryIfNotExists(ConstUtils.CURRENTPATH +  "\\static\\md");
-        String mdPath = ConstUtils.CURRENTPATH +  "\\static\\md\\" + fileName + ".md";
+        FileIo.createDirectoryIfNotExists(ConstUtils.CURRENTPATH + File.separator + "static" + File.separator + "md");
+        String mdPath =
+                ConstUtils.CURRENTPATH + File.separator + "static" +
+                        File.separator + "md" + File.separator
+                        + fileName + ".md";
         FileIo.writeFile(mdPath, innerMD);
 
         // 设置主键
@@ -174,20 +187,24 @@ public class ArticleController {
             String userId,
             String userNickname,
             String title,
-            String type
-    ){
+            String type,
+            HttpServletRequest request
+    ) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         // 构造html页面
         String content = ArticleUtils.createArticle(title, userNickname, innerHTML);
 
         //将html页面写入文件
         String fileName = userId + TimeUtils.getCurrentTimestamp();
-        FileIo.createDirectoryIfNotExists(ConstUtils.CURRENTPATH +  "\\static\\p");
-        String path = ConstUtils.CURRENTPATH + "\\static\\p\\" + fileName + ".html";
+        FileIo.createDirectoryIfNotExists(ConstUtils.CURRENTPATH + File.separator +
+                "static"+File.separator +"p");
+        String path = ConstUtils.HTMLPATH + fileName + ".html";
         FileIo.writeFile(path, content);
 
         //将md文件直接写入文件
-        FileIo.createDirectoryIfNotExists(ConstUtils.CURRENTPATH +  "\\static\\md");
-        String mdPath = ConstUtils.CURRENTPATH +  "\\static\\md\\" + fileName + ".md";
+        FileIo.createDirectoryIfNotExists(ConstUtils.CURRENTPATH + File.separator + "static"
+                + File.separator + "md");
+        String mdPath = ConstUtils.MDPATH + fileName + ".md";
         FileIo.writeFile(mdPath, innerMD);
 
         //创建Article对象
@@ -226,11 +243,12 @@ public class ArticleController {
      */
     @ResponseBody
     @RequestMapping(value = "/redirect/article", method = RequestMethod.POST)
-    public void updateArticle(String id, HttpSession session){
+    public void updateArticle(String id, HttpSession session, HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         // 获取文章对象
         Article article = articleService.getArticleByPrimaryKey(id);
         // 获取md文件的内容
-        String path = ConstUtils.CURRENTPATH +  "\\static\\md\\" + id + ".md";
+        String path = ConstUtils.MDPATH + id + ".md";
         String articleContent = FileIo.readFile(path);
         // 把数据放在session中，编辑提交完页面之后再删掉
         session.setAttribute("article", article);
@@ -246,11 +264,13 @@ public class ArticleController {
     @ResponseBody
     @RequestMapping(value = "/article/{id}", method = RequestMethod.DELETE)
     public Msg deleteArticle(
-            @PathVariable("id") String id
-    ){
+            @PathVariable("id") String id,
+            HttpServletRequest request
+    ) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         articleService.deleteByPrimaryKey(id);
-        String path = ConstUtils.CURRENTPATH + "\\static\\p\\" + id + ".html";
-        String mdPath = ConstUtils.CURRENTPATH + "\\static\\md\\" + id + ".md";
+        String path = ConstUtils.HTMLPATH + id + ".html";
+        String mdPath = ConstUtils.MDPATH + id + ".md";
         boolean success =
                 FileIo.deleteImagesInHtmlFile(path) &&
                 FileIo.deleteFile(path) &&
@@ -264,8 +284,9 @@ public class ArticleController {
      * @return 搜索结果消息
      */
     @ResponseBody
-    @RequestMapping(value = "/articles", method = RequestMethod.GET)
-    public Msg getIndexArticles(Integer pn){
+    @RequestMapping(value = "/articles", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    public Msg getIndexArticles(Integer pn, HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         PageHelper.startPage(pn, 10);
         List<Article> articles = articleService.getAll();
         PageInfo<Article> pageInfo = new PageInfo<>(articles, 5);
@@ -282,8 +303,10 @@ public class ArticleController {
     @RequestMapping(value = "/articles/{id}", method = RequestMethod.GET)
     public Msg getArticlesById(
             @RequestParam(value = "pn", defaultValue = "1") Integer pn,
-            @PathVariable("id") Integer id
-    ){
+            @PathVariable("id") Integer id,
+            HttpServletRequest request
+    ) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         PageHelper.startPage(pn, 10);
         List<Article> articles = articleService.getArticlesByUserId(id);
         PageInfo<Article> pageInfo = new PageInfo<>(articles, 5);
@@ -301,8 +324,10 @@ public class ArticleController {
     @RequestMapping(value = "/type/{id}", method = RequestMethod.GET)
     public Msg getArticlesByType(
         @PathVariable("id") Integer id,
-        @RequestParam(value = "pn", defaultValue = "1") Integer pn
-    ){
+        @RequestParam(value = "pn", defaultValue = "1") Integer pn,
+        HttpServletRequest request
+    ) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         PageHelper.startPage(pn, 5);
         List<Article> articles;
         // 加一步判断，如果id小于100，也就是父类别，就获取其下面所有子类的文章
@@ -324,8 +349,10 @@ public class ArticleController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public Msg searchArticle(
             @RequestParam(value = "keyword") String name,
-            @RequestParam(value = "pn", defaultValue = "1") Integer pn
-    ){
+            @RequestParam(value = "pn", defaultValue = "1") Integer pn,
+            HttpServletRequest request
+    ) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         PageHelper.startPage(pn, 10);
         List<Article> articles = articleService.getArticlesLikeName(name);
         PageInfo<Article> pageInfo = new PageInfo<>(articles, 5);
@@ -339,7 +366,8 @@ public class ArticleController {
      */
     @ResponseBody
     @RequestMapping(value = "/article/view", method = RequestMethod.POST)
-    public Msg addViewCount(String id){
+    public Msg addViewCount(String id, HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         // 组装新的article
         Article article = new Article();
         article.setArticleId(id);
@@ -356,7 +384,8 @@ public class ArticleController {
      */
     @ResponseBody
     @RequestMapping(value = "/article/comment", method = RequestMethod.POST)
-    public Msg addCommentCount(String id){
+    public Msg addCommentCount(String id, HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         Article article = new Article();
         article.setArticleId(id);
         // 从数据库中拿到数据之后把选中的字段+1
