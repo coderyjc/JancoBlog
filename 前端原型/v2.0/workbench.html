@@ -9,9 +9,72 @@
 	</head>
 	<body>
 		<!-- 顶部导航栏 -->
-
+		<nav class="clearfix">
+			<ul class="layui-nav layui-bg-black">
+			  <li class="layui-nav-item layui-this"><a href="">选中</a></li>
+			  <li class="layui-nav-item">
+				<a href="javascript:;">常规</a>
+			  </li>
+			  <li class="layui-nav-item"><a href="">导航</a></li>
+			  <li class="layui-nav-item">
+				<a href="javascript:;">子级</a>
+				<dl class="layui-nav-child">
+				  <dd><a href="">菜单1</a></dd>
+				  <dd><a href="">菜单2</a></dd>
+				  <dd><a href="">菜单3</a></dd>
+				</dl>
+			  </li>
+			  <li class="layui-nav-item">
+				<a href="javascript:;">选项</a>
+				<dl class="layui-nav-child">
+				  <dd><a href="">选项1</a></dd>
+				  <dd class="layui-this"><a href="">选项2</a></dd>
+				  <dd><a href="">选项3</a></dd>
+				</dl>
+			  </li>
+			  <li class="layui-nav-item"><a href="">演示</a></li>
+			  <li id="user-profile-picture" class="layui-nav-item" lay-unselect="">
+				  <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img"></a>
+				  <dl class="layui-nav-child">
+					<dd><a href="javascript:;">子级菜单</a></dd>
+					<dd><a href="javascript:;">横线隔断</a></dd>
+					<hr>
+					<dd style="text-align: center;"><a href="">退出</a></dd>
+				  </dl>
+				</li>
+			</ul>
+		</nav>
 		<!-- 中部信息栏 -->
-
+		<div class="content">
+			<!-- 左边的导航栏 -->
+			<div class="side-nav-bar clearfix">
+				<ul class="layui-nav layui-nav-tree" lay-filter="test">
+				  <li class="layui-nav-item"><a href="">写博文</a></li>
+				  <li class="layui-nav-item">
+				    <a href="javascript:;">文章管理</a>
+				    <dl class="layui-nav-child">
+				      <dd><a href="javascript:;">文章管理</a></dd>
+				      <dd><a href="javascript:;">统计图表</a></dd>
+				    </dl>
+				  </li>
+				  <li class="layui-nav-item">
+				    <a href="javascript:;">个人信息管理</a>
+				    <dl class="layui-nav-child">
+				      <dd><a href="">个人信息</a></dd>
+				      <dd><a href="">修改密码</a></dd>
+				    </dl>
+				  </li>
+				</ul>
+			</div>
+			<!-- 右边的操作栏 -->
+			<div>
+				
+				
+				
+			</div>
+			
+			
+		</div>
 		
 
 	</body>

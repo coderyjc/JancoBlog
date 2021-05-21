@@ -6,7 +6,7 @@ $(function(){
 
     get_article();
     get_sub_types();
-    get_super_types()
+    get_super_types();
     build_page();
     // 获取文章评论
     get_comments();

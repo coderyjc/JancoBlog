@@ -1,3 +1,18 @@
+
+
+/*清除浮动*/
+.clearfix:before,.clearfix:after{
+    content: "";
+    display: table;
+}
+.clearfix:after{
+    clear: both;
+}
+.clearfix{
+    *zoom: 1;
+}
+
+
 .layui-nav{
 	padding-left: 15%;
 	padding-right: 15%;
@@ -5,4 +20,10 @@
 
 #user-profile-picture{
 	float: right;
+}
+
+.side-nav-bar ul{
+	display: block;
+	padding: 0;
+	float: left;
 }
