@@ -1,0 +1,195 @@
+/* 导航栏 */
+/* 清除浏览器默认样式 */
+*{
+    margin:0;
+    padding:0;
+}
+
+/* 全局的a */
+a{
+    text-decoration: none;
+	color: gray;
+}
+
+a:hover{
+	color: #000000;
+}
+
+/* body */
+body{
+    /* 最上面的小白条 */
+    background-color: rgba(240, 240, 240, 0.76);
+	
+}
+
+/*清除浮动*/
+.clearfix:before,.clearfix:after{
+    content: "";
+    display: table;
+}
+.clearfix:after{
+    clear: both;
+}
+.clearfix{
+    *zoom: 1;
+}
+
+/* 导航条 */
+.nav{
+    background-color: #2f2e34;
+    color: white;
+    font-size: 40px;
+    padding: 5px 200px;
+
+}
+.nav a:link, .nav a:visited{
+    color: white;
+}
+
+/* 文章所属分类 */
+.article-sort{
+	margin: 50px 200px;
+	font-size: 20px;
+	color: gray;
+}
+
+/* 文章标题 */
+.article-title{
+	text-align: center;
+	margin: 50px 15%;
+	font-size: 45px;
+}
+
+/* 文章信息栏 */
+.article-info{
+	margin: 10px 16%;
+	padding: 5px 8px;
+	background-color: #ddddde;
+	font-size: 18px;
+}
+
+
+/* 作者 */
+.article-author,.article-submit-time,.article-view-time{
+	margin: 5px 0;
+}
+
+
+/* 文章内容 */
+.article-content{
+	margin: 50px 15%;
+	font-size: 25px;
+	line-height: 40px;
+	font-weight: 100;
+}
+
+/* 正文的背景 */
+.markdown-body.editormd-preview-container{
+	background-color: #f3f3f3;
+}
+
+
+/* 评论区 */
+.article-comment{
+	margin: 10px auto;
+	width: 70%;
+}
+
+.comment-title{
+	font-size: 30px;
+}
+
+/* ajax拉取的评论列表 */
+.comment-box:nth-child(1){
+	margin-top: 15px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+.comment-box:last-child{
+	margin-bottom: 15px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+
+.comment-box{
+	margin: 0 auto;
+	border: 1px solid black;
+	width: 90%;
+	padding: 15px;
+	background-color: #FFFFFC;
+}
+
+.comment-conetnt{
+	margin-top: 10px;
+	word-wrap: break-word;
+}
+
+.comment-author{
+	color: gray;
+	float: left;
+}
+
+.comment-ip{
+	color: gray;
+	float: right;
+}
+
+.comment-date{
+	color: gray;
+	float: left;
+	margin-top: 5px;
+}
+
+/* 用户添加评论 */
+.add-comment>textarea{
+	resize: none;
+	overflow: auto;
+	font-size: 20px;
+	padding: 5px;
+	border-radius: 10px;
+	margin: 10px;
+	border: 1px solid gray;
+}
+
+.add-comment>button{
+	font-size: 15px;
+	width: 100px;
+	height: 30px;
+	margin-top: 10px;
+	margin-left: 10px;
+	border-radius: 10px;
+	border: 1px solid gray;
+}
+.add-comment>button:hover{
+	background-color: #bababa;
+}
+
+.add-comment>button:active{
+	background-color: #888888;
+	color: white;
+}
+
+
+/* 页脚 */
+footer{
+    padding: 20px 175px;
+    background-color: #2f2e34;
+    overflow: hidden;
+}
+
+footer ul{
+    float: right;
+    list-style-type: none;
+    font-size: 15px;
+    color: white;
+}
+
+footer ul li a:visited,footer ul li a:link{
+    color: white;
+    float: right;
+}
+
+/* 悬浮到字上 */
+footer ul li a:hover{
+    color: burlywood;
+}

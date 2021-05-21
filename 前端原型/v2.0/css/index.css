@@ -1,0 +1,142 @@
+/* 清除浏览器默认样式 */
+*{
+    margin:0;
+    padding:0;
+}
+
+/* 全局的a */
+a{
+    text-decoration: none;
+}
+
+/* body */
+body{
+    /* 最上面的小白条 */
+    margin-top: 0px;
+    background-color: rgba(240, 240, 240, 0.76);
+}
+
+
+/*清除浮动*/
+.clearfix:before,.clearfix:after{
+    content: "";
+    display: table;
+}
+.clearfix:after{
+    clear: both;
+}
+.clearfix{
+    *zoom: 1;
+}
+
+
+/* 导航栏 */
+
+#user-profile-picture{
+	float: right;
+}
+
+.layui-nav{
+	padding-left: 15%;
+	padding-right: 15%;
+	width: 100%;
+	position: fixed;
+	z-index: 1;
+}
+
+
+/* 欢迎初始页面 */
+
+.welcome-page{
+	background-image: url(../img/cnv-index-bg-2.jpg);
+	background-size: 100% 100%;
+	height: 100%;
+	width: 100%;
+}
+
+h1{
+	padding-top: 9%;
+	margin-top: 60px;
+	font-size: 80px;
+	text-align: center;
+	color: white;
+	font-family: "agency fb";
+	opacity: 0.8;
+}
+
+.welcome-page .quote{
+	text-align: center;
+	color: floralwhite;
+	font-size: 25px;
+	margin-top: 10px;
+	opacity: 0.6;
+}
+
+.welcome-page .next-page{
+	margin-top: 10%;
+	text-align: center;
+	color: white;
+	cursor: pointer;
+}
+
+/* 文章页面 */
+
+.main{
+	padding: 5% 10%;
+	width: 80%;
+	background-color: #eaeaea;
+	overflow: auto;
+}
+
+.main .left-content{
+	float: left;
+	width: 57%;
+}
+
+
+
+.main .right-content{
+	float: right;
+	width: 37%;
+	
+	
+}
+
+/* 搜索功能实现 */
+.search{
+	margin-bottom: 20px;
+}
+/* 搜索的输入框 */
+.search input{
+	width: 80%;
+	display: inline;
+}
+/* 搜索图标按钮 */
+.search button{
+	display: inline;
+	border: none;
+}
+.search button:hover{
+	background-color: #fafafa;
+}
+.main .right-content .search i{
+	font-size: 25px;
+	float: right;
+}
+
+
+
+/* 页脚的内容 */
+.footer{
+	width: 80%;
+	height: 60px;
+	background-color: #393d49;
+	padding: 0 10%;
+}
+
+
+.footer a{
+	line-height: 60px;
+	color: white;
+	float: right;
+}

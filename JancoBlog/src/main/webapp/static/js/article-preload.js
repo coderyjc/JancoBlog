@@ -2,7 +2,6 @@ var article;
 var subType = null;
 var superType = null;
 
-
 $(function(){
 
     get_article();

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>博客后台</title>
+    <link rel="stylesheet" href="../css/workbench.css">
+	<script src="../js/jquery-1.12.js"></script>
+</head>
+<body>
+    <!-- 导航条 -->
+    <div class="nav">
+        <!-- 回主页的"图标" -->
+        <a href="../index.html" class="back-to-index">JancoBlog</a>
+    </div>
+    <!-- 后台管理标题 -->
+     <h1>
+        后台管理
+    </h1>
+
+    <!-- 主体 -->
+    <div class="main clearfix">
+        <!-- 功能选择栏 -->
+        <div class="function-list">
+            <ul class="operate-list">
+                <li><a href="javascript:;">写博文</a></li>
+				<li><a href="javascript:;" id="personal-info-item">个人信息</a></li>
+                <li><a href="javascript:;" id="article-manage-item">文章管理</a></li>
+                <li><a href="javascript:;" id="comment-manage-item">评论管理</a></li>
+                <li><a href="javascript:;" id="change-password-item">修改密码</a></li>
+            </ul>
+        </div>
+        <!-- 功能实现栏  -->
+		<!--个人信息管理-->
+		<div class="personal-info">
+			<table>
+				<tr>
+					<td>用户名</td>
+					<td><input type="text" name="name" id="user-name" value="zs" /></td>
+				</tr>
+				<tr>
+					<td>邮箱</td>
+					<td><input type="text" name="name" id="user-name" value="123@123.com" /></td>
+				</tr>
+				<tr>
+					<td>性别</td>
+					<td>
+						<div class="user-sex">
+							<div class="male choose">男</div>
+							<div class="famali">女</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>账号创建日期</td>
+					<td><input type="text" name="name" id="user-name" /></td>
+				</tr>
+			</table>
+			<button id="edit-personal-info">编辑</button>
+			<button id="save-personal-info">保存</button>
+			<button id="cancel-personal-info">取消</button>
+		</div>
+		
+		<!-- 文章管理 -->
+        <div class="manage-articles">
+			<table class="list">
+				<tr>
+					<th>#</th>
+					<th>文章标题</th>
+					<th>发布时间</th>
+					<th>修改时间</th>
+					<th>浏览量</th>
+					<th>评论数</th>
+					<th>点赞数</th>
+					<th>操作</th>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>Mysql从入门到入坟</td>
+					<td>2021-1-2</td>
+					<td>2020-5-1</td>
+					<td>412234</td>
+					<td>32</td>
+					<td>112</td>
+					<td>
+						<button type="button" id="edit-article-btn" class="edit-btn">编辑</button>
+						<button type="button" id="delete-article-btn" class="delete-btn">删除</button>
+					</td>
+				</tr>
+				</table>
+			<div id="article-page-nav-bar">
+				<nav>
+					<ul class="pagination">
+						<li class="disabled"><a href="#">首页</a></li>
+						<li class="disabled"><a>«</a></li>
+						<li class="active"><a>1</a></li>
+						<li ><a>»</a></li>
+						<li class="disabled"><a href="#">末页</a></li>
+					</ul>
+				</nav>
+			</div>
+    </div>
+
+		<!-- 评论管理 -->
+		<div class="manage-comment">
+			<table class="list" id="comment-list">
+				<tr>
+					<th>#</th>
+					<th>文章名</th>
+					<th>评论摘要</th>
+					<th>时间</th>
+					<th>邮箱</th>
+					<th>操作</th>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>mysql从入门到入土</td>
+					<td>啊啊啊是阿斯顿阿斯顿阿斯顿阿萨啊实打实...</td>
+					<td>2021-5-2</td>
+					<td>123332211@qq.com</td>
+					<td>
+						<button type="button" class="show-btn">查看</button>
+						<button type="button" class="delete-btn">删除</button>
+					</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>mysql从入门到入土</td>
+					<td>666666666666666666asdasd6...</td>
+					<td>2021-5-2</td>
+					<td>123332211@qq.com</td>
+					<td>
+						<button type="button" class="show-btn">查看</button>
+						<button type="button" class="delete-btn">删除</button>
+					</td>
+				</tr>
+			</table>
+			<div id="comment-page-nav-bar">
+				<nav>
+					<ul class="pagination">
+						<li class="disabled"><a href="#">首页</a></li>
+						<li class="disabled"><a>«</a></li>
+						<li class="active"><a>1</a></li>
+						<li><a>»</a></li>
+						<li class="disabled"><a href="#">末页</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+
+		<!-- 修改密码 -->
+		<div class="change-password">
+			<div class="old-password">
+				<input type="password" placeholder="旧密码" >
+			</div>
+			<div class="new-password">
+				<input type="password" placeholder="新密码" >
+			</div>
+			<div class="repeat-new-password">
+				<input type="password" placeholder="重复新密码" >
+			</div>
+			<button class="submit-password">提交修改</button>
+		</div>
+		
+    <!-- 页脚 -->
+    <footer>
+        
+    </footer>
+	
+	<script type="text/javascript">
+		// 点击相应的功能之后隐藏显示对应的功能，显示其他的功能
+		
+		
+	</script>
+</body>
+</html>

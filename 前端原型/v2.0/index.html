@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>welcome</title>
+		<link rel="stylesheet" type="text/css" href="lib/layui/css/layui.css"/>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+		<script src="lib/jquery1.9.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<!-- 顶部导航栏 -->
+		<nav class="clearfix">
+			<ul class="layui-nav layui-bg-black">
+			  <li class="layui-nav-item layui-this"><a href="">选中</a></li>
+			  <li class="layui-nav-item">
+				<a href="javascript:;">常规</a>
+			  </li>
+			  <li class="layui-nav-item"><a href="">导航</a></li>
+			  <li class="layui-nav-item">
+				<a href="javascript:;">子级</a>
+				<dl class="layui-nav-child">
+				  <dd><a href="">菜单1</a></dd>
+				  <dd><a href="">菜单2</a></dd>
+				  <dd><a href="">菜单3</a></dd>
+				</dl>
+			  </li>
+			  <li class="layui-nav-item">
+				<a href="javascript:;">选项</a>
+				<dl class="layui-nav-child">
+				  <dd><a href="">选项1</a></dd>
+				  <dd class="layui-this"><a href="">选项2</a></dd>
+				  <dd><a href="">选项3</a></dd>
+				</dl>
+			  </li>
+			  <li class="layui-nav-item"><a href="">演示</a></li>
+			  <li id="user-profile-picture" class="layui-nav-item" lay-unselect="">
+				  <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img"></a>
+				  <dl class="layui-nav-child">
+					<dd><a href="javascript:;">子级菜单</a></dd>
+					<dd><a href="javascript:;">横线隔断</a></dd>
+					<hr>
+					<dd style="text-align: center;"><a href="">退出</a></dd>
+				  </dl>
+				</li>
+			</ul>
+		</nav>
+		<!-- 欢迎页面,需要向下滑动 -->
+		<div class="welcome-page">
+			<h1>JANCOYAN</h1>
+			<div class="quote">十年饮冰，难凉热血。</div>
+			<div class="next-page">
+				<!-- 点击向下滑动 -->
+			</div>
+		</div>
+
+		
+		<script type="text/javascript">
+			$(function(){
+				var window_h = $(window).height();
+				var window_w = $(window).width();
+				$(".welcome-page").height(window_h - 60);
+				$(".welcome-page").width(window_w);
+			})
+				
+			// 点击这个按钮的时候向下滑动
+			$(".next-page").click(function(){
+				// 在这里面调用滑动函数
+				
+			});
+			
+			// 这个功能应该是写好了，但是还没有测试
+			// 因为现在还没有下面的内容
+			// 鼠标下滑的时候也会向下滑动，鼠标下滑也会调用滑动函数
+			// 默认滑动一屏的距离
+			function slide_down(distance){
+				
+			}
+			
+			// 	
+			
+		</script>
+		
+		<!-- 向下滑动打开文章列表 -->
+		<div class="main clearfix">
+			
+			<!-- 左右布局 -->
+			<!-- 左边是文章列表 -->
+			<div class="left-content">
+				<div class="layui-bg-gray" style="padding: 30px;">
+				  <div class="layui-row layui-col-space15">
+				    <div class="layui-col-md">
+				      <div class="layui-card">
+				        <div class="layui-card-header">卡片面板 <span class="layui-badge">置顶</span></div>
+				        <div class="layui-card-body">
+				          卡片式面板面板通常用于非白色背景色的主体内<br>
+				          从而映衬出边框投影
+				        </div>
+				      </div>
+				    </div>
+				    <div class="layui-col-md">
+				      <div class="layui-card">
+				        <div class="layui-card-header">卡片面板 <span class="layui-badge">置顶</span></div>
+				        <div class="layui-card-body">
+				          结合 layui 的栅格系统<br>
+				          轻松实现响应式布局
+				        </div>
+				      </div>
+				    </div>
+				    <div class="layui-col-md">
+				      <div class="layui-card">
+				        <div class="layui-card-header">卡片面板</div>
+				        <div class="layui-card-body">
+				          结合 layui 的栅格系统<br>
+				          轻松实现响应式布局
+				        </div>
+				      </div>
+				    </div>
+				    <div class="layui-col-md">
+				      <div class="layui-card">
+				        <div class="layui-card-header">卡片面板</div>
+				        <div class="layui-card-body">
+				          结合 layui 的栅格系统<br>
+				          轻松实现响应式布局
+				        </div>
+				      </div>
+				    </div>
+				    <div class="layui-col-md">
+				      <div class="layui-card">
+				        <div class="layui-card-header">卡片面板</div>
+				        <div class="layui-card-body">
+				          结合 layui 的栅格系统<br>
+				          轻松实现响应式布局
+				        </div>
+				      </div>
+				    </div>
+				  </div>
+				</div> 
+			</div>
+			
+			<!-- 右边是热门文章 -->
+			<div class="right-content">
+				
+				<!-- 搜索按钮放在这里 -->
+				<div class="search">
+					<input type="text" name="title" required lay-verify="required" placeholder="搜索文章	" autocomplete="off" class="layui-input">  
+					<button class="layui-btn layui-btn-primary layui-border"><i class=" layui-icon layui-icon-search"></i></button>
+				</div>
+				
+				<div class="layui-collapse" lay-accordion="">
+				  <div class="layui-colla-item">
+				    <h2 class="layui-colla-title">layui 更适合哪些开发者？</h2>
+				    <div class="layui-colla-content layui-show">
+				      <p>在前端技术快速变革的今天，layui 仍然坚持语义化的组织模式，甚至于模块理念都是采用类AMD组织形式，并非是有意与时代背道而驰。layui 认为以jQuery为核心的开发方式还没有到完全消亡的时候，而早期市面上基于jQuery的UI都普通做得差强人意，所以需要有一个新的UI去重新为这一领域注入活力，并采用一些更科学的架构方式。
+				      <br>
+				      因此准确地说，layui 更多是面向那些追求开发简单的前端工程师们，以及所有层次的服务端程序员。</p>
+				    </div>
+				  </div>
+				  <div class="layui-colla-item">
+				    <h2 class="layui-colla-title">为什么JS社区大量采用未发布或者未广泛支持的语言特性？</h2>
+				    <div class="layui-colla-content">
+				      <p>有不少其他答案说是因为JS太差。我下面的答案已经说了，这不是根本性的原因。但除此之外，我还要纠正一些对JS具体问题的误解。JS当初是被作为脚本语言设计的，所以某些问题并不是JS设计得差或者是JS设计者的失误。比如var的作用域问题，并不是“错误”，而是当时绝大部分脚本语言都是这样的，如perl/php/sh等。模块的问题也是，脚本语言几乎都没有模块/命名空间功能。弱类型、for-in之类的问题也是，只不过现在用那些老的脚本语言的人比较少，所以很多人都误以为是JS才有的坑。另外有人说JS是半残语言，满足不了开发需求，1999年就该死。半残这个嘛，就夸张了。JS虽然有很多问题，但是设计总体还是优秀的。——来自知乎@贺师俊</p>
+				    </div>
+				  </div>
+				  <div class="layui-colla-item">
+				    <h2 class="layui-colla-title">为什么前端工程师多不愿意用 Bootstrap 框架？</h2>
+				    <div class="layui-colla-content">
+				      <p>因为不适合。如果希望开发长期的项目或者制作产品类网站，那么就需要实现特定的设计，为了在维护项目中可以方便地按设计师要求快速修改样式，肯定会逐步编写出各种业务组件、工具类，相当于为项目自行开发一套框架。——来自知乎@Kayo</p>
+				    </div>
+				  </div>
+				  <div class="layui-colla-item">
+				    <h2 class="layui-colla-title">一个折叠面板标题？</h2>
+				    <div class="layui-colla-content">
+				      <p>一个折叠面板的内容。。。</p>
+				    </div>
+				  </div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 折叠面板的内容用流加载加载出来-->
+		<!-- 在里面调用 jq 接口获取数据 -->
+		<!-- 前端写完的时候再说 -->
+		
+		
+		<!-- 页脚的内容 -->
+		<div class="footer">
+			<a href="javascript:;">联系我</a>
+		</div>
+		
+	</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <script src="./js/jquery-1.12.js"></script>
+</head>
+<link rel="stylesheet" href="./css/articlelist.css">
+<body>
+    <!-- 导航条 -->
+    <div class="nav">
+        <!-- 回主页的"图标" -->
+        <a href="#" class="back-to-index">JancoBlog</a>
+        <!-- 登录和注册 -->
+        <div class="signin"><a href="#">
+		<%
+            String aTag = null;
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                aTag = "<a href='login.jsp'>登录</a>";
+            } else {
+                aTag = "<a href='./workbench'>后台管理</a>";
+            }
+        %>
+        <%=aTag%>
+		</a></div>
+    </div>
+    <!-- 除去导航条和footer的部分是主体main -->
+    <div class="main clearfix">
+        <!-- 博客标题和签名 -->
+        <div class="title-and-signature">
+            <h1>JANCOYAN</h1> <br>
+            <div class="quote">十 年 饮 冰, 难 凉 热 血</div>
+        </div>
+        <!-- 分类导航和搜索功能 -->
+        <div class="sort-and-search">
+            <!-- 文章分类导航 -->
+            <ul class="types">
+                <li class="drop-down"><a href="#">计算机基础</a>
+                    <div class="drop-content">
+                        <a href="#">数据结构与算法</a>
+                        <a href="#">计算机组成原理</a>
+                        <a href="#">计算机网络</a>
+                        <a href="#">操作系统</a>
+                    </div>
+                </li>
+                <li class="drop-down"><a href="#">大数据</a>
+                
+                </li>
+                <li class="drop-down"><a href="#">前端</a>
+                    <div class="drop-content">
+                        <a href="#">HTML</a>
+                        <a href="#">CSS</a>
+                        <a href="#">JavaScript</a>
+                    </div>
+                </li>
+                <li class="drop-down"><a href="#">JavaWeb</a>
+                    
+                </li>
+                <li class="drop-down"><a href="#">Linux</a>
+                    
+                </li>
+                <!-- 搜索功能 -->
+                <div class="search">
+                    <form action="#" method="POST" class="search-form">
+                        <input type="text" name="search" placeholder="搜索博文" class="search-text">
+                        <input type="submit" name="submit" value="搜索" class="search-btn">
+                    </form>
+                </div>
+            </ul>
+        </div>
+
+        <!-- 文章列表和标签导航 -->
+        <!-- 列表和分页 -->
+        <div class="index-content clearfix">
+            <!-- 文章列表 -->
+            <div class="left-content clearfix">
+                <ul class="clearfix">
+					<li class="article-box">
+						<a href="">这是标题</a>
+						<div class="segment-line"></div>
+						<div class="article-abstract">这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要</div>
+						<div class="article-info clearfix">
+							<div class="like-articles">
+								<span class="like-logo">♥</span>
+								<span class="like-count">12</span>
+							</div>
+							<div class="view-count">浏览量:63</div>
+							<div class="post-time">发布日期:2021-4-12</div>
+						</div>
+					</li>
+					<li class="article-box">
+						<a href="">这是标题</a>
+						<div class="segment-line"></div>
+						<div class="article-abstract">这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要</div>
+						<div class="article-info">
+							<div class="view-count">浏览量:63</div>
+							<div class="post-time">发布日期:2021-4-12</div>
+						</div>
+					</li>
+					<li class="article-box">
+						<a href="">这是标题</a>
+						<div class="segment-line"></div>
+						<div class="article-abstract">这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要</div>
+						<div class="article-info">
+							<div class="view-count">浏览量:63</div>
+							<div class="post-time">发布日期:2021-4-12</div>
+						</div>
+					</li>
+                </ul>
+            </div>
+			
+			<!-- 文章热榜和标签分类 -->
+			<div class="right-content">
+				<!-- 文章热榜 -->
+				<div class="article-rank-list">
+					<div class="article-rank-title">
+						热门文章
+					</div>
+					<div class="segment-line"></div>
+					<ul class="hot-articles">
+						<li class="hot-article">
+							<div class="hot-order">1</div>
+							<a href="">jdbc</a>
+							<div class="hot-article-views">12</div>							
+							<br>
+						</li>
+						<li class="hot-article">
+							<div class="hot-order">2</div>
+							<a href="">jdbc</a>
+							<div class="hot-article-views">12</div>							
+							<br>
+						</li>
+						<li class="hot-article">
+							<div class="hot-order">3</div>
+							<a href="">jdbc</a>
+							<div class="hot-article-views">12</div>							
+							<br>
+						</li>
+						<li class="hot-article">
+							<div class="hot-order">4</div>
+							<a href="">jdbc</a>
+							<div class="hot-article-views">12</div>							
+							<br>
+						</li>
+						<li class="hot-article">
+							<div class="hot-order">5</div>
+							<a href="">jdbc</a>
+							<div class="hot-article-views">12</div>							
+							<br>
+						</li>
+					</ul>
+				</div>
+				
+			</div>
+        </div>
+    </div>
+</body>
+</html>

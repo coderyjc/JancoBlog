@@ -1,0 +1,311 @@
+/* 清除浏览器默认样式 */
+*{
+    margin:0;
+    padding:0;
+}
+
+a{
+    text-decoration: none;
+}
+
+/* 全局的a标签的初始状态 */
+a:link, a:visited, a:hover, a:active{
+    color: black;
+    text-decoration: none;
+}
+
+
+/*清除浮动*/
+.clearfix:before,.clearfix:after{
+    content: "";
+    display: table;
+}
+.clearfix:after{
+    clear: both;
+}
+.clearfix{
+    *zoom: 1;
+}
+
+
+/* 导航条 */
+.nav{
+    background-color: #2f2e34;
+    color: white;
+    font-size: 40px;
+    padding: 5px 200px;
+
+}
+.nav a:link, .nav a:visited{
+    color: white;
+}
+
+/* 标题 */
+h1{
+    padding: 15px 200px;
+    margin: 20px;
+    font-size: 45px;
+    text-align: center;
+}
+
+/* 设置主体离两边的长度 */
+.main{
+    padding: 15px 200px;
+    margin: 10px;
+}
+
+/* 功能列表的列表 */
+.function-list{
+	float: left;
+    display: inline-block;
+	margin: 0px 5px;
+}
+
+.operate-list{
+    list-style-type: none;
+}
+
+.operate-list a{
+    width: 120px;
+    display: inline-block;
+    padding: 15px 20px;
+    border: #a39c9c solid 1px;
+    text-align: center;
+}
+
+.operate-list a:hover{
+    background-color: rgba(111, 128, 128, 0.418);
+}
+
+.operate-list a:active{
+    background-color: rgba(86, 95, 95, 0.418);
+}
+
+/* 功能实现 */
+.personal-info, .manage-articles, .change-password, .manage-comment{
+    float: left;
+    width: 80%;
+    display: none;
+}
+
+.personal-info{
+    text-align: center;
+}
+
+.personal-info>div{
+    height: 50px;
+    margin-bottom: 10px;
+
+}
+
+.personal-info>table{
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+    padding-left: 60px;
+}
+
+.personal-info td{
+    width: 200px;
+}
+
+.personal-info input{
+    height: 30px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.user-sex{
+    height: 40px;
+}
+
+.user-sex>div{
+    display: inline-block;
+    width: 30%;
+    height: 60%;
+    border: gray 1px solid;
+    border-radius: 10px;
+    line-height: 24px;
+    curser: pointer;
+}
+
+.user-sex>.choose{
+    background-color: #14d0ff;
+    border-color: #14d0ff;
+    color: white;
+}
+
+.personal-info>button{
+    border-radius: 15px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 20px auto;
+    height: 30px;
+    width: 80px;
+}
+
+#edit-personal-info,#save-personal-info{
+    background-color: #14D0FF;
+}
+
+#cancel-personal-info{
+    background-color: #a3a3a3;
+}
+
+#save-personal-info, #cancel-personal-info{
+    display: none;
+}
+
+#edit-personal-info:active,#save-personal-info:active{
+    background-color: #0c9eff;
+}
+#cancel-personal-info:active{
+    background-color: #818181;
+}
+
+
+/* 文章管理的表格 */
+.list{
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* 单元格属性 */
+.list td, .list th{
+	border: 1px solid #c7cdd0;
+	padding: 8px;
+	text-align: center;
+}
+
+/* 隔行变色 */
+.list tr:nth-child(even){background-color: #f2f2f2;}
+
+/* 鼠标悬停突出显示 */
+.list tr:hover {background-color: #ddd;}
+
+/* 删除和编辑按钮 */
+.list button{
+	width: 50px;
+	height: 30px;
+	margin: 0px 5px;
+	border-radius: 5px;
+}
+
+.edit-btn{
+    color: white;
+    background-color: #54ccff;
+    border: #000;
+}
+.edit-btn:active{
+    background-color: #2a98c0;
+}
+
+.delete-btn{
+    color: white;
+    background-color: #d31f3a;
+    border: #000;
+}
+.delete-btn:hover{
+	background-color: #b51a31;
+}
+.delete-btn:active{
+    background-color: #7d1f1f;
+}
+
+/* 评论管理 */
+
+.manage-comment{
+    display: block;
+}
+.show-btn{
+	color: white;
+	background-color: #1dd3b8;
+	border: #000;
+}
+.show-btn:hover{
+	background-color: #1abfa6;
+}
+.show-btn:active{
+    background-color: #16a690;
+}
+
+
+
+
+/* 修改密码 */
+
+.change-password{
+    text-align: center;
+}
+
+.change-password input{
+    font-size: 20px;
+    margin: 10px;
+    padding: 5px;
+    width: 50%;
+}
+
+.change-password button{
+    font-size: 20px;
+    margin: 10px auto;
+    border-radius: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #3dd5ff;
+    color: #000000;
+}
+
+.change-password button:hover{
+    background-color: #3aecff;
+}
+
+.change-password button:active{
+    color: white;
+}
+
+
+/* 分页条 */
+
+.pagination{
+    list-style-type: none;
+    padding-left: 0;
+    margin: 20px 0;
+    display: inline-block;
+}
+
+#article-page-nav-bar nav, {
+    text-align: center;
+}
+
+.pagination>li{
+    text-align: center;
+    float: left;
+    display: inline;
+    padding: 5px 10px;
+    border: 1px solid #989898;
+}
+
+.pagination>li:hover{
+    background-color: #cfcfcf;
+}
+
+.pagination .active{
+    background-color: #a6a6a6;
+}
+
+.pagination .disabled{
+    pointer-events: none;
+}
+
+/* 显示个人信息的表单 */
+.personal-info form{
+	margin: 20px 30px;
+}
+
+#personal-info-table{
+	border: none;
+	width: 100%;
+	heigh: 30px;
+}

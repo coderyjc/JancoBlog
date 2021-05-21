@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>js实现逐字打印效果，文本逐字显示</title>
+    <style type="text/css">
+    body{background-color: #ffffee;}
+    #text{height:280px;color:#df6fe1; font-size:16px;}
+    </style>
+</head>
+<body>
+    <pre id="text"></pre>    
+<script>        
+	var i=0;
+	var str="asd";
+    window.onload=function typing(){
+                //获取div
+		var mydiv=document.getElementById("text");
+		mydiv.innerHTML+=str.charAt(i);
+		i++;
+		var id=setTimeout(typing,80);
+		if(i==str.length){
+			clearTimeout(id);
+		}
+    }
+</script>
+</body>
+</html>
