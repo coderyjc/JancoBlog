@@ -29,14 +29,15 @@
 			<div class="layui-form-item login-item">
 				<div class="layui-input-block">
 					<button type="submit" class="layui-btn">登录</button>
-					<button type="submit" class="layui-btn layui-btn-normal">注册</button>
+					<button id="signup-btn" type="submit" class="layui-btn layui-btn-normal">注册</button>
+					<button id="return-to-index" class="layui-btn layui-btn-primary">返回</button>
 				</div>
 			</div>
 		</div>
 		<!-- 注册模态框 -->
 		<div id="myModal" class="modal">
 			<div class="modal-content">
-				<fieldset id="login-title" class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+				<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
 				  <legend>注册</legend>
 				</fieldset>
 				<div class="modal-body">
@@ -61,10 +62,23 @@
 				</div>
 				<div class="modal-btn">
 					<button type="button" class="layui-btn">提交</button>
-					<button type="button" class="layui-btn layui-btn-primary">返回</button>
+					<button id="modal-return" type="button" class="layui-btn layui-btn-primary">返回</button>
 				</div>
 			</div>
 		</div>
-		
+		<script type="text/javascript">
+			// 注册按钮,绑定弹出注册模态框
+			$("#signup-btn").click(function(){
+				$("#myModal").css("display", "block");
+			});
+			// 关闭注册模态框
+			$("#modal-return").click(function(){
+				$("#myModal").css("display", "none");
+			});
+			// 返回到index
+			$("#return-to-index").click(function() {
+				window.location.href="/";
+			})
+		</script>
 	</body>
 </html>

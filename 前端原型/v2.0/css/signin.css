@@ -6,9 +6,10 @@ html{
 }
 
 .login-panel{
-	float: right;
-	margin-top: 11%;
-	margin-right: 7%;
+	/* float: right; */
+	margin:0  auto;
+	margin-top: 13%;
+	/* margin-right: 7%; */
 	width: 22%;
 	height: 35%;
 	padding-top: 20px;

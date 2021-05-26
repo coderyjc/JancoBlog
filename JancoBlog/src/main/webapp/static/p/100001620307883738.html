@@ -1,0 +1,70 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>CSS-盒子模型详解</title>    <link rel="stylesheet" href="../js/editor.md/css/editormd.min.css">   <script src="../js/jquery-1.12.js" type="text/javascript" charset="utf-8"></script>
+   <script src="../js/article-preload.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="../css/article.css"></head><body><!-- 导航条 --><div class="nav">    <!-- 回主页的"图标" -->    <a href="../../index.jsp" class="back-to-index">JancoBlog</a></div><!-- 所属分类 --><div class="article-sort"></div><!-- 标题栏 --><h1 class="article-title">CSS-盒子模型详解</h1><!-- 作者栏 --><div class="article-info"><div class="article-author">作者：Jancoyan</div><div class="article-submit-time">发布时间：2021-05-06 21:31:23</div><div class="article-view-time"></div></div><div class="article-content"><div class="markdown-body editormd-preview-container" previewcontainer="true" style="padding: 20px;"><h2 id="h2-u76D2u5B50u6A21u578B"><a name="盒子模型" class="reference-link"></a><span class="header-link octicon octicon-link"></span>盒子模型</h2><p>一个盒子我们会分成几部分, 盒子的大小由以下这些加起来决定</p>
+<ul>
+<li>内容区(content) 盒子的内容，显示文本 图像</li><li>内边距(padding) 内容和边框之间的区域，是透明的</li><li>边框(border) 元素的边框</li><li>外边距(margin) 外边距是透明的</li></ul>
+<p><img src="http://39.103.184.190:8888/JancoBlog/static/image/2021-05/20210506-21311610000.png" alt=""></p>
+<h3 id="h3-u8FB9u6846"><a name="边框" class="reference-link"></a><span class="header-link octicon octicon-link"></span>边框</h3><ul>
+<li>width <strong>内容区</strong>宽度</li><li>height <strong>内容区</strong>高度</li><li>background-color <strong>内容区</strong>背景颜色</li></ul>
+<p>要为一个元素设置边框, 必须设置三个样式</p>
+<ul>
+<li>border-width 宽度<ul>
+<li>可以分别指定四个边框的宽度, 空格之间用空格隔开, 分别表示 <em>上左下右</em> 的边框(顺时针)</li><li>如果设置 3 个值, 则分别设置给 上 左右 下</li><li>两个值的话, 就分别设置为 上下 左右</li><li>如果指定一个值, 则四个边都是这个值</li><li><span style="color: rgb(152, 225, 78);">注意 : 这个规则不仅适用于边框, 还适用于下面的边框颜色, 样式等</span></li></ul>
+</li><li>border-color 颜色</li><li>border-style 边框样式<ul>
+<li>可选值 : solid 实线</li><li>dotted 点状</li><li>dashed 虚线</li><li>double 双线</li><li>…更多的参见W3C手册</li></ul>
+</li></ul>
+<p><span style="color: red">盒子的可见框的大小由内容区, 内边框, 外边距加起来决定</span></p>
+<p>除了border-width, CSS还提供了四个border-xxx-width, xxx可以使top, left, right, bottom, 可以分别设置指定边的宽度</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-html"><span class="pln">    </span><span class="tag">&lt;style&gt;</span></code></li><li class="L1"><code class="lang-html"><span class="pln">        </span><span class="pun">.</span><span class="pln">box1</span><span class="pun">{</span></code></li><li class="L2"><code class="lang-html"><span class="pln">            </span><span class="com">/*宽和高*/</span></code></li><li class="L3"><code class="lang-html"><span class="pln">            width</span><span class="pun">:</span><span class="pln"> </span><span class="lit">100px</span><span class="pun">;</span></code></li><li class="L4"><code class="lang-html"><span class="pln">            height</span><span class="pun">:</span><span class="pln"> </span><span class="lit">100px</span><span class="pun">;</span></code></li><li class="L5"><code class="lang-html"></code></li><li class="L6"><code class="lang-html"><span class="pln">            </span><span class="com">/*设置背景颜色*/</span></code></li><li class="L7"><code class="lang-html"><span class="pln">            background</span><span class="pun">-</span><span class="pln">color</span><span class="pun">:</span><span class="pln"> blue</span><span class="pun">;</span></code></li><li class="L8"><code class="lang-html"></code></li><li class="L9"><code class="lang-html"><span class="pln">            </span><span class="com">/*边框*/</span></code></li><li class="L0"><code class="lang-html"><span class="pln">            border</span><span class="pun">-</span><span class="pln">width</span><span class="pun">:</span><span class="pln"> </span><span class="lit">20px</span><span class="pln"> </span><span class="lit">10px</span><span class="pln"> </span><span class="lit">20px</span><span class="pln"> </span><span class="lit">10px</span><span class="pun">;</span></code></li><li class="L1"><code class="lang-html"><span class="pln">            border</span><span class="pun">-</span><span class="pln">color</span><span class="pun">:</span><span class="pln"> red orange</span><span class="pun">;</span></code></li><li class="L2"><code class="lang-html"><span class="pln">            border</span><span class="pun">-</span><span class="pln">style</span><span class="pun">:</span><span class="pln"> solid </span><span class="kwd">double</span><span class="pun">;</span><span class="pln"> </span><span class="com">/*实线*/</span></code></li><li class="L3"><code class="lang-html"><span class="pln">        </span><span class="pun">}</span></code></li><li class="L4"><code class="lang-html"><span class="pln">    </span><span class="tag">&lt;/style&gt;</span></code></li><li class="L5"><code class="lang-html"><span class="pln">...</span></code></li><li class="L6"><code class="lang-html"><span class="pln">    </span><span class="tag">&lt;body&gt;</span></code></li><li class="L7"><code class="lang-html"><span class="pln">        </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"box1"</span><span class="tag">&gt;</span><span class="pln"> </span><span class="tag">&lt;/div&gt;</span></code></li><li class="L8"><code class="lang-html"><span class="pln">    </span><span class="tag">&lt;/body&gt;</span></code></li></ol></pre>
+<p><strong>大部分浏览器, 边框宽度和颜色都是有默认值的, 而边框的样式默认值为none</strong></p>
+<p>边框简写样式 border</p>
+<ul>
+<li>通过他可以直接设置四个边框的样式, 宽度, 颜色 而且没有任何的顺序要求</li><li>但是一指定就是四个边, 四个边不能分别制定</li><li>但是可以通过 border-top, border-left, border-bottom, border-left 分别对四个边的属性进行指定, 规则同 border</li></ul>
+<h3 id="h3-u5185u8FB9u8DDD"><a name="内边距" class="reference-link"></a><span class="header-link octicon octicon-link"></span>内边距</h3><p>指的是盒子的内容区与盒子边框之间的距离</p>
+<p>一共有四个方向的内边距, 可以通过</p>
+<ul>
+<li>padding-top</li><li>padding-left</li><li>padding-right</li><li>padding-bottom<br>来设置四个方向的内边距值</li></ul>
+<p>内边距会影响盒子的可见框的大小, <strong>元素的背景会延伸到内边距</strong></p>
+<p>使用padding可以<strong>同时设置</strong>四个边框的样式, 规则和border-width一致</p>
+<h3 id="h3-u5916u8FB9u8DDD"><a name="外边距" class="reference-link"></a><span class="header-link octicon octicon-link"></span>外边距</h3><p>指的是当前盒子与其他盒子的距离</p>
+<p>盒子有四个方向的外边距</p>
+<ul>
+<li>margin-top</li><li>margin-right</li><li>margin-bottom</li><li>margin-left</li></ul>
+<p>这个值可以理解为是一个最小值</p>
+<p>由于页面中的元素都是靠左靠上拜访的时候, 当我们设置上和左外边距的时候, 会导致盒子的位置发生改变, 如果是设置下和右边距的大小的时候, 会导致其他盒子的位置发生改变, 也就是”挤走”</p>
+<p>外边距也可以指定为一个负值, 即向反方向移动</p>
+<p>margin还可以设置为auto, aoto一般只设置给<strong>水平</strong>方向的margin</p>
+<ul>
+<li>如果只指定, 左外边距或者有外边距的margin为auto, 则会将外边距设置为最大值</li><li>垂直方向如果设置为auto, 则默认就是 0</li><li>如果left和right同时设置为auto, 则会将两侧的外边距设置为相同的值</li><li>就可以使元素自动在父元素中居中, 所以我们经常将左右外边距设置为auto, 以使子元素在父元素中居中</li></ul>
+<p>外边距也可以使用简写属性margin, 具体方法和内边距一样</p>
+<p>垂直外边距的重叠</p>
+<ul>
+<li>在网页中, <strong>垂直</strong>方向<strong>相邻</strong>外边距会发生外边距的重叠</li><li>即 兄弟元素之间的相邻外边距会区最大值而不是取和</li><li>如果父子元素的垂直外边距相邻了, 则子元素的外边距会设置传递给父元素<ul>
+<li>解决方法:</li><li>给父元素设置内边距或者给子元素设置外边距让他俩不相邻</li><li>使用空的table标签可以隔离父子元素的外边距, 阻止外边距重叠</li></ul>
+</li><li>最终方案:<ul>
+<li>display可以将一个元素设置为表格显示</li><li>具体方法见”解决高度塌陷的最终方案”</li></ul>
+</li></ul>
+<p>浏览器为了 在页面中没有样式的时候也有一个比较好的显示效果, 默认设置了一些margin和padding, 而这些默认样式正常情况下我们是不需要使用的, 所以在我们编写样式之前需要将浏览器中的默认margin和padding去掉</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-html"><span class="com">&lt;!-- 清除浏览器默认样式 --&gt;</span></code></li><li class="L1"><code class="lang-html"><span class="pln">*{</span></code></li><li class="L2"><code class="lang-html"><span class="pln">    margin:0;</span></code></li><li class="L3"><code class="lang-html"><span class="pln">    padding:0;</span></code></li><li class="L4"><code class="lang-html"><span class="pln">}</span></code></li></ol></pre>
+<h3 id="h3-u5185u8054u5143u7D20u7684u76D2u5B50"><a name="内联元素的盒子" class="reference-link"></a><span class="header-link octicon octicon-link"></span>内联元素的盒子</h3><p>内联元素不能设置width和height</p>
+<p>可以设置水平内边距, 可以影响页面布局</p>
+<p>可以设置垂直内边距, 但是不会影响页面的布局</p>
+<p>可以设置边框, 水平边框影响布局, 垂直的不影响</p>
+<p>支持水平方向外边距, 不会重叠</p>
+<p>支持垂直方向外边距, 会重叠</p>
+<h3 id="h3-_display-amp-visiability-amp-overflow"><a name="_display&amp;visiability&amp;overflow" class="reference-link"></a><span class="header-link octicon octicon-link"></span>_display&amp;visiability&amp;overflow</h3><p>通过display样式可以修改元素的类型</p>
+<ul>
+<li>inline 可以将一个元素作为内联元素显示</li><li>block 可以将一个元素作为块元素显示</li><li>inline-block 将以一个元素转换为行内块元素<ul>
+<li>既可以设置宽高, 又不独占一行</li></ul>
+</li><li>none 不显示元素并且元素不会在页面中继续占用位置<ul>
+<li>使用该方式隐藏的元素不会在页面中显示并且不再占用页面的位置</li></ul>
+</li></ul>
+<p>visibility 可以用来设置元素的隐藏和显示的转台<br>可选值: visible 和 hidden</p>
+<p>使用这个方式隐藏的元素虽然不可见了, 但是还会占用空间</p>
+<p>子元素默认在父元素的内容去中, 理论上子元素的最大大小可以等于父元素的内容区的大小如果超过了父元素的大小, 超过的内容会在父元素意外的位置显示, 超过的内容叫溢出的内容，溢出的元素默认在外面显示，通过overflow可以设置如何处置溢出的内容</p>
+<p>可选值:</p>
+<ul>
+<li>visible 一处之后在父元素意外的位置显示</li><li>hidden 溢出的内容会被修剪掉</li><li>scroll  显示滚动条, 可以拖动滚动条查看全部内容<ul>
+<li>缺点 : 不论是否溢出都会显示滚动条</li></ul>
+</li><li><strong>aoto</strong> 根据需求自动添加滚动条, 需要水平就水平, 需要垂直就垂直</li></ul>
+</div></div><div class="article-comment"><div class="comment-title">添加笔记</div> <hr><div class="comment-list"></div><div class="add-comment"><textarea maxlength="20" placeholder="昵称" id="edit-comment-author" rows="1" cols="110"></textarea><textarea maxlength="50" placeholder="邮箱" id="edit-comment-email" rows="1" cols="110"></textarea><textarea maxlength="1000" placeholder="笔记" id="edit-comment-content" rows="5" cols="110"></textarea><button class="add-comment-btn">添加</button></div></div></body></html>

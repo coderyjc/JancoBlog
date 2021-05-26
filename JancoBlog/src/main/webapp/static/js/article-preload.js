@@ -2,11 +2,12 @@ var article;
 var subType = null;
 var superType = null;
 
+
 $(function(){
 
     get_article();
     get_sub_types();
-    get_super_types();
+    get_super_types()
     build_page();
     // 获取文章评论
     get_comments();
@@ -86,8 +87,7 @@ function create_comment_box(comment) {
     var commentBox = $("<div></div>").addClass("comment-box clearfix");
 
     var commentAuthorInfo = $("<div></div>").addClass("comment-author-info")
-        .append($("<div class='comment-author'></div>").append("昵称：" + comment.authorNickname))
-        .append($("<div class='comment-ip'></div>").append("地址：" + comment.authorIp));
+        .append($("<div class='comment-author'></div>").append("昵称：" + comment.authorNickname));
     var commentContent = $("<div></div>").addClass("comment-conetnt").append(comment.commentContent);
     var otherInfo = $("<div class='comment-other-info'></div>")
         .append($("<div class='comment-date'></div>").append(dateFormat(comment.commentDate)));

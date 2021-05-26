@@ -232,7 +232,6 @@ public class ArticleController {
         // 文章的创建时间
         article.setArticlePostDate(now);
         articleService.submitArticle(article);
-
         return Msg.success();
     }
 

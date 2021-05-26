@@ -1,4 +1,5 @@
-<%@ page import="com.Jancoyan.domain.User" %><%--
+<%@ page import="com.Jancoyan.domain.User" %>
+<%--
   Created by Jancoyan.
   User: Jancoyan
   Date: 2021/3/16
@@ -15,83 +16,173 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
-    <script src="./static/js/jquery-1.12.js"></script>
     <link rel="stylesheet" href="./static/css/articlelist.css">
+    <link rel="stylesheet" href="./static/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <script src="./static/lib/layui/layui.js"></script>
+    <script src="./static/js/jquery-1.12.js"></script>
     <script>
         var totalPage = 0;
         var currentPage = 1;
     </script>
 </head>
 <body>
-<!-- 导航条 -->
-<div class="nav">
-    <!-- 回主页的"图标" -->
-    <a href="./index.jsp" class="back-to-index">JancoBlog</a>
-    <!-- 登录和注册 -->
-    <div class="signin">
+<!-- 顶部导航栏 -->
+<nav class="clearfix">
+    <ul id="top-nav-bar" class="layui-nav layui-bg-black" layui-filter="top-nav">
+        <li class="layui-nav-item layui-this"><a href="">首页</a></li>
+        <li class="layui-nav-item"><a href="javascript:;">AI</a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=201">图像识别</a></dd></dl></li>
+        <li class="layui-nav-item"><a target="_blank" href="./sortlist.jsp?type=1">计算机基础<i class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=101">数据结构与算法</a></dd><dd><a target="_blank" href="sortlist.jsp?type=102">计算机网络</a></dd><dd><a target="_blank" href="sortlist.jsp?type=103">计算机组成原理</a></dd><dd><a target="_blank" href="sortlist.jsp?type=104">操作系统</a></dd></dl></li>
+        <li class="layui-nav-item"><a target="_blank" href="./sortlist.jsp?type=3">前端<i class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=301">HTML</a></dd><dd><a target="_blank" href="sortlist.jsp?type=302">CSS</a></dd><dd><a target="_blank" href="sortlist.jsp?type=303">JavaScript</a></dd><dd><a target="_blank" href="sortlist.jsp?type=304">JQuery</a></dd><dd><a target="_blank" href="sortlist.jsp?type=305">Ajax</a></dd><dd><a target="_blank" href="sortlist.jsp?type=306">Java图形界面</a></dd></dl></li>
+        <li class="layui-nav-item"><a target="_blank" href="./sortlist.jsp?type=4">Java后端<i class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=401">Spring</a></dd><dd><a target="_blank" href="sortlist.jsp?type=402">SpringMVC</a></dd><dd><a target="_blank" href="sortlist.jsp?type=403">MyBatis</a></dd><dd><a target="_blank" href="sortlist.jsp?type=404">JDBC</a></dd><dd><a target="_blank" href="sortlist.jsp?type=406">SSM整合</a></dd></dl></li>
+        <li class="layui-nav-item"><a target="_blank" href="./sortlist.jsp?type=5">Python<i class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=501">Python基础知识</a></dd><dd><a target="_blank" href="sortlist.jsp?type=502">PythonWeb</a></dd><dd><a target="_blank" href="sortlist.jsp?type=503">PyQt</a></dd></dl></li>
+        <li class="layui-nav-item"><a target="_blank" href="./sortlist.jsp?type=6">数据库<i class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=601">MySQL</a></dd></dl></li>
+        <li class="layui-nav-item"><a target="_blank" href="./sortlist.jsp?type=7">大数据<i class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=701">HDFS</a></dd></dl></li>
         <%
-            String aTag = null;
+            String aTag = "";
+            String aHref = "profile.png";
             User user = (User) session.getAttribute("user");
+            String profileClick = "javascript:;";
             if(user == null){
-                aTag = "<a href='login.jsp'>登录</a>";
+                aHref = "login-profile.png";
+                profileClick = "./login.jsp";
             } else {
-                aTag = "<a href='./workbench'>后台</a>";
+                aTag = "<dl class=\"layui-nav-child\"><dd><a href=\"javascript:;\">写博客</a></dd><dd><a href=\"./workbench/\">后台管理</a></dd><hr><dd style=\"text-align: center;\"><a href=\"\">退出</a></dd></dl>\n";
             }
         %>
-        <%=aTag%>
+        <li id="user-profile-picture" class="layui-nav-item" lay-unselect="">
+            <a href="<%=profileClick%>"><img src="./static/img/<%=aHref%>" class="layui-nav-img"></a>
+            <%=aTag%>
+        </li>
+    </ul>
+</nav>
+
+<!-- 欢迎页面,需要向下滑动 -->
+<div class="welcome-page">
+    <h1>JANCOYAN</h1>
+    <div class="quote">十年饮冰，难凉热血。</div>
+    <div class="next-page">
+        <!-- 点击向下滑动 -->
     </div>
 </div>
-<!-- 除去导航条和footer的部分是主体main -->
+
+<script type="text/javascript">
+    $(function(){
+        var window_h = $(window).height();
+        var window_w = $(window).width();
+        $(".welcome-page").height(window_h - 60);
+        $(".welcome-page").width(window_w);
+    })
+
+    // 点击这个按钮的时候向下滑动
+    $(".next-page").click(function(){
+        // 在这里面调用滑动函数
+
+
+    });
+
+    // 这个功能应该是写好了，但是还没有测试
+    // 因为现在还没有下面的内容
+    // 鼠标下滑的时候也会向下滑动，鼠标下滑也会调用滑动函数
+    // 默认滑动一屏的距离
+    function slide_down(distance){
+
+    }
+
+    //
+
+</script>
+
+<!-- 向下滑动打开文章列表 -->
 <div class="main clearfix">
-    <!-- 博客标题和签名 -->
-    <div class="title-and-signature">
-        <h1>JANCOYAN</h1> <br>
-        <div class="quote">十 年 饮 冰, 难 凉 热 血</div>
-    </div>
-    <!-- 分类导航和搜索功能 -->
-    <div class="sort-and-search">
-        <!-- 文章分类导航 -->
-        <ul class="types clearfix">
-            <!-- 搜索功能 -->
-            <div class="search">
-                <input type="text" name="search" placeholder="博文标题" id="search-text" />
-                <button id="search-btn">搜索</button>
+
+    <!-- 左右布局 -->
+    <!-- 左边是文章列表 -->
+    <div class="left-content">
+        <div class="layui-bg-gray" style="padding: 30px;">
+            <div id="article-list" class="layui-row layui-col-space15">
+<%--               文章列表在这里--%>
             </div>
-        </ul>
+        </div>
     </div>
 
-    <!-- 文章列表和标签导航 -->
-    <!-- 列表和分页 -->
-    <div class="index-content clearfix">
-        <!-- 文章列表 -->
-        <div class="left-content clearfix">
-            <ul class="clearfix"></ul>
+    <!-- 右边是热门文章 -->
+    <div class="right-content">
+
+        <!-- 搜索按钮放在这里 -->
+        <div class="search">
+            <input type="text" name="title" required lay-verify="required" placeholder="搜索文章	" autocomplete="off" class="layui-input">
+            <button id="search-btn" class="layui-btn layui-btn-primary layui-border"><i
+                    class=" layui-icon layui-icon-search"></i></button>
         </div>
-        <!-- 文章热榜和标签分类 -->
-        <div class="right-content">
-            <!-- 文章热榜 -->
-            <div class="article-rank-list">
-                <div class="article-rank-title">
-                    热门文章
+
+        <div class="layui-collapse" lay-accordion="">
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">浏览量</h2>
+                <div class="layui-colla-content layui-show">
+                    <ul class="rank-by-view">
+                        <li>
+                            <!-- 在排行榜中的排名 -->
+                            <div class="rank-view-index">1</div>
+                            <div class="rank-view-title"><a href="javascript:;">MySQL从入门到入土</a></div>
+                            <div class="rank-view-time">23</div>
+                        </li>
+                        <li>
+                            <!-- 在排行榜中的排名 -->
+                            <div class="rank-view-index">2</div>
+                            <div class="rank-view-title"><a href="javascript:;">MySQL从入门到入土</a></div>
+                            <div class="rank-view-time">21</div>
+                        </li>
+                        <li>
+                            <!-- 在排行榜中的排名 -->
+                            <div class="rank-view-index">3</div>
+                            <div class="rank-view-title"><a href="javascript:;">MySQL从入门到入土</a></div>
+                            <div class="rank-view-time">20</div>
+                        </li>
+                        <li>
+                            <!-- 在排行榜中的排名 -->
+                            <div class="rank-view-index">4</div>
+                            <div class="rank-view-title"><a href="javascript:;">MySQL从入门到入土</a></div>
+                            <div class="rank-view-time">9</div>
+                        </li>
+                    </ul>
                 </div>
-                <div class="segment-line"></div>
-                <ul class="hot-articles"></ul>
+            </div>
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">点赞</h2>
+                <div class="layui-colla-content">
+                    <p>有不少其他答案说是因为JS太差。我下面的答案已经说了，这不是根本性的原因。但除此之外，我还要纠正一些对JS具体问题的误解。JS当初是被作为脚本语言设计的，所以某些问题并不是JS设计得差或者是JS设计者的失误。比如var的作用域问题，并不是“错误”，而是当时绝大部分脚本语言都是这样的，如perl/php/sh等。模块的问题也是，脚本语言几乎都没有模块/命名空间功能。弱类型、for-in之类的问题也是，只不过现在用那些老的脚本语言的人比较少，所以很多人都误以为是JS才有的坑。另外有人说JS是半残语言，满足不了开发需求，1999年就该死。半残这个嘛，就夸张了。JS虽然有很多问题，但是设计总体还是优秀的。——来自知乎@贺师俊</p>
+                </div>
+            </div>
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">评论</h2>
+                <div class="layui-colla-content">
+                    <p>因为不适合。如果希望开发长期的项目或者制作产品类网站，那么就需要实现特定的设计，为了在维护项目中可以方便地按设计师要求快速修改样式，肯定会逐步编写出各种业务组件、工具类，相当于为项目自行开发一套框架。——来自知乎@Kayo</p>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- 折叠面板的内容用流加载加载出来-->
+
+
+<!-- 页脚的内容 -->
+<div class="footer">
+    <a href="javascript:;">联系我</a>
 </div>
 
 
 <script>
-
     // 页面加载完毕立即执行
     $(function(){
     //    从数据库拿到数据建立导航栏
-        build_nav_bar();
+    //     build_nav_bar();
     //   获取数据库中最新的10条记录
         get_article_page(1);
         // 加载文章热榜，也就是按照浏览量排序的前十名
         build_hot_rank();
+
     });
 
     // 获取文章，然后添加到主页的末尾
@@ -112,40 +203,49 @@
         var articleList = result.extend.pageInfo.list;
         totalPage = result.extend.pageInfo.pages;
         $.each(articleList, function (index, item) {
-
-            var articleBoxLi = $("<li></li>").addClass("article-box");
+            // 卡片的父级col列表
+            var articleCol = $("<div></div>").addClass("layui-col-md");
+            // 卡片， 里面有标题、内容和底部信息
+            var articleCard = $("<li></li>").addClass("layui-card");
+            // 标题中的链接
             var articlePath = "./static/p/" + item.articleId + ".html";
-            // box内部的a标签
-            var aTitle = $("<a></a>").attr("href", articlePath).append(item.articleTitle);
+            // 文章标题
+            var aTitle = $("<div></div>").addClass("layui-card-header").append(
+                $("<a></a>").attr("href", articlePath).append(item.articleTitle)
+            );
             // 绑定增加浏览量的函数
             aTitle.click(function () {
                 add_article_view(item.articleId);
             });
-            //分割线
-            var segmentLine = $('<div class="segment-line"></div>');
-            // 摘要
-            var articleAbstract = $("<div></div>").addClass("article-abstract")
+
+            // 内容
+            var articleBody = $("<div></div>").addClass("layui-card-body")
                 .append(item.articleAbstract);
+
             // 点赞的数量, 图标 和 数量
-            var likeArticles = $("<div></div>").addClass("like-articles")
-                .append("<span class='like-logo'>♥ </span>")
+            var likeArticles = $("<div></div>").addClass("article-info-like")
+                .append("<i class='layui-icon layui-icon-praise' style='color: red'></i>")
                 .append($("<span class='like-count'></span>").append(item.articleLikeCount));
             // 绑定点击事件
             likeArticles.click(function(){
-               add_like_count(this.childNodes[1], item.articleId);
+                add_like_count(this.childNodes[1], item.articleId);
             });
+
             // 发布时间和浏览量
             var articleInfo = $("<div></div>")
-                .addClass("article-info clearfix")
+                .addClass("article-info")
                 .append(likeArticles)
-                .append($("<div></div>").addClass("view-count").append("浏览量："+item.articleViewTime))
-                .append($("<div></div>").addClass("post-time").append("发布日期："+dateFormat(item.articlePostDate)));
-            // 向盒子中添加元素
-            articleBoxLi.append(aTitle)
-                .append(segmentLine)
-                .append(articleAbstract)
-                .append(articleInfo)
-                .appendTo(".left-content ul");
+                .append($("<div></div>").addClass("article-info-view").append("浏览量："+item.articleViewTime))
+                .append($("<div></div>").addClass("article-info-date").append("发布日期："+dateFormat(item.articlePostDate)));
+
+            //向盒子中添加元素
+            articleCard.append(aTitle)
+            .append(articleBody)
+            .append($("<div class='segment-line'></div>"))
+            .append(articleInfo);
+
+            // 向一列中中添加元素
+            articleCol.append(articleCard).appendTo(".left-content #article-list");
         })
     }
 
@@ -161,21 +261,26 @@
                     var currTypeName =
                         $("<a target='_blank' ></a>").attr("href",
                             "./sortlist.jsp?type="+item.typeId).text(item.typeName);
-                    var currSuperTypeDrop = $("<div></div>").addClass("drop-content");
+                    var currSuperTypeDrop = $("<dl></dl>").addClass("layui-nav-child");
                     //创建第二级分类列表
                     var subTypes = item.subTypes;
                     $.each(subTypes, function (index, item1) {
                         currSuperTypeDrop
-                            .append($("<a target='_blank'></a>")
-                                .attr("href", "sortlist.jsp?type=" + item1.typeId)
-                                .append(item1.typeName)
+                            .append(
+                                $("<dd></dd>").append(
+                                    $("<a target='_blank'></a>").attr("href", "sortlist.jsp?type=" + item1.typeId).append(item1.typeName)
+                                )
                             );
                     });
-                    $("<li></li>").addClass("drop-down clearfix")
+                    $("<li></li>").addClass("layui-nav-item")
                         .append(currTypeName)
                         .append(currSuperTypeDrop)
-                        .prependTo(".types");
+                        .appendTo("#top-nav-bar");
                 });
+
+                layui.use(['element'],function(){
+                    layui.element.init();//手动调用初始化方法
+                })
             }
         });
     }
@@ -202,7 +307,9 @@
                     .append(titleA)
                     .append(viewTime)
                     .appendTo(".hot-articles");
+
                 });
+
             }
         });
     }
@@ -225,7 +332,6 @@
             }
         });
     }
-
 
     // 点击文章的时候增加文章阅读量
     function add_article_view(articleId) {
@@ -280,5 +386,12 @@
     }
 
 </script>
+
+<script>
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+</script>
+
 </body>
 </html>

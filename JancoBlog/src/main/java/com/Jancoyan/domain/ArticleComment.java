@@ -1,5 +1,15 @@
 package com.Jancoyan.domain;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ArticleComment extends ArticleCommentKey {
     private String authorNickname;
 
@@ -19,45 +29,5 @@ public class ArticleComment extends ArticleCommentKey {
                 ", likeCount=" + likeCount +
                 ", commentContent='" + commentContent + '\'' +
                 '}';
-    }
-
-    public String getAuthorNickname() {
-        return authorNickname;
-    }
-
-    public void setAuthorNickname(String authorNickname) {
-        this.authorNickname = authorNickname == null ? null : authorNickname.trim();
-    }
-
-    public String getAuthorIp() {
-        return authorIp;
-    }
-
-    public void setAuthorIp(String authorIp) {
-        this.authorIp = authorIp == null ? null : authorIp.trim();
-    }
-
-    public Integer getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(Integer likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    public String getCommentContent() {
-        return commentContent;
-    }
-
-    public void setCommentContent(String commentContent) {
-        this.commentContent = commentContent == null ? null : commentContent.trim();
-    }
-
-    public String getArticleTitle() {
-        return articleTitle;
-    }
-
-    public void setArticleTitle(String articleTitle) {
-        this.articleTitle = articleTitle;
     }
 }

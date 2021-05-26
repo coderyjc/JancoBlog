@@ -1,65 +1,87 @@
-/* 清除浏览器默认样式 */
-*{
-    margin:0;
-    padding:0;
-}
-/* 顶部导航栏 */
-.nav{
-    font-size: 40px;
-    font-weight: 500;
-    color: white;
-    background-color: rgb(60, 60, 60);
-    padding: 0px 200px;
+html{
+    width: 100%;
+    height: 100%;
+    background-image: url(../img/index-bg-1.jpg);
+    background-position: top;
 }
 
-/* 导航栏里面的@后面的字 */
-.nav-author{
-    font-size: 10px;
-}
-/* Janco 超链接 */
-a{
-    text-decoration: none;
-}
-a:link{
-    color: white;
-}
-a:visited{
-    color: white;
-}
-/* 登录div */
-.login{
-    border: solid rgb(175, 165, 165) 0.7px ;
-    border-radius: 15px;
-    padding: 30px 60px;
-    width: 330px;
-    height: 350px;
-    margin: auto;
-    margin-top: 150px;
+.login-panel{
+    /* float: right; */
+    margin:0  auto;
+    margin-top: 13%;
+    /* margin-right: 7%; */
+    width: 22%;
+    height: 35%;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 80px;
+    padding-bottom: 20px;
+    /* border: 1px solid gray; */
+    border-radius: 8px;
     background-color: white;
+    opacity: 0.9;
 }
-/* 登录界面的登录字体 */
-.login-text{
-    font-size: 30px;
-    margin: 10px auto;
+
+#login-title{
+    margin-left: 40px;
 }
-/* 登录item，也就是用户名和密码条 */
-.login-item{
-    margin: 25px auto;
-    font-size: large;
-    border-radius: 5px;
-    height: 35px;
-    width: 300px;
+
+.login-item.layui-form-item{
+    margin-bottom: 30px;
 }
-/* 登录按钮 */
-#login-btn{
-    background-color:rgb(66, 139, 202);
-    border: blue;
-    color: white;
+
+input{
+    background-color: transparent;
 }
-/* 划过登录按钮的效果 */
-#login-btn:hover{
-    background-color: #3071a9;
+
+
+
+/*模态框*/
+.modal {
+    display: none; /* 默认隐藏 */
+    position: fixed; /* 根据浏览器定位 */
+    z-index: 1; /* 放在顶部 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 全宽 */
+    height: 100%; /* 全高 */
+    overflow: auto; /* 允许滚动 */
+    background-color: rgba(0,0,0,0.4); /* 背景色 */
 }
-#login-btn:active{
-    background-color: #1c5581;
+
+/*模态框内容*/
+.modal-content {
+    display: flex; /*采用flexbox布局*/
+    flex-direction: column; /*垂直排列*/
+    position: relative;
+    background-color: #fefefe;
+    margin: 10% auto; /*距顶部15% 水平居中*/
+    padding: 20px;
+    padding-right: 50px;
+    border: 1px solid #888;
+    width: 30%;
+    animation: topDown 0.4s; /*自定义动画，从模态框内容上到下出现*/
+}
+
+@keyframes topDown {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+/*模态框头部*/
+.modal-header {
+    display: flex; /*采用flexbox布局*/
+    flex-direction: row; /*水平布局*/
+    align-items: center; /*内容垂直居中*/
+    justify-content: space-between;
+    margin: 5px auto;
+}
+.modal-body>p{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+
+.modal-btn{
+    text-align: center;
 }

@@ -93,18 +93,30 @@ h1{
 	width: 57%;
 }
 
+.segment-line{
+	height: 1px;
+	width: 100%;
+	background-color: #f6f6f6;
+}
 
 
 .main .right-content{
 	float: right;
 	width: 37%;
-	
-	
+}
+
+.article-info{
+	text-align: center;
+	font-size: 12px;
+}
+.article-info span{
+	margin-right: 20px;
 }
 
 /* 搜索功能实现 */
 .search{
 	margin-bottom: 20px;
+	width: 90%;
 }
 /* 搜索的输入框 */
 .search input{
@@ -123,6 +135,18 @@ h1{
 	font-size: 25px;
 	float: right;
 }
+
+.rank-by-view div{
+	display: inline-block;
+}
+.rank-by-view .rank-view-index{
+	margin-right: 20px;
+	float: left;
+}
+.rank-by-view .rank-view-time{
+	float: right;
+}
+
 
 
 

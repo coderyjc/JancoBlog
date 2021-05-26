@@ -1,0 +1,101 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>MySQL底层架构和存储引擎</title>    <link rel="stylesheet" href="../js/editor.md/css/editormd.min.css">   <script src="../js/jquery-1.12.js" type="text/javascript" charset="utf-8"></script>
+   <script src="../js/article-preload.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="../css/article.css"></head><body><!-- 导航条 --><div class="nav">    <!-- 回主页的"图标" -->    <a href="../../index.jsp" class="back-to-index">JancoBlog</a></div><!-- 所属分类 --><div class="article-sort"></div><!-- 标题栏 --><h1 class="article-title">MySQL底层架构和存储引擎</h1><!-- 作者栏 --><div class="article-info"><div class="article-author">作者：Jancoyan</div><div class="article-submit-time">发布时间：2021-05-06 21:55:59</div><div class="article-view-time"></div></div><div class="article-content"><div class="markdown-body editormd-preview-container" previewcontainer="true" style="padding: 20px;"><h3 id="h3-mysql-"><a name="MySQL逻辑架构" class="reference-link"></a><span class="header-link octicon octicon-link"></span>MySQL逻辑架构</h3><h4 id="h4-u603Bu4F53u6982u89C8"><a name="总体概览" class="reference-link"></a><span class="header-link octicon octicon-link"></span>总体概览</h4><p><img src="http://39.103.184.190:8888/JancoBlog/static/image/2021-05/20210506-21542510000.png" alt=""></p>
+<p>和其它数据库相比，MySQL有点与众不同，它的架构可以在多种不同场景中应用并发挥良好作用。主要体现在存储引擎的架构上，插件式的存储引擎架构将查询处理和其它的系统任务以及数据的存储提取相分离。这种架构可以根据业务的需求和实际需要选择合适的存储引擎。</p>
+<p>1.连接层<br> 最上层是一些客户端和连接服务，包含本地sock通信和大多数基于客户端/服务端工具实现的类似于tcp/ip的通信。主要完成一些类似于连接处理、授权认证、及相关的安全方案。在该层上引入了线程池的概念，为通过认证安全接入的客户端提供线程。同样在该层上可以实现基于SSL的安全链接。服务器也会为安全接入的每个客户端验证它所具有的操作权限。</p>
+<p>2.服务层</p>
+<p>2.1  Management Serveices &amp; Utilities： 系统管理和控制工具<br>2.2  SQL Interface: SQL接口。接受用户的SQL命令，并且返回用户需要查询的结果。比如select from就是调用SQL Interface<br>2.3 Parser: 解析器。SQL命令传递到解析器的时候会被解析器验证和解析。<br>2.4 Optimizer: 查询优化器。<br>    SQL语句在查询之前会使用查询优化器对查询进行优化。<br>    用一个例子就可以理解： select uid,name from user where  gender=1;<br>    优化器来决定先投影还是先过滤。</p>
+<p>2.5 Cache和Buffer： 查询缓存。<br>    如果查询缓存有命中的查询结果，查询语句就可以直接去查询缓存中取数据。<br>    这个缓存机制是由一系列小缓存组成的。比如表缓存，记录缓存，key缓存，权限缓存等</p>
+<p>3.引擎层。存储引擎层，存储引擎真正的负责了MySQL中数据的存储和提取，服务器通过API与存储引擎进行通信。不同的存储引擎具有的功能不同，这样我们可以根据自己的实际需要进行选取。后面介绍MyISAM和InnoDB</p>
+<p>4.存储层。数据存储层，主要是将数据存储在运行于裸设备的文件系统之上，并完成与存储引擎的交互。</p>
+<h4 id="h4--sql-"><a name="查看sql的执行周期" class="reference-link"></a><span class="header-link octicon octicon-link"></span>查看sql的执行周期</h4><p> 修改配置文件/etc/my.cnf<br>新增一行：query_cache_type=1<br>重启mysql </p>
+<p>先开启 show variables  like ‘%profiling%’;<br>set profiling=1;</p>
+<p>select * from xxx ;</p>
+<p>show profiles;     #显示最近的几次查询</p>
+<p><img src="http://39.103.184.190:8888/JancoBlog/static/image/2021-05/20210506-21544310000.bmp" alt=""></p>
+<p>show profile cpu,block io for query 编号  #查看程序的执行步骤</p>
+<p><img src="http://39.103.184.190:8888/JancoBlog/static/image/2021-05/20210506-21545810000.bmp" alt=""></p>
+<h4 id="h4-sql-"><a name="SQL执行顺序" class="reference-link"></a><span class="header-link octicon octicon-link"></span>SQL执行顺序</h4><p>首先，mysql的查询流程大致是：</p>
+<ul>
+<li><p>mysql客户端通过协议与mysql服务器建连接，发送查询语句，先检查查询缓存，如果命中，直接返回结果，否则进行语句解析,也就是说，在解析查询之前，服务器会先访问查询缓存(query cache)——它存储SELECT语句以及相应的查询结果集。如果某个查询结果已经位于缓存中，服务器就不会再对查询进行解析、优化、以及执行。它仅仅将缓存中的结果返回给用户即可，这将大大提高系统的性能。</p>
+</li><li><p>语法解析器和预处理：首先mysql通过关键字将SQL语句进行解析，并生成一颗对应的“解析树”。mysql解析器将使用mysql语法规则验证和解析查询；预处理器则根据一些mysql规则进一步检查解析数是否合法。</p>
+</li><li><p>查询优化器当解析树被认为是合法的了，并且由优化器将其转化成执行计划。一条查询可以有很多种执行方式，最后都返回相同的结果。优化器的作用就是找到这其中最好的执行计划。</p>
+</li><li><p>然后，mysql默认使用的BTREE索引，并且一个大致方向是:无论怎么折腾sql，至少在目前来说，mysql最多只用到表中的一个索引。</p>
+</li></ul>
+<p>手写SQL执行顺序：</p>
+<p><img src="http://39.103.184.190:8888/JancoBlog/static/image/2021-05/20210506-21551010000.bmp" alt=""></p>
+<p>机读SQL执行顺序</p>
+<p>随着Mysql版本的更新换代，其优化器也在不断的升级，优化器会分析不同执行顺序产生的性能消耗不同而动态调整执行顺序。</p>
+<p>下面是经常出现的查询顺序：</p>
+<p><img src="http://39.103.184.190:8888/JancoBlog/static/image/2021-05/20210506-21552110000.bmp" alt=""></p>
+<h3 id="h3-mysql-"><a name="MySQL存储引擎" class="reference-link"></a><span class="header-link octicon octicon-link"></span>MySQL存储引擎</h3><h4 id="h4-u67E5u770Bu547Du4EE4"><a name="查看命令" class="reference-link"></a><span class="header-link octicon octicon-link"></span>查看命令</h4><p>如何用命令查看  #看你的mysql现在已提供什么存储引擎:<br>  mysql&gt; show engines;</p>
+<p><img src="http://39.103.184.190:8888/JancoBlog/static/image/2021-05/20210506-21553010000.bmp" alt=""></p>
+<h1 id="h1--mysql-"><a name="看你的mysql当前默认的存储引擎:" class="reference-link"></a><span class="header-link octicon octicon-link"></span>看你的mysql当前默认的存储引擎:</h1><p>  mysql&gt; show variables like ‘%storage_engine%’;</p>
+<p><img src="http://39.103.184.190:8888/JancoBlog/static/image/2021-05/20210506-21554010000.bmp" alt=""></p>
+<h4 id="h4-u5404u79CDu7B80u4ECB"><a name="各种简介" class="reference-link"></a><span class="header-link octicon octicon-link"></span>各种简介</h4><p>1、InnoDB存储引擎<br>InnoDB是MySQL的默认事务型引擎，它被设计用来处理大量的短期(short-lived)事务。除非有非常特别的原因需要使用其他的存储引擎，否则应该优先考虑InnoDB引擎。</p>
+<p>2、MyISAM存储引擎<br>MyISAM提供了大量的特性，包括全文索引、压缩、空间函数(GIS)等，但MyISAM不支持事务和行级锁，有一个毫无疑问的缺陷就是崩溃后无法安全恢复。</p>
+<p>3、Archive引擎<br>Archive档案存储引擎<strong>只支持INSERT和SELECT操作，不支持UPDATE和DELETE</strong>在MySQL5.1之前不支持索引。<br>Archive表适合日志和数据采集类应用。<br>根据英文的测试结论来看，Archive表比MyISAM表要小大约75%，比支持事务处理的InnoDB表小大约83%。</p>
+<p>4、Blackhole引擎<br>Blackhole引擎没有实现任何存储机制，它会丢弃所有插入的数据，不做任何保存。但服务器会记录Blackhole表的日志，所以可以用于复制数据到备库，或者简单地记录到日志。但这种应用方式会碰到很多问题，因此并不推荐。 </p>
+<p>5、CSV引擎<br>CSV引擎可以将普通的CSV文件作为MySQL的表来处理，但不支持索引。<br>CSV引擎可以作为一种数据交换的机制，非常有用。<br>CSV存储的数据直接可以在操作系统里，用文本编辑器，或者excel读取。</p>
+<p>6、Memory引擎<br>如果需要快速地访问数据，并且这些数据不会被修改，重启以后丢失也没有关系，那么使用Memory表是非常有用。Memory表至少比MyISAM表要快一个数量级。</p>
+<p>7、Federated引擎<br>Federated引擎是访问其他MySQL服务器的一个代理，尽管该引擎看起来提供了一种很好的跨服务器的灵活性，但也经常带来问题，因此默认是禁用的。</p>
+<h4 id="h4-myisam-innodb"><a name="MyISAM/InnoDB" class="reference-link"></a><span class="header-link octicon octicon-link"></span>MyISAM/InnoDB</h4><p>主要区别是前四点，重要！！！</p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>MyISAM</th>
+<th>InnoDB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>外键</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>事务</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>行表锁</td>
+<td>表锁，即使操作一条记录也会锁住整个表，不适合高并发的操作</td>
+<td>行锁,操作时只锁某一行，不对其它行有影响，适合高并发的操作</td>
+</tr>
+<tr>
+<td>缓存</td>
+<td>只缓存索引，不缓存真实数据</td>
+<td>不仅缓存索引还要缓存真实数据，对内存要求较高，而且内存大小对性能有决定性的影响</td>
+</tr>
+<tr>
+<td>关注点</td>
+<td>节省资源、消耗少、简单业务</td>
+<td>并发写、事务、更大资源</td>
+</tr>
+<tr>
+<td>默认安装</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>默认使用</td>
+<td>N</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>自带系统表使用</td>
+<td>Y</td>
+<td>N</td>
+</tr>
+</tbody>
+</table>
+<p>系统自带的表用MyISAM，不用高并发，但是节省资源</p>
+<h4 id="h4-u963Fu91CCu7528u54EAu4E2A"><a name="阿里用哪个" class="reference-link"></a><span class="header-link octicon octicon-link"></span>阿里用哪个</h4><p><img src="http://39.103.184.190:8888/JancoBlog/static/image/2021-05/20210506-21555010000.bmp" alt=""></p>
+<ul>
+<li><p>Percona 为 MySQL 数据库服务器进行了改进，在功能和性能上较 MySQL 有着很显著的提升。该版本提升了在高负载情况下的 InnoDB 的性能、为 DBA 提供一些非常有用的性能诊断工具；另外有更多的参数和命令来控制服务器行为。</p>
+</li><li><p>该公司新建了一款存储引擎叫xtradb完全可以替代innodb,并且在性能和并发上做得更好,</p>
+</li><li><p>阿里巴巴大部分mysql数据库其实使用的percona的原型加以修改。</p>
+</li><li>AliSql+AliRedis</li></ul>
+</div></div><div class="article-comment"><div class="comment-title">添加笔记</div> <hr><div class="comment-list"></div><div class="add-comment"><textarea maxlength="20" placeholder="昵称" id="edit-comment-author" rows="1" cols="110"></textarea><textarea maxlength="50" placeholder="邮箱" id="edit-comment-email" rows="1" cols="110"></textarea><textarea maxlength="1000" placeholder="笔记" id="edit-comment-content" rows="5" cols="110"></textarea><button class="add-comment-btn">添加</button></div></div></body></html>

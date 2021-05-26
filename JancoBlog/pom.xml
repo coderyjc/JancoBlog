@@ -17,8 +17,16 @@
 
   <!--引入项目依赖的jar包 -->
   <!-- SpringMVC、Spring -->
-  <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
   <dependencies>
+
+    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven-plugin -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok-maven-plugin</artifactId>
+      <version>1.18.12.0</version>
+      <scope>provided</scope>
+    </dependency>
+
 
     <dependency>
       <groupId>com.alibaba</groupId>
