@@ -103,9 +103,9 @@ public class ArticleService {
      * 获取前10名最热的文章
      * @return 文章列表
      */
-    public List<Article> getArticlesLimit() {
+    public List<Article> getArticlesLimit(String attr) {
         ArticleExample example = new ArticleExample();
-        example.setOrderByClause("article_view_time desc limit 10");
+        example.setOrderByClause(attr + " desc limit 10");
         List<Article> articles = articleMapper.selectByExample(example);
         return articles;
     }

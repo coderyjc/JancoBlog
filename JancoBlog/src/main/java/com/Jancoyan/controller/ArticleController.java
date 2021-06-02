@@ -45,11 +45,16 @@ public class ArticleController {
      *
      *  /articles
      *  -GET 获取索引页的初始文章
-     *  -POST 获取最热门的10篇文章
      *  -PUT 通过主键查找文章
      *
      *  /articles/{id}
      *  - GET 获取用户id的所有文章
+     *
+     *  /rank
+     *  - GET
+     *  - POST
+     *  - PUT
+     *
      *
      *  /article/view
      *  - POST 增加文章的浏览量
@@ -91,18 +96,6 @@ public class ArticleController {
         request.setCharacterEncoding("utf-8");
         Article article = articleService.selectByPrimaryKey(id);
         return Msg.success().add("article", article);
-    }
-
-    /**
-     * 获取最热门的10篇文章
-     * @return 带有文章列表的消息
-     */
-    @ResponseBody
-    @RequestMapping(value = "/articles", method = RequestMethod.POST)
-    public Msg getHotArticles(HttpServletRequest request) throws UnsupportedEncodingException {
-        request.setCharacterEncoding("utf-8");
-        List<Article> articles = articleService.getArticlesLimit();
-        return Msg.success().add("hotArticles", articles);
     }
 
     /**
@@ -391,6 +384,45 @@ public class ArticleController {
         article.setArticleCommentCount(articleService.selectByPrimaryKey(id).getArticleCommentCount() + 1);
         articleService.updateByPrimaryKeySelective(article);
         return Msg.success();
+    }
+
+
+    /**
+     * 获取最热门的10篇文章
+     * @return 带有文章列表的消息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/rank", method = RequestMethod.GET)
+    public Msg getHotArticles(HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
+        List<Article> articles = articleService.getArticlesLimit("article_view_time");
+        return Msg.success().add("viewRank", articles);
+    }
+
+    /**
+     * 获取点赞量最高的10篇文章
+     * @param request 设置编码格式
+     * @return 消息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/rank", method = RequestMethod.POST)
+    public Msg getLikeRank(HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
+        List<Article> articles = articleService.getArticlesLimit("article_like_count");
+        return Msg.success().add("likeRank", articles);
+    }
+
+    /**
+     * 获取评论数量最多的10篇文章
+     * @param request 用来设置编码格式
+     * @return 消息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/rank", method = RequestMethod.PUT)
+    public Msg getCommentRank(HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
+        List<Article> articles = articleService.getArticlesLimit("article_comment_count");
+        return Msg.success().add("commentRank", articles);
     }
 
 }

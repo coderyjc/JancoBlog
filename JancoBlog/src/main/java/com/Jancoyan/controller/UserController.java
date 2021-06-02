@@ -27,13 +27,18 @@ public class UserController {
     /**
      * /login
      *  - POST 登录
+     *  - DELETE 退出登录
      *
      * /user
      *  - POST 更新个人信息
+     *  - PUT 添加用户
      *
      * /user/password
      *  - POST 更新密码
      */
+
+
+
 
 
     /**
@@ -118,5 +123,20 @@ public class UserController {
             return Msg.fail().add("user", null);
         }
     }
+
+    /**
+     * 退出登录
+     * @param session session对象
+     * @return 退出成功的消息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/login", method = RequestMethod.DELETE)
+    public Msg login(HttpSession session){
+        if (null != session.getAttribute("user")){
+            session.removeAttribute("user");
+        }
+        return Msg.success();
+    }
+
 
 }

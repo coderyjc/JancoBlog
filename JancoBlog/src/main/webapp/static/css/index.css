@@ -112,6 +112,10 @@ h1{
 .article-info span{
     margin-right: 20px;
 }
+.article-info div{
+    display: inline-block;
+    margin-left: 15px;
+}
 
 /* 搜索功能实现 */
 .search{

@@ -47,7 +47,8 @@
                 aHref = "login-profile.png";
                 profileClick = "./login.jsp";
             } else {
-                aTag = "<dl class=\"layui-nav-child\"><dd><a href=\"javascript:;\">写博客</a></dd><dd><a href=\"./workbench/\">后台管理</a></dd><hr><dd style=\"text-align: center;\"><a href=\"\">退出</a></dd></dl>\n";
+                aTag =
+                        "<dl class=\"layui-nav-child\"><dd><a href=\"./edit.jsp\">写博客</a></dd><dd><a href=\"./workbench/\">后台管理</a></dd><hr><dd style=\"text-align: center;\"><a href=\"\">退出</a></dd></dl>\n";
             }
         %>
         <li id="user-profile-picture" class="layui-nav-item" lay-unselect="">
@@ -74,23 +75,6 @@
         $(".welcome-page").width(window_w);
     })
 
-    // 点击这个按钮的时候向下滑动
-    $(".next-page").click(function(){
-        // 在这里面调用滑动函数
-
-
-    });
-
-    // 这个功能应该是写好了，但是还没有测试
-    // 因为现在还没有下面的内容
-    // 鼠标下滑的时候也会向下滑动，鼠标下滑也会调用滑动函数
-    // 默认滑动一屏的距离
-    function slide_down(distance){
-
-    }
-
-    //
-
 </script>
 
 <!-- 向下滑动打开文章列表 -->
@@ -111,7 +95,8 @@
 
         <!-- 搜索按钮放在这里 -->
         <div class="search">
-            <input type="text" name="title" required lay-verify="required" placeholder="搜索文章	" autocomplete="off" class="layui-input">
+            <input type="text" name="title" id="search-text" placeholder="搜索文章	" autocomplete="off"
+                   class="layui-input">
             <button id="search-btn" class="layui-btn layui-btn-primary layui-border"><i
                     class=" layui-icon layui-icon-search"></i></button>
         </div>
@@ -120,7 +105,7 @@
             <div class="layui-colla-item">
                 <h2 class="layui-colla-title">浏览量</h2>
                 <div class="layui-colla-content layui-show">
-                    <ul class="rank-by-view">
+                    <ul id="rank-by-view">
                         <li>
                             <!-- 在排行榜中的排名 -->
                             <div class="rank-view-index">1</div>
@@ -174,6 +159,11 @@
 
 
 <script>
+
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+
     // 页面加载完毕立即执行
     $(function(){
     //    从数据库拿到数据建立导航栏
@@ -234,9 +224,9 @@
             // 发布时间和浏览量
             var articleInfo = $("<div></div>")
                 .addClass("article-info")
-                .append(likeArticles)
+                .append($("<div></div>").addClass("article-info-date").append("发布日期："+dateFormat(item.articlePostDate)))
                 .append($("<div></div>").addClass("article-info-view").append("浏览量："+item.articleViewTime))
-                .append($("<div></div>").addClass("article-info-date").append("发布日期："+dateFormat(item.articlePostDate)));
+                .append(likeArticles);
 
             //向盒子中添加元素
             articleCard.append(aTitle)
@@ -250,70 +240,81 @@
     }
 
     // 创建导航条，从数据库中拿到数据来创建
-    function build_nav_bar() {
-        $.ajax({
-            url: "types",
-            type: "get",
-            success: function (result) {
-                var superType = result.extend.types;
-                $.each(superType, function (index, item) {
-                    //第一级分类列表
-                    var currTypeName =
-                        $("<a target='_blank' ></a>").attr("href",
-                            "./sortlist.jsp?type="+item.typeId).text(item.typeName);
-                    var currSuperTypeDrop = $("<dl></dl>").addClass("layui-nav-child");
-                    //创建第二级分类列表
-                    var subTypes = item.subTypes;
-                    $.each(subTypes, function (index, item1) {
-                        currSuperTypeDrop
-                            .append(
-                                $("<dd></dd>").append(
-                                    $("<a target='_blank'></a>").attr("href", "sortlist.jsp?type=" + item1.typeId).append(item1.typeName)
-                                )
-                            );
-                    });
-                    $("<li></li>").addClass("layui-nav-item")
-                        .append(currTypeName)
-                        .append(currSuperTypeDrop)
-                        .appendTo("#top-nav-bar");
-                });
-
-                layui.use(['element'],function(){
-                    layui.element.init();//手动调用初始化方法
-                })
-            }
-        });
-    }
+    // function build_nav_bar() {
+    //     $.ajax({
+    //         url: "types",
+    //         type: "get",
+    //         success: function (result) {
+    //             var superType = result.extend.types;
+    //             $.each(superType, function (index, item) {
+    //                 //第一级分类列表
+    //                 var currTypeName =
+    //                     $("<a target='_blank' ></a>").attr("href",
+    //                         "./sortlist.jsp?type="+item.typeId).text(item.typeName);
+    //                 var currSuperTypeDrop = $("<dl></dl>").addClass("layui-nav-child");
+    //                 //创建第二级分类列表
+    //                 var subTypes = item.subTypes;
+    //                 $.each(subTypes, function (index, item1) {
+    //                     currSuperTypeDrop
+    //                         .append(
+    //                             $("<dd></dd>").append(
+    //                                 $("<a target='_blank'></a>").attr("href", "sortlist.jsp?type=" + item1.typeId).append(item1.typeName)
+    //                             )
+    //                         );
+    //                 });
+    //                 $("<li></li>").addClass("layui-nav-item")
+    //                     .append(currTypeName)
+    //                     .append(currSuperTypeDrop)
+    //                     .appendTo("#top-nav-bar");
+    //             });
+    //
+    //             layui.use(['element'],function(){
+    //                 layui.element.init();//手动调用初始化方法
+    //             })
+    //         }
+    //     });
+    // }
 
     // 页面加载完毕之后加载文章热榜
     function build_hot_rank() {
         $.ajax({
             url:"articles",
-            type :"POST",
+            type :"GET",
             success: function (result) {
-                var hotArticles = result.extend.hotArticles;
-                $.each(hotArticles, function (index, item) {
-                    var hotArticleLi = $("<li></li>").addClass("hot-article");
-                    var orderDiv = $("<div></div>").addClass("hot-order").append(index + 1);
-                    var articlePath = "./static/p/" + item.articleId + ".html";
-                    var titleA = $("<a></a>").attr("href", articlePath).append(item.articleTitle);
-                    // 点击的时候增加阅读量
-                    titleA.click(function (){
-                        add_article_view(item.articleId);
-                    });
-                    var viewTime =
-                        $("<div></div>").addClass("hot-article-views").append(item.articleViewTime);
-                    hotArticleLi.append(orderDiv)
-                    .append(titleA)
-                    .append(viewTime)
-                    .appendTo(".hot-articles");
+                var articles = result.extend.viewRank;
+                $.each(articles, function (index, item) {
 
                 });
-
             }
         });
+
+        $.ajax({
+            url:"articles",
+            type :"POST",
+            success: function (result) {
+                var articles = result.extend.likeRank;
+                $.each(articles, function (index, item) {
+                    
+                });
+            }
+        })
+
+        $.ajax({
+            url:"articles",
+            type :"PUT",
+            success: function (result) {
+                var articles = result.extend.commentRank;
+                $.each(articles, function (index, item) {
+                    
+                });
+            }
+        })
     }
 
+    function build_hot_rank(hot_rank, list) {
+
+    }
+    
     // 点赞功能的实现
     function add_like_count(element, id){
         // 当前点赞的数量
@@ -385,12 +386,6 @@
         return enddate
     }
 
-</script>
-
-<script>
-    layui.use('element', function(){
-        var element = layui.element;
-    });
 </script>
 
 </body>

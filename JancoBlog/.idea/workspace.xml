@@ -33,102 +33,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1396a05c-84b7-4b67-ad6a-3fd7d55d47cd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css/signin.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21172010000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21174310000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21175610000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21180510000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21181610000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21182410000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21225810000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21311610000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21542510000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21544310000.bmp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21545810000.bmp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21551010000.bmp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21552110000.bmp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21553010000.bmp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21554010000.bmp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21555010000.bmp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21574410000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21575210000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21580110000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21581110000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21582710000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21585610000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21590310000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21592010000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/image/2021-05/20210506-21592610000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/img/cnv-index-bg-2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/img/index-bg-1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/img/index-bg-2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/img/login-profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/img/profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/jquery-1.12.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/css/layui.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/css/modules/code.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/css/modules/laydate/default/laydate.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/css/modules/layer/default/icon-ext.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/css/modules/layer/default/icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/css/modules/layer/default/layer.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/css/modules/layer/default/loading-0.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/css/modules/layer/default/loading-1.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/css/modules/layer/default/loading-2.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/font/iconfont.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/font/iconfont.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/font/iconfont.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/font/iconfont.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/font/iconfont.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/lib/layui/layui.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620305952159.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620306882715.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620306907323.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620306959309.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620307292636.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620307402091.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620307514525.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620307551410.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620307641476.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620307684602.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620307751069.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620307780026.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620307883738.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620309359699.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/md/100001620309581191.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620305952159.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620306882715.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620306907323.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620306959309.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620307292636.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620307402091.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620307514525.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620307551410.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620307641476.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620307684602.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620307751069.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620307780026.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620307883738.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620309359699.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/p/100001620309581191.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/ArticleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/Article.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/Article.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/ArticleComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/ArticleComment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/ArticleCommentKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/ArticleCommentKey.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/domain/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Jancoyan/service/ArticleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Jancoyan/service/ArticleService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/static/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/css/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/css/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/js/article-preload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/js/article-preload.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../前端原型/v2.0/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/v2.0/css/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../前端原型/v2.0/css/signin.css" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/v2.0/css/signin.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../前端原型/v2.0/demo.html" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/v2.0/demo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../前端原型/v2.0/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/v2.0/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../前端原型/v2.0/signin.html" beforeDir="false" afterPath="$PROJECT_DIR$/../前端原型/v2.0/signin.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -542,6 +453,10 @@
       <workItem from="1621953868208" duration="1974000" />
       <workItem from="1621983545964" duration="5019000" />
       <workItem from="1621994009845" duration="207000" />
+      <workItem from="1622288327827" duration="119000" />
+      <workItem from="1622290728552" duration="241000" />
+      <workItem from="1622295841395" duration="13000" />
+      <workItem from="1622599196477" duration="6982000" />
     </task>
     <task id="LOCAL-00001" summary="change directory structure">
       <created>1617886671821</created>
