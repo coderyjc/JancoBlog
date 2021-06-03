@@ -132,11 +132,15 @@
             url: "login",
             type: "POST",
             data: post,
-            success: function () {
-                layer.msg("登录成功");
-                setTimeout(function () {
-                    window.location.href = "./index.jsp";
-                }, 1500);
+            success: function (result) {
+                if (result.extend.user != null){
+                    layer.msg("登录成功");
+                    setTimeout(function () {
+                        window.location.href = "./index.jsp";
+                    }, 1500);
+                } else {
+                    layer.alert("登陆失败");
+                }
             }
         });
         return false;

@@ -1,3 +1,4 @@
+<%@ page import="com.Jancoyan.domain.User" %>
 <%--
   Created by Jancoyan.
   User: Jancoyan
@@ -18,8 +19,11 @@
     <base href="<%=basePath%>"/>
     <meta charset="utf-8">
     <title>文章分类</title>
-    <link rel="stylesheet" href="./static/css/articlelist.css">
     <script type="text/javascript" src="./static/js/jquery-1.12.js"></script>
+    <script src="./static/lib/layui/layui.js"></script>
+    <link rel="stylesheet" href="./static/css/articlelist.css">
+    <link rel="stylesheet" href="./static/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="./static/css/sortlist.css">
 </head>
 <script type="text/javascript">
 
@@ -51,16 +55,40 @@
                 navContent.show(200);
             }
         })
-
     });
 
 </script>
 <body>
-<!-- 导航条 -->
-<div class="nav">
-    <!-- 回主页的"图标" -->
-    <a href="./index.jsp" class="back-to-index">JancoBlog</a>
-</div>
+
+<!-- 顶部导航栏 -->
+<nav class="clearfix">
+    <ul id="top-nav-bar" class="layui-nav layui-bg-black" layui-filter="top-nav">
+        <li class="layui-nav-item"><a href="./index.jsp">首页</a></li>
+        <li class="layui-nav-item"><a href="javascript:;">AI</a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=201">图像识别</a></dd></dl></li>
+        <li class="layui-nav-item"><a target="_blank" href="./sortlist.jsp?type=1">计算机基础<i class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=101">数据结构与算法</a></dd><dd><a target="_blank" href="sortlist.jsp?type=102">计算机网络</a></dd><dd><a target="_blank" href="sortlist.jsp?type=103">计算机组成原理</a></dd><dd><a target="_blank" href="sortlist.jsp?type=104">操作系统</a></dd></dl></li>
+        <li class="layui-nav-item"><a target="_blank" href="./sortlist.jsp?type=3">前端<i class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=301">HTML</a></dd><dd><a target="_blank" href="sortlist.jsp?type=302">CSS</a></dd><dd><a target="_blank" href="sortlist.jsp?type=303">JavaScript</a></dd><dd><a target="_blank" href="sortlist.jsp?type=304">JQuery</a></dd><dd><a target="_blank" href="sortlist.jsp?type=305">Ajax</a></dd><dd><a target="_blank" href="sortlist.jsp?type=306">Java图形界面</a></dd></dl></li>
+        <li class="layui-nav-item"><a target="_blank" href="./sortlist.jsp?type=4">Java后端<i class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=401">Spring</a></dd><dd><a target="_blank" href="sortlist.jsp?type=402">SpringMVC</a></dd><dd><a target="_blank" href="sortlist.jsp?type=403">MyBatis</a></dd><dd><a target="_blank" href="sortlist.jsp?type=404">JDBC</a></dd><dd><a target="_blank" href="sortlist.jsp?type=406">SSM整合</a></dd></dl></li>
+        <li class="layui-nav-item"><a target="_blank" href="./sortlist.jsp?type=5">Python<i class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=501">Python基础知识</a></dd><dd><a target="_blank" href="sortlist.jsp?type=502">PythonWeb</a></dd><dd><a target="_blank" href="sortlist.jsp?type=503">PyQt</a></dd></dl></li>
+        <li class="layui-nav-item"><a target="_blank" href="./sortlist.jsp?type=6">数据库<i class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=601">MySQL</a></dd></dl></li>
+        <li class="layui-nav-item"><a target="_blank" href="./sortlist.jsp?type=7">大数据<i class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=701">HDFS</a></dd></dl></li>
+        <%
+            String aTag = "";
+            String aHref = "profile.png";
+            User user = (User) session.getAttribute("user");
+            String profileClick = "javascript:;";
+            if(user == null){
+                aHref = "login-profile.png";
+                profileClick = "./login.jsp";
+            } else {
+                aTag = "<dl class=\"layui-nav-child\"><dd><a href=\"./edit.jsp\">写博客</a></dd><dd><a href=\"./workbench/\">后台管理</a></dd><hr><dd style=\"text-align: center;\"><a href=\"\">退出</a></dd></dl>\n";
+            }
+        %>
+        <li id="user-profile-picture" class="layui-nav-item" lay-unselect="">
+            <a href="<%=profileClick%>"><img src="./static/img/<%=aHref%>" class="layui-nav-img"></a>
+            <%=aTag%>
+        </li>
+    </ul>
+</nav>
 
 <!-- 主要容器，包括左边导航栏和右边文章主体 -->
 <div class="main">
@@ -76,7 +104,6 @@
     <div class="article-sort-list">
         <ul></ul>
     </div>
-
 </div>
 
 <script>

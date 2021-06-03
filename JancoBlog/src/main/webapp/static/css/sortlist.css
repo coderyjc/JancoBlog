@@ -35,17 +35,6 @@ ul{
     *zoom: 1;
 }
 
-/* 导航条 */
-.nav{
-    background-color: #2f2e34;
-    color: white;
-    font-size: 40px;
-    padding: 5px 200px;
-
-}
-.nav a:link, .nav a:visited{
-    color: white;
-}
 
 
 /* 左侧边栏 */
@@ -167,4 +156,16 @@ ul{
     margin-left: 15px;
     font-size: 13px;
     color: gray;
+}
+
+/* 导航栏2.0 */
+#top-nav-bar{
+    padding-left: 15%;
+    padding-right: 15%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+}
+#user-profile-picture{
+    float: right;
 }

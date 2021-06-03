@@ -18,7 +18,6 @@
 <head>
     <title>编辑博文</title>
     <base href="<%=basePath%>"/>
-
 	<link rel="stylesheet" href="./static/js/editor.md/css/editormd.min.css">
 	<link rel="stylesheet" href="./static/css/edit_other.css">
 	<script src="./static/js/jquery-1.12.js"></script>

@@ -16,9 +16,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
-    <link rel="stylesheet" href="./static/css/articlelist.css">
-    <link rel="stylesheet" href="./static/lib/layui/css/layui.css">
     <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="stylesheet" href="./static/lib/layui/css/layui.css">
     <script src="./static/lib/layui/layui.js"></script>
     <script src="./static/js/jquery-1.12.js"></script>
     <script>
@@ -47,8 +46,7 @@
                 aHref = "login-profile.png";
                 profileClick = "./login.jsp";
             } else {
-                aTag =
-                        "<dl class=\"layui-nav-child\"><dd><a href=\"./edit.jsp\">写博客</a></dd><dd><a href=\"./workbench/\">后台管理</a></dd><hr><dd style=\"text-align: center;\"><a href=\"\">退出</a></dd></dl>\n";
+                aTag = "<dl class=\"layui-nav-child\"><dd><a href=\"./edit.jsp\">写博客</a></dd><dd><a href=\"./workbench/\">后台管理</a></dd><hr><dd style=\"text-align: center;\"><a href=\"\">退出</a></dd></dl>\n";
             }
         %>
         <li id="user-profile-picture" class="layui-nav-item" lay-unselect="">
@@ -60,11 +58,8 @@
 
 <!-- 欢迎页面,需要向下滑动 -->
 <div class="welcome-page">
-    <h1>JANCOYAN</h1>
+    <h1 style="margin-top: 60px; padding-top: 9%;">JANCOYAN</h1>
     <div class="quote">十年饮冰，难凉热血。</div>
-    <div class="next-page">
-        <!-- 点击向下滑动 -->
-    </div>
 </div>
 
 <script type="text/javascript">
@@ -105,44 +100,19 @@
             <div class="layui-colla-item">
                 <h2 class="layui-colla-title">浏览量</h2>
                 <div class="layui-colla-content layui-show">
-                    <ul id="rank-by-view">
-                        <li>
-                            <!-- 在排行榜中的排名 -->
-                            <div class="rank-view-index">1</div>
-                            <div class="rank-view-title"><a href="javascript:;">MySQL从入门到入土</a></div>
-                            <div class="rank-view-time">23</div>
-                        </li>
-                        <li>
-                            <!-- 在排行榜中的排名 -->
-                            <div class="rank-view-index">2</div>
-                            <div class="rank-view-title"><a href="javascript:;">MySQL从入门到入土</a></div>
-                            <div class="rank-view-time">21</div>
-                        </li>
-                        <li>
-                            <!-- 在排行榜中的排名 -->
-                            <div class="rank-view-index">3</div>
-                            <div class="rank-view-title"><a href="javascript:;">MySQL从入门到入土</a></div>
-                            <div class="rank-view-time">20</div>
-                        </li>
-                        <li>
-                            <!-- 在排行榜中的排名 -->
-                            <div class="rank-view-index">4</div>
-                            <div class="rank-view-title"><a href="javascript:;">MySQL从入门到入土</a></div>
-                            <div class="rank-view-time">9</div>
-                        </li>
-                    </ul>
+                    <ul id="rank-by-view"></ul>
                 </div>
             </div>
             <div class="layui-colla-item">
                 <h2 class="layui-colla-title">点赞</h2>
                 <div class="layui-colla-content">
-                    <p>有不少其他答案说是因为JS太差。我下面的答案已经说了，这不是根本性的原因。但除此之外，我还要纠正一些对JS具体问题的误解。JS当初是被作为脚本语言设计的，所以某些问题并不是JS设计得差或者是JS设计者的失误。比如var的作用域问题，并不是“错误”，而是当时绝大部分脚本语言都是这样的，如perl/php/sh等。模块的问题也是，脚本语言几乎都没有模块/命名空间功能。弱类型、for-in之类的问题也是，只不过现在用那些老的脚本语言的人比较少，所以很多人都误以为是JS才有的坑。另外有人说JS是半残语言，满足不了开发需求，1999年就该死。半残这个嘛，就夸张了。JS虽然有很多问题，但是设计总体还是优秀的。——来自知乎@贺师俊</p>
+                    <ul id="rank-by-like"></ul>
                 </div>
             </div>
             <div class="layui-colla-item">
                 <h2 class="layui-colla-title">评论</h2>
                 <div class="layui-colla-content">
-                    <p>因为不适合。如果希望开发长期的项目或者制作产品类网站，那么就需要实现特定的设计，为了在维护项目中可以方便地按设计师要求快速修改样式，肯定会逐步编写出各种业务组件、工具类，相当于为项目自行开发一套框架。——来自知乎@Kayo</p>
+                    <ul id="rank-by-comment"></ul>
                 </div>
             </div>
         </div>
@@ -172,7 +142,6 @@
         get_article_page(1);
         // 加载文章热榜，也就是按照浏览量排序的前十名
         build_hot_rank();
-
     });
 
     // 获取文章，然后添加到主页的末尾
@@ -277,42 +246,55 @@
 
     // 页面加载完毕之后加载文章热榜
     function build_hot_rank() {
+        // 获取阅读量排行
         $.ajax({
-            url:"articles",
+            url:"rank",
             type :"GET",
             success: function (result) {
                 var articles = result.extend.viewRank;
-                $.each(articles, function (index, item) {
-
-                });
+                build_rank("#rank-by-view", articles, 1);
             }
         });
-
+        // 获取点赞量排行
         $.ajax({
-            url:"articles",
+            url:"rank",
             type :"POST",
             success: function (result) {
                 var articles = result.extend.likeRank;
-                $.each(articles, function (index, item) {
-                    
-                });
+                build_rank("#rank-by-like", articles, 2);
             }
         })
-
+        // 获取评论量排行
         $.ajax({
-            url:"articles",
+            url:"rank",
             type :"PUT",
             success: function (result) {
                 var articles = result.extend.commentRank;
-                $.each(articles, function (index, item) {
-                    
-                });
+                build_rank("#rank-by-comment", articles, 3);
             }
         })
     }
 
-    function build_hot_rank(hot_rank, list) {
-
+    /**
+     * hot_rank 是查询到的jq对象
+     * list 是文章列表
+     * type
+     *  - 1  view
+     *  - 2  like
+     *  - 3  comment
+     */
+    function build_rank(hot_rank, list, type) {
+        $.each(list, function (index, item) {
+            let path = "./static/p/" + item.articleId + ".html";
+            let idxDiv = $("<div class='rank-index'></div>").append(index + 1);
+            let titleDiv =
+                $("<div'></div>").append($("<a></a>").attr("href", path).append(item.articleTitle));
+            let count = $("<div class='rank-count'></div>").append(
+                type == 1 ? item.articleViewTime :
+                    type == 2 ? item.articleLikeCount :
+                        item.articleCommentCount);
+            $("<li></li>").append(idxDiv).append(titleDiv).append(count).appendTo(hot_rank);
+        })
     }
     
     // 点赞功能的实现
@@ -351,7 +333,7 @@
     $("#search-btn").click(function (){
        var keyWord = $("#search-text").val();
        if(keyWord == ""){
-           alert("搜索字段不能为空");
+           layer.alert("搜索字段不能为空");
            return;
        } else {
            window.location.href = "./search.jsp?keyword=" + keyWord;

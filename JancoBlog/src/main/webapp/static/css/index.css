@@ -16,7 +16,6 @@ body{
     background-color: rgba(240, 240, 240, 0.76);
 }
 
-
 /*清除浮动*/
 .clearfix:before,.clearfix:after{
     content: "";
@@ -29,14 +28,12 @@ body{
     *zoom: 1;
 }
 
-
 /* 导航栏 */
-
 #user-profile-picture{
     float: right;
 }
 
-.layui-nav{
+#top-nav-bar{
     padding-left: 15%;
     padding-right: 15%;
     width: 100%;
@@ -44,9 +41,7 @@ body{
     z-index: 1;
 }
 
-
 /* 欢迎初始页面 */
-
 .welcome-page{
     background-image: url(../img/cnv-index-bg-2.jpg);
     background-size: 100% 100%;
@@ -55,13 +50,13 @@ body{
 }
 
 h1{
-    padding-top: 9%;
-    margin-top: 60px;
     font-size: 80px;
     text-align: center;
     color: white;
     font-family: "agency fb", serif;
     opacity: 0.8;
+    padding-top: 9%;
+    margin-top: 60px;
 }
 
 .welcome-page .quote{
@@ -80,14 +75,12 @@ h1{
 }
 
 /* 文章页面 */
-
 .main{
     padding: 5% 10%;
     width: 80%;
     background-color: #eaeaea;
     overflow: auto;
 }
-
 .main .left-content{
     float: left;
     width: 57%;
@@ -140,15 +133,15 @@ h1{
     float: right;
 }
 
-.rank-by-view div{
-    display: inline-block;
-}
-.rank-by-view .rank-view-index{
+.layui-colla-content .rank-index{
     margin-right: 20px;
     float: left;
 }
-.rank-by-view .rank-view-time{
+.layui-colla-content .rank-count{
     float: right;
+}
+.layui-colla-content>ul li div{
+    display: inline-block;
 }
 
 /* 页脚的内容 */
