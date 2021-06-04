@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html class="x-admin-sm">
-    
+
     <head>
         <meta charset="UTF-8">
         <title>欢迎页面-X-admin2.2</title>
@@ -11,10 +11,6 @@
         <link rel="stylesheet" href="./css/xadmin.css">
         <script src="./lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="./js/xadmin.js"></script>
-        <!--[if lt IE 9]>
-          <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-          <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
     </head>
     
     <body>
@@ -35,7 +31,7 @@
                 <div class="layui-col-md12">
 
                     <div class="layui-card">
-                        <div class="layui-card-body ">
+                        <!-- <div class="layui-card-body ">
                             <div class="layui-collapse" lay-filter="test">
                                 <div class="layui-colla-item">
                                 <h2 class="layui-colla-title">条件筛选<i class="layui-icon layui-colla-icon"></i></h2>
@@ -179,114 +175,33 @@
                                 </div>
                               </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="layui-card-header">
-
                             <button class="layui-btn layui-btn-danger" onclick="delAll()">
                                 <i class="layui-icon"></i>批量删除</button>
                             <button class="layui-btn" onclick="xadmin.open('添加用户','./order-add.html',800,600)">
                                 <i class="layui-icon"></i>添加</button></div>
+								
+								<!-- 数据表格 -->
                         <div class="layui-card-body ">
-                            <table class="layui-table layui-form">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <input type="checkbox" name="" lay-skin="primary"></th>
-                                        <th>订单编号</th>
-                                        <th>收货人</th>
-                                        <th>总金额</th>
-                                        <th>应付金额</th>
-                                        <th>订单状态</th>
-                                        <th>支付状态</th>
-                                        <th>发货状态</th>
-                                        <th>支付方式</th>
-                                        <th>配送方式</th>
-                                        <th>下单时间</th>
-                                        <th>操作</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" name="" lay-skin="primary"></td>
-                                        <td>2017009171822298053</td>
-                                        <td>老王:18925139194</td>
-                                        <td>7829.10</td>
-                                        <td>7854.10</td>
-                                        <td>待确认</td>
-                                        <td>未支付</td>
-                                        <td>未发货</td>
-                                        <td>其他方式</td>
-                                        <td>申通物流</td>
-                                        <td>2017-08-17 18:22</td>
-                                        <td class="td-manage">
-                                            <a title="查看" onclick="xadmin.open('编辑','order-view.html')" href="javascript:;">
-                                                <i class="layui-icon">&#xe63c;</i></a>
-                                            <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                                                <i class="layui-icon">&#xe640;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" name="" lay-skin="primary"></td>
-                                        <td>2017009171822298053</td>
-                                        <td>老王:18925139194</td>
-                                        <td>7829.10</td>
-                                        <td>7854.10</td>
-                                        <td>待确认</td>
-                                        <td>未支付</td>
-                                        <td>未发货</td>
-                                        <td>其他方式</td>
-                                        <td>申通物流</td>
-                                        <td>2017-08-17 18:22</td>
-                                        <td class="td-manage">
-                                            <a title="查看" onclick="xadmin.open('编辑','order-view.html')" href="javascript:;">
-                                                <i class="layui-icon">&#xe63c;</i></a>
-                                            <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                                                <i class="layui-icon">&#xe640;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" name="" lay-skin="primary"></td>
-                                        <td>2017009171822298053</td>
-                                        <td>老王:18925139194</td>
-                                        <td>7829.10</td>
-                                        <td>7854.10</td>
-                                        <td>待确认</td>
-                                        <td>未支付</td>
-                                        <td>未发货</td>
-                                        <td>其他方式</td>
-                                        <td>申通物流</td>
-                                        <td>2017-08-17 18:22</td>
-                                        <td class="td-manage">
-                                            <a title="查看" onclick="xadmin.open('编辑','order-view.html')" href="javascript:;">
-                                                <i class="layui-icon">&#xe63c;</i></a>
-                                            <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                                                <i class="layui-icon">&#xe640;</i></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="layui-card-body ">
-                            <div class="page">
-                                <div>
-                                    <a class="prev" href="">&lt;&lt;</a>
-                                    <a class="num" href="">1</a>
-                                    <span class="current">2</span>
-                                    <a class="num" href="">3</a>
-                                    <a class="num" href="">489</a>
-                                    <a class="next" href="">&gt;&gt;</a></div>
-                            </div>
+                            <table id="comment-list" lay-filter="comment-list"
+							 class="layui-table layui-form"></table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+		
+		<script type="text/html" id="toolBar">
+		    <a class="layui-btn layui-btn-xs" lay-event="show-comment">查看</a>
+		    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del-article">删除</a>
+		</script>
+		
     </body>
-    <script>layui.use(['laydate', 'form'],
+    <script>layui.use(['laydate', 'form', 'table'],
         function() {
             var laydate = layui.laydate;
+			var table = layui.table;
 
             //执行一个laydate实例
             laydate.render({
@@ -297,38 +212,89 @@
             laydate.render({
                 elem: '#end' //指定元素
             });
+			
+			table.on('tool(article-table)', function(obj){
+			    var data = obj.data;
+			    console.log(data);
+			    if(obj.event === 'edit-article'){
+			        $.ajax({
+			            url: "../redirect/article",
+			            type: "POST",
+			            data: "id=" + data.articleId,
+			            success : function (){
+			                window.location.href = "../edit.jsp";
+			            }
+			        });
+			    } else if(obj.event === 'del-article'){
+			        layer.confirm('真的要删除 ' + data.articleTitle +' 么', function() {
+			            // 已经获得到了data，点击了确认，下一步是执行删除
+			            var $ = layui.$;
+			            $.ajax({
+			                url: "../article/" + data.articleId,
+			                type: "DELETE",
+			                success: function (result){
+			                    if (result.extend.success){
+			                        layer.msg("删除成功");
+			                    } else {
+			                        layer.msg("删除失败，请稍后再试");
+			                    }
+			                }
+			            });
+			            table.reload('article-table', {
+			                url: '../articles/10000'
+			            });
+			        })
+			    }
+			});
+			
+			$('.layui-btn').on('click', function(){
+			    var type = $(this).data('type');
+			    active[type] ? active[type].call(this) : '';
+			});
+			
+			// 表格初始化渲染
+			table.render({
+			    elem: '#article-table' // 挂载点
+			    ,id: 'article-table' // 表格id
+			    // ,height: 580 // 表格高度
+			    // 这里需要传用户的id，目前还不能做到动态获取id，先传一个默认的试试
+			    ,url: '../articles/10000' //数据接口
+			    ,toolbar: '#toolbar' //开启头部工具栏，并为其绑定左侧模板
+			    ,skin: 'line' //行边框风格
+			    ,even: true //开启隔行背景
+			    // ,height: 'full-200' // 页面的最大高度 - 100 （自适应）
+			    ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+			        title: '提示'
+			        ,layEvent: 'LAYTABLE_TIPS'
+			        ,icon: 'layui-icon-tips'
+			    }]
+			    ,parseData: function(res){ // 数据源
+			        var articles = res.extend.pageInfo;
+			        //res 即为原始返回的数据
+			        return {
+			            "code": "0", //解析接口状态
+			            "msg": "", //解析提示文本
+			            "count": articles.total, //解析数据长度
+			            "data": articles.list //解析数据列表
+			        };
+			    }
+			    ,page: { // 分页
+			        groups: 5 //显示 10 个连续页码
+			    }
+			    ,cols: [[ //表头
+			        {type:'checkbox'}
+			        ,{field: 'articleTitle', title: '文章标题', width:280, sort: true}
+			        ,{field: 'articlePostDate', title: '发布时间', width: 100, sort: true}
+			        ,{field: 'articleEditTime', title: '修改时间', width: 150}
+			        ,{field: 'articleViewTime', title: '浏览量', width: 120}
+			        ,{field: 'articleLikeCount', title: '点赞', width: 120}
+			        ,{field: 'articleCommentCount', title: '评论', width: 120}
+			        ,{fixed: 'right', title:'操作', toolbar: '#toolBar', width:170}
+			    ]]
+			});
+
         });
 
-        /*用户-停用*/
-        function member_stop(obj, id) {
-            layer.confirm('确认要停用吗？',
-            function(index) {
-
-                if ($(obj).attr('title') == '启用') {
-
-                    //发异步把用户状态进行更改
-                    $(obj).attr('title', '停用');
-                    $(obj).find('i').html('&#xe62f;');
-
-                    $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                    layer.msg('已停用!', {
-                        icon: 5,
-                        time: 1000
-                    });
-
-                } else {
-                    $(obj).attr('title', '启用');
-                    $(obj).find('i').html('&#xe601;');
-
-                    $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                    layer.msg('已启用!', {
-                        icon: 5,
-                        time: 1000
-                    });
-                }
-
-            });
-        }
 
         /*用户-删除*/
         function member_del(obj, id) {

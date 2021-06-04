@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    article_id, article_title, article_author_id, article_abstract, article_type, article_edit_time, 
+    article_id, article_title, article_author_id, article_abstract, article_type, article_edit_time,
     article_post_date, article_view_time, article_comment_count, article_like_count
   </sql>
   <select id="selectByExample" parameterType="com.Jancoyan.domain.ArticleExample" resultMap="BaseResultMap">

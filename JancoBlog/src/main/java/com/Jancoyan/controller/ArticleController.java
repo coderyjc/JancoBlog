@@ -287,19 +287,20 @@ public class ArticleController {
 
     /**
      * 根据用户id获取用户的所有文章
-     * @param pn 第几页
-     * @param id 用户的id是多少
-     * @return 结果消息
+     * @param page
+     * @param limit
+     * @param id
      */
     @ResponseBody
     @RequestMapping(value = "/articles/{id}", method = RequestMethod.GET)
     public Msg getArticlesById(
-            @RequestParam(value = "pn", defaultValue = "1") Integer pn,
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "limit", defaultValue = "10") Integer limit,
             @PathVariable("id") Integer id,
             HttpServletRequest request
     ) throws UnsupportedEncodingException {
         request.setCharacterEncoding("utf-8");
-        PageHelper.startPage(pn, 10);
+        PageHelper.startPage(page, limit);
         List<Article> articles = articleService.getArticlesByUserId(id);
         PageInfo<Article> pageInfo = new PageInfo<>(articles, 5);
         return Msg.success().add("pageInfo", pageInfo);
