@@ -85,7 +85,9 @@
             </div>
         </div>
 
-    <script>
+
+
+        <script>
 
         // 页面加载完毕之后执行，完成一些初始化工作
         function get_articles(pn) {
@@ -111,7 +113,7 @@
         $("#search-btn").click(function (){
             var keyWord = $("#search-text").val();
             if(keyWord === ""){
-                layer.alert("搜索字段不能为空");
+                layer.msg("搜索字段不能为空");
                 return;
             } else {
                 window.location.href = "./search.jsp?keyword=" + keyWord;
@@ -120,14 +122,14 @@
 
         // 传入result，在不清空页面的情况下进行文章的追加
         function build_article_list(result) {
-            var articleList = result.extend.pageInfo.list;
+            var articles = result.extend.pageInfo.list;
 
             // 显示 ”找到多少条“ 此类文字
             $(".search-title").text("找到关于\"" + keyword + "\"的结果共 " +
                 result.extend.pageInfo.total + " 条");
 
             totalPage = result.extend.pageInfo.pages;
-            $.each(articleList, function (index, item) {
+            $.each(articles, function (index, item) {
                 // 卡片的父级col列表
                 var articleCol = $("<div></div>").addClass("layui-col-md6");
                 // 卡片， 里面有标题、内容和底部信息
@@ -171,7 +173,7 @@
 
                 // 向一列中中添加元素
                 articleCol.append(articleCard).appendTo("#article-list");
-            })
+            });
         }
 
 

@@ -3,71 +3,59 @@ package com.Jancoyan.service;
 import com.Jancoyan.dao.ArticleCommentMapper;
 import com.Jancoyan.domain.ArticleComment;
 import com.Jancoyan.domain.ArticleCommentExample;
-import com.Jancoyan.domain.ArticleCommentKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * @author Jancoyan
- */
 @Service
-public class CommentService {
+public class CommentService{
 
     @Autowired
-    ArticleCommentMapper articleCommentMapper;
+    ArticleCommentMapper commentMapper;
 
     /**
-     * 获取某文章的所有评论, 按照事件降序
-     * @param id 文章id
+     * 获取所有评论
      * @return 所有评论
      */
-    public List<ArticleComment> getCommmentByArticleId(String id) {
-        ArticleCommentExample example = new ArticleCommentExample();
-        example.setOrderByClause("comment_date desc");
-        ArticleCommentExample.Criteria criteria = example.createCriteria();
-        criteria.andArticleIdEqualTo(id);
-        List<ArticleComment> comments = articleCommentMapper.selectByExampleWithBLOBs(example);
-        return comments;
-    }
-
-    /**
-     * 直接插入文章的评论,然后让文章的评论数量+1
-     * @param articleComment 文章评论
-     */
-    public void insertComment(ArticleComment articleComment) {
-        articleCommentMapper.insert(articleComment);
-    }
-
-    /**
-     * 获取所有评论，按照文章题目分类
-     * @return 评论列表
-     */
     public List<ArticleComment> getAll() {
-        return articleCommentMapper.selectWithArticleTitle();
+        return commentMapper.selectByExample(null);
     }
 
     /**
-     * 由主键删除
-     * @param articleCommentKey 主键class
+     * 从主键删除
+     * @param commentId 主键
      */
-    public void deleteByPrimaryKey(ArticleCommentKey articleCommentKey) {
-        articleCommentMapper.deleteByPrimaryKey(articleCommentKey);
+    public void deleteArticleById(Integer commentId) {
+        commentMapper.selectByPrimaryKey(commentId);
     }
 
     /**
-     * 由主键获取文章所有信息
-     * @param articleCommentKey 主键
-     * @return 查询到的一个comment
+     * 从主键获取
+     * @param commentId 主键
+     * @return comment 评论本体
      */
-    public ArticleComment getCommentByPrimaryKey(ArticleCommentKey articleCommentKey) {
+    public ArticleComment getCommentById(Integer commentId) {
+        return commentMapper.selectByPrimaryKey(commentId);
+    }
+
+
+    /**
+     * 筛选某篇文章下面的所有评论
+     * @param articleId 文章id
+     */
+    public List<ArticleComment> getCommentByArticleId(String articleId) {
         ArticleCommentExample example = new ArticleCommentExample();
         ArticleCommentExample.Criteria criteria = example.createCriteria();
-        criteria.andArticleIdEqualTo(articleCommentKey.getArticleId());
-        criteria.andCommentDateEqualTo(articleCommentKey.getCommentDate());
-        criteria.andAuthorEmailEqualTo(articleCommentKey.getAuthorEmail());
-        List<ArticleComment> comments = articleCommentMapper.selectByExampleWithBLOBs(example);
-        return comments.get(0);
+        criteria.andArticleIdEqualTo(articleId);
+        return commentMapper.selectByExampleWithBLOBs(example);
+    }
+
+    /**
+     * 直接插入
+     * @param articleComment 记录
+     */
+    public void insert(ArticleComment articleComment) {
+        commentMapper.insert(articleComment);
     }
 }

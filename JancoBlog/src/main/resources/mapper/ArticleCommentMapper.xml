@@ -2,15 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Jancoyan.dao.ArticleCommentMapper">
   <resultMap id="BaseResultMap" type="com.Jancoyan.domain.ArticleComment">
-    <id column="article_id" jdbcType="VARCHAR" property="articleId" />
-    <id column="author_email" jdbcType="VARCHAR" property="authorEmail" />
-    <id column="comment_date" jdbcType="TIMESTAMP" property="commentDate" />
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="article_id" jdbcType="VARCHAR" property="articleId" />
+    <result column="author_id" jdbcType="INTEGER" property="authorId" />
     <result column="author_nickname" jdbcType="VARCHAR" property="authorNickname" />
+    <result column="author_email" jdbcType="VARCHAR" property="authorEmail" />
+    <result column="comment_date" jdbcType="TIMESTAMP" property="commentDate" />
     <result column="author_ip" jdbcType="VARCHAR" property="authorIp" />
     <result column="like_count" jdbcType="INTEGER" property="likeCount" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithArticleTitle" type="com.Jancoyan.domain.ArticleComment">
-    <result column="article_title" jdbcType="VARCHAR" property="articleTitle" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.Jancoyan.domain.ArticleComment">
     <result column="comment_content" jdbcType="LONGVARCHAR" property="commentContent" />
@@ -74,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    article_id, author_email, comment_date, author_nickname, author_ip, like_count
+    comment_id, article_id, author_id, author_nickname, author_email, comment_date, author_ip, 
+    like_count
   </sql>
   <sql id="Blob_Column_List">
     comment_content
@@ -109,36 +109,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectWithArticleTitle" parameterType="com.Jancoyan.domain.ArticleComment"
-          resultMap="ResultMapWithArticleTitle">
-    select
-           a.article_title,
-           c.article_id,
-           c.author_nickname,
-           c.comment_content,
-           c.author_email,
-           c.comment_date,
-           c.author_ip,
-           c.like_count
-    from t_article_comment c
-        join t_article a
-    where a.article_id = c.article_id
-  </select>
-  <select id="selectByPrimaryKey" parameterType="com.Jancoyan.domain.ArticleCommentKey" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from t_article_comment
-    where article_id = #{articleId,jdbcType=VARCHAR}
-      and author_email = #{authorEmail,jdbcType=VARCHAR}
-      and comment_date = #{commentDate,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.Jancoyan.domain.ArticleCommentKey">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_article_comment
-    where article_id = #{articleId,jdbcType=VARCHAR}
-      and author_email = #{authorEmail,jdbcType=VARCHAR}
-      and comment_date = #{commentDate,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.Jancoyan.domain.ArticleCommentExample">
     delete from t_article_comment
@@ -147,27 +128,35 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.Jancoyan.domain.ArticleComment">
-    insert into t_article_comment (article_id, author_email, comment_date, 
-      author_nickname, author_ip, like_count, 
-      comment_content)
-    values (#{articleId,jdbcType=VARCHAR}, #{authorEmail,jdbcType=VARCHAR}, #{commentDate,jdbcType=TIMESTAMP}, 
-      #{authorNickname,jdbcType=VARCHAR}, #{authorIp,jdbcType=VARCHAR}, #{likeCount,jdbcType=INTEGER}, 
-      #{commentContent,jdbcType=LONGVARCHAR})
+    insert into t_article_comment (comment_id, article_id, author_id, 
+      author_nickname, author_email, comment_date, 
+      author_ip, like_count, comment_content
+      )
+    values (#{commentId,jdbcType=INTEGER}, #{articleId,jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER}, 
+      #{authorNickname,jdbcType=VARCHAR}, #{authorEmail,jdbcType=VARCHAR}, #{commentDate,jdbcType=TIMESTAMP}, 
+      #{authorIp,jdbcType=VARCHAR}, #{likeCount,jdbcType=INTEGER}, #{commentContent,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.Jancoyan.domain.ArticleComment">
     insert into t_article_comment
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        comment_id,
+      </if>
       <if test="articleId != null">
         article_id,
+      </if>
+      <if test="authorId != null">
+        author_id,
+      </if>
+      <if test="authorNickname != null">
+        author_nickname,
       </if>
       <if test="authorEmail != null">
         author_email,
       </if>
       <if test="commentDate != null">
         comment_date,
-      </if>
-      <if test="authorNickname != null">
-        author_nickname,
       </if>
       <if test="authorIp != null">
         author_ip,
@@ -180,17 +169,23 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        #{commentId,jdbcType=INTEGER},
+      </if>
       <if test="articleId != null">
         #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="authorId != null">
+        #{authorId,jdbcType=INTEGER},
+      </if>
+      <if test="authorNickname != null">
+        #{authorNickname,jdbcType=VARCHAR},
       </if>
       <if test="authorEmail != null">
         #{authorEmail,jdbcType=VARCHAR},
       </if>
       <if test="commentDate != null">
         #{commentDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="authorNickname != null">
-        #{authorNickname,jdbcType=VARCHAR},
       </if>
       <if test="authorIp != null">
         #{authorIp,jdbcType=VARCHAR},
@@ -212,17 +207,23 @@
   <update id="updateByExampleSelective" parameterType="map">
     update t_article_comment
     <set>
+      <if test="record.commentId != null">
+        comment_id = #{record.commentId,jdbcType=INTEGER},
+      </if>
       <if test="record.articleId != null">
         article_id = #{record.articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authorId != null">
+        author_id = #{record.authorId,jdbcType=INTEGER},
+      </if>
+      <if test="record.authorNickname != null">
+        author_nickname = #{record.authorNickname,jdbcType=VARCHAR},
       </if>
       <if test="record.authorEmail != null">
         author_email = #{record.authorEmail,jdbcType=VARCHAR},
       </if>
       <if test="record.commentDate != null">
         comment_date = #{record.commentDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.authorNickname != null">
-        author_nickname = #{record.authorNickname,jdbcType=VARCHAR},
       </if>
       <if test="record.authorIp != null">
         author_ip = #{record.authorIp,jdbcType=VARCHAR},
@@ -240,10 +241,12 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update t_article_comment
-    set article_id = #{record.articleId,jdbcType=VARCHAR},
+    set comment_id = #{record.commentId,jdbcType=INTEGER},
+      article_id = #{record.articleId,jdbcType=VARCHAR},
+      author_id = #{record.authorId,jdbcType=INTEGER},
+      author_nickname = #{record.authorNickname,jdbcType=VARCHAR},
       author_email = #{record.authorEmail,jdbcType=VARCHAR},
       comment_date = #{record.commentDate,jdbcType=TIMESTAMP},
-      author_nickname = #{record.authorNickname,jdbcType=VARCHAR},
       author_ip = #{record.authorIp,jdbcType=VARCHAR},
       like_count = #{record.likeCount,jdbcType=INTEGER},
       comment_content = #{record.commentContent,jdbcType=LONGVARCHAR}
@@ -253,10 +256,12 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update t_article_comment
-    set article_id = #{record.articleId,jdbcType=VARCHAR},
+    set comment_id = #{record.commentId,jdbcType=INTEGER},
+      article_id = #{record.articleId,jdbcType=VARCHAR},
+      author_id = #{record.authorId,jdbcType=INTEGER},
+      author_nickname = #{record.authorNickname,jdbcType=VARCHAR},
       author_email = #{record.authorEmail,jdbcType=VARCHAR},
       comment_date = #{record.commentDate,jdbcType=TIMESTAMP},
-      author_nickname = #{record.authorNickname,jdbcType=VARCHAR},
       author_ip = #{record.authorIp,jdbcType=VARCHAR},
       like_count = #{record.likeCount,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -266,8 +271,20 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.Jancoyan.domain.ArticleComment">
     update t_article_comment
     <set>
+      <if test="articleId != null">
+        article_id = #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="authorId != null">
+        author_id = #{authorId,jdbcType=INTEGER},
+      </if>
       <if test="authorNickname != null">
         author_nickname = #{authorNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="authorEmail != null">
+        author_email = #{authorEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="commentDate != null">
+        comment_date = #{commentDate,jdbcType=TIMESTAMP},
       </if>
       <if test="authorIp != null">
         author_ip = #{authorIp,jdbcType=VARCHAR},
@@ -279,27 +296,29 @@
         comment_content = #{commentContent,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where article_id = #{articleId,jdbcType=VARCHAR}
-      and author_email = #{authorEmail,jdbcType=VARCHAR}
-      and comment_date = #{commentDate,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.Jancoyan.domain.ArticleComment">
     update t_article_comment
-    set author_nickname = #{authorNickname,jdbcType=VARCHAR},
+    set article_id = #{articleId,jdbcType=VARCHAR},
+      author_id = #{authorId,jdbcType=INTEGER},
+      author_nickname = #{authorNickname,jdbcType=VARCHAR},
+      author_email = #{authorEmail,jdbcType=VARCHAR},
+      comment_date = #{commentDate,jdbcType=TIMESTAMP},
       author_ip = #{authorIp,jdbcType=VARCHAR},
       like_count = #{likeCount,jdbcType=INTEGER},
       comment_content = #{commentContent,jdbcType=LONGVARCHAR}
-    where article_id = #{articleId,jdbcType=VARCHAR}
-      and author_email = #{authorEmail,jdbcType=VARCHAR}
-      and comment_date = #{commentDate,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.Jancoyan.domain.ArticleComment">
     update t_article_comment
-    set author_nickname = #{authorNickname,jdbcType=VARCHAR},
+    set article_id = #{articleId,jdbcType=VARCHAR},
+      author_id = #{authorId,jdbcType=INTEGER},
+      author_nickname = #{authorNickname,jdbcType=VARCHAR},
+      author_email = #{authorEmail,jdbcType=VARCHAR},
+      comment_date = #{commentDate,jdbcType=TIMESTAMP},
       author_ip = #{authorIp,jdbcType=VARCHAR},
       like_count = #{likeCount,jdbcType=INTEGER}
-    where article_id = #{articleId,jdbcType=VARCHAR}
-      and author_email = #{authorEmail,jdbcType=VARCHAR}
-      and comment_date = #{commentDate,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
 </mapper>

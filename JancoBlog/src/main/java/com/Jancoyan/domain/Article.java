@@ -33,15 +33,4 @@ public class Article {
     public String getArticleId() {
         return articleId;
     }
-
-    @Override
-    public String toString() {
-        return "Article{" +
-                "articleId='" + articleId + '\'' +
-                ", articleTitle='" + articleTitle + '\'' +
-                ", articleAuthorId=" + articleAuthorId +
-                ", articleType=" + articleType +
-                '}';
-    }
-
 }

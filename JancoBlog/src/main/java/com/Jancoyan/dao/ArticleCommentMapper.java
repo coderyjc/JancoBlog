@@ -2,7 +2,6 @@ package com.Jancoyan.dao;
 
 import com.Jancoyan.domain.ArticleComment;
 import com.Jancoyan.domain.ArticleCommentExample;
-import com.Jancoyan.domain.ArticleCommentKey;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -12,7 +11,7 @@ public interface ArticleCommentMapper {
 
     int deleteByExample(ArticleCommentExample example);
 
-    int deleteByPrimaryKey(ArticleCommentKey key);
+    int deleteByPrimaryKey(Integer commentId);
 
     int insert(ArticleComment record);
 
@@ -22,9 +21,7 @@ public interface ArticleCommentMapper {
 
     List<ArticleComment> selectByExample(ArticleCommentExample example);
 
-    List<ArticleComment> selectWithArticleTitle();
-
-    ArticleComment selectByPrimaryKey(ArticleCommentKey key);
+    ArticleComment selectByPrimaryKey(Integer commentId);
 
     int updateByExampleSelective(@Param("record") ArticleComment record, @Param("example") ArticleCommentExample example);
 

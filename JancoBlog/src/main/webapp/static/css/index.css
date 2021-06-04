@@ -137,11 +137,21 @@ h1{
     margin-right: 20px;
     float: left;
 }
+
 .layui-colla-content .rank-count{
     float: right;
 }
+
 .layui-colla-content>ul li div{
     display: inline-block;
+}
+
+.layui-colla-content li{
+    margin-top: 8px;
+}
+
+.layui-colla-content li:hover{
+    text-decoration: underline;
 }
 
 /* 页脚的内容 */

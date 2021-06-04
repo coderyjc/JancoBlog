@@ -1,17 +1,26 @@
 package com.Jancoyan.domain;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@EqualsAndHashCode(callSuper = true)
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleComment extends ArticleCommentKey {
+public class ArticleComment {
+    private Integer commentId;
+
+    private String articleId;
+
+    private Integer authorId;
+
     private String authorNickname;
+
+    private String authorEmail;
+
+    private Date commentDate;
 
     private String authorIp;
 
@@ -19,15 +28,4 @@ public class ArticleComment extends ArticleCommentKey {
 
     private String commentContent;
 
-    private String articleTitle;
-
-    @Override
-    public String toString() {
-        return "ArticleComment{" +
-                "authorNickname='" + authorNickname + '\'' +
-                ", authorIp='" + authorIp + '\'' +
-                ", likeCount=" + likeCount +
-                ", commentContent='" + commentContent + '\'' +
-                '}';
-    }
 }

@@ -41,7 +41,7 @@ public class ArticleController {
      *  -POST 提交修改后的文章
      *
      *  /redirect/article
-     *  -POST 转发到edit.jsp
+     *  -POST 转发到 edit.jsp
      *
      *  /articles
      *  -GET 获取索引页的初始文章
@@ -54,7 +54,6 @@ public class ArticleController {
      *  - GET
      *  - POST
      *  - PUT
-     *
      *
      *  /article/view
      *  - POST 增加文章的浏览量
@@ -321,7 +320,7 @@ public class ArticleController {
         HttpServletRequest request
     ) throws UnsupportedEncodingException {
         request.setCharacterEncoding("utf-8");
-        PageHelper.startPage(pn, 5);
+        PageHelper.startPage(pn, 20);
         List<Article> articles;
         // 加一步判断，如果id小于100，也就是父类别，就获取其下面所有子类的文章
         if(id < 100){
@@ -332,6 +331,7 @@ public class ArticleController {
         PageInfo<Article> pageInfo = new PageInfo<>(articles, 5);
         return Msg.success().add("pageInfo", pageInfo);
     }
+
 
     /**
      * 全局搜索文章

@@ -32,20 +32,4 @@ public class User {
 
     private String userIp;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", userNickname='" + userNickname + '\'' +
-                ", userName='" + userName + '\'' +
-                ", userPwd='" + userPwd + '\'' +
-                ", userEmail='" + userEmail + '\'' +
-                ", userSex=" + userSex +
-                ", userRole=" + userRole +
-                ", userCreateDate=" + userCreateDate +
-                ", userProfile='" + userProfile + '\'' +
-                ", userBirthday=" + userBirthday +
-                ", userIp='" + userIp + '\'' +
-                '}';
-    }
 }
