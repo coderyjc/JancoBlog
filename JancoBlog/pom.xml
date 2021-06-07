@@ -194,6 +194,7 @@
           <include>**/*.html</include>
         </includes>
       </resource>
+
     </resources>
 
     <plugins>
@@ -203,6 +204,20 @@
         <version>2.6</version>
         <configuration>
           <includeEmptyDirectories>true</includeEmptyDirectories>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>utf-8</encoding>
+          <useDefaultDelimiters>true</useDefaultDelimiters>
+          <nonFilteredFileExtensions>
+            <nonFilteredFileExtension>woff</nonFilteredFileExtension>
+            <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+            <nonFilteredFileExtension>eot</nonFilteredFileExtension>
+            <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+            <nonFilteredFileExtension>svg</nonFilteredFileExtension>
+          </nonFilteredFileExtensions>
         </configuration>
       </plugin>
     </plugins>
