@@ -1,6 +1,7 @@
 package com.jancoyan.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class Article extends Model<Article> {
     /**
      * 文章id，即作者id+时间戳
      */
+    @TableId(value = "article_id")
     private String articleId;
 
     /**

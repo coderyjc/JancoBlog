@@ -1,5 +1,6 @@
 package com.jancoyan.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,7 @@ public class Comment extends Model<Comment> {
     /**
      * 评论的id
      */
+    @TableId(value = "comment_id")
     private Integer commentId;
 
     /**

@@ -208,42 +208,6 @@
         })
     }
 
-    // 创建导航条，从数据库中拿到数据来创建
-    // function build_nav_bar() {
-    //     $.ajax({
-    //         url: "types",
-    //         type: "get",
-    //         success: function (result) {
-    //             var superType = result.extend.types;
-    //             $.each(superType, function (index, item) {
-    //                 //第一级分类列表
-    //                 var currTypeName =
-    //                     $("<a target='_blank' ></a>").attr("href",
-    //                         "./sortlist.jsp?type="+item.typeId).text(item.typeName);
-    //                 var currSuperTypeDrop = $("<dl></dl>").addClass("layui-nav-child");
-    //                 //创建第二级分类列表
-    //                 var subTypes = item.subTypes;
-    //                 $.each(subTypes, function (index, item1) {
-    //                     currSuperTypeDrop
-    //                         .append(
-    //                             $("<dd></dd>").append(
-    //                                 $("<a target='_blank'></a>").attr("href", "sortlist.jsp?type=" + item1.typeId).append(item1.typeName)
-    //                             )
-    //                         );
-    //                 });
-    //                 $("<li></li>").addClass("layui-nav-item")
-    //                     .append(currTypeName)
-    //                     .append(currSuperTypeDrop)
-    //                     .appendTo("#top-nav-bar");
-    //             });
-    //
-    //             layui.use(['element'],function(){
-    //                 layui.element.init();//手动调用初始化方法
-    //             })
-    //         }
-    //     });
-    // }
-
     // 页面加载完毕之后加载文章热榜
     function build_hot_rank() {
         // 获取阅读量排行

@@ -5,9 +5,19 @@ spring:
     url: jdbc:mysql:///jancoblog?serverTimezone=UTC&characterEncoding=utf-8
     username: root
     password: 333
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    check-template-location: true
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
   mvc:
     view:
       suffix: .html
-      prefix: classpath:/static/
+      prefix: classpath:/templates/
+    static-path-pattern: /**
+
 server:
   port: 8080

@@ -3,7 +3,6 @@ package com.jancoyan.pojo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author Jancoyan
@@ -66,12 +65,12 @@ public class User extends Model<User> {
     /**
      * 用户创建时间
      */
-    private LocalDate userCreateDate;
+    private Date userCreateDate;
 
     /**
      * 上一次登录的时间
      */
-    private LocalDate userLastLoginDate;
+    private Date userLastLoginDate;
 
     /**
      * 用户头像的路径
