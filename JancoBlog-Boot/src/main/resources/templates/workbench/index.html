@@ -78,6 +78,12 @@
             <div id="side-nav">
                 <ul id="nav">
                     <li>
+                        <a onclick="xadmin.open('写博客','/workbench/write.html','','',true)">
+<!--                        <a th:href="@{workbench/write.html}">-->
+                        <i class="iconfont left-nav-li" lay-tips="写博客">&#xe69e;</i>
+                        <cite>写博客</cite></a>
+                    </li>
+                    <li>
                         <a href="javascript:;">
                             <i class="iconfont left-nav-li" lay-tips="会员管理">&#xe6b8;</i>
                             <cite>会员管理</cite>
@@ -158,7 +164,7 @@
                     </li>
 					<li>
 					    <a href="javascript:;">
-					        <i class="iconfont left-nav-li" lay-tips="评论管理">&#xe723;</i>
+					        <i class="iconfont left-nav-li" lay-tips="评论管理">&#xe82a;</i>
 					        <cite>评论管理</cite>
 					        <i class="iconfont nav_right">&#xe697;</i></a>
 					    <ul class="sub-menu">
@@ -178,7 +184,7 @@
 					</li>
                     <li>
                         <a href="javascript:;">
-                            <i class="iconfont left-nav-li" lay-tips="分类管理">&#xe723;</i>
+                            <i class="iconfont left-nav-li" lay-tips="分类管理">&#xe6c5;</i>
                             <cite>分类和标签管理</cite>
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
@@ -196,49 +202,17 @@
 							</li>
                         </ul>
                     </li>
-                    
                     <li>
-                        <a href="javascript:;">
+                        <a onclick="xadmin.add_tab('博客访问量','workbench/statistic/echarts1.html')">
                             <i class="iconfont left-nav-li" lay-tips="系统统计">&#xe6ce;</i>
                             <cite>系统统计</cite>
-                            <i class="iconfont nav_right">&#xe697;</i></a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a
-                                        onclick="xadmin.add_tab('博客访问量','workbench/statistic/echarts1.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>博客访问量</cite></a>
-                            </li>
-                            <li>
-                                <a
-                                        onclick="xadmin.add_tab('游客来源','workbench/statistic/echarts4.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>游客来源</cite></a>
-                            </li>
-                        </ul>
+                        </a>
                     </li>
                     <li>
-                        <a href="javascript:;">
-                            <i class="iconfont left-nav-li" lay-tips="其它页面">&#xe6b4;</i>
-                            <cite>其它页面</cite>
-                            <i class="iconfont nav_right">&#xe697;</i></a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="login.html" target="_blank">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>登录页面</cite></a>
-                            </li>
-                            <li>
-                                <a onclick="xadmin.add_tab('示例页面','workbench/other/demo.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>示例页面</cite></a>
-                            </li>
-                            <li>
-                                <a onclick="xadmin.add_tab('更新日志','workbench/other/log.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>更新日志</cite></a>
-                            </li>
-                        </ul>
+                        <a onclick="xadmin.add_tab('更新日志','workbench/other/log.html')">
+                            <i class="iconfont left-nav-li" lay-tips="更新日志">&#xe6fa;</i>
+                            <cite>更新日志</cite>
+                        </a>
                     </li>
                 </ul>
             </div>

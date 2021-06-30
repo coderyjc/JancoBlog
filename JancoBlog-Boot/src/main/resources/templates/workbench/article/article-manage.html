@@ -1,10 +1,168 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>文章管理页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
+
 <body>
-$END$
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+
+                <div class="layui-card-header demoTable">
+                    <button class="layui-btn layui-btn-danger" data-type="batchDelete">
+                        <i class="layui-icon"></i>批量删除</button>
+                </div>
+                <div class="layui-card-body">
+                    <table id="article-list"  class="layui-hide" lay-filter="article-list"></table>
+                </div>
+
+                <script type="text/html" id="toolBar">
+                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+                    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                </script>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    layui.use('table', function(){
+        var table = layui.table;
+
+        // 监听表格复选框选择
+        table.on('checkbox(article-list)', function(obj){
+            console.log(obj)
+        });
+
+        //关于表单的提交会在下面用 form.on 来写
+        table.on('tool(article-list)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                // 查看
+                console.log("detail")
+            } else if(obj.event === 'del'){
+                // 删除
+                console.log("del")
+            } else if (obj.event === 'edit'){
+                // 修改
+                console.log("update")
+            }
+        });
+
+        // 数据的批量删除
+        var $ = layui.$
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        active = {
+            batchDelete: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('article-list')
+                    ,data = checkStatus.data;
+                if (data.length === 0){
+                    layer.msg("当前没有选中数据");
+                    return;
+                }
+                layer.confirm('真的要删除选中的行么', function() {
+                    console.log(data);
+                    // $.each(data, function (index, item) {
+                    //     $.ajax({
+                    //         url: "students",
+                    //         type: "DELETE",
+                    //         data: "id=" + item.id,
+                    //         success: function () {
+                    //             // 删除完毕之后暂时不执行任何操作
+                    //         }
+                    //     })
+                    // })
+                    layer.msg("删除成功");
+                    table.reload('article-list', {
+                        url: '/article/all'
+                    });
+                })
+            }
+        };
+
+        // 表格初始化渲染
+        table.render({
+            elem: '#article-list' // 挂载点
+            ,id: 'article-list' // 表格id
+            ,url: '/article/all' //数据接口
+            ,toolbar: '#toolbar' //开启头部工具栏，并为其绑定左侧模板
+            ,skin: 'line' //行边框风格
+            ,even: true //开启隔行背景
+            ,height: 'full-120' // 页面的最大高度 - 100 （自适应）
+            ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                ,layEvent: 'LAYTABLE_TIPS'
+                ,icon: 'layui-icon-tips'
+            }]
+            ,parseData: function(res){ // 数据源
+                var list = res.extend.pageInfo.records;
+                //进行数据清洗
+                $.each(list, function (index, item) {
+                    item.articleEditTime = dateFormat(item.articleEditTime);
+                    item.articlePostTime = dateFormat(item.articlePostTime);
+                })
+                //res 即为原始返回的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.extend.pageInfo.total, //解析数据长度
+                    "data": res.extend.pageInfo.records //解析数据列表
+                };
+            }
+            ,page: { // 分页
+                groups: 5 //显示 10 个连续页码
+            }
+            ,cols: [ [ //表头
+                {type:'checkbox'}
+                ,{field: 'articleTitle', title: '标题', width:220}
+                ,{field: 'articleAuthorName', title: '作者', width: 120}
+                ,{field: 'articleIsComment', title: '允许评论', width:100, sort: true}
+                ,{field: 'articlePostTime', title: '发布时间', width:100, sort: true}
+                ,{field: 'articleEditTime', title: '修改时间', width: 100, sort: true}
+                ,{field: 'articleViewCount', title: '浏览量', width: 100, sort: true}
+                ,{field: 'articleLikeCount', title: '点赞量', width: 100, sort: true}
+                ,{field: 'articleCommentCount', title: '评论量', width: 100, sort: true}
+                ,{fixed: 'right', title:'操作', toolbar: '#toolBar', width:230}
+            ]]
+        });
+    });
+
+
+    /**
+     * 将时间戳转化为标准时间
+     * @param date 时间戳
+     * @returns {string} 标准时间字符串
+     */
+    function dateFormat(date) {
+        var s = new Date(date)
+        var y = s.getFullYear()
+        var m = (s.getMonth() + 1) < 10 ? '0' + (s.getMonth() + 1) : (s.getMonth() + 1)
+        var dd = s.getDate() < 10 ? '0' + s.getDate() : s.getDate()
+        var enddate = y + '-' + m + '-' + dd
+        return enddate
+    }
+</script>
 </body>
 </html>

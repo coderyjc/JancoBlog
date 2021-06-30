@@ -27,7 +27,9 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginHandlerInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/", "/index.html", "/user/login", "/login.html", "/css/**",
-                        "/fonts/**", "/images/**", "/js/**", "/lib/**");
+                .excludePathPatterns("/",
+                        "/index.html", "/user/login", "/login.html",
+                        "/css/**", "/fonts/**", "/images/**", "/js/**", "/lib/**",
+                        "/article/**", "/search.html");
     }
 }

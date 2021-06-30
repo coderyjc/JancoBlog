@@ -12,6 +12,7 @@ import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author Jancoyan
@@ -61,12 +62,12 @@ public class Article extends Model<Article> {
     /**
      * 上一次修改时间
      */
-    private LocalDate articleEditTime;
+    private Date articleEditTime;
 
     /**
      * 文章发表时间
      */
-    private LocalDate articlePostTime;
+    private Date articlePostTime;
 
     /**
      * 文章阅读量

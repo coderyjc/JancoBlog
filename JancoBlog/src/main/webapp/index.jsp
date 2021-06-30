@@ -260,7 +260,7 @@
             $("<li></li>").append(idxDiv).append(titleDiv).append(count).appendTo(hot_rank);
         })
     }
-    
+
     // 点赞功能的实现
     function add_like_count(element, id){
         // 当前点赞的数量

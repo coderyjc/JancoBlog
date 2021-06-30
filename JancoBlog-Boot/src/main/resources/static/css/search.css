@@ -1,0 +1,49 @@
+
+/* 导航栏 */
+#top-nav-bar{
+    padding-left: 15%;
+    padding-right: 15%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+}
+#user-profile-picture{
+    float: right;
+}
+
+.search-title{
+    text-align: center;
+    padding-top: 100px;
+}
+#search-text{
+    width: 35%;
+    text-align: center;
+    margin: 50px auto;
+    display: inline-block;
+}
+.search{
+    text-align: center;
+}
+
+#main{
+    margin: 0 5%;
+}
+
+.segment-line{
+    height: 1px;
+    width: 100%;
+    background-color: #f6f6f6;
+}
+
+
+.article-info{
+    text-align: center;
+    font-size: 12px;
+}
+.article-info span{
+    margin-right: 20px;
+}
+.article-info div{
+    display: inline-block;
+    margin-left: 15px;
+}

@@ -19,12 +19,13 @@ import javax.servlet.http.HttpSession;
  * @since 2021-06-28
  */
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/user/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Msg login(
             @RequestParam("username") String userName,
             @RequestParam("password") String userPassword,

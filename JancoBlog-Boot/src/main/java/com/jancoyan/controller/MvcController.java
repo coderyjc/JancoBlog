@@ -26,7 +26,7 @@ public class MvcController {
     public String backEndManage(
             @PathVariable(value = "id") String path
     ){
-            return "/workbench/" + path;
+        return "/workbench/" + path;
     }
 
     @GetMapping("/workbench/{id}/{id2}")

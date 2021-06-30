@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/lib/editor.md/editormd.js}"></script>
+    <link rel="stylesheet" th:href="@{/lib/editor.md/css/editormd.css}">
+    <title>写博客</title>
+</head>
+<body>
+    <!-- 文章输入框 -->
+    <div>
+        <div id="test-editormd">
+            <textarea name="message" id="message"></textarea>
+        </div>
+    </div>
+    <script>
+        $(function() {
+            // 进行输入区的相关绑定
+            var testEditor;
+            testEditor = editormd("test-editormd", {
+                htmlDecode: "style, script, iframe",
+                width: "100%",
+                height: 700,
+                syncScrilling: "single",
+                emoji: true,
+                path: "/lib/editor.md/lib/",
+                saceHTMLToTextarea: true,
+                tocm: true,
+                tex: true,
+                flowChart: true,
+                imageFormats: ["jpg", "gif", "png", "jpeg"],
+                imageUpload: true,
+                imageUploadURL: "",
+                value: ''
+            });
+        })
+    </script>
+</body>
+</html>
