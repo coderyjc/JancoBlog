@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Test;
 
 public class TestGenerator {
 
-    @Test
     public void testGenerator(){
 //        全局配置
         GlobalConfig config = new GlobalConfig();
@@ -44,8 +43,8 @@ public class TestGenerator {
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig.setTablePrefix("tbl_")
                 .setColumnNaming(NamingStrategy.underline_to_camel)
-                .setInclude("tbl_article_content");
-
+                .setInclude("tbl_article_tag")
+                .setInclude("tbl_article_type");
 
 //        包名策略配置
         PackageConfig packageConfig = new PackageConfig();
@@ -55,7 +54,6 @@ public class TestGenerator {
                 .setController("controller")
                 .setEntity("pojo")
                 .setXml("mapper");
-
 
 //        整合配置
         AutoGenerator autoGenerator = new AutoGenerator();

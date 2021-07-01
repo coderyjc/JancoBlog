@@ -123,13 +123,13 @@
             var ArticleTitle = $("#article-title").val();
             var HTMLContent = $(".editormd-preview")[0].innerHTML;
             var MDContent = $('.editormd-markdown-textarea').val();
-            var types = [$("#tag-1 option:selected").val(),
-                $("#tag-2 option:selected").val(),
-                $("#tag-3 option:selected").val()];
+            var types = $("#tag-1 option:selected").val() + "&" +
+                $("#tag-2 option:selected").val() + "&" +
+                $("#tag-3 option:selected").val();
 
             // 这个事件已经绑定好了，找时间把这个上传文字和图片的功能给做了。
-            if("" === articleTitle){layer.msg("标题不能为空"); return;}
-            if("" === articleContent){layer.msg("内容不能为空"); return;}
+            if("" === ArticleTitle){layer.msg("标题不能为空"); return;}
+            if("" === HTMLContent){layer.msg("内容不能为空"); return;}
 			$.ajax({
                 url: "/article/submit",
                 type: "PUT",

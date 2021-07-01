@@ -4,14 +4,20 @@ package com.jancoyan.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.pojo.Article;
+import com.jancoyan.pojo.ArticleContent;
+import com.jancoyan.pojo.ArticleTag;
 import com.jancoyan.pojo.User;
 import com.jancoyan.service.ArticleService;
+import com.jancoyan.service.ArticleContentService;
+import com.jancoyan.service.ArticleTagService;
+import com.jancoyan.utils.ArticleUtils;
 import com.jancoyan.utils.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,18 +31,50 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
+    @Autowired
+    ArticleContentService articleContentService;
+
+    @Autowired
+    ArticleTagService articleTagService;
+
     @RequestMapping(value = "/submit", method = RequestMethod.PUT)
     public Msg postBlog(
         @RequestParam("innerHTML") String innerHTML,
         @RequestParam("innerMD") String innerMD,
         @RequestParam("title") String title,
-        @RequestParam("types") String[] types,
+        @RequestParam("types") String types,
         HttpSession session
     ){
-        System.out.println(innerHTML);
-        System.out.println(innerMD);
-        System.out.println(title);
-        System.out.println(types[0]);
+        User user = (User) session.getAttribute("user");
+        Date date = new Date();
+        // 文章id
+        String articleId = user.getUserId().toString() + date.getTime();
+
+        // 向Article表中插入数据
+        Article article = new Article();
+        article.setArticleId(articleId);
+        article.setArticleTitle(title);
+        article.setArticleAuthorId(user.getUserId());
+        article.setArticleSummary(ArticleUtils.getArticleAbstract(innerHTML));
+        article.setArticleEditTime(date);
+        article.setArticlePostTime(date);
+        article.insert();
+
+        // 向ArticleContent表中插入数据
+        ArticleContent content = new ArticleContent(articleId, innerHTML, innerMD);
+        content.insert();
+
+        // 向ArticleTag表中插入数据
+        String[] type = types.split("&");
+        ArticleTag articleTag = new ArticleTag();
+        articleTag.setArticleId(articleId);
+        for (String i : type) {
+            if (!i.equals("")){
+                articleTag.setTagId(Integer.parseInt(i));
+                articleTag.insert();
+            }
+        }
+
         return Msg.success();
     }
 
