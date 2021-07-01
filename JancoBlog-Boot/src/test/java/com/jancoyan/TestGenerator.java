@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 
 public class TestGenerator {
 
+    @Test
     public void testGenerator(){
 //        全局配置
         GlobalConfig config = new GlobalConfig();
@@ -43,11 +44,7 @@ public class TestGenerator {
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig.setTablePrefix("tbl_")
                 .setColumnNaming(NamingStrategy.underline_to_camel)
-                .setInclude("tbl_article")
-                .setInclude("tbl_comment")
-                .setInclude("tbl_user")
-                .setInclude("tbl_tag")
-                .setInclude("tbl_type");
+                .setInclude("tbl_article_content");
 
 
 //        包名策略配置

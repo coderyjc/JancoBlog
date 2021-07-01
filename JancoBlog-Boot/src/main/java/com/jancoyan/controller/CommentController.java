@@ -13,10 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
  * @author Jancoyan
  * @since 2021-06-28
  */
@@ -32,6 +28,7 @@ public class CommentController {
         IPage<Comment> iPage = commentService.selectAllByPageWithArticleName(page, limit);
         return Msg.success().add("pageInfo", iPage);
     }
+
 
 
 }

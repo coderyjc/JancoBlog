@@ -7,11 +7,11 @@ import com.jancoyan.pojo.Article;
 import com.jancoyan.pojo.User;
 import com.jancoyan.service.ArticleService;
 import com.jancoyan.utils.Msg;
-import com.sun.org.apache.xml.internal.security.keys.content.MgmtData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,6 +24,22 @@ public class ArticleController {
 
     @Autowired
     ArticleService articleService;
+
+    @RequestMapping(value = "/submit", method = RequestMethod.PUT)
+    public Msg postBlog(
+        @RequestParam("innerHTML") String innerHTML,
+        @RequestParam("innerMD") String innerMD,
+        @RequestParam("title") String title,
+        @RequestParam("types") String[] types,
+        HttpSession session
+    ){
+        System.out.println(innerHTML);
+        System.out.println(innerMD);
+        System.out.println(title);
+        System.out.println(types[0]);
+        return Msg.success();
+    }
+
 
     /**
      * 获取所有首页文章

@@ -42,4 +42,8 @@ public class Tag extends Model<Tag> {
      */
     private String tagDescription;
 
+    /**
+     * 标签属于什么分类
+     */
+    private Integer tagType;
 }

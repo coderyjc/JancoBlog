@@ -9,10 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 /**
- * <p>
- *  服务类
- * </p>
- *
  * @author Jancoyan
  * @since 2021-06-28
  */
