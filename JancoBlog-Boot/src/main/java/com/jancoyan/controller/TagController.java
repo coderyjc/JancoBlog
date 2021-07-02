@@ -8,11 +8,9 @@ import com.jancoyan.service.TagService;
 import com.jancoyan.utils.Msg;
 import jdk.nashorn.internal.ir.CallNode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.awt.geom.IllegalPathStateException;
 
@@ -33,6 +31,49 @@ public class TagController {
         Tag tag = new Tag();
         IPage<Tag> rst = tag.selectPage(iPage, null);
         return Msg.success().add("pageInfo", rst);
+    }
+
+    @RequestMapping(value = "/tag", method = RequestMethod.PUT)
+    public Msg addTag(
+            @RequestParam("tagName") String tagName,
+            @RequestParam("tagDescription") String tagDescription
+    ){
+        Tag tag = new Tag();
+        tag.setTagName(tagName);
+        tag.setTagDescription(tagDescription);
+        tag.insert();
+        return Msg.success();
+    }
+
+    @RequestMapping(value = "/tag", method = RequestMethod.POST)
+    public Msg updateTag(
+            @RequestParam("tagId") String tagId,
+            @RequestParam("tagName") String tagName,
+            @RequestParam("description") String tagDescription
+    ){
+        Tag tag = new Tag();
+        tag.setTagId(Integer.parseInt(tagId));
+        tag.setTagName(tagName);
+        tag.setTagDescription(tagDescription);
+        tag.updateById();
+        return Msg.success();
+    }
+
+    @RequestMapping(value = "/tag", method = RequestMethod.DELETE)
+    public Msg deleteTag(
+            @RequestParam("id") String tagId
+    ){
+        // 多个tag的id会用 & 连起来，用 & 把不同的tagid分割
+        String[] ids = {tagId};
+        if (tagId.contains("&")){
+            ids = tagId.split("&");
+        }
+        Tag tag = new Tag();
+        for (String id: ids) {
+            tag.setTagId(Integer.parseInt(id));
+            tag.deleteById();
+        }
+        return Msg.success();
     }
 
 }

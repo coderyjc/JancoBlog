@@ -58,15 +58,19 @@
             var data = obj.data;
             if(obj.event === 'detail'){
                 // 查看
+                // 这个不需要与服务器通信，只需要弹出一个窗口就行了
                 console.log("detail")
 
             } else if(obj.event === 'del'){
-                // 删除
+                // 删除的后端接口 @RequestParam("id") String commentIds
                 console.log("del")
 
-            } else if (obj.event === 'edit'){
+            } else if (obj.event === 'edit') {
                 // 修改
                 console.log("update")
+
+                // 这个功能不做了
+                // 评论一经发出，只能删除，不能修改
 
             }
         });
@@ -87,16 +91,9 @@
                 }
                 layer.confirm('真的要删除选中的行么', function() {
                     console.log(data);
-                    // $.each(data, function (index, item) {
-                    //     $.ajax({
-                    //         url: "students",
-                    //         type: "DELETE",
-                    //         data: "id=" + item.id,
-                    //         success: function () {
-                    //             // 删除完毕之后暂时不执行任何操作
-                    //         }
-                    //     })
-                    // })
+                    // 批量删除的后端接口 @RequestParam("id") String commentIds
+
+
                     layer.msg("删除成功");
                     table.reload('comment-list', {
                         url: '/comment/all'

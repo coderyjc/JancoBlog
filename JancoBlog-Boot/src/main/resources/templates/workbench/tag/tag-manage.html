@@ -28,6 +28,15 @@
                 <div class="layui-card-header demoTable">
                     <button class="layui-btn layui-btn-danger" data-type="batchDelete">
                         <i class="layui-icon"></i>批量删除</button>
+                    <form class="layui-form layui-col-space5" style="float: right">
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <input class="layui-input" placeholder="分类名" name="tag_name"></div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <input class="layui-input" placeholder="标签说明" name="tag_description"></div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon"></i>增加</button>
+                        </div>
+                    </form>
                 </div>
                 <div class="layui-card-body">
                     <table id="tag-list"  class="layui-hide" lay-filter="tag-list"></table>
@@ -44,7 +53,9 @@
 </div>
 <script>
 
-    layui.use('table', function(){
+    var $ = layui.$;
+
+    layui.use(['table', 'layer', 'form'], function(){
         var table = layui.table;
 
         // 监听表格复选框选择
@@ -52,15 +63,41 @@
             console.log(obj)
         });
 
+        // 数据的增加用PUT
+/*
+* @RequestParam("tagName") String tagName,
+* @RequestParam("tagDescription") String tagDescription
+* */
+
+
+
         //关于表单的提交会在下面用 form.on 来写
         table.on('tool(tag-list)', function(obj){
             var data = obj.data;
+            console.log(data)
             if(obj.event === 'del'){
-                // 删除
-                console.log("del")
+                layer.confirm('确认删除 ' + data.tagName + ' 吗？', function () {
+                    $.ajax({
+                        url: "/tag/tag",
+                        type: "DELETE",
+                        data: {
+                            "id" : data.tagId
+                        },
+                        success: function (result) {
+                            layer.msg("删除成功")
+                        }
+                    })
+                })
             } else if (obj.event === 'edit'){
-                // 修改
-                console.log("update")
+                // 修改 post
+                 /*
+                 @RequestParam("tagId") String tagId,
+                 @RequestParam("tagName") String tagName,
+                 @RequestParam("description") String tagDescription
+                 */
+
+
+
             }
         });
 
@@ -80,16 +117,9 @@
                 }
                 layer.confirm('真的要删除选中的行么', function() {
                     console.log(data);
-                    // $.each(data, function (index, item) {
-                    //     $.ajax({
-                    //         url: "students",
-                    //         type: "DELETE",
-                    //         data: "id=" + item.id,
-                    //         success: function () {
-                    //             // 删除完毕之后暂时不执行任何操作
-                    //         }
-                    //     })
-                    // })
+
+                    // 批量删除的时候不同的tagid用 & 连接
+
                     layer.msg("删除成功");
                     table.reload('tag-list', {
                         url: '/tag/all'

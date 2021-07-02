@@ -10,6 +10,17 @@ package com.jancoyan.utils;
 public class ArticleUtils {
 
     /**
+     * 把换行的\n转换为文本的\n
+     * @param str 要替换的文本
+     * @return 替换完毕的文本
+     */
+    public static String NextLineToText(String str){
+        String content = str.replaceAll("\n", "\\\\n");
+        return content;
+    }
+
+
+    /**
      * 删除所有的html标签
      * 并把所有的tab和换行符都换成空格
      * @param innerHTML 作者写入的md转成的html（带有格式）

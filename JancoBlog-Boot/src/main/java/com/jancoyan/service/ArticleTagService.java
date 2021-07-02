@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ArticleTagService extends IService<ArticleTag> {
 
+    void deleteByArticleId(String articleId);
+
 }

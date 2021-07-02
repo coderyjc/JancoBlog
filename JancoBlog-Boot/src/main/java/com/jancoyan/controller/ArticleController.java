@@ -1,6 +1,5 @@
 package com.jancoyan.controller;
 
-
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -111,7 +110,8 @@ public class ArticleController {
         article.insert();
 
         // 向ArticleContent表中插入数据
-        ArticleContent content = new ArticleContent(articleId, innerHTML, innerMD);
+        ArticleContent content = new ArticleContent(articleId, innerHTML,
+                ArticleUtils.NextLineToText(innerMD));
         content.insert();
 
         // 向ArticleTag表中插入数据
@@ -128,16 +128,94 @@ public class ArticleController {
         return Msg.success();
     }
 
+    @RequestMapping(value = "/submit", method = RequestMethod.DELETE)
+    public Msg deleteBlog(
+            @RequestParam("id") String articleId){
+        Article article = new Article();
+        article.setArticleId(articleId);
+        boolean b = article.deleteById();
+        return Msg.success().add("success", b);
+    }
+
 
     /**
-     * 获取所有首页文章
-     * @param pn 第几页
-     * @return 消息
+     * 保存修改文章
+     * @param innerHTML
+     * @param innerMD
+     * @param title
+     * @param types
+     * @param session
+     * @return
      */
+    @RequestMapping(value = "/submit", method = RequestMethod.POST)
+    public Msg updateBlog(
+            @RequestParam("innerHTML") String innerHTML,
+            @RequestParam("innerMD") String innerMD,
+            @RequestParam("title") String title,
+            @RequestParam("types") String types,
+            HttpSession session
+    ){
+        ArticleContent content = (ArticleContent) session.getAttribute("content");
+        Article article = new Article();
+        // Active Record 查询要修改的对象
+        article.setArticleId(content.getArticleId());
+        article = article.selectById();
+
+        Date date = new Date();
+        // 向Article表中插入数据
+        article.setArticleTitle(title);
+        article.setArticleSummary(ArticleUtils.getArticleAbstract(innerHTML));
+        article.setArticleEditTime(date);
+        article.updateById();
+
+        // 向ArticleContent表中插入数据
+        ArticleContent articleContent = new ArticleContent(article.getArticleId(), innerHTML,
+                ArticleUtils.NextLineToText(innerMD));
+        articleContent.updateById();
+
+        // 向ArticleTag表中插入数据
+        String[] type = types.split("&");
+        ArticleTag articleTag = new ArticleTag();
+        articleTagService.deleteByArticleId(article.getArticleId());
+        articleTag.setArticleId(article.getArticleId());
+        for (String i : type) {
+            if (!i.equals("")){
+                articleTag.setTagId(Integer.parseInt(i));
+                articleTag.insert();
+            }
+        }
+
+        return Msg.success();
+    }
+
+
+    @RequestMapping(value = "/submit", method = RequestMethod.GET)
+    public Msg cancelupdateBlog(
+            HttpSession session
+    ){
+        // 去掉原本存在Session中的content对象
+        session.setAttribute("content", new ArticleContent());
+        return Msg.success();
+    }
+
+
+    @RequestMapping(value = "/redirect", method = RequestMethod.GET)
+    public Msg redirectToUpdateBlog(
+            @RequestParam("id") String articleId,
+            HttpSession session){
+        ArticleContent content = new ArticleContent();
+        content.setArticleId(articleId);
+        content = content.selectById();
+        session.setAttribute("content", content);
+        return Msg.success();
+    }
+
     @RequestMapping(value = "/articles", method = RequestMethod.GET)
     public Msg selectArticleById(
-            @RequestParam(value = "pn")Integer pn
+            @RequestParam(value = "pn")Integer pn,
+            HttpSession session
     ){
+        session.setAttribute("content", new ArticleContent());
         IPage<Article> page = articleService.selectAllByPage(pn, 10);
         return Msg.success().add("pageInfo", page);
     }
@@ -186,7 +264,5 @@ public class ArticleController {
         List<Article> list = articleService.getArticleRankByComment();
         return Msg.success().add("commentRank", list);
     }
-
-
 
 }

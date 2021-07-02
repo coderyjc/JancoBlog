@@ -22,7 +22,7 @@ public class MvcController {
         return name;
     }
 
-    @GetMapping("/workbench/{id}")
+    @GetMapping({"/workbench/{id}", "/workbench/index.html"})
     public String backEndManage(
             @PathVariable(value = "id") String path
     ){

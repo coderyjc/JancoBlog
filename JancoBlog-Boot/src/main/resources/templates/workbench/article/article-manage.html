@@ -57,14 +57,36 @@
         table.on('tool(article-list)', function(obj){
             var data = obj.data;
             if(obj.event === 'detail'){
-                // 查看
-                console.log("detail")
+                articleUrl = '/article.html?p=' + data.articleId
+                window.open(articleUrl, "_blank")
             } else if(obj.event === 'del'){
-                // 删除
-                console.log("del")
+                layer.confirm("确认删除文章 " + data.articleTitle + " ?", function () {
+                    $.ajax({
+                        url: "/article/submit",
+                        type: "DELETE",
+                        data: {
+                            "id":data.articleId
+                        },
+                        success: function (result){
+                            layer.msg("删除成功");
+                            table.reload('article-list', {
+                                url: '/article/all'
+                            });
+                        }
+                    })
+                })
             } else if (obj.event === 'edit'){
-                // 修改
-                console.log("update")
+                $.ajax({
+                    url: "/article/redirect",
+                    type: "GET",
+                    data: {
+                        "id":data.articleId
+                    },
+                    success: function (result){
+                        path = "/workbench/write.html"
+                        window.open(path, "_blank")
+                    }
+                })
             }
         });
 
