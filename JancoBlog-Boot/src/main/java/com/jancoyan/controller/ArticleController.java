@@ -1,6 +1,7 @@
 package com.jancoyan.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.pojo.Article;
@@ -11,12 +12,16 @@ import com.jancoyan.service.ArticleService;
 import com.jancoyan.service.ArticleContentService;
 import com.jancoyan.service.ArticleTagService;
 import com.jancoyan.utils.ArticleUtils;
+import com.jancoyan.utils.FileIo;
 import com.jancoyan.utils.Msg;
+import com.jancoyan.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.crypto.Data;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +41,51 @@ public class ArticleController {
 
     @Autowired
     ArticleTagService articleTagService;
+
+
+    @RequestMapping(value = "/pictureupload", method = RequestMethod.POST)
+    public JSONObject uploadArticlePicture(@RequestParam(value = "editormd-image-file",
+            required = true) MultipartFile multipartFile,
+                                           HttpServletRequest request,
+                                           HttpSession session) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
+        // 获取用户id
+        User user = (User) session.getAttribute("user");
+        String userId = String.valueOf(user.getUserId());
+        //
+        String trueFileName = multipartFile.getOriginalFilename();
+        // 文件后缀名
+        String suffix = trueFileName.substring(trueFileName.lastIndexOf("."));
+        // 图片文件命名规范：
+        // 时间-用户名.后缀
+        String now = TimeUtils.getCurrentTimeString();
+        // 图片的全名
+        String fileName = now.replaceAll("[:-]","").replace(' ', '-') + userId + suffix;
+        // 目录，每月创建一个目录
+        // 获取当前月份
+        String directory = now.substring(0, 7);
+        // 获取图片地址
+        String path =
+                request.getSession().getServletContext().getRealPath(
+                        "/articleimages/" + directory
+                );
+
+        // 调用工具类进行图片的写入
+        FileIo.uploadPicture(multipartFile, path, fileName);
+
+        String backUrl = request.getScheme() + "://" +
+                request.getServerName() + ":" + request.getServerPort() +
+                request.getContextPath() +
+                "/articleimages/" + directory + "/" + fileName;
+
+        JSONObject rst = new JSONObject();
+        rst.put("url", backUrl);
+        rst.put("success", 1);
+        rst.put("message", "success");
+
+        return rst;
+    }
+
 
     @RequestMapping(value = "/submit", method = RequestMethod.PUT)
     public Msg postBlog(

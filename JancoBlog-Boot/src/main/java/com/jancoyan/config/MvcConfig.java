@@ -28,8 +28,8 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginHandlerInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/",
-                        "/index.html", "/user/login", "/login.html",
-                        "/css/**", "/fonts/**", "/images/**", "/js/**", "/lib/**",
-                        "/article/**", "/search.html");
+                        "/index.html", "/user/login", "/login.html", "/articleimages/**",
+                        "/css/**", "/fonts/**", "/images/**", "/js/**", "/lib/**", "/public/**",
+                        "/article/**", "/search.html", "/article.html", "/content/**");
     }
 }

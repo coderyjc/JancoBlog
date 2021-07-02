@@ -144,10 +144,10 @@
 			// 卡片， 里面有标题、内容和底部信息
 			var articleCard = $("<li></li>").addClass("layui-card");
 			// 标题中的链接
-			var articlePath = "/p/" + item.articleId + ".html";
+			var articlePath = "/article.html?p=" + item.articleId;
 			// 文章标题
 			var aTitle = $("<div></div>").addClass("layui-card-header").append(
-					$("<a></a>").attr("href", articlePath).append(item.articleTitle)
+					$("<a  target=\"_blank\" ></a>").attr("href", articlePath).append(item.articleTitle)
 			);
 			// 绑定增加浏览量的函数
 			aTitle.click(function () {
@@ -226,10 +226,10 @@
 	 */
 	function build_rank(hot_rank, list, type) {
 		$.each(list, function (index, item) {
-			let path = "/p/" + item.articleId + ".html";
+			var articlePath = "/article.html?p=" + item.articleId;
 			let idxDiv = $("<div class='rank-index'></div>").append(index + 1);
 			let titleDiv =
-					$("<div'></div>").append($("<a></a>").attr("href", path).append(item.articleTitle));
+					$("<div'></div>").append($("<a  target=\"_blank\" ></a>").attr("href", articlePath).append(item.articleTitle));
 			let count = $("<div class='rank-count'></div>").append(
 					type == 1 ? item.articleViewCount :
 							type == 2 ? item.articleLikeCount :

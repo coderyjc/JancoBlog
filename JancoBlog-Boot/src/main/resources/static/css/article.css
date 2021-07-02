@@ -1,0 +1,44 @@
+/* 清除浏览器默认样式 */
+*{
+    margin:0;
+    padding:0;
+}
+
+/* 全局的a */
+a{
+    text-decoration: none;
+}
+
+/* body */
+body{
+    /* 最上面的小白条 */
+    margin-top: 0px;
+    background-color: rgba(240, 240, 240, 0.76);
+}
+
+/*清除浮动*/
+.clearfix:before,.clearfix:after{
+    content: "";
+    display: table;
+}
+.clearfix:after{
+    clear: both;
+}
+.clearfix{
+    *zoom: 1;
+}
+
+/* 导航栏 */
+#user-profile-picture{
+    float: right;
+}
+
+#top-nav-bar{
+    padding-left: 15%;
+    padding-right: 15%;
+    width: 100%;
+}
+
+#article-info span{
+    margin-right: 35px;
+}

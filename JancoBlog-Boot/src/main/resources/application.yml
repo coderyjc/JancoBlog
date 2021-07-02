@@ -18,6 +18,13 @@ spring:
       suffix: .html
       prefix: classpath:/templates/
     static-path-pattern: /**
+  servlet:
+    multipart:
+      location:R:/GITHUB/JancoBlog/JancoBlog-Boot/src/main/resources/public
+    web:
+      resources:
+        static-locations: classpath:public/, file:${spring.servlet.multipart.location}
+
 
 server:
   port: 8080

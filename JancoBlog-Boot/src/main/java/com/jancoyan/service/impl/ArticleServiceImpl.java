@@ -20,6 +20,11 @@ import java.util.List;
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     @Override
+    public Article selectByPrimaryKeyWithAuthorName(String articleId) {
+        return baseMapper.selectByIdWithAuthorName(articleId);
+    }
+
+    @Override
     public IPage<Article> selectUserArticleByPage(Integer page, Integer limit, String id) {
         IPage<Article> iPage = new Page<>(page, limit);
         QueryWrapper<Article> wrapper = new QueryWrapper<>();

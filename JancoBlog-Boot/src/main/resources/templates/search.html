@@ -104,7 +104,7 @@
       // 卡片， 里面有标题、内容和底部信息
       var articleCard = $("<li></li>").addClass("layui-card");
       // 标题中的链接
-      var articlePath = "./p/" + item.articleId + ".html";
+      var articlePath = "/article.html?p=" + item.articleId;
       // 文章标题
       var aTitle = $("<div></div>").addClass("layui-card-header").append(
               $("<a></a>").attr("href", articlePath).append(item.articleTitle)

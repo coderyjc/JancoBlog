@@ -24,4 +24,5 @@ public interface ArticleService extends IService<Article> {
 
     IPage<Article> selectUserArticleByPage(Integer page, Integer limit, String id);
 
+    Article selectByPrimaryKeyWithAuthorName(String articleId);
 }
