@@ -36,14 +36,13 @@ public class CommentController {
 
     @RequestMapping(value = "/comment", method = RequestMethod.GET)
     public Msg getUserArticleComment(
+            Integer page, Integer limit,
             HttpSession session
     ){
         User user = (User) session.getAttribute("user");
         Integer userId = user.getUserId();
-
-
-
-        return Msg.success();
+        IPage<Comment> iPage = commentService.getUserArticleCommentByUserId(userId, page, limit);
+        return Msg.success().add("pageInfo", iPage);
     }
 
 

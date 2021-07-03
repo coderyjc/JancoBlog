@@ -63,15 +63,18 @@ public class TagController {
     public Msg deleteTag(
             @RequestParam("id") String tagId
     ){
+        System.out.println(tagId);
         // 多个tag的id会用 & 连起来，用 & 把不同的tagid分割
         String[] ids = {tagId};
         if (tagId.contains("&")){
             ids = tagId.split("&");
         }
+        System.out.println(tagId);
         Tag tag = new Tag();
         for (String id: ids) {
             tag.setTagId(Integer.parseInt(id));
             tag.deleteById();
+            System.out.println(id);
         }
         return Msg.success();
     }

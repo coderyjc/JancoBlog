@@ -27,5 +27,20 @@
         join tbl_article as t
         on t.article_id = tbl_comment.comment_article_id
     </select>
+    <select id="selectUserArticleCommentByUserId" resultType="com.jancoyan.pojo.Comment">
+        select tc.comment_id,
+               tc.pre_comment_id,
+               tc.comment_article_id,
+               ta.article_title,
+               tc.comment_author_email,
+               tc.comment_author_nickname,
+               tc.comment_content,
+               tc.comment_date,
+               tc.comment_like_count
+        from tbl_comment tc
+                 join tbl_article ta
+                      on ta.article_id = tc.comment_article_id and ta.article_author_id =
+                                                                   #{userId}
+    </select>
 
 </mapper>

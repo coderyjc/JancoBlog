@@ -24,17 +24,20 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-
                 <div class="layui-card-header demoTable">
                     <button class="layui-btn layui-btn-danger" data-type="batchDelete">
                         <i class="layui-icon"></i>批量删除</button>
-                    <form class="layui-form layui-col-space5" style="float: right">
+                    <form class="layui-form layui-col-space5" style="float: right"
+                          lay-filter="tag-form">
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input class="layui-input" placeholder="分类名" name="tag_name"></div>
+                            <input class="layui-input" placeholder="分类名" name="tagName"
+                                   id="tag-name"></div>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input class="layui-input" placeholder="标签说明" name="tag_description"></div>
+                            <input class="layui-input" placeholder="标签说明" name="tagDescription"
+                                   id="tag-desc"></div>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon"></i>增加</button>
+                            <input type="submit" class="layui-btn" lay-submit="add-tag"
+                                   lay-filter="add-tag" value="增加" />
                         </div>
                     </form>
                 </div>
@@ -57,6 +60,7 @@
 
     layui.use(['table', 'layer', 'form'], function(){
         var table = layui.table;
+        var form = layui.form;
 
         // 监听表格复选框选择
         table.on('checkbox(tag-list)', function(obj){
@@ -64,12 +68,29 @@
         });
 
         // 数据的增加用PUT
-/*
-* @RequestParam("tagName") String tagName,
-* @RequestParam("tagDescription") String tagDescription
-* */
-
-
+        form.on('submit(add-tag)', function(data){
+            if(data.field.tagName === ''){
+                layer.msg("必须填写标签名称！");
+                return false;
+            }
+            console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            $.ajax({
+                url:"/tag/tag",
+                type: "PUT",
+                data: data.field,
+                success: function (result) {
+                    layer.msg("添加成功")
+                    form.val("tag-form", {
+                        "tagName": ""
+                        ,"tagDescription": ""
+                    });
+                    table.reload('tag-list', {
+                        url: '/tag/all'
+                    });
+                }
+            })
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
 
         //关于表单的提交会在下面用 form.on 来写
         table.on('tool(tag-list)', function(obj){
@@ -85,6 +106,9 @@
                         },
                         success: function (result) {
                             layer.msg("删除成功")
+                            table.reload('tag-list', {
+                                url: '/tag/all'
+                            });
                         }
                     })
                 })
@@ -116,14 +140,25 @@
                     return;
                 }
                 layer.confirm('真的要删除选中的行么', function() {
-                    console.log(data);
-
+                    id = data[0].tagId;
                     // 批量删除的时候不同的tagid用 & 连接
-
-                    layer.msg("删除成功");
-                    table.reload('tag-list', {
-                        url: '/tag/all'
-                    });
+                    $.each(data, function (index, item) {
+                        if (index === 0) id = id
+                        else id += '&' + item.tagId;
+                    })
+                    $.ajax({
+                        url: "/tag/tag",
+                        type: "DELETE",
+                        data:{
+                            "id": id
+                        },
+                        success: function (restlt) {
+                            table.reload('tag-list', {
+                                url: '/tag/all'
+                            });
+                            layer.msg("删除成功");
+                        }
+                    })
                 })
             }
         };

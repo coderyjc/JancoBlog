@@ -1,6 +1,7 @@
 package com.jancoyan.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.jancoyan.pojo.Comment;
@@ -21,4 +22,8 @@ public interface CommentMapper extends BaseMapper<Comment> {
 
     IPage<Comment> selectAllByPageWithArticleName(IPage<Comment> commentIPage,
                                                   @Param(Constants.WRAPPER) Wrapper<Comment> wrapper);
+
+    IPage<Comment> selectUserArticleCommentByUserId(IPage<Comment> iPage,
+                                                    QueryWrapper<Comment> wrapper,
+                                                    Integer userId);
 }

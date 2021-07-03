@@ -35,7 +35,6 @@
 
                 <script type="text/html" id="toolBar">
                     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-                    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
                     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
                 </script>
 
@@ -56,22 +55,34 @@
         //关于表单的提交会在下面用 form.on 来写
         table.on('tool(comment-list)', function(obj){
             var data = obj.data;
+            commentDetail = '<p>所在文章：' + data.articleTitle + '</p>' +
+                '<p>评论人：' + data.commentAuthorNickname + '</p>' +
+                '<p>评论人邮箱：' + data.commentAuthorEmail + '</p>' +
+                '<p>评论日期：' + data.commentDate + '</p>' +
+                '<p>评论内容：' + data.commentContent + '</p>' +
+                '<p>评论点赞数：' + data.commentLikeCount + '</p>';
             if(obj.event === 'detail'){
-                // 查看
-                // 这个不需要与服务器通信，只需要弹出一个窗口就行了
-                console.log("detail")
-
+                console.log(data)
+                layer.open({
+                    title: '详细信息'
+                    ,content: commentDetail
+                });
             } else if(obj.event === 'del'){
-                // 删除的后端接口 @RequestParam("id") String commentIds
-                console.log("del")
-
-            } else if (obj.event === 'edit') {
-                // 修改
-                console.log("update")
-
-                // 这个功能不做了
-                // 评论一经发出，只能删除，不能修改
-
+                layer.confirm('确认删除这条评论吗？', function () {
+                    $.ajax({
+                        url: "/comment/comment",
+                        type: "DELETE",
+                        data: {
+                            "id" : data.commentId
+                        },
+                        success: function (result) {
+                            layer.msg("删除成功")
+                            table.reload('comment-list', {
+                                url: '/comment/all'
+                            });
+                        }
+                    })
+                })
             }
         });
 
@@ -90,14 +101,24 @@
                     return;
                 }
                 layer.confirm('真的要删除选中的行么', function() {
-                    console.log(data);
-                    // 批量删除的后端接口 @RequestParam("id") String commentIds
-
-
-                    layer.msg("删除成功");
-                    table.reload('comment-list', {
-                        url: '/comment/all'
-                    });
+                    id = data[0].commentId;
+                    $.each(data, function (index, item) {
+                        if (index === 0) id = id
+                        else id += '&' + item.commentId;
+                    })
+                    $.ajax({
+                        url: "/comment/comment",
+                        type: "DELETE",
+                        data:{
+                            "id": id
+                        },
+                        success: function (restlt) {
+                            table.reload('comment-list', {
+                                url: '/comment/all'
+                            });
+                            layer.msg("删除成功");
+                        }
+                    })
                 })
             }
         };
@@ -135,7 +156,7 @@
             }
             ,cols: [ [ //表头
                 {type:'checkbox'}
-                ,{field: 'commentAuthorNickname', title: '作者', width: 120, sort: true}
+                ,{field: 'commentAuthorNickname', title: '评论人', width: 120, sort: true}
                 ,{field: 'articleTitle', title: '文章', width:200, sort: true}
                 ,{field: 'commentAuthorEmail', title: '作者邮箱', width: 150, sort: true}
                 ,{field: 'commentContent', title: '内容摘要', width: 200, sort: true}
