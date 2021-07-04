@@ -57,5 +57,8 @@
         where
               article_id = #{articleId}
     </select>
+    <select id="selectArticleByType" resultType="com.jancoyan.pojo.Article">
+
+    </select>
 
 </mapper>

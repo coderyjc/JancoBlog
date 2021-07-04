@@ -31,29 +31,29 @@
             <div class="left_open">
                 <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
             </div>
-            <ul class="layui-nav left fast-add" lay-filter="">
-                <li class="layui-nav-item">
-                    <a href="javascript:;">+新增</a>
-                    <dl class="layui-nav-child">
-                        <!-- 二级菜单 -->
-                        <dd>
-                            <a onclick="xadmin.open('最大化','http://www.baidu.com','','',true)">
-                                <i class="iconfont">&#xe6a2;</i>弹出最大化</a></dd>
-                        <dd>
-                            <a onclick="xadmin.open('弹出自动宽高','http://www.baidu.com')">
-                                <i class="iconfont">&#xe6a8;</i>弹出自动宽高</a></dd>
-                        <dd>
-                            <a onclick="xadmin.open('弹出指定宽高','http://www.baidu.com',500,300)">
-                                <i class="iconfont">&#xe6a8;</i>弹出指定宽高</a></dd>
-                        <dd>
-                            <a onclick="xadmin.add_tab('在tab打开','member-list.html')">
-                                <i class="iconfont">&#xe6b8;</i>在tab打开</a></dd>
-                        <dd>
-                            <a onclick="xadmin.add_tab('在tab打开刷新','member-del.html',true)">
-                                <i class="iconfont">&#xe6b8;</i>在tab打开刷新</a></dd>
-                    </dl>
-                </li>
-            </ul>
+<!--            <ul class="layui-nav left fast-add" lay-filter="">-->
+<!--                <li class="layui-nav-item">-->
+<!--                    <a href="javascript:;">+新增</a>-->
+<!--                    <dl class="layui-nav-child">-->
+<!--                        &lt;!&ndash; 二级菜单 &ndash;&gt;-->
+<!--                        <dd>-->
+<!--                            <a onclick="xadmin.open('最大化','http://www.baidu.com','','',true)">-->
+<!--                                <i class="iconfont">&#xe6a2;</i>弹出最大化</a></dd>-->
+<!--                        <dd>-->
+<!--                            <a onclick="xadmin.open('弹出自动宽高','http://www.baidu.com')">-->
+<!--                                <i class="iconfont">&#xe6a8;</i>弹出自动宽高</a></dd>-->
+<!--                        <dd>-->
+<!--                            <a onclick="xadmin.open('弹出指定宽高','http://www.baidu.com',500,300)">-->
+<!--                                <i class="iconfont">&#xe6a8;</i>弹出指定宽高</a></dd>-->
+<!--                        <dd>-->
+<!--                            <a onclick="xadmin.add_tab('在tab打开','member-list.html')">-->
+<!--                                <i class="iconfont">&#xe6b8;</i>在tab打开</a></dd>-->
+<!--                        <dd>-->
+<!--                            <a onclick="xadmin.add_tab('在tab打开刷新','member-del.html',true)">-->
+<!--                                <i class="iconfont">&#xe6b8;</i>在tab打开刷新</a></dd>-->
+<!--                    </dl>-->
+<!--                </li>-->
+<!--            </ul>-->
             <ul class="layui-nav right" lay-filter="">
                 <li class="layui-nav-item">
                     <a href="javascript:;">admin</a>
@@ -96,20 +96,11 @@
                                     <i class="iconfont nav_right">&#xe697;</i></a>
                                 <ul class="sub-menu">
 									<li>
-									    <a onclick="xadmin.add_tab('会员列表(静态表格)','workbench/member-list.html')">
+									    <a
+                                                onclick="xadmin.add_tab('会员列表(静态表格)','/workbench/member/member-list.html')">
 									        <i class="iconfont">&#xe6a7;</i>
 									        <cite>会员列表(静态表格)</cite></a>
 									</li>
-                                    <li>
-                                        <a onclick="xadmin.add_tab('会员删除','workbench/member-del.html')">
-                                            <i class="iconfont">&#xe6a7;</i>
-                                            <cite>会员删除</cite></a>
-                                    </li>
-                                    <li>
-                                        <a onclick="xadmin.add_tab('等级管理','workbench/member-list1.html')">
-                                            <i class="iconfont">&#xe6a7;</i>
-                                            <cite>会员管理(动态表格)</cite></a>
-                                    </li>
                                 </ul>
                             </li>
 <!--							<li>-->

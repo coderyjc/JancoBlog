@@ -22,4 +22,20 @@
         user_id, user_name, user_nickname, user_password, user_email, user_sex, user_role, user_create_date, user_last_login_date, user_profile, user_ip
     </sql>
 
+    <select id="selectAllUserWithoutPassword" resultType="com.jancoyan.pojo.User">
+        select user_id,
+               user_name,
+               user_nickname,
+               user_email,
+               user_sex,
+               user_role,
+               user_create_date,
+               user_ip
+        from tbl_user
+    </select>
+    <select id="getMaxUserId" resultType="java.lang.Integer">
+        select max(user_id)
+        from tbl_user
+    </select>
+
 </mapper>

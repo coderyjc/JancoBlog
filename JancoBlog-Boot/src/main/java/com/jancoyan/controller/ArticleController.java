@@ -1,12 +1,10 @@
 package com.jancoyan.controller;
 
+import ch.qos.logback.core.db.dialect.MsSQLDialect;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jancoyan.pojo.Article;
-import com.jancoyan.pojo.ArticleContent;
-import com.jancoyan.pojo.ArticleTag;
-import com.jancoyan.pojo.User;
+import com.jancoyan.pojo.*;
 import com.jancoyan.service.ArticleService;
 import com.jancoyan.service.ArticleContentService;
 import com.jancoyan.service.ArticleTagService;
@@ -131,22 +129,21 @@ public class ArticleController {
     @RequestMapping(value = "/submit", method = RequestMethod.DELETE)
     public Msg deleteBlog(
             @RequestParam("id") String articleId){
+        // 多个tag的id会用 & 连起来，用 & 把不同的tagid分割
+        String[] ids = {articleId};
+        if (articleId.contains("&")){
+            ids = articleId.split("&");
+        }
         Article article = new Article();
-        article.setArticleId(articleId);
-        boolean b = article.deleteById();
-        return Msg.success().add("success", b);
+        for (String id: ids) {
+            article.setArticleId(id);
+            article.deleteById();
+            System.out.println(id);
+        }
+        return Msg.success();
     }
 
 
-    /**
-     * 保存修改文章
-     * @param innerHTML
-     * @param innerMD
-     * @param title
-     * @param types
-     * @param session
-     * @return
-     */
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     public Msg updateBlog(
             @RequestParam("innerHTML") String innerHTML,
@@ -184,7 +181,6 @@ public class ArticleController {
                 articleTag.insert();
             }
         }
-
         return Msg.success();
     }
 
@@ -197,7 +193,6 @@ public class ArticleController {
         session.setAttribute("content", new ArticleContent());
         return Msg.success();
     }
-
 
     @RequestMapping(value = "/redirect", method = RequestMethod.GET)
     public Msg redirectToUpdateBlog(
@@ -220,13 +215,22 @@ public class ArticleController {
         return Msg.success().add("pageInfo", page);
     }
 
+    @RequestMapping(value = "/type", method = RequestMethod.GET)
+    public Msg getArticleByType(
+            @RequestParam("type") String typeId
+    ){
+        // 在目标类及其子类下的所有文章
+        List<Article> articles =  articleService.selectArticleByType(typeId);
+        return Msg.success().add("pageInfo", articles);
+    }
+
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public Msg getAll(Integer page, Integer limit){
         IPage<Article> iPage = articleService.selectAllByPage(page, limit);
         return Msg.success().add("pageInfo", iPage);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
     public Msg getUserAll(
             Integer page, Integer limit,
             HttpSession session
@@ -263,6 +267,28 @@ public class ArticleController {
     public Msg getArticleRankByComment(){
         List<Article> list = articleService.getArticleRankByComment();
         return Msg.success().add("commentRank", list);
+    }
+
+    @RequestMapping(value = "/view", method = RequestMethod.POST)
+    public Msg addViewCount(
+            @RequestParam("id") String articleId
+    ){
+        Article article = new Article();
+        article.setArticleId(articleId);
+        article.selectById();
+        article.setArticleViewCount(article.getArticleViewCount() + 1);
+        article.updateById();
+        return Msg.success();
+    }
+
+    @RequestMapping(value = "/like", method = RequestMethod.POST)
+    public Msg addLikeCount(
+            @RequestParam("id") String articleId
+    ){
+        Article article = new Article();
+        article.setArticleId(articleId);
+        article.setArticleLikeCount(article.getArticleLikeCount() + 1);
+        return Msg.success();
     }
 
 }

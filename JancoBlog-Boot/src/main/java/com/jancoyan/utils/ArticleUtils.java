@@ -19,6 +19,11 @@ public class ArticleUtils {
         return content;
     }
 
+    public static String replaceSingleSlash(String str){
+        String content = str.replaceAll("'", "\\\\'");
+        return content;
+    }
+
 
     /**
      * 删除所有的html标签

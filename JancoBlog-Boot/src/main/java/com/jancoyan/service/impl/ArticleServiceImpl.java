@@ -52,4 +52,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public List<Article> getArticleRankByComment() {
         return baseMapper.selectOrderByArticleCommentCount();
     }
+
+    @Override
+    public List<Article> selectArticleByType(String typeId) {
+        return baseMapper.selectArticleByType(typeId);
+    }
 }

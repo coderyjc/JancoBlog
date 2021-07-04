@@ -13,4 +13,6 @@ public interface CommentService extends IService<Comment> {
     IPage<Comment> selectAllByPageWithArticleName(Integer page, Integer limit);
 
     IPage<Comment> getUserArticleCommentByUserId(Integer userId, Integer page, Integer limit);
+
+    Integer getMaxCommentId();
 }

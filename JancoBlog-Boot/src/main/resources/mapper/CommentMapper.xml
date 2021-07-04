@@ -20,6 +20,11 @@
     <sql id="Base_Column_List">
         comment_id, pre_comment_id, comment_article_id, comment_author_id, comment_author_nickname, comment_author_email, comment_content, comment_date, comment_author_ip, comment_like_count
     </sql>
+    <insert id="insertCommentWithoutCommentId">
+        insert into tbl_comment values (null, null, #{commentArticleId}, #{commentAuthorId},
+                                        #{commentAuthorNickname}, #{commentAuthorEmail},
+                                        #{commentContent}, #{commentDate}, #{commentAuthorIp}, 0);
+    </insert>
     <select id="selectAllByPageWithArticleName" resultType="com.jancoyan.pojo.Comment">
         select
         <include refid="Base_Column_List"/>, t.article_title
@@ -41,6 +46,9 @@
                  join tbl_article ta
                       on ta.article_id = tc.comment_article_id and ta.article_author_id =
                                                                    #{userId}
+    </select>
+    <select id="getMaxCommentId" resultType="java.lang.Integer">
+        select max(comment_id) from tbl_comment
     </select>
 
 </mapper>

@@ -62,10 +62,10 @@
         var table = layui.table;
         var form = layui.form;
 
-        // 监听表格复选框选择
-        table.on('checkbox(tag-list)', function(obj){
-            console.log(obj)
-        });
+        // // 监听表格复选框选择
+        // table.on('checkbox(tag-list)', function(obj){
+        //     console.log(obj)
+        // });
 
         // 数据的增加用PUT
         form.on('submit(add-tag)', function(data){
@@ -73,7 +73,6 @@
                 layer.msg("必须填写标签名称！");
                 return false;
             }
-            console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
             $.ajax({
                 url:"/tag/tag",
                 type: "PUT",
@@ -95,7 +94,6 @@
         //关于表单的提交会在下面用 form.on 来写
         table.on('tool(tag-list)', function(obj){
             var data = obj.data;
-            console.log(data)
             if(obj.event === 'del'){
                 layer.confirm('确认删除 ' + data.tagName + ' 吗？', function () {
                     $.ajax({
@@ -113,15 +111,12 @@
                     })
                 })
             } else if (obj.event === 'edit'){
-                // 修改 post
-                 /*
-                 @RequestParam("tagId") String tagId,
-                 @RequestParam("tagName") String tagName,
-                 @RequestParam("description") String tagDescription
-                 */
-
-
-
+                path = './edit-tag.html?tagId=' + data.tagId +
+                    '&tagName=' + data.tagName +
+                    '&tagDescription=' + data.tagDescription +
+                    '&tagType=' + data.tagType;
+                console.log(path);
+                xadmin.open('编辑标签', path, 400, 300)
             }
         });
 
@@ -152,7 +147,7 @@
                         data:{
                             "id": id
                         },
-                        success: function (restlt) {
+                        success: function (result) {
                             table.reload('tag-list', {
                                 url: '/tag/all'
                             });

@@ -6,13 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jancoyan.pojo.Tag;
 import com.jancoyan.service.TagService;
 import com.jancoyan.utils.Msg;
-import jdk.nashorn.internal.ir.CallNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.stereotype.Controller;
-
-import java.awt.geom.IllegalPathStateException;
 
 /**
  * @author Jancoyan
@@ -63,18 +59,15 @@ public class TagController {
     public Msg deleteTag(
             @RequestParam("id") String tagId
     ){
-        System.out.println(tagId);
         // 多个tag的id会用 & 连起来，用 & 把不同的tagid分割
         String[] ids = {tagId};
         if (tagId.contains("&")){
             ids = tagId.split("&");
         }
-        System.out.println(tagId);
         Tag tag = new Tag();
         for (String id: ids) {
             tag.setTagId(Integer.parseInt(id));
             tag.deleteById();
-            System.out.println(id);
         }
         return Msg.success();
     }

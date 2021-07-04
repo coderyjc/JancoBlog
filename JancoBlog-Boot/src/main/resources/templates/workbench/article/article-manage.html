@@ -32,13 +32,11 @@
                 <div class="layui-card-body">
                     <table id="article-list"  class="layui-hide" lay-filter="article-list"></table>
                 </div>
-
                 <script type="text/html" id="toolBar">
                     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
                     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
                     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
                 </script>
-
             </div>
         </div>
     </div>
@@ -47,11 +45,6 @@
 
     layui.use('table', function(){
         var table = layui.table;
-
-        // 监听表格复选框选择
-        table.on('checkbox(article-list)', function(obj){
-            console.log(obj)
-        });
 
         //关于表单的提交会在下面用 form.on 来写
         table.on('tool(article-list)', function(obj){
@@ -68,10 +61,10 @@
                             "id":data.articleId
                         },
                         success: function (result){
-                            layer.msg("删除成功");
                             table.reload('article-list', {
-                                url: '/article/all'
+                                url: '/article/user'
                             });
+                            layer.msg("删除成功");
                         }
                     })
                 })
@@ -105,21 +98,24 @@
                     return;
                 }
                 layer.confirm('真的要删除选中的行么', function() {
-                    console.log(data);
-                    // $.each(data, function (index, item) {
-                    //     $.ajax({
-                    //         url: "students",
-                    //         type: "DELETE",
-                    //         data: "id=" + item.id,
-                    //         success: function () {
-                    //             // 删除完毕之后暂时不执行任何操作
-                    //         }
-                    //     })
-                    // })
-                    layer.msg("删除成功");
-                    table.reload('article-list', {
-                        url: '/article/all'
-                    });
+                    id = data[0].articleId;
+                    $.each(data, function (index, item) {
+                        if (index === 0) id = id
+                        else id += '&' + item.articleId;
+                    })
+                    $.ajax({
+                        url: "/article/submit",
+                        type: "DELETE",
+                        data:{
+                            "id": id
+                        },
+                        success: function (result) {
+                            table.reload('article-list', {
+                                url: '/article/user'
+                            });
+                            layer.msg("删除成功");
+                        }
+                    })
                 })
             }
         };
@@ -128,7 +124,7 @@
         table.render({
             elem: '#article-list' // 挂载点
             ,id: 'article-list' // 表格id
-            ,url: '/article/all' //数据接口
+            ,url: '/article/user' //数据接口
             ,toolbar: '#toolbar' //开启头部工具栏，并为其绑定左侧模板
             ,skin: 'line' //行边框风格
             ,even: true //开启隔行背景

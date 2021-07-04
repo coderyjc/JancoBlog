@@ -14,5 +14,8 @@
     <sql id="Base_Column_List">
         type_id, pre_type_id, type_name, type_description
     </sql>
+    <select id="getMaxTypeId" resultType="java.lang.Integer">
+        select max(type_id) from tbl_type
+    </select>
 
 </mapper>

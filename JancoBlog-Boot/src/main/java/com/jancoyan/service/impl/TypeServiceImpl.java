@@ -17,4 +17,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class TypeServiceImpl extends ServiceImpl<TypeMapper, Type> implements TypeService {
 
+    @Override
+    public Integer getMaxTypeId() {
+        return baseMapper.getMaxTypeId();
+    }
+
 }

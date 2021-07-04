@@ -1,5 +1,6 @@
 package com.jancoyan.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -32,9 +33,15 @@ public class Type extends Model<Type> {
     private Integer typeId;
 
     /**
-     * 上级类型名称
+     * 上级类型id
      */
     private Integer preTypeId;
+
+    /**
+     * 上级类型名称
+     */
+    @TableField(exist = false)
+    private String preTypeName;
 
     /**
      * 类型名称

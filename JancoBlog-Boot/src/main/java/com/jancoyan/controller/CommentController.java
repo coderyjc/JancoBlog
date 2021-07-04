@@ -1,21 +1,19 @@
 package com.jancoyan.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.pojo.Comment;
-import com.jancoyan.pojo.Tag;
 import com.jancoyan.pojo.User;
 import com.jancoyan.service.CommentService;
 import com.jancoyan.utils.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.annotation.RequestScope;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Jancoyan
@@ -61,6 +59,46 @@ public class CommentController {
             comment.deleteById();
         }
         return Msg.success();
+    }
+
+    @RequestMapping(value = "/comment", method = RequestMethod.POST)
+    public Msg postComment(
+            @RequestParam("id") String articleId,
+            @RequestParam("nickname") String nickName,
+            @RequestParam("email") String email,
+            @RequestParam("content") String content,
+            HttpServletRequest request,
+            HttpSession session
+    ){
+        // 评论成功之后把评论传回去，进行回调
+        Comment comment = new Comment();
+        User user = (User) session.getAttribute("user");
+        // 封装
+        if(user != null){
+            comment.setCommentAuthorId(user.getUserId());
+            comment.setCommentAuthorEmail(user.getUserEmail());
+            comment.setCommentAuthorNickname(user.getUserNickname());
+        } else {
+            comment.setCommentAuthorEmail(email);
+            comment.setCommentAuthorNickname(nickName);
+        }
+        comment.setCommentId(commentService.getMaxCommentId() + 1);
+        comment.setCommentArticleId(articleId);
+        comment.setCommentContent(content);
+        comment.setCommentDate(new Date());
+        comment.setCommentAuthorIp(request.getRemoteAddr());
+        // 插入
+        comment.insert();
+        return Msg.success().add("comment", comment);
+    }
+
+    @RequestMapping(value = "/article", method = RequestMethod.GET)
+    public Msg getArticleComment(@RequestParam("id") String articleId){
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+        wrapper.eq("comment_article_id", articleId);
+        Comment comment = new Comment();
+        List<Comment> commentList = comment.selectList(wrapper);
+        return Msg.success().add("pageInfo", commentList);
     }
 
 

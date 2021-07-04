@@ -31,4 +31,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         wrapper.eq("article_author_id", userId);
         return baseMapper.selectUserArticleCommentByUserId(iPage, wrapper, userId);
     }
+
+    @Override
+    public Integer getMaxCommentId() {
+        return baseMapper.getMaxCommentId();
+    }
 }

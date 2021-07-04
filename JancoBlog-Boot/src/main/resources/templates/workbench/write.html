@@ -39,11 +39,11 @@
                     <input id="submit-btn" type="button" class="layui-btn" style="width: 150px"
                            value="发布博客" />
                 </div>
-                <div class="layui-input-inline" id="return-panel">
+                <div class="layui-input-inline" id="return-panel" style="display: none">
                     <input id="return-btn" type="button" class="layui-btn layui-btn-primary"
                            style="width: 150px;" value="放弃修改" />
                 </div>
-                <div class="layui-input-inline" id="update-panel">
+                <div class="layui-input-inline" id="update-panel" style="display: none">
                     <input id="update-btn" type="button" class="layui-btn" style="width: 150px;"
                            value="保存修改" />
                 </div>
@@ -64,9 +64,9 @@
         });
 
         content = ''
-        var content = '[[${session.content.articleMd}]]'
+         var content = "[[${session.content.articleMd}]]"
 
-        if(content != ''){
+        if(content !== ''){
             // content 有值，说明是修改文章来的
             // 展示保存修改和放弃修改两个按钮
             // 修改完成之后再显示
@@ -195,6 +195,7 @@
                 }
             })
         });
+
         // 绑定点击事件 - 放弃修改
         $(document).on("click", "#return-btn", function () {
             $.ajax({
@@ -202,9 +203,6 @@
                 type: "GET",
                 success: function (result) {
                     window.location.href = "../index.html";
-                    $("#submit-panel").css("display", "block");
-                    $("#update-panel").css("display", "none");
-                    $("#return-panel").css("display", "none");
                 }
             })
         });

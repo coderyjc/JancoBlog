@@ -1,5 +1,6 @@
 package com.jancoyan.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.pojo.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -13,4 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface UserMapper extends BaseMapper<User> {
 
+    IPage<User> selectAllUserWithoutPassword(IPage<User> iPage, Object o);
+
+    Integer getMaxUserId();
 }

@@ -26,4 +26,8 @@ public interface CommentMapper extends BaseMapper<Comment> {
     IPage<Comment> selectUserArticleCommentByUserId(IPage<Comment> iPage,
                                                     QueryWrapper<Comment> wrapper,
                                                     Integer userId);
+
+    void insertCommentWithoutCommentId(Comment comment);
+
+    Integer getMaxCommentId();
 }

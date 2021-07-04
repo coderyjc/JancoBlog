@@ -42,3 +42,12 @@ body{
 #article-info span{
     margin-right: 35px;
 }
+
+.comment-info-item{
+    margin-right: 20px;
+}
+
+.comment-field{
+    background-color: white;
+}
+
