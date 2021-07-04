@@ -60,5 +60,18 @@
     <select id="selectArticleByType" resultType="com.jancoyan.pojo.Article">
 
     </select>
+    <select id="selectArticleByTagId" resultType="com.jancoyan.pojo.Article">
+        select
+            ta.article_id,
+            ta.article_title,
+            ta.article_summary,
+            ta.article_post_time,
+            ta.article_view_count,
+            ta.article_comment_count,
+            ta.article_like_count
+        from tbl_article ta
+                 join tbl_article_tag tat
+                      on ta.article_id = tat.article_id and tag_id = #{tagId}
+    </select>
 
 </mapper>

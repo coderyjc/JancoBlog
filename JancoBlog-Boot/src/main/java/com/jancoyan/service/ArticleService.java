@@ -27,4 +27,6 @@ public interface ArticleService extends IService<Article> {
     Article selectByPrimaryKeyWithAuthorName(String articleId);
 
     List<Article> selectArticleByType(String typeId);
+
+    List<Article> selectArticleByTagId(String tagId);
 }

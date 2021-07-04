@@ -1,6 +1,5 @@
 package com.jancoyan.controller;
 
-import ch.qos.logback.core.db.dialect.MsSQLDialect;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -251,6 +250,14 @@ public class ArticleController {
         return Msg.success().add("pageInfo", list);
     }
 
+    @RequestMapping(value = "/sort", method = RequestMethod.GET)
+    public Msg getArticleByTagId(
+            @RequestParam("id") String tagId
+    ){
+        List<Article> list = articleService.selectArticleByTagId(tagId);
+        return Msg.success().add("pageInfo", list);
+    }
+
     @RequestMapping(value = "/rank", method = RequestMethod.GET)
     public Msg getArticleRankByView(){
         List<Article> list = articleService.getArticleRankByView();
@@ -275,7 +282,7 @@ public class ArticleController {
     ){
         Article article = new Article();
         article.setArticleId(articleId);
-        article.selectById();
+        article = article.selectById();
         article.setArticleViewCount(article.getArticleViewCount() + 1);
         article.updateById();
         return Msg.success();
@@ -287,8 +294,12 @@ public class ArticleController {
     ){
         Article article = new Article();
         article.setArticleId(articleId);
+        article = article.selectById();
         article.setArticleLikeCount(article.getArticleLikeCount() + 1);
+        article.updateById();
         return Msg.success();
     }
+
+
 
 }

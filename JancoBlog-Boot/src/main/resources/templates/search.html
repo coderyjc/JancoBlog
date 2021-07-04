@@ -3,36 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <title>SearchResult</title>
+  <script th:src="@{/js/jquery.min.js}"></script>
+  <script th:src="@{/lib/layui/layui.js}"></script>
   <link rel="stylesheet" th:href="@{/css/search.css}">
   <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}">
-  <script th:src="@{/lib/layui/layui.js}"></script>
-  <script th:src="@{/js/jquery.min.js}"></script>
 </head>
 <body>
 <!-- 导航条 -->
 <!-- 顶部导航栏 -->
 <nav class="clearfix">
   <ul id="top-nav-bar" class="layui-nav layui-bg-black" layui-filter="top-nav">
-    <li class="layui-nav-item layui-this"><a th:href="@{/}">首页</a></li>
-    <li class="layui-nav-item"><a href="javascript:;">AI</a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=201">图像识别</a></dd></dl></li>
-    <li class="layui-nav-item"><a target="_blank" href="javascript:;">计算机基础<i
-            class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=101">数据结构与算法</a></dd><dd><a target="_blank" href="sortlist.jsp?type=102">计算机网络</a></dd><dd><a target="_blank" href="sortlist.jsp?type=103">计算机组成原理</a></dd><dd><a target="_blank" href="sortlist.jsp?type=104">操作系统</a></dd></dl></li>
-    <li class="layui-nav-item"><a target="_blank" href="javascript:;">前端<i
-            class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=301">HTML</a></dd><dd><a target="_blank" href="sortlist.jsp?type=302">CSS</a></dd><dd><a target="_blank" href="sortlist.jsp?type=303">JavaScript</a></dd><dd><a target="_blank" href="sortlist.jsp?type=304">JQuery</a></dd><dd><a target="_blank" href="sortlist.jsp?type=305">Ajax</a></dd><dd><a target="_blank" href="sortlist.jsp?type=306">Java图形界面</a></dd></dl></li>
-    <li class="layui-nav-item"><a target="_blank" href="javascript:;">Java后端<i
-            class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=401">Spring</a></dd><dd><a target="_blank" href="sortlist.jsp?type=402">SpringMVC</a></dd><dd><a target="_blank" href="sortlist.jsp?type=403">MyBatis</a></dd><dd><a target="_blank" href="sortlist.jsp?type=404">JDBC</a></dd><dd><a target="_blank" href="sortlist.jsp?type=406">SSM整合</a></dd></dl></li>
-    <li class="layui-nav-item"><a target="_blank" href="javascript:;">Python<i
-            class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=501">Python基础知识</a></dd><dd><a target="_blank" href="sortlist.jsp?type=502">PythonWeb</a></dd><dd><a target="_blank" href="sortlist.jsp?type=503">PyQt</a></dd></dl></li>
-    <li class="layui-nav-item"><a target="_blank" href="javascript:;">数据库<i
-            class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=601">MySQL</a></dd></dl></li>
-    <li class="layui-nav-item"><a target="_blank" href="javascript:;">大数据<i
-            class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=701">HDFS</a></dd></dl></li>
-    <li id="user-profile-picture" class="layui-nav-item" lay-unselect="">
-      <a
-              th:href="@{/workbench}"><img th:src="@{images/login-profile.png}"
-                                           class="layui-nav-img"></a>
-      <dl class="layui-nav-child"><dd><a href="javascript:;">写博客</a></dd><dd><a
-              href="">后台管理</a></dd><hr><dd style="text-align: center;"><a href="">退出</a></dd></dl>
+    <li class="layui-nav-item layui-this">
+      <a href="./index.html">首页</a>
+    </li>
+    <li class="layui-nav-item">
+      <a href="javascript:;">计算机基础<i
+              class="layui-icon layui-icon-down layui-nav-more"></i></a>
+      <dl class="layui-nav-child">
+        <dd><a target="_blank" href="sort.html?type=6">数据结构</a></dd>
+        <dd><a target="_blank" href="sort.html?type=8">计算机网络</a></dd>
+        <dd><a target="_blank" href="sort.html?type=7">计算机组成原理</a></dd>
+      </dl>
+    </li>
+    <li class="layui-nav-item">
+      <a href="javascript:;">前端<i
+              class="layui-icon layui-icon-down layui-nav-more"></i></a>
+      <dl class="layui-nav-child">
+        <dd><a target="_blank" href="sort.html?type=22">HTML</a></dd>
+        <dd><a target="_blank" href="sort.html?type=23">CSS</a></dd>
+        <dd><a target="_blank" href="sort.html?type=24">JavaScript</a></dd>
+      </dl>
+    </li>
+    <li class="layui-nav-item">
+      <a href="javascript:;">Java后端<i
+              class="layui-icon layui-icon-down layui-nav-more"></i></a>
+      <dl class="layui-nav-child">
+        <dd><a target="_blank" href="sort.html?type=11">Spring</a></dd>
+        <dd><a target="_blank" href="sort.html?type=12">SpringMVC</a></dd>
+        <dd><a target="_blank" href="sort.html?type=13">MyBatis</a></dd>
+        <dd><a target="_blank" href="sort.html?type=14">SpringBoot</a></dd>
+      </dl>
+    </li>
+    <li class="layui-nav-item">
+      <a href="javascript:;">数据库<i class="layui-icon layui-icon-down layui-nav-more"></i></a>
+      <dl class="layui-nav-child">
+        <dd><a target="_blank" href="sort.html?type=18">MySQL</a></dd>
+      </dl>
+    </li>
+    <li class="layui-nav-item">
+      <a href="javascript:;">大数据<i class="layui-icon layui-icon-down layui-nav-more"></i></a>
+      <dl class="layui-nav-child">
+        <dd><a target="_blank" href="sort.html?type=28">Storm</a></dd>
+        <dd><a target="_blank" href="sort.html?type=29">HDFS</a></dd>
+      </dl>
+    </li>
+    <li id="user-profile" class="layui-nav-item" lay-unselect="">
+      <a th:href="@{/workbench}">
+        <img th:src="@{/images/login-profile.png}" class="layui-nav-img">
+      </a>
     </li>
   </ul>
 </nav>
@@ -59,7 +87,16 @@
   $(function () {
     get_articles(1)
   })
-  layui.use('layer')
+
+  layui.use(['element', 'layer'], function(){
+    var element = layui.element(); //导航的hover效果、二级菜单等功能，需要依赖element模块
+  });
+
+  // 登录之后显示头像和下拉框
+  if('[[${session.user}]]' !== ''){
+    $("nav img").attr("src", "../images/profile.png")
+  }
+
   function get_articles(pn) {
     keyword = '[[${#request.getParameter("keyword")}]]'
     $.ajax({
@@ -148,7 +185,7 @@
   // 点击文章的时候增加文章阅读量
   function add_article_view(articleId) {
     $.ajax({
-      url: "article/view",
+      url: "/article/view",
       type: "POST",
       data: {
         "id": articleId,
@@ -162,15 +199,13 @@
     var nowCount = element.innerHTML;
     // 请求成功之后应该顺便把这个数量+1
     $.ajax({
-      url: "article/like",
-      type: "post",
+      url: "/article/like",
+      type: "POST",
       data: {
-        "count": nowCount,
         "id" : id
       },
       success: function (result) {
-        var nowCount = result.extend.count;
-        element.innerHTML = nowCount;
+        element.innerHTML = Number(nowCount) + 1;
       }
     });
   }

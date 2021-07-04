@@ -14,8 +14,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
     List<Article> selectOrderByArticleViewCount();
     List<Article> selectOrderByArticleLikeCount();
     List<Article> selectOrderByArticleCommentCount();
-
     Article selectByIdWithAuthorName(String articleId);
-
     List<Article> selectArticleByType(String typeId);
+    List<Article> selectArticleByTagId(String tagId);
 }

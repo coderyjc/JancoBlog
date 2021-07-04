@@ -13,17 +13,19 @@
 <nav class="clearfix">
 	<ul id="top-nav-bar" class="layui-nav layui-bg-black" layui-filter="top-nav">
 		<li class="layui-nav-item layui-this">
-			<a href="">首页</a>
+			<a href="./index.html">首页</a>
 		</li>
 		<li class="layui-nav-item">
-			<a target="_blank" href="javascript:;">计算机基础<i class="layui-icon layui-icon-down layui-nav-more"></i></a>
+			<a href="javascript:;">计算机基础<i
+					class="layui-icon layui-icon-down layui-nav-more"></i></a>
 			<dl class="layui-nav-child">
 				<dd><a target="_blank" href="sort.html?type=6">数据结构</a></dd>
 				<dd><a target="_blank" href="sort.html?type=8">计算机网络</a></dd>
 				<dd><a target="_blank" href="sort.html?type=7">计算机组成原理</a></dd>
+			</dl>
 		</li>
 		<li class="layui-nav-item">
-			<a target="_blank" href="javascript:;">前端<i 
+			<a href="javascript:;">前端<i
 					class="layui-icon layui-icon-down layui-nav-more"></i></a>
 			<dl class="layui-nav-child">
 				<dd><a target="_blank" href="sort.html?type=22">HTML</a></dd>
@@ -32,7 +34,7 @@
 			</dl>
 		</li>
 		<li class="layui-nav-item">
-			<a target="_blank" href="javascript:;">Java后端<i
+			<a href="javascript:;">Java后端<i
 					class="layui-icon layui-icon-down layui-nav-more"></i></a>
 			<dl class="layui-nav-child">
 				<dd><a target="_blank" href="sort.html?type=11">Spring</a></dd>
@@ -42,13 +44,13 @@
 			</dl>
 		</li>
 		<li class="layui-nav-item">
-			<a target="_blank" href="javascript:;">数据库<i class="layui-icon layui-icon-down layui-nav-more"></i></a>
+			<a href="javascript:;">数据库<i class="layui-icon layui-icon-down layui-nav-more"></i></a>
 			<dl class="layui-nav-child">
 				<dd><a target="_blank" href="sort.html?type=18">MySQL</a></dd>
 			</dl>
 		</li>
 		<li class="layui-nav-item">
-			<a target="_blank" href="javascript:;">大数据<i class="layui-icon layui-icon-down layui-nav-more"></i></a>
+			<a href="javascript:;">大数据<i class="layui-icon layui-icon-down layui-nav-more"></i></a>
 			<dl class="layui-nav-child">
 				<dd><a target="_blank" href="sort.html?type=28">Storm</a></dd>
 				<dd><a target="_blank" href="sort.html?type=29">HDFS</a></dd>
@@ -148,8 +150,7 @@
 	});
 
 	// 登录之后显示头像和下拉框
-	user = '[[${session.user}]]'
-	if(user !== ''){
+	if('[[${session.user}]]' !== ''){
 		$("nav img").attr("src", "../images/profile.png")
 	}
 
@@ -262,6 +263,9 @@
 			let idxDiv = $("<div class='rank-index'></div>").append(index + 1);
 			let titleDiv =
 					$("<div'></div>").append($("<a  target=\"_blank\" ></a>").attr("href", articlePath).append(item.articleTitle));
+			titleDiv.click(function () {
+				add_article_view(item.articleId);
+			})
 			let count = $("<div class='rank-count'></div>").append(
 					type == 1 ? item.articleViewCount :
 							type == 2 ? item.articleLikeCount :
@@ -276,26 +280,25 @@
 		var nowCount = element.innerHTML;
 		// 请求成功之后应该顺便把这个数量+1
 		$.ajax({
-			url: "article/like",
+			url: "/article/like",
 			type: "POST",
 			data: {
 				"id" : id
 			},
 			success: function (result) {
-				element.innerHTML = nowCount + 1;
+				element.innerHTML = Number(nowCount) + 1;
 			}
 		});
 	}
 
+
 	// 点击文章的时候增加文章阅读量
 	function add_article_view(articleId) {
 		$.ajax({
-			url: "article/view",
+			url: "/article/view",
 			type: "POST",
 			data: {
 				"id": articleId,
-			},
-			success: function () {
 			}
 		});
 	}

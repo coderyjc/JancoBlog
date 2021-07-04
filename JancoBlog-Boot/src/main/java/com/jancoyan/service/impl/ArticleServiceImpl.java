@@ -20,6 +20,11 @@ import java.util.List;
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     @Override
+    public List<Article> selectArticleByTagId(String tagId) {
+        return baseMapper.selectArticleByTagId(tagId);
+    }
+
+    @Override
     public Article selectByPrimaryKeyWithAuthorName(String articleId) {
         return baseMapper.selectByIdWithAuthorName(articleId);
     }

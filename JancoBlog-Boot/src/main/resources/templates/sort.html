@@ -13,39 +13,62 @@
 <!-- 顶部导航栏 -->
 <nav class="clearfix">
     <ul id="top-nav-bar" class="layui-nav layui-bg-black" layui-filter="top-nav">
-        <li class="layui-nav-item layui-this"><a th:href="@{/}">首页</a></li>
-        <li class="layui-nav-item"><a href="javascript:;">AI</a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=201">图像识别</a></dd></dl></li>
-        <li class="layui-nav-item"><a target="_blank" href="javascript:;">计算机基础<i
-                class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=101">数据结构与算法</a></dd><dd><a target="_blank" href="sortlist.jsp?type=102">计算机网络</a></dd><dd><a target="_blank" href="sortlist.jsp?type=103">计算机组成原理</a></dd><dd><a target="_blank" href="sortlist.jsp?type=104">操作系统</a></dd></dl></li>
-        <li class="layui-nav-item"><a target="_blank" href="javascript:;">前端<i
-                class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=301">HTML</a></dd><dd><a target="_blank" href="sortlist.jsp?type=302">CSS</a></dd><dd><a target="_blank" href="sortlist.jsp?type=303">JavaScript</a></dd><dd><a target="_blank" href="sortlist.jsp?type=304">JQuery</a></dd><dd><a target="_blank" href="sortlist.jsp?type=305">Ajax</a></dd><dd><a target="_blank" href="sortlist.jsp?type=306">Java图形界面</a></dd></dl></li>
-        <li class="layui-nav-item"><a target="_blank" href="javascript:;">Java后端<i
-                class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=401">Spring</a></dd><dd><a target="_blank" href="sortlist.jsp?type=402">SpringMVC</a></dd><dd><a target="_blank" href="sortlist.jsp?type=403">MyBatis</a></dd><dd><a target="_blank" href="sortlist.jsp?type=404">JDBC</a></dd><dd><a target="_blank" href="sortlist.jsp?type=406">SSM整合</a></dd></dl></li>
-        <li class="layui-nav-item"><a target="_blank" href="javascript:;">Python<i
-                class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=501">Python基础知识</a></dd><dd><a target="_blank" href="sortlist.jsp?type=502">PythonWeb</a></dd><dd><a target="_blank" href="sortlist.jsp?type=503">PyQt</a></dd></dl></li>
-        <li class="layui-nav-item"><a target="_blank" href="javascript:;">数据库<i
-                class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=601">MySQL</a></dd></dl></li>
-        <li class="layui-nav-item"><a target="_blank" href="javascript:;">大数据<i
-                class="layui-icon layui-icon-down layui-nav-more"></i></a><dl class="layui-nav-child"><dd><a target="_blank" href="sortlist.jsp?type=701">HDFS</a></dd></dl></li>
-        <li id="user-profile-picture" class="layui-nav-item" lay-unselect="">
-            <a th:href="@{/workbench}"><img th:src="@{/images/login-profile.png}"
-                                            class="layui-nav-img"></a>
+        <li class="layui-nav-item layui-this">
+            <a href="./index.html">首页</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">计算机基础<i
+                    class="layui-icon layui-icon-down layui-nav-more"></i></a>
+            <dl class="layui-nav-child">
+                <dd><a target="_blank" href="sort.html?type=6">数据结构</a></dd>
+                <dd><a target="_blank" href="sort.html?type=8">计算机网络</a></dd>
+                <dd><a target="_blank" href="sort.html?type=7">计算机组成原理</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">前端<i
+                    class="layui-icon layui-icon-down layui-nav-more"></i></a>
+            <dl class="layui-nav-child">
+                <dd><a target="_blank" href="sort.html?type=22">HTML</a></dd>
+                <dd><a target="_blank" href="sort.html?type=23">CSS</a></dd>
+                <dd><a target="_blank" href="sort.html?type=24">JavaScript</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">Java后端<i
+                    class="layui-icon layui-icon-down layui-nav-more"></i></a>
+            <dl class="layui-nav-child">
+                <dd><a target="_blank" href="sort.html?type=11">Spring</a></dd>
+                <dd><a target="_blank" href="sort.html?type=12">SpringMVC</a></dd>
+                <dd><a target="_blank" href="sort.html?type=13">MyBatis</a></dd>
+                <dd><a target="_blank" href="sort.html?type=14">SpringBoot</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">数据库<i class="layui-icon layui-icon-down layui-nav-more"></i></a>
+            <dl class="layui-nav-child">
+                <dd><a target="_blank" href="sort.html?type=18">MySQL</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">大数据<i class="layui-icon layui-icon-down layui-nav-more"></i></a>
+            <dl class="layui-nav-child">
+                <dd><a target="_blank" href="sort.html?type=28">Storm</a></dd>
+                <dd><a target="_blank" href="sort.html?type=29">HDFS</a></dd>
+            </dl>
+        </li>
+        <li id="user-profile" class="layui-nav-item" lay-unselect="">
+            <a th:href="@{/workbench}">
+                <img th:src="@{/images/login-profile.png}" class="layui-nav-img">
+            </a>
         </li>
     </ul>
 </nav>
 
-<h2 class="search-title"></h2>
-
-<!-- 搜索按钮放在这里 -->
-<div class="search">
-    <input type="text" name="title" id="search-text" placeholder="搜索文章" autocomplete="off"
-           class="layui-input">
-    <button id="search-btn" class="layui-btn layui-btn-primary layui-border"><i
-            class=" layui-icon layui-icon-search"></i></button>
-</div>
+<!--<h2 class="search-title"></h2>-->
 
 <div id="main" class="layui-bg-gray" style="padding: 30px;">
-    <div id="article-list" class="layui-row layui-col-space15">
+    <div id="article-list" class="layui-row layui-col-space15" style="padding-top: 60px;">
     </div>
 </div>
 
@@ -54,20 +77,27 @@
     $(function () {
         get_articles(1)
     })
-    layui.use(['layer', 'nav'])
+
+    layui.use(['element', 'layer'], function(){
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+    });
 
     function get_articles(pn) {
         keyword = '[[${#request.getParameter("type")}]]'
         $.ajax({
-            url: "article/search",
+            url: "/article/sort",
             type: "GET",
             data: {
-                "keyword" : keyword
+                "id" : keyword
             },
             success: function (result){
                 // 判断结果是不是空
+                console.log(result.extend.pageInfo.length)
                 if (0 === result.extend.pageInfo.length){
-                    layer.alert("找不到相关文章，重新查找试试");
+                    layer.msg("找不到该类型的文章，重新找一哈试试");
+                    window.setTimeout(function (){
+                        window.location.href = './index.html'
+                    },1000)
                 }
                 // 拿到结果建立文章列表
                 build_article_list(result);
@@ -75,23 +105,18 @@
         });
     }
 
-    // 监听搜索按钮，搜索字段为空的时候
-    $("#search-btn").click(function (){
-        var keyWord = $("#search-text").val();
-        if(keyWord === ""){
-            layer.msg("搜索字段不能为空");
-        } else {
-            window.location.href = "./search.html?keyword=" + keyWord;
-        }
-    });
+    // 登录之后显示头像和下拉框
+    if('[[${session.user}]]' !== ''){
+        $("nav img").attr("src", "../images/profile.png")
+    }
 
     // 传入result，在不清空页面的情况下进行文章的追加
     function build_article_list(result) {
         var articles = result.extend.pageInfo;
 
-        // 显示 ”找到多少条“ 此类文字
-        $(".search-title").text("找到关于\"" + keyword + "\"的结果共 " +
-            result.extend.pageInfo.length + " 条");
+        // // 显示 ”找到多少条“ 此类文字
+        // $(".search-title").text("找到关于\"" + keyword + "\"的结果共 " +
+        //     result.extend.pageInfo.length + " 条");
 
         // totalPage = result.extend.pageInfo.pages;
         $.each(articles, function (index, item) {
@@ -140,11 +165,10 @@
         });
     }
 
-
     // 点击文章的时候增加文章阅读量
     function add_article_view(articleId) {
         $.ajax({
-            url: "article/view",
+            url: "/article/view",
             type: "POST",
             data: {
                 "id": articleId,
@@ -158,15 +182,13 @@
         var nowCount = element.innerHTML;
         // 请求成功之后应该顺便把这个数量+1
         $.ajax({
-            url: "article/like",
-            type: "post",
+            url: "/article/like",
+            type: "POST",
             data: {
-                "count": nowCount,
                 "id" : id
             },
             success: function (result) {
-                var nowCount = result.extend.count;
-                element.innerHTML = nowCount;
+                element.innerHTML = Number(nowCount) + 1;
             }
         });
     }
@@ -198,6 +220,7 @@
     //         get_articles(currentPage);
     //     }
     // });
+
 </script>
 </body>
 </html>
