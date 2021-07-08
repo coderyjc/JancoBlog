@@ -38,7 +38,6 @@ public class ArticleController {
     @Autowired
     ArticleTagService articleTagService;
 
-
     @RequestMapping(value = "/pictureupload", method = RequestMethod.POST)
     public JSONObject uploadArticlePicture(@RequestParam(value = "editormd-image-file",
             required = true) MultipartFile multipartFile,
@@ -193,10 +192,17 @@ public class ArticleController {
         return Msg.success();
     }
 
+    /**
+     * 修改文章的重定向
+     * @param articleId 文章id
+     * @param session 会话传值
+     * @return 连接状态信息
+     */
     @RequestMapping(value = "/redirect", method = RequestMethod.GET)
     public Msg redirectToUpdateBlog(
             @RequestParam("id") String articleId,
             HttpSession session){
+        // 使用ActiveRecord进行数据查询
         ArticleContent content = new ArticleContent();
         content.setArticleId(articleId);
         content = content.selectById();

@@ -13,6 +13,7 @@
          <link rel="stylesheet" th:href="@{/css/theme1.css}">
         <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
         <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+        <script th:src="@{/js/jquery.min.js}"></script>
         <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
         <!--[if lt IE 9]>
           <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -56,7 +57,7 @@
 <!--            </ul>-->
             <ul class="layui-nav right" lay-filter="">
                 <li class="layui-nav-item">
-                    <a href="javascript:;">admin</a>
+                    <a href="javascript:;">[[${session.user.userRole}]]</a>
                     <dl class="layui-nav-child">
                         <!-- 二级菜单 -->
                         <dd>
@@ -83,7 +84,7 @@
                         <i class="iconfont left-nav-li" lay-tips="写博客">&#xe69e;</i>
                         <cite>写博客</cite></a>
                     </li>
-                    <li>
+                    <li class="only-manager">
                         <a href="javascript:;">
                             <i class="iconfont left-nav-li" lay-tips="会员管理">&#xe6b8;</i>
                             <cite>会员管理</cite>
@@ -145,7 +146,7 @@
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>文章列表</cite></a>
                             </li>
-                            <li>
+                            <li class="only-manager">
                                 <a
                                         onclick="xadmin.add_tab('高级文章管理','workbench/article/advanced-article-manage.html')">
                                     <i class="iconfont">&#xe6a7;</i>
@@ -165,7 +166,7 @@
 					                <i class="iconfont">&#xe6a7;</i>
 					                <cite>评论列表</cite></a>
 					        </li>
-					        <li>
+					        <li class="only-manager">
 					            <a
                                         onclick="xadmin.add_tab('高级评论管理','workbench/comment/advanced-comment-manage.html')">
 					                <i class="iconfont">&#xe6a7;</i>
@@ -173,7 +174,7 @@
 					        </li>
 					    </ul>
 					</li>
-                    <li>
+                    <li class="only-manager">
                         <a href="javascript:;">
                             <i class="iconfont left-nav-li" lay-tips="分类管理">&#xe6c5;</i>
                             <cite>分类和标签管理</cite>
@@ -199,7 +200,7 @@
 <!--                            <cite>系统统计</cite>-->
 <!--                        </a>-->
 <!--                    </li>-->
-                    <li>
+                    <li class="only-manager">
                         <a onclick="xadmin.add_tab('更新日志','workbench/other/log.html')">
                             <i class="iconfont left-nav-li" lay-tips="更新日志">&#xe6fa;</i>
                             <cite>更新日志</cite>
@@ -236,5 +237,13 @@
         <!-- 右侧主体结束 -->
         <!-- 中部结束 -->
     </body>
+
+    <script>
+        var role = '[[${session.user.userRole}]]';
+        if(role !== '0'){
+            $(".only-manager").css("display", "none");
+        }
+
+    </script>
 
 </html>

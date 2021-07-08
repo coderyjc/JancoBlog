@@ -44,16 +44,7 @@
     </select>
     <select id="selectByIdWithAuthorName" resultType="com.jancoyan.pojo.Article">
         select
-               user_nickname as article_author_name,
-               article_title,
-               article_edit_time,
-               article_post_time,
-               article_view_count,
-               article_like_count,
-               article_comment_count
-        from tbl_article ta
-        join tbl_user tu
-            on ta.article_author_id = tu.user_id
+               * from v_article_detail
         where
               article_id = #{articleId}
     </select>

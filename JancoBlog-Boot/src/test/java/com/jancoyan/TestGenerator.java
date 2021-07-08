@@ -43,8 +43,7 @@ public class TestGenerator {
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig.setTablePrefix("tbl_")
                 .setColumnNaming(NamingStrategy.underline_to_camel)
-                .setInclude("tbl_article_tag")
-                .setInclude("tbl_article_type");
+                .setInclude("tbl_user_login_log");
 
 //        包名策略配置
         PackageConfig packageConfig = new PackageConfig();

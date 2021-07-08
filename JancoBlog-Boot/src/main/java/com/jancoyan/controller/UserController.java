@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jancoyan.pojo.User;
+import com.jancoyan.pojo.UserLoginLog;
+import com.jancoyan.service.UserLoginLogService;
 import com.jancoyan.service.UserService;
 import com.jancoyan.utils.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +32,16 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    UserLoginLogService logService;
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Msg login(
             @RequestParam("username") String userName,
             @RequestParam("password") String userPassword,
-            HttpSession session){
+            HttpSession session,
+            HttpServletRequest request
+    ){
 
         // 使用ActiveRecord进行查找
         QueryWrapper<User> wrapper = new QueryWrapper<>();
@@ -46,6 +53,16 @@ public class UserController {
         if (null != user){
             session.setAttribute("user", user);
         }
+
+//        记录用户登录信息
+        UserLoginLog loginLog = new UserLoginLog();
+        loginLog.setLoginIp(request.getRemoteAddr());
+        loginLog.setLoginTime(new Date());
+        if(null != user){
+            loginLog.setUserId(user.getUserId());
+        }
+        loginLog.insert();
+
         return Msg.success().add("user", user);
     }
 
