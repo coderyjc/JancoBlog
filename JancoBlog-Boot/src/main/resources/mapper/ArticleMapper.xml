@@ -64,5 +64,10 @@
                  join tbl_article_tag tat
                       on ta.article_id = tat.article_id and tag_id = #{tagId}
     </select>
+    <select id="selectAllWithAuthorNameByPage" resultType="com.jancoyan.pojo.Article">
+        select *
+            from v_article_detail
+        order by article_post_time desc
+    </select>
 
 </mapper>

@@ -30,7 +30,7 @@ public class MvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/",
                         "/index.html", "/user/login", "/login.html", "/articleimages/**",
                         "/css/**", "/fonts/**", "/images/**", "/js/**", "/lib/**", "/public/**",
-                        "/article/**", "/search.html", "/article.html", "/content/**",
+                        "/article/**", "/search.html", "/article.html", "/content/**", "/type/**",
                         "/comment/**", "/sort.html");
     }
 }

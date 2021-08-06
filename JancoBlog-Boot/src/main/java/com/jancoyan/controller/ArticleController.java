@@ -38,6 +38,14 @@ public class ArticleController {
     @Autowired
     ArticleTagService articleTagService;
 
+    /**
+     * receive picture from editor.md
+     * @param multipartFile picture segment
+     * @param request request
+     * @param session session
+     * @return data in json that editor.md required
+     * @throws UnsupportedEncodingException set encoding
+     */
     @RequestMapping(value = "/pictureupload", method = RequestMethod.POST)
     public JSONObject uploadArticlePicture(@RequestParam(value = "editormd-image-file",
             required = true) MultipartFile multipartFile,
@@ -82,6 +90,15 @@ public class ArticleController {
     }
 
 
+    /**
+     * post article
+     * @param innerHTML 文章预览HTML
+     * @param innerMD 文章md内容
+     * @param title 标题
+     * @param types 类型
+     * @param session session
+     * @return 消息
+     */
     @RequestMapping(value = "/submit", method = RequestMethod.PUT)
     public Msg postBlog(
         @RequestParam("innerHTML") String innerHTML,
@@ -124,6 +141,11 @@ public class ArticleController {
         return Msg.success();
     }
 
+    /**
+     * delete article (can be multiple)
+     * @param articleId article id
+     * @return message
+     */
     @RequestMapping(value = "/submit", method = RequestMethod.DELETE)
     public Msg deleteBlog(
             @RequestParam("id") String articleId){
@@ -142,6 +164,15 @@ public class ArticleController {
     }
 
 
+    /**
+     * update article
+     * @param innerHTML HTML type to show its content
+     * @param innerMD md content
+     * @param title new title
+     * @param types article types
+     * @param session session
+     * @return message
+     */
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     public Msg updateBlog(
             @RequestParam("innerHTML") String innerHTML,
@@ -210,14 +241,27 @@ public class ArticleController {
         return Msg.success();
     }
 
+
+    /**
+     * load index article
+     * @param pn page number
+     * @param session session
+     * @return message
+     */
     @RequestMapping(value = "/articles", method = RequestMethod.GET)
-    public Msg selectArticleById(
+    public Msg indexArticle(
             @RequestParam(value = "pn")Integer pn,
             HttpSession session
     ){
         session.setAttribute("content", new ArticleContent());
-        IPage<Article> page = articleService.selectAllByPage(pn, 10);
+        IPage<Article> page = articleService.selectAllWithAuthorNameByPage(pn, 10);
         return Msg.success().add("pageInfo", page);
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public Msg getAll(Integer page, Integer limit){
+        IPage<Article> iPage = articleService.selectAllByPage(page, limit);
+        return Msg.success().add("pageInfo", iPage);
     }
 
     @RequestMapping(value = "/type", method = RequestMethod.GET)
@@ -229,12 +273,14 @@ public class ArticleController {
         return Msg.success().add("pageInfo", articles);
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public Msg getAll(Integer page, Integer limit){
-        IPage<Article> iPage = articleService.selectAllByPage(page, limit);
-        return Msg.success().add("pageInfo", iPage);
-    }
 
+    /**
+     * get user's all article
+     * @param page page
+     * @param limit limit
+     * @param session session
+     * @return message
+     */
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public Msg getUserAll(
             Integer page, Integer limit,
@@ -245,6 +291,11 @@ public class ArticleController {
         return Msg.success().add("pageInfo", iPage);
     }
 
+    /**
+     * search articles by title
+     * @param keyword keyword
+     * @return message
+     */
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public Msg searchArticles(
             @RequestParam("keyword") String keyword
@@ -256,6 +307,12 @@ public class ArticleController {
         return Msg.success().add("pageInfo", list);
     }
 
+
+    /**
+     * get article by tag id
+     * @param tagId tag id
+     * @return message
+     */
     @RequestMapping(value = "/sort", method = RequestMethod.GET)
     public Msg getArticleByTagId(
             @RequestParam("id") String tagId
@@ -264,24 +321,41 @@ public class ArticleController {
         return Msg.success().add("pageInfo", list);
     }
 
+    /**
+     * get article rank by view count
+     * @return message
+     */
     @RequestMapping(value = "/rank", method = RequestMethod.GET)
     public Msg getArticleRankByView(){
         List<Article> list = articleService.getArticleRankByView();
         return Msg.success().add("viewRank", list);
     }
 
+    /**
+     * get article rank by vlike count
+     * @return message
+     */
     @RequestMapping(value = "/rank", method = RequestMethod.POST)
     public Msg getArticleRankByLike(){
         List<Article> list = articleService.getArticleRankByLike();
         return Msg.success().add("likeRank", list);
     }
 
+    /**
+     * get article rank by comment count
+     * @return message
+     */
     @RequestMapping(value = "/rank", method = RequestMethod.PUT)
     public Msg getArticleRankByComment(){
         List<Article> list = articleService.getArticleRankByComment();
         return Msg.success().add("commentRank", list);
     }
 
+    /**
+     * add article view count
+     * @param articleId article id
+     * @return message
+     */
     @RequestMapping(value = "/view", method = RequestMethod.POST)
     public Msg addViewCount(
             @RequestParam("id") String articleId
@@ -294,6 +368,11 @@ public class ArticleController {
         return Msg.success();
     }
 
+    /**
+     * add article like count
+     * @param articleId article id
+     * @return message
+     */
     @RequestMapping(value = "/like", method = RequestMethod.POST)
     public Msg addLikeCount(
             @RequestParam("id") String articleId
@@ -305,7 +384,5 @@ public class ArticleController {
         article.updateById();
         return Msg.success();
     }
-
-
 
 }

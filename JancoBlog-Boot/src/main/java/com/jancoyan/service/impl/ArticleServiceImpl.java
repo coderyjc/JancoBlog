@@ -38,6 +38,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    public IPage<Article> selectAllWithAuthorNameByPage(Integer page, Integer limit) {
+        IPage<Article> iPage = new Page<>(page, limit);
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("article_post_time");
+        return baseMapper.selectAllWithAuthorNameByPage(iPage, wrapper);
+    }
+
+    @Override
     public IPage<Article> selectAllByPage(Integer pn, Integer limit) {
         IPage<Article> page = new Page<>(pn, limit);
         return baseMapper.selectPage(page, null);

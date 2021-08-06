@@ -13,7 +13,7 @@ a{
 body{
     /* 最上面的小白条 */
     margin-top: 0px;
-    background-color: rgba(240, 240, 240, 0.76);
+    background-color: #eff3f5;
 }
 
 /*清除浮动*/
@@ -34,57 +34,21 @@ body{
 }
 
 #top-nav-bar{
-    padding-left: 15%;
-    padding-right: 15%;
+    background-color: white;
+    padding-left: 20%;
+    padding-right: 20%;
     width: 100%;
     position: fixed;
     z-index: 1;
+    overflow-x: hidden;
+    box-shadow: 0px 5px 5px rgba(136, 136, 136, 0.2);
+}
+
+#top-nav-bar>li>a{
+    color: #000000;
 }
 
 /* 欢迎初始页面 */
-.welcome-page{
-    background-image: url(../images/cnv-index-bg-2.jpg);
-    background-size: 100% 100%;
-    height: 100%;
-    width: 100%;
-}
-
-h1{
-    font-size: 80px;
-    text-align: center;
-    color: white;
-    font-family: "agency fb", serif;
-    opacity: 0.8;
-    padding-top: 9%;
-    margin-top: 60px;
-}
-
-.welcome-page .quote{
-    text-align: center;
-    color: floralwhite;
-    font-size: 25px;
-    margin-top: 10px;
-    opacity: 0.6;
-}
-
-.welcome-page .next-page{
-    margin-top: 10%;
-    text-align: center;
-    color: white;
-    cursor: pointer;
-}
-
-/* 文章页面 */
-.main{
-    padding: 5% 10%;
-    width: 80%;
-    background-color: #eaeaea;
-    overflow: auto;
-}
-.main .left-content{
-    float: left;
-    width: 57%;
-}
 
 .segment-line{
     height: 1px;
@@ -92,10 +56,8 @@ h1{
     background-color: #f6f6f6;
 }
 
-
-.main .right-content{
-    float: right;
-    width: 37%;
+.layui-card:hover{
+    box-shadow: 0px 0px 10px rgba(136, 136, 136, 0.2);
 }
 
 .article-info{
@@ -110,64 +72,83 @@ h1{
     margin-left: 15px;
 }
 
-.like-count{
-    cursor: pointer;
+
+/*!* 搜索功能实现 *!*/
+/*.search{*/
+/*    margin-bottom: 20px;*/
+/*    width: 90%;*/
+/*}*/
+/*!* 搜索的输入框 *!*/
+/*.search input{*/
+/*    width: 80%;*/
+/*    display: inline;*/
+/*}*/
+/*!* 搜索图标按钮 *!*/
+/*.search button{*/
+/*    display: inline;*/
+/*    border: none;*/
+/*}*/
+/*.search button:hover{*/
+/*    background-color: #fafafa;*/
+/*}*/
+/*.main .right-content .search i{*/
+/*    font-size: 25px;*/
+/*    float: right;*/
+/*}*/
+
+#right{
+    margin-top: 30px;
 }
 
-/* 搜索功能实现 */
-.search{
-    margin-bottom: 20px;
-    width: 90%;
-}
-/* 搜索的输入框 */
-.search input{
-    width: 80%;
-    display: inline;
-}
-/* 搜索图标按钮 */
-.search button{
-    display: inline;
-    border: none;
-}
-.search button:hover{
-    background-color: #fafafa;
-}
-.main .right-content .search i{
-    font-size: 25px;
-    float: right;
+
+
+/*文章分类*/
+
+.column{
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    z-index: 1;
+    position: fixed;
+    width: 15%;
 }
 
-.layui-colla-content .rank-index{
-    margin-right: 20px;
-    float: left;
+.column h3{
+    font-size: 20px;
+    margin-bottom: 10px;
 }
 
-.layui-colla-content .rank-count{
-    float: right;
+.column>ul{
+    margin-top: 10px;
+    font-size: 16px;
 }
 
-.layui-colla-content>ul li div{
-    display: inline-block;
+.column>ul>li{
+    height: 30px;
+    line-height: 30px;
 }
 
-.layui-colla-content li{
-    margin-top: 8px;
+.column>ul>li:hover{
+    background-color: #eff3f5;
+    font-weight: bold;
+    color: black;
 }
 
-.layui-colla-content li:hover{
-    text-decoration: underline;
-}
 
 /* 页脚的内容 */
+
+.container{
+    margin: 0px 20%;
+}
+
 .footer{
-    width: 80%;
+    border-top: #bfc2c4 1px solid;
     height: 60px;
-    background-color: #393d49;
-    padding: 0 10%;
+    background-color: white;
 }
 
 .footer a{
     line-height: 60px;
-    color: white;
+    color: black;
     float: right;
 }

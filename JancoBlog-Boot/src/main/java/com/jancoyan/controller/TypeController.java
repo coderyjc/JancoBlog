@@ -26,7 +26,9 @@ public class TypeController {
     TypeService typeService;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public Msg getAll(Integer page, Integer limit){
+    public Msg getAll(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "limit", defaultValue = "999") Integer limit){
         IPage<Type> iPage = new Page<>(page, limit);
         Type type = new Type();
         IPage<Type> rst = type.selectPage(iPage, null);
