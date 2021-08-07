@@ -20,11 +20,14 @@ spring:
     static-path-pattern: /**
   servlet:
     multipart:
-      location:R:/GITHUB/JancoBlog/JancoBlog-Boot/src/main/resources/public
+      location: classpath:/static/web-imgs/
     web:
       resources:
         static-locations: classpath:public/, file:${spring.servlet.multipart.location}
 
-
 server:
   port: 8080
+
+logging:
+  level:
+    com.jancoyan.mapper: debug

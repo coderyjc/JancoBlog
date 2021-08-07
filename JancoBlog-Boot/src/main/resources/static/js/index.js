@@ -1,25 +1,28 @@
 var totalcount = 0
 
-layui.use(['element', 'layer', 'laypage'], function(){
+layui.use(['element', 'layer', 'laypage', 'laydate', 'form'], function(){
 
     var laypage = layui.laypage
+    var form = layui.form
+    var laydate = layui.laydate
+    var $ = layui.$
+
+    // 回到顶部
+    $(".layui-fixbar").click(function () {
+
+    })
+
+    // 渲染日期组件
+    laydate.render({
+        elem: "#start-date"
+    })
+
+    laydate.render({
+        elem: "#end-date"
+    })
 
     // 文章
-    get_article(1)
-
-    function get_article(pn) {
-        $.ajax({
-            url: "article/articles",
-            data : "pn=" + pn,
-            type : "GET",
-            async: false,
-            success: function (result) {
-                // 调用建立文章的函数
-                build_article_list(result);
-                totalcount = result.extend.pageInfo.total
-            }
-        });
-    }
+    get_article(1, queryString)
 
     //    分页
     laypage.render({
@@ -29,7 +32,7 @@ layui.use(['element', 'layer', 'laypage'], function(){
         ,groups: 6
         ,jump: function(obj, first){
             if (!first) {
-                get_article(obj.curr)
+                get_article(obj.curr, queryString)
             }
         }
     })
@@ -38,10 +41,27 @@ layui.use(['element', 'layer', 'laypage'], function(){
     build_sort_bar()
 });
 
-// 登录之后显示头像和下拉框
-if('[[${session.user}]]' !== ''){
-    $("nav img").attr("src", "../images/profile.png")
+
+
+function get_article(pn, queryString) {
+    $.ajax({
+        url: "article/articles",
+        data : {
+            "pn": pn,
+            "search": queryString
+        },
+        type : "GET",
+        async: false,
+        success: function (result) {
+            // 调用建立文章的函数
+            totalcount = result.extend.pageInfo.total
+            let window_h = $(window).height()
+            $("body").height(window_h);
+            build_article_list(result);
+        }
+    });
 }
+
 
 // 传入result，建立文章列表
 function build_article_list(result) {
@@ -54,7 +74,7 @@ function build_article_list(result) {
             "<div class=\"layui-col-md\">" +
             "<li class=\"layui-card\">" +
             "<div class=\"layui-card-header\">" +
-            "<a target=\"_blank\" href=\"/article.html?p=1000001628251741521\">" + item.articleTitle + "</a></div>" +
+            "<a target=\"_blank\" href=\"/article.html?p=" + item.articleId + "\">" + item.articleTitle + "</a></div>" +
             "<div class=\"layui-card-body\">" + item.articleSummary + " </div>" +
             "<div class=\"segment-line\"></div>" +
             "<div class=\"article-info\">" +
@@ -82,9 +102,10 @@ function build_sort_bar() {
             let sort_ul = $("<ul class=\"layui-row layui-col-space5\"></ul>");
             let html = "";
             $.each(sort_list, function (index, item) {
-                html += "<li class=\"layui-col-md12 layui-col-xs12\" href=\"/index.html?typeId="+ item.typeId + "\">" +
-                    "<a href=/index.html?typeId=" + item.typeId + " style='display: block' > " + item.typeName +
-                    "<i class=\"layui-icon layui-icon-right\" style='float: right'></i></a></li>"
+                html += "<li class=\"layui-col-md12 layui-col-xs12\">" +
+                    "<a href=/index.html?type=" + item.typeId + " style='display: block' > " + item.typeName +
+                    "<i class=\"layui-icon layui-icon-right\" style='float:" +
+                    " right'></i></a></li>"
             })
             sort_ul.html(html).appendTo(".column")
         }
@@ -101,16 +122,6 @@ function add_article_view(articleId) {
         }
     });
 }
-
-// 监听搜索按钮，搜索字段为空的时候
-$("#search-btn").click(function (){
-    var keyWord = $("#search-text").val();
-    if(keyWord === ""){
-        layer.msg("搜索字段不能为空");
-    } else {
-        window.location.href = "/search.html?keyword=" + keyWord;
-    }
-});
 
 /**
  * 将时间戳转化为标准时间

@@ -13,51 +13,14 @@
 </head>
 <body>
 <!--导航栏-->
+
+<!-- 顶部导航栏 -->
 <nav class="clearfix">
-    <ul id="top-nav-bar" class="layui-nav layui-bg-black" layui-filter="top-nav">
+    <ul id="top-nav-bar" class="layui-nav" layui-filter="top-nav">
+        <a href="./index.html"><img th:src="@{/images/logo.png}"
+                                    alt="Jancoyan" style="width: 210px;height: 65px"></a>
         <li class="layui-nav-item layui-this">
-            <a href="">首页</a>
-        </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">计算机基础<i
-                    class="layui-icon layui-icon-down layui-nav-more"></i></a>
-            <dl class="layui-nav-child">
-                <dd><a target="_blank" href="sort.html?type=6">数据结构</a></dd>
-                <dd><a target="_blank" href="sort.html?type=8">计算机网络</a></dd>
-                <dd><a target="_blank" href="sort.html?type=7">计算机组成原理</a></dd>
-            </dl>
-        </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">前端<i
-                    class="layui-icon layui-icon-down layui-nav-more"></i></a>
-            <dl class="layui-nav-child">
-                <dd><a target="_blank" href="sort.html?type=22">HTML</a></dd>
-                <dd><a target="_blank" href="sort.html?type=23">CSS</a></dd>
-                <dd><a target="_blank" href="sort.html?type=24">JavaScript</a></dd>
-            </dl>
-        </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">Java后端<i
-                    class="layui-icon layui-icon-down layui-nav-more"></i></a>
-            <dl class="layui-nav-child">
-                <dd><a target="_blank" href="sort.html?type=11">Spring</a></dd>
-                <dd><a target="_blank" href="sort.html?type=12">SpringMVC</a></dd>
-                <dd><a target="_blank" href="sort.html?type=13">MyBatis</a></dd>
-                <dd><a target="_blank" href="sort.html?type=14">SpringBoot</a></dd>
-            </dl>
-        </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">数据库<i class="layui-icon layui-icon-down layui-nav-more"></i></a>
-            <dl class="layui-nav-child">
-                <dd><a target="_blank" href="sort.html?type=18">MySQL</a></dd>
-            </dl>
-        </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">大数据<i class="layui-icon layui-icon-down layui-nav-more"></i></a>
-            <dl class="layui-nav-child">
-                <dd><a target="_blank" href="sort.html?type=28">Storm</a></dd>
-                <dd><a target="_blank" href="sort.html?type=29">HDFS</a></dd>
-            </dl>
+            <a href="./index.html">文章</a>
         </li>
         <li id="user-profile" class="layui-nav-item" lay-unselect="">
             <a th:href="@{/workbench}">
@@ -67,14 +30,16 @@
     </ul>
 </nav>
 
-<div style="padding: 30px;">
-
+<div class="layui-container" style="margin-top: 5%; min-height: 100%">
 <!--    文章标题与文章信息-->
-    <div class="layui-row layui-col-space15" style="margin-top: 4%;">
-        <div class="layui-col-md8" style="margin-left: 15%">
-            <div class="layui-panel" id="article-title"><h1 style="font-size: 55px;"></h1></div>
+    <div class="layui-row layui-col-space15">
+<!--        标题-->
+        <div class="layui-col-md12">
+            <div class="layui-panel" id="article-title"><h1
+                    style="font-size: 55px;text-align: center"></h1></div>
         </div>
-        <div class="layui-col-md8" style="margin-left: 15%">
+<!--        文章信息-->
+        <div class="layui-col-md12">
             <div class="layui-panel" id="article-info" style="font-size: 15px;">
                 <span id="article-author"><i class="iconfont">&#xe6b8;</i> </span>
                 <span id="article-post-date"><i class="iconfont">&#xe6bb;</i> </span>
@@ -87,7 +52,7 @@
 
 <!--    文章主体内容-->
     <div class="layui-row layui-col-space15">
-        <div class="layui-col-md8" style="margin-left: 15%">
+        <div class="layui-col-md12">
             <div class="layui-panel" id="article-body">
             </div>
         </div>
@@ -96,7 +61,7 @@
 <!--    评论和查看评论   -->
     <div class="layui-row layui-col-space15" id="comment-list">
 <!--        拉取评论之后放在这里-->
-        <div class="layui-col-md8 comment-field" style="margin-left: 15%">
+        <div class="layui-col-md12 comment-field">
             <form class="layui-form" lay-filter="comment-form">
                 <div class="layui-form-item layui-inline">
                     <label class="layui-form-label">昵称</label>
@@ -128,17 +93,19 @@
             </form>
         </div>
     </div>
+
 </div>
+
 <script>
 
     // 登录之后显示头像和下拉框
     if('[[${session.user}]]' !== ''){
-        $("nav img").attr("src", "../images/profile.png")
+        $("nav img")[1].src = "../images/profile.png"
     }
 
-    layui.use(['element', 'layer'], function(){
-        var element = layui.element(); //导航的hover效果、二级菜单等功能，需要依赖element模块
-    });
+    // layui.use(['element', 'layer'], function(){
+    //     var element = layui.element(); //导航的hover效果、二级菜单等功能，需要依赖element模块
+    // });
 
     // 拿到文章内容
     $.ajax({
@@ -167,7 +134,7 @@
         success: function (result){
             var list = result.extend.pageInfo
             var parent =
-            $("<div class='layui-col-md8 comment-field' style='margin-left: 15%'></div>");
+            $("<div class='layui-col-md12 comment-field'></div>");
             $.each(list, function (index, item) {
                 parent.append(
                     $("<blockquote class='layui-elem-quote layui-quote-nm'></blockquote>")

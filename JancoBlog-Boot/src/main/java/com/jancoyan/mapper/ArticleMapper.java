@@ -1,8 +1,10 @@
 package com.jancoyan.mapper;
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
 
 import com.jancoyan.pojo.Article;
@@ -20,5 +22,5 @@ public interface ArticleMapper extends BaseMapper<Article> {
     List<Article> selectArticleByType(String typeId);
     List<Article> selectArticleByTagId(String tagId);
     Article selectByIdWithAuthorName(String articleId);
-    IPage<Article> selectAllWithAuthorNameByPage(IPage<Article> iPage, QueryWrapper<Article> wrapper);
+    IPage<Article> selectAllWithAuthorNameByPage(IPage<Article> iPage, Wrapper ew);
 }

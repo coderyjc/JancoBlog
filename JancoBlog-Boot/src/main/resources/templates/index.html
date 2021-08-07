@@ -11,15 +11,13 @@
 </head>
 <body>
 
-
 <!-- 顶部导航栏 -->
 <nav class="clearfix">
 	<ul id="top-nav-bar" class="layui-nav" layui-filter="top-nav">
+		<a href="./index.html"><img th:src="@{/images/logo.png}"
+									alt="Jancoyan" style="width: 210px;height: 65px"></a>
 		<li class="layui-nav-item layui-this">
 			<a href="./index.html">文章</a>
-		</li>
-		<li class="layui-nav-item">
-			<a href="javascript:;">查找</a>
 		</li>
 		<li id="user-profile" class="layui-nav-item" lay-unselect="">
 			<a th:href="@{/workbench}">
@@ -29,7 +27,7 @@
 	</ul>
 </nav>
 
-<div class="layui-container" style="margin-top: 60px">
+<div class="layui-container" style="margin-top: 60px; min-height: 100%">
 
 	<div class="layui-row layui-col-space15 main">
 		<!-- 上左右布局 -->
@@ -39,18 +37,122 @@
 
 		</div>
 
-
-
 		<!-- 左边是文章列表 -->
-		<div id="left" class="layui-col-md9 layui-col-lg9">
+		<div id="left" class="layui-col-md9 layui-col-lg9" style="min-height: 100%">
 			<span class="layui-breadcrumb" lay-separator="—" style="padding-left: 30px">
 			    <a href="./index.html">首页</a>
 			</span>
+
+			<!-- 条件筛选 -->
+<!--
+	筛选：作者、发布日期、标题、类型
+	排序：浏览量、评论量、点赞量
+-->
+			<div class="layui-collapse" lay-filter="test"
+				 style="margin: 10px; background-color: #fff">
+				<div class="layui-colla-item" style="background-color: #fff">
+					<h2 class="layui-colla-title" style="background-color: white">条件筛选</h2>
+					<div class="layui-colla-content">
+						<form class="layui-form" action="index.html">
+<!--							作者昵称-->
+							<div class="layui-form-item">
+								<div class="layui-inline">
+									<label class="layui-form-label">作者昵称</label>
+									<div class="layui-input-inline">
+										<input type="text" name="article_author_name"
+											   autocomplete="off"
+											   class="layui-input" placeholder="输入昵称">
+									</div>
+								</div>
+<!--							标题-->
+								<div class="layui-inline">
+									<label class="layui-form-label">标题含有</label>
+									<div class="layui-input-inline">
+										<input type="text" name="article_title"
+											   autocomplete="off"
+											   class="layui-input" placeholder="输入标题">
+									</div>
+								</div>
+							</div>
+<!--							类型-->
+							<div class="layui-form-item">
+								<div class="layui-inline">
+									<label class="layui-form-label">类型</label>
+									<div class="layui-input-inline">
+										<select name="type" lay-search="">
+											<option value="">直接选择或搜索选择</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+<!--							发布日期-->
+							<div class="layui-form-item">
+								<label class="layui-form-label">发布时间</label>
+								<div class="layui-input-inline layui-show-xs-block">
+									<input class="layui-input laydate" placeholder="开始日"
+										   name="start"
+										   id="start-date">
+								</div>
+								<div class="layui-input-inline layui-show-xs-block">
+									<input class="layui-input laydate" placeholder="截止日" name="end"
+										   id="end-date">
+								</div>
+							</div>
+
+<!--							排序-->
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">浏览量</label>
+								<div class="layui-input-inline">
+									<select name="rank_view">
+										<option value="" selected>选择排序方式</option>
+										<option value="1">升序</option>
+										<option value="0">降序</option>
+									</select>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">点赞数量</label>
+								<div class="layui-input-inline">
+									<select name="rank_like">
+										<option value="" selected>选择排序方式</option>
+										<option value="1">升序</option>
+										<option value="0">降序</option>
+									</select>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">评论量</label>
+								<div class="layui-input-inline">
+									<select name="rank_comment">
+										<option value="" selected>选择排序方式</option>
+										<option value="1">升序</option>
+										<option value="0">降序</option>
+									</select>
+								</div>
+							</div>
+
+<!--							提交-->
+							<div class="layui-form-item">
+								<div class="layui-input-block">
+									<button type="submit" class="layui-btn" lay-submit=""
+											lay-filter="search">搜索</button>
+									<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
 			<div style="padding: 10px;">
 				<div id="article-list" class="layui-row layui-col-space15">
 					<!--文章列表-->
 				</div>
 			</div>
+
 			<!--分页-->
 			<div id="pagination" style="text-align: center"></div>
 		</div>
@@ -69,6 +171,10 @@
 	</div>
 </div>
 
+<ul class="layui-fixbar">
+	<li class="layui-icon layui-fixbar-top" lay-type="top"
+		style="display: list-item; width: 40px; height: 30px">^</li>
+</ul>
 
 <!-- 页脚的内容 -->
 <div class="footer">
@@ -79,9 +185,13 @@
 
 <script>
 
-	var queryString = '[[${#request.queryString}]]';
+	// 登录之后显示头像和下拉框
+	if('[[${session.user}]]' !== ''){
+		$("nav img")[1].src = "../images/profile.png"
+	}
 
 	// 查找
+	var queryString = '[[${#request.queryString}]]';
 
 </script>
 

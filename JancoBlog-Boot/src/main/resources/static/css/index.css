@@ -9,6 +9,10 @@ a{
     text-decoration: none;
 }
 
+html{
+    min-height: 100%;
+}
+
 /* body */
 body{
     /* 最上面的小白条 */
@@ -73,34 +77,9 @@ body{
 }
 
 
-/*!* 搜索功能实现 *!*/
-/*.search{*/
-/*    margin-bottom: 20px;*/
-/*    width: 90%;*/
-/*}*/
-/*!* 搜索的输入框 *!*/
-/*.search input{*/
-/*    width: 80%;*/
-/*    display: inline;*/
-/*}*/
-/*!* 搜索图标按钮 *!*/
-/*.search button{*/
-/*    display: inline;*/
-/*    border: none;*/
-/*}*/
-/*.search button:hover{*/
-/*    background-color: #fafafa;*/
-/*}*/
-/*.main .right-content .search i{*/
-/*    font-size: 25px;*/
-/*    float: right;*/
-/*}*/
-
 #right{
     margin-top: 30px;
 }
-
-
 
 /*文章分类*/
 

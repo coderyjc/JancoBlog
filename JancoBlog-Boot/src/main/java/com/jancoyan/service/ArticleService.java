@@ -14,21 +14,13 @@ import java.util.List;
  */
 public interface ArticleService extends IService<Article> {
 
-    IPage<Article> selectAllWithAuthorNameByPage(Integer page, Integer limit);
+    IPage<Article> selectAllWithAuthorNameByPage(Integer page, Integer limit, String search);
 
     IPage<Article> selectAllByPage(Integer pn, Integer limit);
 
     Article selectByPrimaryKeyWithAuthorName(String articleId);
 
     IPage<Article> selectUserArticleByPage(Integer page, Integer limit, String id);
-
-    List<Article> selectArticleByType(String typeId);
-
-    List<Article> selectArticleByTagId(String tagId);
-
-    List<Article> getArticleRankByView();
-
-    List<Article> getArticleRankByLike();
 
     List<Article> getArticleRankByComment();
 }

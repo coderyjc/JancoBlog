@@ -9,11 +9,15 @@ a{
     text-decoration: none;
 }
 
+html{
+    min-height: 100%;
+}
+
 /* body */
 body{
     /* 最上面的小白条 */
-    margin-top: 0px;
-    background-color: rgba(240, 240, 240, 0.76);
+    margin-top: 0;
+    background-color: #eff3f5;
 }
 
 /*清除浮动*/
@@ -34,20 +38,29 @@ body{
 }
 
 #top-nav-bar{
-    padding-left: 15%;
-    padding-right: 15%;
+    background-color: white;
+    padding-left: 20%;
+    padding-right: 20%;
     width: 100%;
+    position: fixed;
+    z-index: 1;
+    overflow-x: hidden;
+    box-shadow: 0px 5px 5px rgba(136, 136, 136, 0.2);
+}
+
+#top-nav-bar>li>a{
+    color: #000000;
 }
 
 #article-info span{
     margin-right: 35px;
 }
 
-.comment-info-item{
-    margin-right: 20px;
-}
+/*.comment-info-item{*/
+/*    margin-right: 20px;*/
+/*}*/
 
-.comment-field{
-    background-color: white;
-}
+/*.comment-field{*/
+/*    background-color: white;*/
+/*}*/
 

@@ -241,7 +241,6 @@ public class ArticleController {
         return Msg.success();
     }
 
-
     /**
      * load index article
      * @param pn page number
@@ -251,10 +250,12 @@ public class ArticleController {
     @RequestMapping(value = "/articles", method = RequestMethod.GET)
     public Msg indexArticle(
             @RequestParam(value = "pn")Integer pn,
+            @RequestParam(value = "search", defaultValue = "") String search,
             HttpSession session
     ){
+        System.out.println(search);
         session.setAttribute("content", new ArticleContent());
-        IPage<Article> page = articleService.selectAllWithAuthorNameByPage(pn, 10);
+        IPage<Article> page = articleService.selectAllWithAuthorNameByPage(pn, 10, search);
         return Msg.success().add("pageInfo", page);
     }
 
@@ -263,16 +264,6 @@ public class ArticleController {
         IPage<Article> iPage = articleService.selectAllByPage(page, limit);
         return Msg.success().add("pageInfo", iPage);
     }
-
-    @RequestMapping(value = "/type", method = RequestMethod.GET)
-    public Msg getArticleByType(
-            @RequestParam("type") String typeId
-    ){
-        // 在目标类及其子类下的所有文章
-        List<Article> articles =  articleService.selectArticleByType(typeId);
-        return Msg.success().add("pageInfo", articles);
-    }
-
 
     /**
      * get user's all article
@@ -289,56 +280,6 @@ public class ArticleController {
         User currUser = (User)session.getAttribute("user");
         IPage<Article> iPage = articleService.selectUserArticleByPage(page, limit, String.valueOf(currUser.getUserId()));
         return Msg.success().add("pageInfo", iPage);
-    }
-
-    /**
-     * search articles by title
-     * @param keyword keyword
-     * @return message
-     */
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public Msg searchArticles(
-            @RequestParam("keyword") String keyword
-    ){
-        Article article = new Article();
-        QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("article_title", keyword);
-        List<Article> list = article.selectList(queryWrapper);
-        return Msg.success().add("pageInfo", list);
-    }
-
-
-    /**
-     * get article by tag id
-     * @param tagId tag id
-     * @return message
-     */
-    @RequestMapping(value = "/sort", method = RequestMethod.GET)
-    public Msg getArticleByTagId(
-            @RequestParam("id") String tagId
-    ){
-        List<Article> list = articleService.selectArticleByTagId(tagId);
-        return Msg.success().add("pageInfo", list);
-    }
-
-    /**
-     * get article rank by view count
-     * @return message
-     */
-    @RequestMapping(value = "/rank", method = RequestMethod.GET)
-    public Msg getArticleRankByView(){
-        List<Article> list = articleService.getArticleRankByView();
-        return Msg.success().add("viewRank", list);
-    }
-
-    /**
-     * get article rank by vlike count
-     * @return message
-     */
-    @RequestMapping(value = "/rank", method = RequestMethod.POST)
-    public Msg getArticleRankByLike(){
-        List<Article> list = articleService.getArticleRankByLike();
-        return Msg.success().add("likeRank", list);
     }
 
     /**

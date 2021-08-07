@@ -20,11 +20,6 @@ import java.util.List;
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     @Override
-    public List<Article> selectArticleByTagId(String tagId) {
-        return baseMapper.selectArticleByTagId(tagId);
-    }
-
-    @Override
     public Article selectByPrimaryKeyWithAuthorName(String articleId) {
         return baseMapper.selectByIdWithAuthorName(articleId);
     }
@@ -38,9 +33,50 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public IPage<Article> selectAllWithAuthorNameByPage(Integer page, Integer limit) {
+    public IPage<Article> selectAllWithAuthorNameByPage(
+            Integer page, Integer limit, String search) {
+//        分页查询
         IPage<Article> iPage = new Page<>(page, limit);
         QueryWrapper<Article> wrapper = new QueryWrapper<>();
+//        筛选条件
+        String[] split = search.split("&amp;");
+        for (String item : split) {
+            String[] split2 = item.split("=");
+            if(split2.length < 2){
+                continue;
+            }
+
+            if(split2[0].equals("article_author_name")){
+                wrapper.like("article_author_name", split2[1]);
+            }else if(split2[0].equals("article_title")){
+                wrapper.like("article_title", split2[1]);
+            }else if(split2[0].equals("type")){
+                wrapper.eq("article_type", split2[1]);
+            }else if(split2[0].equals("start")){
+                wrapper.gt("article_post_time", split2[1]);
+            }else if(split2[0].equals("end")){
+                wrapper.lt("article_post_time", split2[1]);
+            }else if(split2[0].equals("rank_view")){
+                if (split2[1].equals("1")) {
+                    wrapper.orderByAsc("article_view_count");
+                } else {
+                    wrapper.orderByDesc("article_view_count");
+                }
+            }else if(split2[0].equals("rank_like")){
+                if (split2[1].equals("1")) {
+                    wrapper.orderByAsc("article_rank_count");
+                } else {
+                    wrapper.orderByDesc("article_rank_count");
+                }
+            }else if(split2[0].equals("rank_comment")){
+                if (split2[1].equals("1")) {
+                    wrapper.orderByAsc("article_comment_count");
+                } else {
+                    wrapper.orderByDesc("article_comment_count");
+                }
+            }
+        }
+
         wrapper.orderByDesc("article_post_time");
         return baseMapper.selectAllWithAuthorNameByPage(iPage, wrapper);
     }
@@ -52,22 +88,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public List<Article> getArticleRankByView() {
-        return baseMapper.selectOrderByArticleViewCount();
-    }
-
-    @Override
-    public List<Article> getArticleRankByLike() {
-        return baseMapper.selectOrderByArticleLikeCount();
-    }
-
-    @Override
     public List<Article> getArticleRankByComment() {
         return baseMapper.selectOrderByArticleCommentCount();
     }
 
-    @Override
-    public List<Article> selectArticleByType(String typeId) {
-        return baseMapper.selectArticleByType(typeId);
-    }
 }

@@ -48,9 +48,6 @@
         where
               article_id = #{articleId}
     </select>
-    <select id="selectArticleByType" resultType="com.jancoyan.pojo.Article">
-
-    </select>
     <select id="selectArticleByTagId" resultType="com.jancoyan.pojo.Article">
         select
             ta.article_id,
@@ -65,9 +62,7 @@
                       on ta.article_id = tat.article_id and tag_id = #{tagId}
     </select>
     <select id="selectAllWithAuthorNameByPage" resultType="com.jancoyan.pojo.Article">
-        select *
-            from v_article_detail
-        order by article_post_time desc
+        select * from v_article_detail ${ew.customSqlSegment}
     </select>
 
 </mapper>
