@@ -58,6 +58,11 @@ function get_article(pn, queryString) {
             let window_h = $(window).height()
             $("body").height(window_h);
             build_article_list(result);
+        },
+        error: function () {
+            layer.msg("找不到相关文章")
+            let window_h = $(window).height()
+            $("body").height(window_h);
         }
     });
 }
@@ -100,14 +105,20 @@ function build_sort_bar() {
             // 调用建立文章的函数
             var sort_list = result.extend.pageInfo.records
             let sort_ul = $("<ul class=\"layui-row layui-col-space5\"></ul>");
-            let html = "";
+            let html = ""
+            let search_select = "<option value=\"\">直接选择或搜索选择</option>"
             $.each(sort_list, function (index, item) {
                 html += "<li class=\"layui-col-md12 layui-col-xs12\">" +
                     "<a href=/index.html?type=" + item.typeId + " style='display: block' > " + item.typeName +
                     "<i class=\"layui-icon layui-icon-right\" style='float:" +
                     " right'></i></a></li>"
+
+                search_select += "<option value=" + item.typeId + ">" + item.typeName + "</option>"
             })
             sort_ul.html(html).appendTo(".column")
+            console.log(search_select)
+            $("#select-type").html(search_select)
+            layui.form.render()
         }
     });
 }

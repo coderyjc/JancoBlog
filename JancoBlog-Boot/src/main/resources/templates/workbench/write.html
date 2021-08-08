@@ -20,19 +20,9 @@
                         placeholder="请输入标题" class="layui-input">
             </div>
             <div class="layui-inline" style="float:left; margin-top: 15px; ">
-                <label class="layui-form-label">标签</label>
-                <div id="tag-1" class="layui-input-inline select-or-search" style="width: 150px">
+                <label class="layui-form-label">类型</label>
+                <div id="type" class="layui-input-inline select-or-search" style="width: 150px">
                 </div>
-            </div>
-            <div id="tag-2" class="layui-inline" style="float:left; margin-top: 15px; display:
-            none"><div class="layui-input-inline select-or-search" style="width: 150px"></div>
-            </div>
-            <div id="tag-3" class="layui-inline" style="float:left; margin-top: 15px; display:
-            none"><div class="layui-input-inline select-or-search" style="width: 150px"></div>
-            </div>
-            <div class="layui-inline" style="float:left; margin-top: 15px; ">
-                <input type="button" id="add-article-tag"
-                       class="layui-btn layui-btn-primary" value="+">
             </div>
             <div class="layui-inline" style="float:right; margin-top: 15px">
                 <div class="layui-input-inline" id="submit-panel">
@@ -64,7 +54,7 @@
         });
 
         content = ''
-         var content = "[[${session.content.articleMd}]]"
+        var content = "[[${session.content.articleMd}]]"
 
         if(content !== ''){
             // content 有值，说明是修改文章来的
@@ -99,25 +89,10 @@
             build_select_bar();
         })
 
-        numberOfCurrTag = 1;
-        // 当点击加号的时候，添加标签
-        $("#add-article-tag").click(function () {
-            switch (numberOfCurrTag) {
-                case 1: $("#tag-2").css("display", "block");
-                    numberOfCurrTag = 2;
-                    break;
-                case 2: $("#tag-3").css("display", "block");
-                    numberOfCurrTag = 3;
-                    break;
-                case 3: layer.msg("最多只能添加三个标签");
-                    break;
-            }
-        })
-
-        // 全都加载完成之后，加载tag中的标签
+        // 加载tag中的标签
         function build_select_bar() {
             $.ajax({
-                url: "/tag/all",
+                url: "/type/all",
                 type: "GET",
                 data:{
                     page: 1,
@@ -126,11 +101,11 @@
                 success: function (result) {
                     list = result.extend.pageInfo.records;
                     var Select = $("<select></select>").attr("name", "tags").attr("lay-search", "");
-                    Select.append($("<option value='' selected>搜索或选择</option>"));
+                    html = "<option value='' selected>搜索或选择</option>";
                     $.each(list, function (index, item) {
-                        Select.append($("<option></option>").attr("value", item.tagId).append(item.tagName));
+                        html += "<option value=" + item.typeId + ">" + item.typeName + "</option>"
                     })
-                    Select.appendTo(".select-or-search");
+                    Select.append($(html)).appendTo(".select-or-search");
                     layui.form.render()
                 }
             })
@@ -142,9 +117,7 @@
             var ArticleTitle = $("#article-title").val();
             var HTMLContent = $(".editormd-preview")[0].innerHTML;
             var MDContent = $('.editormd-markdown-textarea').val();
-            var types = $("#tag-1 option:selected").val() + "&" +
-                $("#tag-2 option:selected").val() + "&" +
-                $("#tag-3 option:selected").val();
+            var types = $("#type option:selected").val()
 
             // 这个事件已经绑定好了，找时间把这个上传文字和图片的功能给做了。
             if("" === ArticleTitle){layer.msg("标题不能为空"); return;}
@@ -171,9 +144,7 @@
             var ArticleTitle = $("#article-title").val();
             var HTMLContent = $(".editormd-preview")[0].innerHTML;
             var MDContent = $('.editormd-markdown-textarea').val();
-            var types = $("#tag-1 option:selected").val() + "&" +
-                $("#tag-2 option:selected").val() + "&" +
-                $("#tag-3 option:selected").val();
+            var types = $("#type option:selected").val()
 
             if("" === ArticleTitle){layer.msg("标题不能为空"); return;}
             if("" === HTMLContent){layer.msg("内容不能为空"); return;}

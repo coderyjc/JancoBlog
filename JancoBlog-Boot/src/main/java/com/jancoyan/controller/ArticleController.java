@@ -1,12 +1,11 @@
 package com.jancoyan.controller;
 
+import ch.qos.logback.core.rolling.helper.IntegerTokenConverter;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.pojo.*;
 import com.jancoyan.service.ArticleService;
 import com.jancoyan.service.ArticleContentService;
-import com.jancoyan.service.ArticleTagService;
 import com.jancoyan.utils.ArticleUtils;
 import com.jancoyan.utils.FileIo;
 import com.jancoyan.utils.Msg;
@@ -35,8 +34,6 @@ public class ArticleController {
     @Autowired
     ArticleContentService articleContentService;
 
-    @Autowired
-    ArticleTagService articleTagService;
 
     /**
      * receive picture from editor.md
@@ -95,7 +92,8 @@ public class ArticleController {
      * @param innerHTML 文章预览HTML
      * @param innerMD 文章md内容
      * @param title 标题
-     * @param types 类型
+     * @param type 类型
+     * @param type 类型
      * @param session session
      * @return 消息
      */
@@ -104,7 +102,7 @@ public class ArticleController {
         @RequestParam("innerHTML") String innerHTML,
         @RequestParam("innerMD") String innerMD,
         @RequestParam("title") String title,
-        @RequestParam("types") String types,
+        @RequestParam("types") String type,
         HttpSession session
     ){
         User user = (User) session.getAttribute("user");
@@ -127,19 +125,59 @@ public class ArticleController {
                 ArticleUtils.NextLineToText(innerMD));
         content.insert();
 
-        // 向ArticleTag表中插入数据
-        String[] type = types.split("&");
-        ArticleTag articleTag = new ArticleTag();
-        articleTag.setArticleId(articleId);
-        for (String i : type) {
-            if (!i.equals("")){
-                articleTag.setTagId(Integer.parseInt(i));
-                articleTag.insert();
-            }
-        }
+        // 向ArticleType表中插入数据
+        ArticleType articleType = new ArticleType();
+        articleType.setArticleId(articleId);
+        articleType.setTypeId(Integer.parseInt(type));
+        articleType.insert();
 
         return Msg.success();
     }
+
+    /**
+     * update article
+     * @param innerHTML HTML type to show its content
+     * @param innerMD md content
+     * @param title new title
+     * @param type article types
+     * @param session session
+     * @return message
+     */
+    @RequestMapping(value = "/submit", method = RequestMethod.POST)
+    public Msg updateBlog(
+            @RequestParam("innerHTML") String innerHTML,
+            @RequestParam("innerMD") String innerMD,
+            @RequestParam("title") String title,
+            @RequestParam("types") String type,
+            HttpSession session
+    ){
+        ArticleContent content = (ArticleContent) session.getAttribute("content");
+        Article article = new Article();
+        // Active Record 查询要修改的对象
+        article.setArticleId(content.getArticleId());
+        article = article.selectById();
+
+        Date date = new Date();
+        // 向Article表中插入数据
+        article.setArticleTitle(title);
+        article.setArticleSummary(ArticleUtils.getArticleAbstract(innerHTML));
+        article.setArticleEditTime(date);
+        article.updateById();
+
+        // 向ArticleContent表中插入数据
+        ArticleContent articleContent = new ArticleContent(article.getArticleId(), innerHTML,
+                ArticleUtils.NextLineToText(innerMD));
+        articleContent.updateById();
+
+        // 修改类型表中的数据
+        ArticleType articleType = new ArticleType();
+        articleType.setArticleId(article.getArticleId());
+        articleType.setTypeId(Integer.parseInt(type));
+        articleType.updateById();
+
+        return Msg.success();
+    }
+
 
     /**
      * delete article (can be multiple)
@@ -163,55 +201,6 @@ public class ArticleController {
         return Msg.success();
     }
 
-
-    /**
-     * update article
-     * @param innerHTML HTML type to show its content
-     * @param innerMD md content
-     * @param title new title
-     * @param types article types
-     * @param session session
-     * @return message
-     */
-    @RequestMapping(value = "/submit", method = RequestMethod.POST)
-    public Msg updateBlog(
-            @RequestParam("innerHTML") String innerHTML,
-            @RequestParam("innerMD") String innerMD,
-            @RequestParam("title") String title,
-            @RequestParam("types") String types,
-            HttpSession session
-    ){
-        ArticleContent content = (ArticleContent) session.getAttribute("content");
-        Article article = new Article();
-        // Active Record 查询要修改的对象
-        article.setArticleId(content.getArticleId());
-        article = article.selectById();
-
-        Date date = new Date();
-        // 向Article表中插入数据
-        article.setArticleTitle(title);
-        article.setArticleSummary(ArticleUtils.getArticleAbstract(innerHTML));
-        article.setArticleEditTime(date);
-        article.updateById();
-
-        // 向ArticleContent表中插入数据
-        ArticleContent articleContent = new ArticleContent(article.getArticleId(), innerHTML,
-                ArticleUtils.NextLineToText(innerMD));
-        articleContent.updateById();
-
-        // 向ArticleTag表中插入数据
-        String[] type = types.split("&");
-        ArticleTag articleTag = new ArticleTag();
-        articleTagService.deleteByArticleId(article.getArticleId());
-        articleTag.setArticleId(article.getArticleId());
-        for (String i : type) {
-            if (!i.equals("")){
-                articleTag.setTagId(Integer.parseInt(i));
-                articleTag.insert();
-            }
-        }
-        return Msg.success();
-    }
 
 
     @RequestMapping(value = "/submit", method = RequestMethod.GET)
@@ -321,6 +310,7 @@ public class ArticleController {
         Article article = new Article();
         article.setArticleId(articleId);
         article = article.selectById();
+        System.out.println(article);
         article.setArticleLikeCount(article.getArticleLikeCount() + 1);
         article.updateById();
         return Msg.success();
