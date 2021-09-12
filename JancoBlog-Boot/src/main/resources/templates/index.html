@@ -7,7 +7,12 @@
 	<link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}">
 	<link rel="stylesheet" th:href="@{/css/index.css}">
 	<link rel="stylesheet" th:href="@{/css/font.css}">
-	<script th:src="@{/js/index.js}"></script>
+<!--	<script th:src="@{/js/index.js}"></script>-->
+<!--	引入Vue + Axios    -->
+
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 	<title>JANCOYAN</title>
 </head>
 <body>
@@ -28,7 +33,7 @@
 	</ul>
 </nav>
 
-<div class="layui-container" style="margin-top: 60px; min-height: 100%">
+<div id="index" class="layui-container" style="margin-top: 60px; min-height: 100%">
 
 	<div class="layui-row layui-col-space15 main">
 		<!-- 上左右布局 -->
@@ -39,7 +44,9 @@
 		</div>
 
 		<!-- 左边是文章列表 -->
+<!--		整个左半部分作为一个整体挂在到Vue实例上-->
 		<div id="left" class="layui-col-md9 layui-col-lg9" style="min-height: 100%">
+
 			<span class="layui-breadcrumb" lay-separator="—" style="padding-left: 30px">
 			    <a href="./index.html">首页</a>
 			</span>
@@ -50,28 +57,33 @@
 	排序：浏览量、评论量、点赞量
 -->
 			<div class="layui-collapse" lay-filter="test"
+				 id="navSearch"
 				 style="margin: 10px; background-color: #fff">
 				<div class="layui-colla-item" style="background-color: #fff">
 					<h2 class="layui-colla-title" style="background-color: white">条件筛选</h2>
 					<div class="layui-colla-content">
-						<form class="layui-form" action="index.html">
+						<form class="layui-form">
 <!--							作者昵称-->
 							<div class="layui-form-item">
 								<div class="layui-inline">
 									<label class="layui-form-label">作者昵称</label>
 									<div class="layui-input-inline">
-										<input type="text" name="article_author_name"
+										<input v-model="query.article_author_name"
+											   type="text"
 											   autocomplete="off"
-											   class="layui-input" placeholder="输入昵称">
+											   class="layui-input"
+											   placeholder="输入昵称">
 									</div>
 								</div>
 <!--							标题-->
 								<div class="layui-inline">
 									<label class="layui-form-label">标题含有</label>
 									<div class="layui-input-inline">
-										<input type="text" name="article_title"
+										<input type="text"
+											   v-model="query.article_title"
 											   autocomplete="off"
-											   class="layui-input" placeholder="输入标题">
+											   class="layui-input"
+											   placeholder="输入标题">
 									</div>
 								</div>
 							</div>
@@ -80,8 +92,10 @@
 								<div class="layui-inline">
 									<label class="layui-form-label">类型</label>
 									<div class="layui-input-inline">
-										<select id="select-type" name="type" lay-search="">
-											<option value="">直接选择或搜索选择</option>
+										<select id="select-type"
+												lay-search
+												lay-filter="select-type">
+											<option value="0">下拉选择或搜索选择</option>
 										</select>
 									</div>
 								</div>
@@ -91,12 +105,13 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">发布时间</label>
 								<div class="layui-input-inline layui-show-xs-block">
-									<input class="layui-input laydate" placeholder="开始日"
-										   name="start"
+									<input class="layui-input laydate"
+										   placeholder="开始日"
 										   id="start-date">
 								</div>
 								<div class="layui-input-inline layui-show-xs-block">
-									<input class="layui-input laydate" placeholder="截止日" name="end"
+									<input class="layui-input laydate"
+										   placeholder="截止日"
 										   id="end-date">
 								</div>
 							</div>
@@ -106,7 +121,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">浏览量</label>
 								<div class="layui-input-inline">
-									<select name="rank_view">
+									<select lay-filter="select-view">
 										<option value="" selected>选择排序方式</option>
 										<option value="1">升序</option>
 										<option value="0">降序</option>
@@ -116,7 +131,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">点赞数量</label>
 								<div class="layui-input-inline">
-									<select name="rank_like">
+									<select lay-filter="select-like">
 										<option value="" selected>选择排序方式</option>
 										<option value="1">升序</option>
 										<option value="0">降序</option>
@@ -126,7 +141,7 @@
 							<div class="layui-form-item">
 								<label class="layui-form-label">评论量</label>
 								<div class="layui-input-inline">
-									<select name="rank_comment">
+									<select lay-filter="select-comment">
 										<option value="" selected>选择排序方式</option>
 										<option value="1">升序</option>
 										<option value="0">降序</option>
@@ -137,8 +152,7 @@
 <!--							提交-->
 							<div class="layui-form-item">
 								<div class="layui-input-block">
-									<button type="submit" class="layui-btn" lay-submit=""
-											lay-filter="search">搜索</button>
+									<input class="layui-btn" @click="search" value="搜索" />
 									<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 								</div>
 							</div>
@@ -147,16 +161,37 @@
 				</div>
 			</div>
 
-
+<!--			文章列表-->
 			<div style="padding: 10px;">
 				<div id="article-list" class="layui-row layui-col-space15">
 					<!--文章列表-->
+					<div class="layui-col-md" v-for="item in articleList">
+						<li class="layui-card">
+							<div class="layui-card-header">
+								<a @click="add_article_view(item.articleId)"
+								   :href="get_article_path(item.articleId)"
+								   target="_blank"> {{item.articleTitle}} </a>
+							</div>
+							<div class="layui-card-body">{{item.articleSummary}}</div>
+							<div class="segment-line"></div>
+							<div class="article-info">
+								<div class="article-info-author">作者：{{item.articleAuthorName}}</div>
+								<div class="article-info-date">发布日期：{{item.articlePostTime | dateFormat}}</div>
+								<div class="article-info-view">浏览量：{{item.articleViewCount}}</div>
+								<div class="article-info-like">
+									<i class="layui-icon layui-icon-praise" style="color: #ff0000"></i>
+									<span class="like-count">{{item.articleLikeCount}}</span>
+								</div>
+							</div>
+						</li>
+					</div>
 				</div>
 			</div>
 
 			<!--分页-->
 			<div id="pagination" style="text-align: center"></div>
 		</div>
+
 
 		<!-- 右边是文章信息和分类导航 -->
 		<div id="right" class="sidebar layui-col-md3 layui-col-lg3">
@@ -166,15 +201,187 @@
 					<cite>写博客</cite></a>
 			</div>
 		<!--文章分类-->
-			<div class="column">
+			<div class="column" id="typeListBody">
 				<h3><i class="layui-icon layui-icon-list" style="font-size: 20px"> </i>文章分类</h3>
 				<div class="segment-line"></div>
+				<ul class="layui-row layui-col-space5">
+					<li class="layui-col-md12 layui-col-xs12"
+						v-for="item in typeList">
+						<a href="javascript:"
+						   style="display: block"
+						   @click="type_navigation(item.typeId)">{{item.typeName}}
+							<i class="layui-icon layui-icon-right" style='float:right'></i>
+						</a>
+					</li>
+				</ul>
 		<!--分类列表-->
 			</div>
-
 		</div>
 	</div>
 </div>
+
+<script>
+
+	<!--				文章主体的 Vue 实例-->
+	// 搜索条件 + 文章列表本体 + 分页
+	var ArticleListBody = new Vue({
+		el: '#index',
+		data: {
+			queryString : "",
+			query: {
+				article_author_name: "",
+				article_title: "",
+				article_type: "",
+				start: "",
+				end: "",
+				rank_view: "",
+				rank_like: "",
+				rank_comment: ""
+			},
+			articleList: [],
+			typeList: [],
+			pagination: {
+				//当前所在的页数
+				currentPage: 1,
+				//总共的页数
+				count: -1,
+				//每一页的数据条目数
+				limit: -1,
+				//一共分几组
+				groups: 5
+			}
+		},
+		mounted(){
+			this.$nextTick(function () {
+				this.get_article_list(1)
+				this.get_type_list()
+			})
+		},
+		filters:{
+			dateFormat(date) {
+				var s = new Date(date)
+				var y = s.getFullYear()
+				var m = (s.getMonth() + 1) < 10 ? '0' + (s.getMonth() + 1) : (s.getMonth() + 1)
+				var dd = s.getDate() < 10 ? '0' + s.getDate() : s.getDate()
+				var hh = s.getHours() < 10 ? '0' + s.getHours() : s.getHours()
+				var mm = s.getMinutes() < 10 ? '0' + s.getMinutes() : s.getMinutes()
+				var ss = s.getSeconds() < 10 ? '0' + s.getSeconds() : s.getSeconds()
+				var enddate = y + '-' + m + '-' + dd + ' ' + hh + ':' + mm + ":" + ss
+				return enddate
+			}
+		},
+		methods:{
+			get_article_list(pn){
+				var _this = this
+				axios.get('article/articles',{
+					params: {
+						"pn": pn,
+						"search": _this.queryString
+					}
+				}).then(function (response) {
+					//获取文章列表
+					if(response.data.extend.pageInfo.total === 0){
+						layer.msg("找不到相关文章")
+						return
+					}
+					// 文章列表数据
+					_this.articleList = response.data.extend.pageInfo.records
+					// 文章分页数据
+					_this.pagination.currentPage = response.data.extend.pageInfo.current
+					_this.pagination.limit = response.data.extend.pageInfo.size
+					_this.pagination.count = response.data.extend.pageInfo.total
+					// 页面大小调整
+					let window_h = $(window).height()
+					$("body").height(window_h);
+				}).catch(function (error) {
+					layer.msg("找不到相关文章")
+					let window_h = $(window).height()
+					$("body").height(window_h);
+				});
+			},
+			get_article_path(articleId){
+				return "/article.html?p="+String(articleId)
+			},
+			add_article_view(articleId) {
+				axios.post('/article/view',{params: {"id": articleId}})
+			},
+			get_type_list(){
+				var _this = this
+				axios.get("type/all")
+					.then(function (response) {
+						_this.typeList = response.data.extend.pageInfo.records
+						// 拿到数据之后添加到下拉和搜索选择框中
+						let html = "<option value=\"\">直接选择或搜索选择</option>"
+						layui.$.each(_this.typeList, function (index, item) {
+							html += "<option value=" + item.typeId + ">" +
+									item.typeName + "</option>"
+						})
+						layui.$("#select-type").html(html)
+						layui.form.render()
+					})
+			},
+			type_navigation(typeId){
+				this.queryString = "type=" + String(typeId)
+				this.get_article_list(1)
+			},
+			// render_pagination(){
+			// 	// 分页
+			// 	var _this = this
+			// 	layui.laypage.render({
+			// 		elem: 'pagination'
+			// 		,count: _this.pagination.count
+			// 		,limit: _this.pagination.limit
+			// 		,groups: _this.pagination.groups
+			// 		,jump: function(obj, first){
+			// 			if (!first) {
+			// 				_this.get_article_list(_this.pagination.currentPage + 1)
+			// 			}
+			// 		}
+			// 	})
+			// },
+			search(){
+				// 获取条件
+				this.generateQueryString()
+				//	发送请求
+				this.get_article_list(1)
+			},
+			generateQueryString(){
+				let condition = ""
+				let query = this.query
+				if(query.article_author_name !== ""){
+					condition += ("article_author_name=" + query.article_author_name
+							+ "&")
+				}
+				if(query.article_title !== ""){
+					condition += ("article_title=" + query.article_title + "&")
+				}
+				if(query.article_type !== ""){
+					condition += ("type=" + String(query.article_type) + "&")
+				}
+				if(query.start !== ""){
+					condition += ("start=" + String(query.start) + "&")
+				}
+				if(query.end !== ""){
+					condition += ("end=" + String(query.end) + "&")
+				}
+				if(query.rank_view !== ""){
+					condition += ("rank_view=" + String(query.rank_view) + "&")
+				}
+				if(query.rank_like !== ""){
+					condition += ("rank_like=" + String(query.rank_like) + "&")
+				}
+				if(query.rank_comment !== ""){
+					condition += ("rank_comment=" + String(query.rank_comment) + "&")
+				}
+				condition = condition.lastIndexOf("&") === condition.length - 1 ?
+						condition.substr(0, condition.length - 1) :
+						condition
+
+				this.queryString = condition
+			}
+		}
+	})
+</script>
 
 <ul class="layui-fixbar">
 	<li class="layui-icon layui-fixbar-top" lay-type="top"
@@ -195,8 +402,55 @@
 		$("nav img")[1].src = "../images/profile.png"
 	}
 
-	// 查找
-	var queryString = '[[${#request.queryString}]]';
+	layui.use(['element', 'layer', 'laypage', 'laydate', 'form'], function(){
+
+		var laypage = layui.laypage2
+		var form = layui.form
+		var laydate = layui.laydate
+		var $ = layui.$
+
+		// 数据渲染
+		laydate.render({
+			elem: "#start-date",
+			done: function (value) {
+				ArticleListBody.query.start = value
+			}
+		})
+
+		laydate.render({
+			elem: "#end-date",
+			done: function (value) {
+				ArticleListBody.query.end = value
+			}
+		})
+
+		form.on('select(select-type)', function(data) {
+			ArticleListBody.query.article_type = data.value
+		})
+		form.on('select(select-view)', function(data) {
+			ArticleListBody.query.rank_view = data.value
+		})
+		form.on('select(select-like)', function(data) {
+			ArticleListBody.query.rank_like = data.value
+		})
+		form.on('select(select-comment)', function(data) {
+			ArticleListBody.query.rank_comment = data.value
+		})
+
+		// var _this = ArticleListBody
+		// layui.laypage.render({
+		// 	elem: 'pagination'
+		// 	,count: _this.pagination.count
+		// 	,limit: _this.pagination.limit
+		// 	,groups: _this.pagination.groups
+		// 	,jump: function(obj, first){
+		// 		if (!first) {
+		// 			_this.get_article_list(_this.pagination.currentPage + 1)
+		// 		}
+		// 	}
+		// })
+
+	});
 
 </script>
 

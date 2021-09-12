@@ -55,13 +55,13 @@ public class UserController {
         }
 
 //        记录用户登录信息
-        UserLoginLog loginLog = new UserLoginLog();
-        loginLog.setLoginIp(request.getRemoteAddr());
-        loginLog.setLoginTime(new Date());
-        if(null != user){
-            loginLog.setUserId(user.getUserId());
-        }
-        loginLog.insert();
+//        UserLoginLog loginLog = new UserLoginLog();
+//        loginLog.setLoginIp(request.getRemoteAddr());
+//        loginLog.setLoginTime(new Date());
+//        if(null != user){
+//            loginLog.setUserId(user.getUserId());
+//        }
+//        loginLog.insert();
 
         return Msg.success().add("user", user);
     }

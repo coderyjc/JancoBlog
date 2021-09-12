@@ -8,8 +8,6 @@
 
 前端
 
-- 采用 Vue ，使用MVVM模型
-- 网络信息交互使用 Axios
 - 使用LayUI前端框架
 - 使用HTML+CSS编写
 

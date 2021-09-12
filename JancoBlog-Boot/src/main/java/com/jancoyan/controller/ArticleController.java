@@ -36,6 +36,26 @@ public class ArticleController {
 
 
     /**
+     * load index article
+     * @param pn page number
+     * @param session session
+     * @return message
+     */
+    @RequestMapping(value = "/articles", method = RequestMethod.GET)
+    public Msg indexArticle(
+            @RequestParam(value = "pn")Integer pn,
+            @RequestParam(value = "search", defaultValue = "") String search,
+            HttpSession session
+    ){
+        System.out.println(search);
+        session.setAttribute("content", new ArticleContent());
+        IPage<Article> page = articleService.selectAllWithAuthorNameByPage(pn, 10, search);
+        return Msg.success().add("pageInfo", page);
+    }
+
+
+
+    /**
      * receive picture from editor.md
      * @param multipartFile picture segment
      * @param request request
@@ -228,24 +248,6 @@ public class ArticleController {
         content = content.selectById();
         session.setAttribute("content", content);
         return Msg.success();
-    }
-
-    /**
-     * load index article
-     * @param pn page number
-     * @param session session
-     * @return message
-     */
-    @RequestMapping(value = "/articles", method = RequestMethod.GET)
-    public Msg indexArticle(
-            @RequestParam(value = "pn")Integer pn,
-            @RequestParam(value = "search", defaultValue = "") String search,
-            HttpSession session
-    ){
-        System.out.println(search);
-        session.setAttribute("content", new ArticleContent());
-        IPage<Article> page = articleService.selectAllWithAuthorNameByPage(pn, 10, search);
-        return Msg.success().add("pageInfo", page);
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
