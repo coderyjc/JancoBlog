@@ -39,13 +39,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         IPage<Article> iPage = new Page<>(page, limit);
         QueryWrapper<Article> wrapper = new QueryWrapper<>();
 //        筛选条件
-        String[] split = search.split("&amp;");
+        String[] split = search.split("&");
         for (String item : split) {
             String[] split2 = item.split("=");
             if(split2.length < 2){
                 continue;
             }
-
+            System.out.println(item);
+            System.out.println(split2[1]);
             if(split2[0].equals("article_author_name")){
                 wrapper.like("article_author_name", split2[1]);
             }else if(split2[0].equals("article_title")){

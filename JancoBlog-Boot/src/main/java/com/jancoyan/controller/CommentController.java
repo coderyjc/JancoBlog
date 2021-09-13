@@ -3,6 +3,7 @@ package com.jancoyan.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jancoyan.pojo.Comment;
 import com.jancoyan.pojo.User;
 import com.jancoyan.service.CommentService;
@@ -63,14 +64,14 @@ public class CommentController {
 
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
     public Msg postComment(
-            @RequestParam("id") String articleId,
-            @RequestParam("nickname") String nickName,
-            @RequestParam("email") String email,
-            @RequestParam("content") String content,
+            @RequestParam(value = "id") String articleId,
+            @RequestParam(value = "userNickName") String nickName,
+            @RequestParam(value = "userEmail") String email,
+            @RequestParam(value = "commentContent") String content,
             HttpServletRequest request,
             HttpSession session
     ){
-        // 评论成功之后把评论传回去，进行回调
+        // 评论成功之后把评论传回去，不用回调了
         Comment comment = new Comment();
         User user = (User) session.getAttribute("user");
         // 封装
@@ -89,16 +90,22 @@ public class CommentController {
         comment.setCommentAuthorIp(request.getRemoteAddr());
         // 插入
         comment.insert();
-        return Msg.success().add("comment", comment);
+        return Msg.success();
     }
 
     @RequestMapping(value = "/article", method = RequestMethod.GET)
-    public Msg getArticleComment(@RequestParam("id") String articleId){
+    public Msg getArticleComment(
+            @RequestParam("id") String articleId,
+            @RequestParam(value = "pn", defaultValue = "1") Integer pn,
+            @RequestParam(value = "limit", defaultValue = "10") Integer limit
+    ){
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
         wrapper.eq("comment_article_id", articleId);
         Comment comment = new Comment();
-        List<Comment> commentList = comment.selectList(wrapper);
-        return Msg.success().add("pageInfo", commentList);
+//        List<Comment> commentList = comment.selectList(wrapper);
+        IPage<Comment> iPage = new Page<>(pn, limit);
+        iPage = comment.selectPage(iPage, wrapper);
+        return Msg.success().add("pageInfo", iPage);
     }
 
 
