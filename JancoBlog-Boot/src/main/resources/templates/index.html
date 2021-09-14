@@ -220,9 +220,24 @@
 	</div>
 </div>
 
+<ul class="layui-fixbar">
+	<li class="layui-icon layui-fixbar-top" lay-type="top"
+		style="display: list-item; width: 40px; height: 30px">^</li>
+</ul>
+
+<!-- 页脚的内容 -->
+<div class="footer">
+	<div class="container clearfix">
+		<a href="javascript:;">发展历程</a>
+	</div>
+</div>
+
+</body>
+
 <script>
 
-	<!--				文章主体的 Vue 实例-->
+	console.log("进入 脚本 标签")
+
 	// 搜索条件 + 文章列表本体 + 分页
 	var ArticleListBody = new Vue({
 		el: '#index',
@@ -241,20 +256,41 @@
 			articleList: [],
 			typeList: [],
 			pagination: {
-				//当前所在的页数
-				currentPage: 1,
-				//总共的页数
-				count: -1,
+				// 一共的数据条数
+				total: -1,
 				//每一页的数据条目数
-				limit: -1,
+				size: -1,
+				//当前所在的页数
+				current: 1,
+				//总共的页数
+				pages: -1,
 				//一共分几组
 				groups: 5
 			}
 		},
 		mounted(){
 			this.$nextTick(function () {
-				this.get_article_list(1)
+				// 仅在整个视图都被渲染之后才会运行的代码
+				console.log("开始挂载")
+				//获取类型列表和文章列表
 				this.get_type_list()
+				this.get_article_list(1)
+				console.log("结束挂载，已经获取到type和article")
+
+				console.log("初始化分页数据")
+
+				var _this = this
+				layui.laypage.render({
+					elem: 'pagination'
+					,count: _this.pagination.total
+					,limit: 10
+					,groups: 5
+					,jump: function(obj, first){
+						if (!first) {
+
+						}
+					}
+				})
 			})
 		},
 		filters:{
@@ -272,7 +308,9 @@
 		},
 		methods:{
 			get_article_list(pn){
+				console.log("获取ArticleList")
 				var _this = this
+				var $ = layui.$
 				axios.get('article/articles',{
 					params: {
 						"pn": pn,
@@ -287,16 +325,18 @@
 					// 文章列表数据
 					_this.articleList = response.data.extend.pageInfo.records
 					// 文章分页数据
-					_this.pagination.currentPage = response.data.extend.pageInfo.current
-					_this.pagination.limit = response.data.extend.pageInfo.size
-					_this.pagination.count = response.data.extend.pageInfo.total
+					_this.pagination.curent = response.data.extend.pageInfo.current
+					_this.pagination.size = response.data.extend.pageInfo.size
+					_this.pagination.total = response.data.extend.pageInfo.total
+					_this.pagination.pages = response.data.extend.pageInfo.pages
+
 					// 页面大小调整
 					let window_h = $(window).height()
 					$("body").height(window_h);
 				}).catch(function (error) {
-					layer.msg("找不到相关文章")
-					let window_h = $(window).height()
-					$("body").height(window_h);
+					// layer.msg("找不到相关文章")
+					// let window_h = $(window).height()
+					// $("body").height(window_h);
 				});
 			},
 			get_article_path(articleId){
@@ -306,39 +346,27 @@
 				axios.post('/article/view',{params: {"id": articleId}})
 			},
 			get_type_list(){
+				console.log("获取typelist")
 				var _this = this
+				var _form = layui.form
+				var _$ = layui.$
 				axios.get("type/all")
-					.then(function (response) {
-						_this.typeList = response.data.extend.pageInfo.records
-						// 拿到数据之后添加到下拉和搜索选择框中
-						let html = "<option value=\"\">直接选择或搜索选择</option>"
-						layui.$.each(_this.typeList, function (index, item) {
-							html += "<option value=" + item.typeId + ">" +
-									item.typeName + "</option>"
+						.then(function (response) {
+							_this.typeList = response.data.extend.pageInfo.records
+							// 拿到数据之后添加到下拉和搜索选择框中
+							let html = "<option value=\"\">直接选择或搜索选择</option>"
+							_$.each(_this.typeList, function (index, item) {
+								html += "<option value=" + item.typeId + ">" +
+										item.typeName + "</option>"
+							})
+							_$("#select-type").html(html)
+							_form.render()
 						})
-						layui.$("#select-type").html(html)
-						layui.form.render()
-					})
 			},
 			type_navigation(typeId){
 				this.queryString = "type=" + String(typeId)
 				this.get_article_list(1)
 			},
-			// render_pagination(){
-			// 	// 分页
-			// 	var _this = this
-			// 	layui.laypage.render({
-			// 		elem: 'pagination'
-			// 		,count: _this.pagination.count
-			// 		,limit: _this.pagination.limit
-			// 		,groups: _this.pagination.groups
-			// 		,jump: function(obj, first){
-			// 			if (!first) {
-			// 				_this.get_article_list(_this.pagination.currentPage + 1)
-			// 			}
-			// 		}
-			// 	})
-			// },
 			search(){
 				// 获取条件
 				this.generateQueryString()
@@ -381,33 +409,22 @@
 			}
 		}
 	})
-</script>
 
-<ul class="layui-fixbar">
-	<li class="layui-icon layui-fixbar-top" lay-type="top"
-		style="display: list-item; width: 40px; height: 30px">^</li>
-</ul>
-
-<!-- 页脚的内容 -->
-<div class="footer">
-	<div class="container clearfix">
-		<a href="javascript:;">发展历程</a>
-	</div>
-</div>
-
-<script>
 
 	// 登录之后显示头像和下拉框
 	if('[[${session.user}]]' !== ''){
 		$("nav img")[1].src = "../images/profile.png"
 	}
 
+	console.log("开始初始化layui")
+
 	layui.use(['element', 'layer', 'laypage', 'laydate', 'form'], function(){
 
-		var laypage = layui.laypage2
+		var laypage = layui.laypage
 		var form = layui.form
 		var laydate = layui.laydate
-		var $ = layui.$
+
+		console.log("初始化日期数据")
 
 		// 数据渲染
 		laydate.render({
@@ -424,6 +441,8 @@
 			}
 		})
 
+		console.log("初始化select数据")
+
 		form.on('select(select-type)', function(data) {
 			ArticleListBody.query.article_type = data.value
 		})
@@ -436,23 +455,11 @@
 		form.on('select(select-comment)', function(data) {
 			ArticleListBody.query.rank_comment = data.value
 		})
-
-		// var _this = ArticleListBody
-		// layui.laypage.render({
-		// 	elem: 'pagination'
-		// 	,count: _this.pagination.count
-		// 	,limit: _this.pagination.limit
-		// 	,groups: _this.pagination.groups
-		// 	,jump: function(obj, first){
-		// 		if (!first) {
-		// 			_this.get_article_list(_this.pagination.currentPage + 1)
-		// 		}
-		// 	}
-		// })
-
 	});
+
+	console.log("结束初始化layui")
 
 </script>
 
-</body>
+
 </html>
