@@ -18,11 +18,16 @@
         <result column="article_view_count" property="articleViewCount" />
         <result column="article_comment_count" property="articleCommentCount" />
         <result column="article_like_count" property="articleLikeCount" />
+        <result column="user_name" property="userName" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         article_id, article_title, article_author, article_type, article_summary, article_html, article_md, article_is_comment, article_rank, article_post_time, article_edit_time, article_view_count, article_comment_count, article_like_count
     </sql>
+
+    <select id="getIndexList" resultType="com.jancoyan.jancoblog.pojo.Article">
+        select * from v_article_list_show ${ew.customSqlSegment}
+    </select>
 
 </mapper>

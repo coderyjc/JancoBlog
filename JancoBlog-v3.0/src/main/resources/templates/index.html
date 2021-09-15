@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- <link rel="stylesheet" href="/lib/elementui.css"> -->
+    <!-- <script type="text/javascript" src="/lib/elementui.js"></script> -->
+    <script type="text/javascript" src="/lib/vue.2.6.14.js"></script>
+    <script type="text/javascript" src="/lib/axios.0.21.4.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <title>Blog</title>
+</head>
+<style>
+
+/* 头像右浮动 */
+.user-avatar{
+    float: right;
+}
+.el-divider{
+    margin: 10px;
+}
+
+.logo{
+    font-size: 30px;
+    line-height: 30px;
+    color: black;
+}
+
+.el-card__body{
+    padding-bottom: 8px;
+}
+
+#article-list,.search-bar{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+</style>
+<body>
+    <div id="app">
+        <!--    导航栏-->
+        <el-row :gutter="20">
+            <el-col :span="16" :offset="4">
+                <el-menu :default-active="0" class="el-menu-demo" mode="horizontal">
+                    <el-menu-item><span class="logo">Jancoyan</span></el-menu-item>
+                    <el-menu-item :index="0">首页</el-menu-item>
+                </el-menu>
+            </el-col>
+        </el-row>
+        <!--    主要部分-->
+        <el-row :gutter="20">
+            <!--    左栏搜索文章、文章列表、分页-->
+            <el-col :span="10" :offset="4">
+                <!-- 搜索框 -->
+                <el-collapse accordion class="search-bar">
+                    <el-collapse-item>
+                      <template slot="title">
+                        <i class="header-icon el-icon-search" style="font-size:20px;margin-right: 5px;"></i>搜索文章
+                      </template>
+                      <el-form ref="form" :model="form" label-width="80px">
+                        <el-form-item label="标题包含">
+                          <el-input v-model="query.article_title"></el-input>
+                        </el-form-item>
+                        <el-form-item label="作者">
+                          <el-input v-model="query.article_author_name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="发表时间">
+                          <el-col :span="11">
+                            <el-date-picker type="date" placeholder="开始日期" v-model="query.start" style="width: 100%;"></el-date-picker>
+                          </el-col>
+                          <el-col :span="11">
+                            <el-date-picker type="date" placeholder="结束日期" v-model="query.end" style="width: 100%;"></el-date-picker>
+                          </el-col>
+                        </el-form-item>
+                        
+
+                        <el-form-item>
+                          <el-button type="primary" @click="submitSearch">搜索</el-button>
+                          <el-button @click="resetForm">重置</el-button>
+                        </el-form-item>
+                      </el-form>                      
+                    </el-collapse-item>
+                  </el-collapse>
+
+                <!-- 文章列表动态更新 -->
+                <div id="article-list" v-for="item in articleList">
+                    <el-card class="box-card" shadow="hover">
+                        <div style="font-weight: 700;">{{ item.articleTitle }}</div>
+                        <el-divider class="el-divider"><i class="el-icon-star-off"></i></el-divider>
+                        <div>{{ item.articleSummary }}</div>
+                        <el-divider class="el-divider"><i class="el-icon-star-off"></i></el-divider>
+                        <div>
+                            <span><i class="el-icon-user"></i> {{ item.userName }} </span>
+                            <el-divider direction="vertical"></el-divider>
+                            <span><i class="el-icon-time"></i> {{ item.articlePostTime | dateFormat }}</span>
+                            <el-divider direction="vertical"></el-divider>
+                            <span><i class="el-icon-view"></i> {{ item.articleViewCount }}</span>
+                        </div>
+                    </el-card>
+                </div>
+
+                <!-- 分页 -->
+                <div class="block">
+                    <el-pagination
+                      @size-change="handleSizeChange"
+                      @current-change="handleCurrentChange"
+                      :current-page="currentPage"
+                      :page-sizes="[10, 20, 30, 40]"
+                      :page-size="page_size"
+                      layout="total, sizes, prev, pager, next, jumper"
+                      :total="total">
+                    </el-pagination>
+                  </div>
+
+            </el-col>
+            <!--    右栏分类等-->
+            <el-col :span="6">
+                <!-- 文章类型分类 -->
+            </el-col>
+        </el-row>
+    </div>
+</body>
+<script type="text/javascript">
+
+    const vue = new Vue({
+        el: "#app",
+        data: function () {
+            return {
+                condition: "",
+                query: {
+                    article_author_name: "",
+                    article_title: "",
+                    article_type: "",
+                    start: "",
+                    end: "",
+                    rank_view: "",
+                    rank_like: "",
+                    rank_comment: ""
+			    },
+                // 文章列表
+                articleList: [],
+                // 类型列表
+                typeList: [],
+                // 当前的页面
+                currentPage: 1,
+                // 每一页多少
+                page_size: 10,
+                // 总数
+                total: 0
+            }
+        },
+        filters: {
+            dateFormat(date) {
+				var s = new Date(date)
+				var y = s.getFullYear()
+				var m = (s.getMonth() + 1) < 10 ? '0' + (s.getMonth() + 1) : (s.getMonth() + 1)
+				var dd = s.getDate() < 10 ? '0' + s.getDate() : s.getDate()
+				var hh = s.getHours() < 10 ? '0' + s.getHours() : s.getHours()
+				var mm = s.getMinutes() < 10 ? '0' + s.getMinutes() : s.getMinutes()
+				var ss = s.getSeconds() < 10 ? '0' + s.getSeconds() : s.getSeconds()
+				var enddate = y + '-' + m + '-' + dd + ' ' + hh + ':' + mm + ":" + ss
+				return enddate
+			}
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                // 进行数据请求，拿到数据
+                this.get_article_list(1);
+            })
+        },
+        methods: {
+            handleSizeChange(val) {
+                this.page_size = val
+                this.get_article_list(1)
+            },
+            handleCurrentChange(val) {
+                this.get_article_list(val)
+            },
+            get_article_list(pn){
+                var condition = ""
+                var url = "/article/all?pn=" + String(pn) + "&limit=" + String(this.page_size) + "&condition=" + condition
+                axios.get(url).then((response) => {
+                    pageInfo = response.data.extend.pageInfo
+                    this.articleList = pageInfo.records
+                    this.page_size = pageInfo.size
+                    this.total = pageInfo.total
+                })
+            },
+            get_type_list(pn){
+                var url = "/type/all"
+                axios.get(url).then((response) => {
+                    pageInfo = response.data.extend.pageInfo
+                    this.typeList = pageInfo.records
+                    // 还处在调试模式
+                    console.log(this.typeList);
+                })
+            },
+            submitSearch(){
+                console.log("hello");
+            },
+            resetForm(){
+                this.query.article_author_name = ""
+                this.query.article_title = ""
+                this.query.article_type = ""
+                this.query.start = ""
+                this.query.end =""
+                this.query.rank_view = ""
+                this.query.rank_like = ""
+                this.query.rank_comment = ""
+            }
+        }
+    })
+
+
+</script>
+
+</html>

@@ -1,5 +1,6 @@
 package com.jancoyan.jancoblog.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ArticleService extends IService<Article> {
 
+    IPage<Article> getIndexList(Integer pn, Integer limit, String condition);
 }

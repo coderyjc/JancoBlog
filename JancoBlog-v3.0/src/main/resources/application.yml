@@ -9,13 +9,13 @@ spring:
     restart:
       enabled: true
       additional-paths: src/main/java
-  web:
-    resources:
-      static-locations: classpath:/static,classpath:/public,classpath:/resources,classpath:/META-INF/resources
   mvc:
     view:
       prefix: /
-
+      suffix: .html
+  web:
+    resources:
+      static-locations: classpath:/templates/,classpath:/static/
 server:
   port: 8080
 
