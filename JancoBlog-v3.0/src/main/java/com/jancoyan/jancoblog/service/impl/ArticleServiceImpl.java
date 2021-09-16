@@ -67,4 +67,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         return baseMapper.getIndexList(iPage, wrapper);
     }
+
+    @Override
+    public IPage<Article> getManageList(Integer pn, Integer limit, String condition) {
+
+        //        分页查询
+        IPage<Article> iPage = new Page<>(pn, limit);
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        return baseMapper.getManageList(iPage, wrapper);
+    }
 }

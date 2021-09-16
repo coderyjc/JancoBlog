@@ -40,5 +40,26 @@ public class TypeController {
         return Msg.success().add("pageInfo", iPage);
     }
 
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public Msg addType(){
+
+
+
+        return Msg.success();
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public Msg deleteType(){
+        return Msg.success();
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public Msg updateType(){
+
+
+        return Msg.success();
+    }
+
+
 }
 

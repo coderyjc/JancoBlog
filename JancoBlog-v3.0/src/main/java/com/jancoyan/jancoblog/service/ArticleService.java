@@ -15,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface ArticleService extends IService<Article> {
 
     IPage<Article> getIndexList(Integer pn, Integer limit, String condition);
+
+    IPage<Article> getManageList(Integer pn, Integer limit, String condition);
 }

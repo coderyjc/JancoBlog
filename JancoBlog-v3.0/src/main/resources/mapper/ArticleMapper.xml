@@ -29,5 +29,8 @@
     <select id="getIndexList" resultType="com.jancoyan.jancoblog.pojo.Article">
         select * from v_article_list_show ${ew.customSqlSegment}
     </select>
+    <select id="getManageList" resultType="com.jancoyan.jancoblog.pojo.Article">
+        select * from v_article_manage_show ${ew.customSqlSegment}
+    </select>
 
 </mapper>

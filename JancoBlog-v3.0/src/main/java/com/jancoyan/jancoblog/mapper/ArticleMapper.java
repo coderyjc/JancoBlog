@@ -17,4 +17,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface ArticleMapper extends BaseMapper<Article> {
 
     IPage<Article> getIndexList(IPage<Article> iPage, Wrapper ew);
+
+    IPage<Article> getManageList(IPage<Article> iPage, Wrapper ew);
 }
