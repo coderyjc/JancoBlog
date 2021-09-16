@@ -35,6 +35,7 @@ public class ArticleController {
         IPage<Article> iPage = service.getIndexList(Integer.parseInt(pn),
                 Integer.parseInt(limit),
                 condition);
+
         return Msg.success().add("pageInfo", iPage);
     }
 }

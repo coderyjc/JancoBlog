@@ -21,4 +21,4 @@ server:
 
 logging:
   level:
-    com.jancoyan.mapper: debug
+    com.jancoyan.jancoblog.mapper: debug

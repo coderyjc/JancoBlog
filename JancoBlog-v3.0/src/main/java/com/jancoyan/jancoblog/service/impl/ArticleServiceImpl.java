@@ -27,7 +27,44 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         IPage<Article> iPage = new Page<>(pn, limit);
         QueryWrapper<Article> wrapper = new QueryWrapper<>();
 
-        wrapper.orderByDesc("article_post_time");
+        String[] split = condition.split("--");
+        for (String item : split) {
+            String[] split2 = item.split("=");
+            if(split2.length < 2){
+                continue;
+            }
+
+            if(split2[0].equals("article_author_name")){
+                wrapper.like("article_author_name", split2[1]);
+            }else if(split2[0].equals("article_title")){
+                wrapper.like("article_title", split2[1]);
+            }else if(split2[0].equals("type")){
+                wrapper.eq("article_type", split2[1]);
+            }else if(split2[0].equals("start")){
+                wrapper.gt("article_post_time", split2[1]);
+            }else if(split2[0].equals("end")){
+                wrapper.lt("article_post_time", split2[1]);
+            }else if(split2[0].equals("rank_view")){
+                if (split2[1].equals("1")) {
+                    wrapper.orderByAsc("article_view_count");
+                } else {
+                    wrapper.orderByDesc("article_view_count");
+                }
+            }else if(split2[0].equals("rank_like")){
+                if (split2[1].equals("1")) {
+                    wrapper.orderByAsc("article_like_count");
+                } else {
+                    wrapper.orderByDesc("article_like_count");
+                }
+            }else if(split2[0].equals("rank_comment")){
+                if (split2[1].equals("1")) {
+                    wrapper.orderByAsc("article_comment_count");
+                } else {
+                    wrapper.orderByDesc("article_comment_count");
+                }
+            }
+        }
+
         return baseMapper.getIndexList(iPage, wrapper);
     }
 }
