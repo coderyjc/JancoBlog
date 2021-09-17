@@ -46,7 +46,6 @@ public class ArticleController {
         return Msg.success().add("pageInfo", iPage);
     }
 
-
     @RequestMapping(value = "/manage")
     public Msg getManageAll(
             @RequestParam(value = "pn")String pn,
@@ -59,10 +58,6 @@ public class ArticleController {
         return Msg.success().add("pageInfo", iPage);
     }
 
-
-
-
-
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public Msg getUserAll(){
 
@@ -73,7 +68,6 @@ public class ArticleController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public Msg batchDeleteArticle(String ids){
-        System.out.println(ids);
         Article article = new Article();
         boolean suc = false;
         if(!ids.contains("&")){

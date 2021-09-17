@@ -39,9 +39,6 @@ public class Article extends Model<Article> {
 
     private Integer articleAuthor;
 
-    @TableField(exist = false)
-    private String userName;
-
     private Integer articleType;
 
     private String articleSummary;
@@ -63,5 +60,11 @@ public class Article extends Model<Article> {
     private Integer articleCommentCount;
 
     private Integer articleLikeCount;
+
+    @TableField(exist = false)
+    private String userName;
+
+    @TableField(exist = false)
+    private String typeName;
 
 }

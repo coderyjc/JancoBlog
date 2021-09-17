@@ -15,6 +15,11 @@
 </head>
 <style>
 
+*{
+    padding: 0;
+    margin: 0;
+}
+
 /* 头像右浮动 */
 .user-avatar{
     float: right;
@@ -39,7 +44,7 @@
 }
 
 #article_type_list{
-    margin-top: 20px;
+    margin-top: 80px;
     width: 300px;
     position: fixed;
 }
@@ -59,11 +64,15 @@
     background-color: #ebeff5;
 }
 
+.search-bar{
+    margin-top: 80px;
+}
+
 </style>
 <body>
     <div id="app">
         <!--    导航栏-->
-        <el-row :gutter="20">
+        <el-row :gutter="20" style="position: fixed; width:100%; z-index: 1">
             <el-col :span="16" :offset="4">
                 <el-menu :default-active="0" class="el-menu-demo" mode="horizontal">
                     <el-menu-item><span class="logo">Jancoyan</span></el-menu-item>
@@ -185,6 +194,7 @@
                 </el-card>
             </el-col>
         </el-row>
+        <el-backtop></el-backtop>
     </div>
 </body>
 <script type="text/javascript">

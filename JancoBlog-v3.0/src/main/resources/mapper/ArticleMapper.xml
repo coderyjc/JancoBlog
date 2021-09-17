@@ -19,6 +19,7 @@
         <result column="article_comment_count" property="articleCommentCount" />
         <result column="article_like_count" property="articleLikeCount" />
         <result column="user_name" property="userName" />
+        <result column="type_name" property="typeName"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

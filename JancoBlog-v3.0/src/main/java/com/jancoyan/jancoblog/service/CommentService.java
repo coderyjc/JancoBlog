@@ -1,5 +1,6 @@
 package com.jancoyan.jancoblog.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CommentService extends IService<Comment> {
 
+    IPage<Comment> getAll(Integer pn, Integer limit, String condition);
 }
