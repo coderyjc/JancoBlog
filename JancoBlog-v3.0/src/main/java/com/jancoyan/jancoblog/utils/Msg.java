@@ -13,9 +13,7 @@ import java.util.Map;
 
 /**
  * 通用的返回的类
- *
  * @author Jancoyan
- *
  */
 public class Msg {
     //状态码   100-成功    200-失败
@@ -28,8 +26,8 @@ public class Msg {
 
     public static Msg success(){
         Msg result = new Msg();
-        result.setCode(0);
-        result.setMsg("");
+        result.setCode(100);
+        result.setMsg("成功");
         return result;
     }
 

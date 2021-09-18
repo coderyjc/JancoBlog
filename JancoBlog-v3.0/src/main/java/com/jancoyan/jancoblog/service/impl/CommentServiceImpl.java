@@ -50,9 +50,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                     wrapper.orderByDesc("comment_like_count");
                 }
             }
-
         }
-
         return baseMapper.getAll(iPage, wrapper);
     }
 }

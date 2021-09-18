@@ -11,6 +11,7 @@ import com.jancoyan.jancoblog.JancoBlogApplicationTests;
 import com.jancoyan.jancoblog.pojo.Article;
 import com.jancoyan.jancoblog.pojo.Comment;
 import com.jancoyan.jancoblog.pojo.User;
+import com.jancoyan.jancoblog.utils.MD5Util;
 import org.junit.jupiter.api.Test;
 
 import java.sql.DatabaseMetaData;
@@ -94,6 +95,20 @@ public class Injection extends JancoBlogApplicationTests {
             System.out.println(i);
         }
 
+    }
+
+    @Test
+    public void userInjection(){
+        User user = new User();
+        user.setUserIp("127.0.0.1").
+                setUserName("admin")
+                .setUserPassword(MD5Util.getMD5("333"))
+                .setUserEmail("301203812@qq.com")
+                .setUserRole(0)
+                .setUserSex(1)
+                .setUserCreateDate(new Date())
+                .setUserLastLoginDate(new Date());
+        user.insert();
     }
 
 }

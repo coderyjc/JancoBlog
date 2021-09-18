@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * <p>
  *  前端控制器
@@ -83,6 +85,28 @@ public class ArticleController {
         return Msg.success().add("suc", suc ? "success" : "fail");
     }
 
+
+    @RequestMapping(value = "/post", method = RequestMethod.POST)
+    public Msg postArticle(
+        @RequestParam(value = "title") String title,
+        @RequestParam(value = "type") String type,
+        @RequestParam(value = "summary") String summary,
+        @RequestParam(value = "comment") String comment,
+        @RequestParam(value = "md") String md,
+        @RequestParam(value = "html") String html,
+        HttpSession session
+    ){
+        System.out.println(title);
+        System.out.println(type);
+        System.out.println(summary);
+        System.out.println(comment);
+        System.out.println(md);
+        System.out.println(html);
+
+        // 先这样   先写登录
+
+        return Msg.success();
+    }
 
 
 

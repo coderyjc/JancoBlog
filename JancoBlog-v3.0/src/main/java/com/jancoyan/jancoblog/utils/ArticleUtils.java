@@ -15,13 +15,16 @@ public class ArticleUtils {
      * @return 替换完毕的文本
      */
     public static String NextLineToText(String str){
-        String content = str.replaceAll("\n", "\\\\n");
-        return content;
+        return str.replaceAll("\n", "\\\\n");
     }
 
+    /**
+     * 把单引号替换为 \' 进行转义
+     * @param str 文章的内容
+     * @return 转换好的文章
+     */
     public static String replaceSingleSlash(String str){
-        String content = str.replaceAll("'", "\\\\'");
-        return content;
+        return str.replaceAll("'", "\\\\'");
     }
 
 

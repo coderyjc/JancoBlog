@@ -1,20 +1,20 @@
 package com.jancoyan.jancoblog.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jancoyan.jancoblog.pojo.Article;
-import com.jancoyan.jancoblog.pojo.Comment;
 import com.jancoyan.jancoblog.pojo.User;
 import com.jancoyan.jancoblog.service.UserService;
+import com.jancoyan.jancoblog.utils.MD5Util;
 import com.jancoyan.jancoblog.utils.Msg;
-import lombok.experimental.Accessors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>
@@ -32,21 +32,36 @@ public class UserController {
     UserService service;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Msg login(){
-
-        return Msg.success();
+    public Msg login(
+            @RequestParam(value = "username") String username,
+            @RequestParam(value = "password") String password
+    ){
+        String msg = "登陆成功";
+        User user = new User();
+        // 构造筛选器
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_name", username);
+        wrapper.eq("user_password", MD5Util.getMD5(password));
+        user = user.selectOne(wrapper);
+        if(null != user){
+//              登录成功,加入session
+//            session.setAttribute("user", user);
+        }else {
+//            登录失败
+            msg = "登录失败";
+        }
+        return Msg.success().add("msg", msg);
     }
 
-    @RequestMapping(value = "/getuserinfo", method = RequestMethod.GET)
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
     public Msg getUserInfo(){
 
         return Msg.success();
     }
 
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Msg register(){
-
-
 
         return Msg.success();
     }
