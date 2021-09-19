@@ -61,7 +61,7 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public Msg getUserAll(){
+    public Msg getArticleByUser(){
 
 
 

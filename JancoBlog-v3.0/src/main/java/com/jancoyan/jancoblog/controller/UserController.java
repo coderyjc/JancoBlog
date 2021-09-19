@@ -34,7 +34,8 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Msg login(
             @RequestParam(value = "username") String username,
-            @RequestParam(value = "password") String password
+            @RequestParam(value = "password") String password,
+            HttpSession session
     ){
         String msg = "登陆成功";
         User user = new User();
@@ -43,20 +44,21 @@ public class UserController {
         wrapper.eq("user_name", username);
         wrapper.eq("user_password", MD5Util.getMD5(password));
         user = user.selectOne(wrapper);
-        if(null != user){
-//              登录成功,加入session
-//            session.setAttribute("user", user);
-        }else {
-//            登录失败
+        if(null == user){
             msg = "登录失败";
+        } else {
+            // 登录成功
+            session.setAttribute("user", user);
         }
         return Msg.success().add("msg", msg);
     }
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
-    public Msg getUserInfo(){
-
-        return Msg.success();
+    public Msg getUserInfo(
+            HttpSession session
+    ){
+        User user = (User) session.getAttribute("user");
+        return Msg.success().add("user", user);
     }
 
 

@@ -43,6 +43,7 @@ public class Injection extends JancoBlogApplicationTests {
 
     String password = "1234567890";
 
+    @Test
     public void commentDataInjection(){
         Random r = new Random();
         Comment comment = new Comment();
@@ -53,7 +54,7 @@ public class Injection extends JancoBlogApplicationTests {
             comment.setCommentArticleId(String.valueOf(1 + r.nextInt(50)));
             comment.setCommentDate(new Date());
             comment.setCommentContent(this.comment.substring(0, r.nextInt(100)));
-            comment.setCommentAuthorId(10000 + r.nextInt(400));
+            comment.setCommentAuthorId(10400 + r.nextInt(400));
             comment.setCommentLikeCount(r.nextInt(100));
             comment.insert();
             System.out.println(i);
@@ -65,13 +66,13 @@ public class Injection extends JancoBlogApplicationTests {
 //         随机添加1000条数据
         Article article = new Article();
         Random r = new Random();
-        for (int i = 1; i < 1000; i++){
+        for (int i = 1; i < 800; i++){
             article.setArticleId(String.valueOf(i));
             article.setArticleTitle(titleStr.substring(r.nextInt(15), 17));
-            article.setArticleAuthor(10000);
+            article.setArticleAuthor(10800);
             article.setArticleHtml(text.substring(r.nextInt(400), 1458 + r.nextInt(400)));
             article.setArticleMd(text.substring(r.nextInt(400), 1458 + r.nextInt(400)));
-            article.setArticleSummary(text.substring(r.nextInt(100), 255));
+            article.setArticleSummary(text.substring(r.nextInt(100), 200));
             article.setArticleType(1 + r.nextInt(12));
             article.setArticleCommentCount(r.nextInt(100));
             article.setArticleLikeCount(r.nextInt(100));
@@ -94,10 +95,8 @@ public class Injection extends JancoBlogApplicationTests {
             user.insert();
             System.out.println(i);
         }
-
     }
 
-    @Test
     public void userInjection(){
         User user = new User();
         user.setUserIp("127.0.0.1").
