@@ -3,72 +3,19 @@
 
 <head>
     <meta charset="utf-8">
-    <!-- <link rel="stylesheet" href="/lib/elementui.css"> -->
+<!--     <link rel="stylesheet" href="/lib/elementui.css">-->
     <!-- <script type="text/javascript" src="/lib/elementui.js"></script> -->
     <script type="text/javascript" src="/lib/vue.2.6.14.js"></script>
     <script type="text/javascript" src="/lib/axios.0.21.4.js"></script>
     <!-- 引入样式 -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!--    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
     <!-- 引入组件库 -->
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--    <script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+    <link rel="stylesheet" href="/css/index.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.3/index.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.3/theme-chalk/index.min.css" rel="stylesheet">
     <title>Blog</title>
 </head>
-<style>
-
-*{
-    padding: 0;
-    margin: 0;
-}
-
-/* 头像右浮动 */
-.user-avatar{
-    float: right;
-}
-.el-divider{
-    margin: 10px;
-}
-
-.logo{
-    font-size: 30px;
-    line-height: 30px;
-    color: black;
-}
-
-.el-card__body{
-    padding-bottom: 8px;
-}
-
-#article-list,.search-bar{
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-#article_type_list{
-    margin-top: 80px;
-    width: 300px;
-    position: fixed;
-}
-
-#article_type_list a{
-    color: black;
-    text-decoration: none; 
-    display: block; 
-    height: 20px; 
-    font-size: 17px; 
-    line-height: 20px;
-    padding: 10px; 
-}
-
-#article_type_list a:hover{
-    font-weight: 600;
-    background-color: #ebeff5;
-}
-
-.search-bar{
-    margin-top: 80px;
-}
-
-</style>
 <body>
     <div id="app">
         <!--    导航栏-->
@@ -95,7 +42,7 @@
                       <template slot="title">
                         <i class="header-icon el-icon-search" style="font-size:20px;margin-right: 5px;"></i>搜索文章
                       </template>
-                      <el-form ref="form" :model="form" label-width="80px">
+                      <el-form ref="form" label-width="80px">
                         <el-form-item label="标题包含">
                           <el-input v-model="query.article_title"></el-input>
                         </el-form-item>
@@ -150,21 +97,46 @@
                     </el-collapse-item>
                   </el-collapse>
 
+<!--               简洁开关-->
+                <el-switch
+                        v-model="simpleMode"
+                        active-color="#13ce66"
+                        active-text="简洁模式"
+                        inactive-text="标准模式">
+                </el-switch>
+
                 <!-- 文章列表动态更新 -->
                 <div id="article-list" v-for="item in articleList">
-                    <el-card class="box-card" shadow="hover">
-                        <div style="font-weight: 700;">{{ item.articleTitle }}</div>
-                        <el-divider class="el-divider"><i class="el-icon-star-off"></i></el-divider>
-                        <div>{{ item.articleSummary }}</div>
-                        <el-divider class="el-divider"><i class="el-icon-star-off"></i></el-divider>
-                        <div>
-                            <span><i class="el-icon-user"></i> {{ item.userName }} </span>
-                            <el-divider direction="vertical"></el-divider>
-                            <span><i class="el-icon-time"></i> {{ item.articlePostTime | dateFormat }}</span>
-                            <el-divider direction="vertical"></el-divider>
-                            <span><i class="el-icon-view"></i> {{ item.articleViewCount }}</span>
-                        </div>
-                    </el-card>
+<!--                非简介模式的文章列表-->
+                    <a href="/article.html" target="_blank">
+                        <el-card class="box-card" shadow="hover" v-if="!simpleMode">
+                            <div style="font-weight: 700;">{{ item.articleTitle }}</div>
+                            <el-divider class="el-divider"><i class="el-icon-star-off"></i></el-divider>
+                            <div>{{ item.articleSummary }}</div>
+                            <el-divider class="el-divider"><i class="el-icon-star-off"></i></el-divider>
+                            <div>
+                                <span><i class="el-icon-user"></i> {{ item.userName }} </span>
+                                <el-divider direction="vertical"></el-divider>
+                                <span><i class="el-icon-time"></i> {{ item.articlePostTime | dateFormat }}</span>
+                                <el-divider direction="vertical"></el-divider>
+                                <span><i class="el-icon-view"></i> {{ item.articleViewCount }}</span>
+                            </div>
+                        </el-card>
+                    </a>
+<!--                    简介模式的文章列表-->
+                    <a href="/article.html" target="_blank">
+                        <el-card class="box-card" shadow="hover" v-if="simpleMode">
+                            <div style="font-weight: 700;">{{ item.articleTitle }}</div>
+                            <el-divider class="el-divider"><i class="el-icon-star-off"></i></el-divider>
+                            <div>
+                                <span><i class="el-icon-user"></i> {{ item.userName }} </span>
+                                <el-divider direction="vertical"></el-divider>
+                                <span><i class="el-icon-time"></i> {{ item.articlePostTime | dateFormat }}</span>
+                                <el-divider direction="vertical"></el-divider>
+                                <span><i class="el-icon-view"></i> {{ item.articleViewCount }}</span>
+                            </div>
+                        </el-card>
+                    </a>
                 </div>
 
                 <!-- 分页 -->
@@ -203,6 +175,7 @@
         el: "#app",
         data: function () {
             return {
+                simpleMode: false,
                 condition: "",
                 query: {
                     article_author_name: "",

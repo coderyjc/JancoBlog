@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>article.html</title>
+<!--    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.min.js"></script>-->
+    <script src="/lib/vue.2.6.14.js"></script>
+	<link rel="stylesheet" href="/css/article.css">
+    <!-- 引入样式 -->
+<!--    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <!-- 引入组件库 -->
+<!--    <script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+    <script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.3/index.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.3/theme-chalk/index.min.css" rel="stylesheet">
+<!--    代码高亮-->
+    <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.2.0/styles/a11y-light.min.css" rel="stylesheet">
+
+    <script>
+        hljs.highlightAll();
+    </script>
+</head>
+<body>
+<div id="app">
+
+<!--    导航栏-->
+    <el-row :gutter="20" style="position: fixed; width:100%; z-index: 1">
+        <el-col :span="24">
+            <el-menu class="el-menu-demo" mode="horizontal">
+                <el-menu-item><span class="logo">Jancoyan</span></el-menu-item>
+                <el-menu-item style="float: right">
+                    <el-avatar>
+                        <a href="http://localhost:9528" target="_blank">登录</a>
+                    </el-avatar>
+                </el-menu-item>
+            </el-menu>
+        </el-col>
+    </el-row>
+
+<!--    文章内容-->
+    <el-col :span="12" :offset="6" style="background-color: white; padding: 20px; margin-top: 60px">
+        <div class="md-content">
+                    <h1>Axios</h1>
+                    <blockquote>
+                        <p>Axios 官网 <a href="https://github.com/axios/axios">https://github.com/axios/axios</a></p>
+                    </blockquote>
+                    <h2>get请求</h2>
+                    <p>基本语法：</p>
+                    <p><code data-backticks="1">axios.get(地址？k1=v1&amp;k2=vv2&amp;k3=v3).then(function(reponse){},function(error){})</code></p>
+                    <p>示例：</p>
+                    <pre><code data-language="js" class="lang-js">function(){
+                axios.get("https://autumnfish.cn/api/joke/list?num=3").then(function(response){
+                    console.log(response);
+                }, function(error){
+                    console.log(error)
+                })
+            }
+            </code></pre>
+                    <h2>post请求</h2>
+                    <p><code data-backticks="1">axios.post(地址,json对象).then(function(response){},function(error){})</code></p>
+                    <p>示例：</p>
+                    <pre><code data-language="javascript" class="lang-javascript">function(){
+                axios.post("https://automnfish.cn/api/user/reg", {
+                    username:"jack"
+                }).then(function(response){
+                    console.log(response)
+                }, function(error){
+                    console.log(error)
+                })
+            }
+            </code></pre>
+                    <h2>Vue+Axios</h2>
+                    <p>点击按钮之后随机获取一条笑话</p>
+                    <pre><code data-language="js" class="lang-js">&lt;body&gt;
+                &lt;div id="app"&gt;
+                    &lt;button type="button" @click="getJoke"&gt;点击按钮随机获取一条笑话&lt;/button&gt; &lt;br&gt;
+                    {{msg}}
+                &lt;/div&gt;
+                &lt;script type="text/javascript"&gt;
+                    Vue = new Vue({
+                        el:"#app",
+                        data: {
+                            msg: ""
+                        },
+                        methods: {
+                            getJoke: function(){
+                                    // 在匿名函数中this的指向改变了
+                                    // 所以在这里先用that把this保存起来
+                                var that = this
+                                axios.get("https://autumnfish.cn/api/joke").then(function(response){
+                                            // 在这里直接用that进行赋值
+                                    that.msg = response.data
+                                }, function(error){
+                                    console.log(error)
+                                })
+                            }
+                        }
+                    })
+
+                &lt;/script&gt;
+            &lt;/body&gt;
+            </code></pre>
+                </div>
+    </el-col>
+
+<!--    评论区-->
+    <el-col :span="12" :offset="6" >
+<!--        评论区内容-->
+
+
+<!--        评论表单-->
+
+
+    </el-col>
+
+<!--    返回顶部-->
+    <el-backtop></el-backtop>
+</div>
+<script type="text/javascript">
+    const vue = new Vue({
+        el: "#app",
+        data: {},
+        methods: {}
+    });
+</script>
+</body>
+</html>

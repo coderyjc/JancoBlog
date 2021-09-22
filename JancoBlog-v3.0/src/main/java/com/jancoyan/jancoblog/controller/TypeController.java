@@ -50,6 +50,9 @@ public class TypeController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public Msg deleteType(){
+
+
+
         return Msg.success();
     }
 

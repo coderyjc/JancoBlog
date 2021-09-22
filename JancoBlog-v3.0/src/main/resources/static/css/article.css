@@ -1,0 +1,34 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+a{
+    text-decoration: none;
+}
+
+body{
+    background-color: #FAFAFA;
+}
+
+
+/*导航栏*/
+.logo{
+    font-size: 30px;
+    line-height: 30px;
+    color: black;
+}
+
+/* 文章内容 */
+.md-content blockquote{
+    padding: 20px;
+    background-color: #F7F6F3 ;
+}
+
+.md-content code{
+    display: block;
+    padding: 20px;
+    background-color: #F7F6F3 ;
+}
+
+/*评论区*/

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 
 /**
  * <p>
@@ -94,8 +96,10 @@ public class ArticleController {
         @RequestParam(value = "comment") String comment,
         @RequestParam(value = "md") String md,
         @RequestParam(value = "html") String html,
-        HttpSession session
-    ){
+        HttpSession session,
+        HttpServletRequest request
+    ) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         System.out.println(title);
         System.out.println(type);
         System.out.println(summary);
@@ -104,7 +108,6 @@ public class ArticleController {
         System.out.println(html);
 
         // 先这样   先写登录
-
         return Msg.success();
     }
 

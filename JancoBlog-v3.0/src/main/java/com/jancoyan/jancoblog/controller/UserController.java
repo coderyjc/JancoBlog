@@ -7,6 +7,7 @@ import com.jancoyan.jancoblog.pojo.User;
 import com.jancoyan.jancoblog.service.UserService;
 import com.jancoyan.jancoblog.utils.MD5Util;
 import com.jancoyan.jancoblog.utils.Msg;
+import com.jancoyan.jancoblog.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -34,39 +36,49 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Msg login(
             @RequestParam(value = "username") String username,
-            @RequestParam(value = "password") String password,
-            HttpSession session
+            @RequestParam(value = "password") String password
     ){
         String msg = "登陆成功";
         User user = new User();
+        String token = "-1";
         // 构造筛选器
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("user_name", username);
         wrapper.eq("user_password", MD5Util.getMD5(password));
         user = user.selectOne(wrapper);
-        if(null == user){
-            msg = "登录失败";
-        } else {
-            // 登录成功
-            session.setAttribute("user", user);
+        if(null != user){
+            // 获取token
+            token = UserUtils.getToken(user);
+//          把user的信息放在redis缓存中
+
         }
-        return Msg.success().add("msg", msg);
+        return Msg.success().add("token", token);
     }
 
-    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    /**
+     * 每一次要获取信息的时候都会发送一次这个
+     * @return 带有用户消息的信息
+     */
+    @RequestMapping(value = "/getinfo", method = RequestMethod.GET)
     public Msg getUserInfo(
-            HttpSession session
+            @RequestParam("token") String token
     ){
-        User user = (User) session.getAttribute("user");
-        return Msg.success().add("user", user);
-    }
-
-
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public Msg register(){
 
         return Msg.success();
     }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public Msg register(
+            @RequestParam("username") String userName,
+            @RequestParam("password") String password,
+            HttpServletRequest request
+    ){
+        User user = new User();
+
+
+        return Msg.success();
+    }
+
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public Msg getAll(

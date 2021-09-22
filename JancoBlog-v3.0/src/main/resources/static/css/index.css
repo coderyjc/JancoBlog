@@ -1,0 +1,63 @@
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+a{
+    text-decoration: none;
+}
+
+/* 头像右浮动 */
+.user-avatar{
+    float: right;
+}
+.el-divider{
+    margin: 10px;
+}
+
+.logo{
+    font-size: 30px;
+    line-height: 30px;
+    color: black;
+}
+
+/*主体*/
+#app{
+    margin-bottom: 50px;
+}
+
+
+.el-card__body{
+    padding-bottom: 8px;
+}
+
+#article-list,.search-bar{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#article_type_list{
+    margin-top: 80px;
+    width: 300px;
+    position: fixed;
+}
+
+#article_type_list a{
+    color: black;
+    text-decoration: none;
+    display: block;
+    height: 20px;
+    font-size: 17px;
+    line-height: 20px;
+    padding: 10px;
+}
+
+#article_type_list a:hover{
+    font-weight: 600;
+    background-color: #ebeff5;
+}
+
+.search-bar{
+    margin-top: 80px;
+}
