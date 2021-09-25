@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.User;
 import com.jancoyan.jancoblog.service.UserService;
+import com.jancoyan.jancoblog.utils.JsonWebTokenUtils;
 import com.jancoyan.jancoblog.utils.MD5Util;
 import com.jancoyan.jancoblog.utils.Msg;
-import com.jancoyan.jancoblog.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * <p>
@@ -38,18 +37,21 @@ public class UserController {
             @RequestParam(value = "username") String username,
             @RequestParam(value = "password") String password
     ){
-        String msg = "登陆成功";
+        String msg = "登录成功";
         User user = new User();
         String token = "-1";
+
         // 构造筛选器
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("user_name", username);
         wrapper.eq("user_password", MD5Util.getMD5(password));
+        // 查询用户
         user = user.selectOne(wrapper);
+
         if(null != user){
-            // 获取token
-            token = UserUtils.getToken(user);
-//          把user的信息放在redis缓存中
+            // 登录成功, 生成token
+            token = JsonWebTokenUtils.createToken(user.getUserId().longValue());
+            // 存到redis数据库
 
         }
         return Msg.success().add("token", token);

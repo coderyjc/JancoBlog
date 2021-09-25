@@ -16,6 +16,8 @@ spring:
   web:
     resources:
       static-locations: classpath:/templates/,classpath:/static/
+  redis:
+    host: 101.201.64.102
 server:
   port: 8080
 
