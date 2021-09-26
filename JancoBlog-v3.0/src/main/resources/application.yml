@@ -18,6 +18,8 @@ spring:
       static-locations: classpath:/templates/,classpath:/static/
   redis:
     host: 101.201.64.102
+    port: 6379
+    password: 333
 server:
   port: 8080
 

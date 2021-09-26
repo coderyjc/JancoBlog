@@ -8,6 +8,7 @@ import com.jancoyan.jancoblog.service.UserService;
 import com.jancoyan.jancoblog.utils.JsonWebTokenUtils;
 import com.jancoyan.jancoblog.utils.MD5Util;
 import com.jancoyan.jancoblog.utils.Msg;
+import com.jancoyan.jancoblog.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,14 +33,16 @@ public class UserController {
     @Autowired
     UserService service;
 
+    @Autowired
+    RedisUtil redisUtil;
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Msg login(
             @RequestParam(value = "username") String username,
             @RequestParam(value = "password") String password
     ){
-        String msg = "登录成功";
         User user = new User();
-        String token = "-1";
+        String token = null;
 
         // 构造筛选器
         QueryWrapper<User> wrapper = new QueryWrapper<>();
@@ -51,22 +54,32 @@ public class UserController {
         if(null != user){
             // 登录成功, 生成token
             token = JsonWebTokenUtils.createToken(user.getUserId().longValue());
-            // 存到redis数据库
-
+            // 存到redis数据库, 设置过期时间为 60 分钟
+            redisUtil.set(token, user, 1800);
         }
-        return Msg.success().add("token", token);
+        if(null != token){
+            return Msg.success().add("token", token);
+        } else {
+            return Msg.fail().add("msg", "登录失败");
+        }
     }
 
     /**
      * 每一次要获取信息的时候都会发送一次这个
      * @return 带有用户消息的信息
      */
-    @RequestMapping(value = "/getinfo", method = RequestMethod.GET)
-    public Msg getUserInfo(
-            @RequestParam("token") String token
-    ){
-
-        return Msg.success();
+    @RequestMapping(value = "/userinfo", method = RequestMethod.GET)
+    public Msg getUserInfo(HttpServletRequest request){
+        // 把token放在请求头中
+        String token = request.getHeader("token");
+        System.out.println(token);
+        Object user = redisUtil.get(token);
+        System.out.println(user);
+        if(null != user){
+            // 获取用户成功
+            return Msg.success().add("user", user);
+        }
+        return Msg.illegalToken();
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -81,6 +94,12 @@ public class UserController {
         return Msg.success();
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public Msg logout(){
+
+
+        return Msg.success();
+    }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public Msg getAll(

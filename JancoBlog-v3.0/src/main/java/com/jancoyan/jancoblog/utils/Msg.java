@@ -50,7 +50,7 @@ public class Msg {
     public static Msg illegalToken(){
         Msg result = new Msg();
         result.setCode(602);
-        result.setMsg("token非法");
+        result.setMsg("登录信息无效");
         return result;
     }
 
