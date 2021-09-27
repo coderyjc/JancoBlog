@@ -1,5 +1,6 @@
 package com.jancoyan.jancoblog.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -43,11 +44,12 @@ public class User extends Model<User> {
 
     private Integer userSex;
 
-    private Integer userRole;
+    private String userRole;
 
     private Date userCreateDate;
 
     private Date userLastLoginDate;
 
     private String userIp;
+
 }

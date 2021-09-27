@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class AllowOriginIntercepter implements HandlerInterceptor {
 
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // 过滤器
@@ -26,12 +25,6 @@ public class AllowOriginIntercepter implements HandlerInterceptor {
         response.setHeader("Access-Control-Allow-Methods","GET, POST, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers","Authorization, Content-Type, token");
 
-
-//        // 查询登录是否过期
-//        String token = request.getHeader("token");
-//        long expire = redisUtil.getExpire(token);
-//        System.out.println(expire);
-//        return expire > 0;
         return true;
     }
 

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -44,11 +45,9 @@ public class UserController {
         User user = new User();
         String token = null;
 
-        // 构造筛选器
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("user_name", username);
         wrapper.eq("user_password", MD5Util.getMD5(password));
-        // 查询用户
         user = user.selectOne(wrapper);
 
         if(null != user){
@@ -57,6 +56,7 @@ public class UserController {
             // 存到redis数据库, 设置过期时间为 60 分钟
             redisUtil.set(token, user, 1800);
         }
+
         if(null != token){
             return Msg.success().add("token", token);
         } else {
@@ -72,9 +72,7 @@ public class UserController {
     public Msg getUserInfo(HttpServletRequest request){
         // 把token放在请求头中
         String token = request.getHeader("token");
-        System.out.println(token);
         Object user = redisUtil.get(token);
-        System.out.println(user);
         if(null != user){
             // 获取用户成功
             return Msg.success().add("user", user);

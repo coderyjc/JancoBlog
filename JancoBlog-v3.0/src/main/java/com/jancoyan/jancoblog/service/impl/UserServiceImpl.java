@@ -3,12 +3,13 @@ package com.jancoyan.jancoblog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jancoyan.jancoblog.pojo.Comment;
 import com.jancoyan.jancoblog.pojo.User;
 import com.jancoyan.jancoblog.mapper.UserMapper;
 import com.jancoyan.jancoblog.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -27,8 +28,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         IPage<User> iPage = new Page<>(pn, limit);
         QueryWrapper<User> wrapper = new QueryWrapper<>();
 
-        System.out.println(condition);
-
         String[] split = condition.split("--");
         for (String item : split) {
             String[] split2 = item.split("=");
@@ -44,7 +43,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 wrapper.lt("user_create_date", split2[1]);
             }
         }
-
         return baseMapper.getAll(iPage, wrapper);
     }
+
 }

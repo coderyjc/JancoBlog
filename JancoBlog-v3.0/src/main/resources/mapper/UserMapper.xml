@@ -19,6 +19,7 @@
     <sql id="Base_Column_List">
         user_id, user_name, user_password, user_email, user_sex, user_role, user_create_date, user_last_login_date, user_ip
     </sql>
+
     <select id="getAll" resultType="com.jancoyan.jancoblog.pojo.User">
         select * from v_user_manage_show ${ew.customSqlSegment}
     </select>
