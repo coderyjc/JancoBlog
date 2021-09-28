@@ -2,8 +2,10 @@ package com.jancoyan.jancoblog.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.Article;
+import com.jancoyan.jancoblog.pojo.User;
 import com.jancoyan.jancoblog.service.ArticleService;
 import com.jancoyan.jancoblog.utils.Msg;
+import com.jancoyan.jancoblog.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,6 +33,10 @@ public class ArticleController {
     @Autowired
     ArticleService service;
 
+
+    @Autowired
+    RedisUtil redisUtil;
+
     /**
      * 获取首页的文章，带有搜索功能
      * @param pn 第几页
@@ -56,18 +62,31 @@ public class ArticleController {
             @RequestParam(value = "limit", defaultValue = "10")String limit,
             @RequestParam(value = "condition", defaultValue = "")String condition
     ){
-        IPage<Article> iPage = service.getManageList(Integer.parseInt(pn),
+        IPage<Article> iPage = service.getManageList(null,
+                Integer.parseInt(pn),
                 Integer.parseInt(limit),
                 condition);
         return Msg.success().add("pageInfo", iPage);
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public Msg getArticleByUser(){
-
-
-
-        return Msg.success();
+    public Msg getArticleByUser(
+            @RequestParam(value = "pn")String pn,
+            @RequestParam(value = "limit", defaultValue = "10")String limit,
+            @RequestParam(value = "condition", defaultValue = "")String condition,
+            HttpServletRequest request){
+        // 从token中拿到用户
+        String token = request.getHeader("token");
+        if(null == token){
+            return Msg.expire();
+        }
+        User user = (User) redisUtil.get(token);
+        IPage<Article> iPage = service.getManageList(
+                user.getUserName(),
+                Integer.parseInt(pn),
+                Integer.parseInt(limit),
+                condition);
+        return Msg.success().add("pageInfo", iPage);
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)

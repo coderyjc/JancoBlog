@@ -22,11 +22,13 @@ import org.springframework.stereotype.Service;
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
     @Override
-    public IPage<Comment> getAll(Integer pn, Integer limit, String condition) {
+    public IPage<Comment> getAll(String userId, Integer pn, Integer limit, String condition) {
 
         // 分页查询
         IPage<Comment> iPage = new Page<>(pn, limit);
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+
+        if(userId != null) wrapper.eq("user_id", userId);
 
         String[] split = condition.split("--");
         for (String item : split) {

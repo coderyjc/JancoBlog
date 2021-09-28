@@ -22,6 +22,6 @@
         comment_id, pre_comment_id, comment_article_id, comment_author_id, comment_author_name, comment_author_email, comment_content, comment_date, comment_author_ip, comment_like_count
     </sql>
     <select id="getAll" resultType="com.jancoyan.jancoblog.pojo.Comment">
-        select * from v_comment_manage_show ${ew.customSqlSegment}
+        select * from v_comment_manage_list ${ew.customSqlSegment}
     </select>
 </mapper>

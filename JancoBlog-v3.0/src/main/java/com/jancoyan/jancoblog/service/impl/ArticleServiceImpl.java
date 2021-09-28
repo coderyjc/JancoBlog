@@ -69,12 +69,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public IPage<Article> getManageList(Integer pn, Integer limit, String condition) {
+    public IPage<Article> getManageList(String userName,
+                                        Integer pn,
+                                        Integer limit,
+                                        String condition) {
 
         //        分页查询
         IPage<Article> iPage = new Page<>(pn, limit);
         QueryWrapper<Article> wrapper = new QueryWrapper<>();
-
+        // 单一用户的文章获取
+        if(null != userName) wrapper.eq("user_name", userName);
 
         String[] split = condition.split("--");
         for (String item : split) {
@@ -84,7 +88,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             }
 
             if(split2[0].equals("article_author_name")){
-                wrapper.like("article_author_name", split2[1]);
+                wrapper.like("user_name", split2[1]);
             }else if(split2[0].equals("article_title")){
                 wrapper.like("article_title", split2[1]);
             }else if(split2[0].equals("type")){
@@ -114,9 +118,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             }
         }
 
-
         return baseMapper.getManageList(iPage, wrapper);
     }
+
 
 
 }

@@ -16,5 +16,6 @@ public interface ArticleService extends IService<Article> {
 
     IPage<Article> getIndexList(Integer pn, Integer limit, String condition);
 
-    IPage<Article> getManageList(Integer pn, Integer limit, String condition);
+    IPage<Article> getManageList(String userName, Integer pn, Integer limit, String condition);
+
 }
