@@ -37,6 +37,12 @@ public class UserController {
     @Autowired
     RedisUtil redisUtil;
 
+    /**
+     * 登录
+     * @param username 用户名
+     * @param password 密码
+     * @return
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Msg login(
             @RequestParam(value = "username") String username,
@@ -45,6 +51,7 @@ public class UserController {
         User user = new User();
         String token = null;
 
+        // 登录数据校验
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("user_name", username);
         wrapper.eq("user_password", MD5Util.getMD5(password));
@@ -80,6 +87,11 @@ public class UserController {
         return Msg.illegalToken();
     }
 
+    /**
+     * 在进入文章的时候，简要显示用户展示给别人看的信息
+     * @param id 用户id
+     * @return 消息
+     */
     @RequestMapping(value = "/authorinfo", method = RequestMethod.GET)
     public Msg getAuthorInfo(
             @RequestParam(value = "id")String id
@@ -88,6 +100,13 @@ public class UserController {
     }
 
 
+    /**
+     * 注册
+     * @param userName 姓名
+     * @param password 密码
+     * @param request 用来获取ip
+     * @return 消息
+     */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Msg register(
             @RequestParam("username") String userName,
@@ -100,6 +119,11 @@ public class UserController {
         return Msg.success();
     }
 
+    /**
+     * 用户注册的时候用来检查用户名的唯一性
+     * @param userName 用户名
+     * @return 消息
+     */
     @RequestMapping(value = "/checkusername", method = RequestMethod.POST)
     public Msg checkUserNameUnique(
             @RequestParam(value = "username") String userName
@@ -119,6 +143,13 @@ public class UserController {
         return Msg.success();
     }
 
+    /**
+     * 管理员进行用户管理的时候分页获取所有用户
+     * @param pn 页码
+     * @param limit 容量
+     * @param condition 条件
+     * @return
+     */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public Msg getAll(
             @RequestParam(value = "pn")String pn,
@@ -131,6 +162,11 @@ public class UserController {
         return Msg.success().add("pageInfo", iPage);
     }
 
+    /**
+     * 批量删除用户
+     * @param ids 用户id 用 & 拼接
+     * @return
+     */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public Msg batchDelte(
             @RequestParam(value = "ids") String ids

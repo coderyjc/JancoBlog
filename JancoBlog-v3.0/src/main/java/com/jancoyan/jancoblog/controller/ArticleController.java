@@ -56,6 +56,13 @@ public class ArticleController {
         return Msg.success().add("pageInfo", iPage);
     }
 
+    /**
+     * 获取文章管理列表的文章
+     * @param pn 第几页
+     * @param limit 容量
+     * @param condition 条件
+     * @return 成功
+     */
     @RequestMapping(value = "/manage")
     public Msg getManageAll(
             @RequestParam(value = "pn")String pn,
@@ -69,6 +76,14 @@ public class ArticleController {
         return Msg.success().add("pageInfo", iPage);
     }
 
+    /**
+     * 获取当前登录的用户发表的所有文章
+     * @param pn 页码
+     * @param limit 容量
+     * @param condition 条件
+     * @param request 获取token
+     * @return 成功
+     */
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public Msg getArticleByUser(
             @RequestParam(value = "pn")String pn,
@@ -78,6 +93,7 @@ public class ArticleController {
         // 从token中拿到用户
         String token = request.getHeader("token");
         if(null == token){
+            // 用户信息已经过期了
             return Msg.expire();
         }
         User user = (User) redisUtil.get(token);
@@ -89,6 +105,11 @@ public class ArticleController {
         return Msg.success().add("pageInfo", iPage);
     }
 
+    /**
+     * 批量删除文章
+     * @param ids 文章id，以 & 连接
+     * @return 成功/失败
+     */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public Msg batchDeleteArticle(String ids){
         Article article = new Article();
@@ -106,6 +127,11 @@ public class ArticleController {
         return Msg.success().add("suc", suc ? "success" : "fail");
     }
 
+    /**
+     * 查看文章的时候获取单个文章
+     * @param articleId 文章ID
+     * @return 成功
+     */
     @RequestMapping(value = "/single", method = RequestMethod.GET)
     public Msg getSingleArticle(
             @RequestParam(value = "id") String articleId
@@ -115,6 +141,19 @@ public class ArticleController {
     }
 
 
+    /**
+     * 发表文章
+     * @param title 标题
+     * @param type 类型
+     * @param summary 摘要
+     * @param comment 是否允许评论
+     * @param md md格式的内容
+     * @param html 不加修饰的html格式的内容
+     * @param session session
+     * @param request request
+     * @return 消息
+     * @throws UnsupportedEncodingException 设置编码格式
+     */
     @RequestMapping(value = "/post", method = RequestMethod.POST)
     public Msg postArticle(
         @RequestParam(value = "title") String title,
@@ -138,6 +177,11 @@ public class ArticleController {
         return Msg.success();
     }
 
+    /**
+     * 点赞
+     * @param id 点赞的文章
+     * @return 成功
+     */
     @RequestMapping(value = "/like", method = RequestMethod.POST)
     public Msg addLikeCount(@RequestParam(value = "id")String id){
         Article article = new Article();
@@ -148,6 +192,11 @@ public class ArticleController {
         return Msg.success();
     }
 
+    /**
+     * 浏览
+     * @param id 点开的文章的id
+     * @return 成功
+     */
     @RequestMapping(value = "/view", method = RequestMethod.GET)
     public Msg addViewCount(@RequestParam(value = "id")String id){
         Article article = new Article();

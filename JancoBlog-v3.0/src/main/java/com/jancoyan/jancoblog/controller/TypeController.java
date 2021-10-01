@@ -32,6 +32,10 @@ public class TypeController {
     @Autowired
     TypeService service;
 
+    /**
+     * 获取所有类别，不分页
+     * @return pageInfo
+     */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public Msg getAll(){
         IPage<Type> iPage = new Page<>(1, 99);
