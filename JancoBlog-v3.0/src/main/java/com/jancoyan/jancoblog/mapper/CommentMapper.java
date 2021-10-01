@@ -17,4 +17,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface CommentMapper extends BaseMapper<Comment> {
 
     IPage<Comment> getAll(IPage<Comment> iPage, Wrapper ew);
+
+    IPage<Comment> getCommentByArticle(IPage<Comment> page, QueryWrapper<Comment> ew);
 }

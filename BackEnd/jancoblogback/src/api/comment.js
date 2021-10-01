@@ -12,13 +12,32 @@ export function getAll(pn, limit, condition) {
   })
 }
 
-
-export function batchDeleteComments(ids) {
+export function postComment(param) {
   return request({
-    url: '/comment/article',
+    url: '/comment/post',
+    method: 'post',
+    params: param
+  })
+}
+
+export function likeComment(id) {
+  return request({
+    url: '/comment/like',
     method: 'post',
     params: {
-      ids: ids
+      id: id
+    }
+  })
+}
+
+export function getCommentByArticle(id, pn, limit) {
+  return request({
+    url: '/comment/article',
+    method: 'get',
+    params: {
+      id: id,
+      pn : pn,
+      limit: limit
     }
   })
 }

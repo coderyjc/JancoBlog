@@ -55,4 +55,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         }
         return baseMapper.getAll(iPage, wrapper);
     }
+
+    @Override
+    public IPage<Comment> getCommentByArticle(String id, Integer pn, Integer limit) {
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+        IPage<Comment> page = new Page<>(pn, limit);
+        wrapper.eq("comment_article_id", id);
+        wrapper.orderByDesc("comment_date");
+        return baseMapper.getCommentByArticle(page, wrapper);
+    }
 }

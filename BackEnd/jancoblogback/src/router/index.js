@@ -76,17 +76,30 @@ export const asyncRouterMap = [
     meta: { title: '文章管理', icon: 'el-icon-document', role: ['admin', 'user'] },
     children: [
       {
-        path: 'table',
-        name: 'Table',
+        path: 'personal-article',
+        name: 'personal-article',
         component: () => import('@/views/article/personal-article'),
-        meta: { title: '个人文章管理', icon: 'el-icon-document', role: ['admin', 'user'] }
+        meta: { title: '个人文章', icon: 'el-icon-document', role: ['admin', 'user'] }
       },
       {
-        path: 'tree',
-        name: 'Tree',
+        path: 'personal-deleted',
+        name: 'personal-deleted',
+        component: () => import('@/views/article/personal-deleted'),
+        meta: { title: '我删除的文章', icon: 'el-icon-delete', role: ['admin'] }
+      },
+      {
+        path: 'all-article',
+        name: 'all-article',
         component: () => import('@/views/article/all-article'),
-        meta: { title: '全站文章管理', icon: 'el-icon-document', role: ['admin'] }
-      }
+        meta: { title: '全站文章', icon: 'el-icon-document', role: ['admin'] }
+      },
+      {
+        path: 'all-deleted',
+        name: 'all-deleted',
+        component: () => import('@/views/article/all-deleted'),
+        meta: { title: '所有已删除文章', icon: 'el-icon-delete', role: ['admin'] }
+      },
+      
     ]
   },
 
@@ -102,10 +115,16 @@ export const asyncRouterMap = [
     },
     children: [
       {
-        path: 'personal-comment',
-        component: () => import('@/views/comment/personal-comment'), // Parent router-view
+        path: 'comment-received',
+        component: () => import('@/views/comment/comment-received'), // Parent router-view
+        name: 'receive',
+        meta: { title: '我收到的评论', icon: 'el-icon-chat-dot-round', role: ['admin', 'user'] },
+      },
+      {
+        path: 'comment-posted',
+        component: () => import('@/views/comment/comment-posted'), // Parent router-view
         name: 'personal',
-        meta: { title: '个人评论管理', icon: 'el-icon-chat-dot-round', role: ['admin', 'user'] },
+        meta: { title: '我发表的评论', icon: 'el-icon-chat-dot-round', role: ['admin', 'user'] },
       },
       {
         path: 'all-comment',

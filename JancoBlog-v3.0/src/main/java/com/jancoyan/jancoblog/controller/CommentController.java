@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * <p>
@@ -93,22 +94,62 @@ public class CommentController {
 
     @RequestMapping(value = "/article")
     public Msg getCommentByArticle(
+            @RequestParam(value = "id") String id,
+            @RequestParam(value = "pn")Integer pn,
+            @RequestParam(value = "limit", defaultValue = "10") Integer limit
     ){
-
-
-
-
-        return Msg.success();
+        IPage<Comment> iPage = service.getCommentByArticle(id, pn, limit);
+        return Msg.success().add("pageInfo", iPage);
     }
 
 
     @RequestMapping(value = "/post", method = RequestMethod.POST)
-    public Msg postComment(){
+    public Msg postComment(
+            @RequestParam(value = "articleId")String articleId,
+            @RequestParam(value = "name", defaultValue = "") String userName,
+            @RequestParam(value = "email", defaultValue = "")String email,
+            @RequestParam(value = "content")String content,
+            HttpServletRequest request
+    ){
+//      先判断是不是已经登陆了
+        Comment comment = new Comment();
+        String token = request.getHeader("token");
+        User user = (User) redisUtil.get(token);
+        // 用户信息已经过期了
+        if(null == user && null != token) {
+            return Msg.expire();
+        }
 
+        // 如果 token 是 null
+        if(null == token || "".equals(token)){
+            comment.setCommentAuthorEmail(email);
+            comment.setCommentAuthorName(userName);
+        } else {
+            comment.setCommentAuthorName(user.getUserName());
+            comment.setCommentAuthorId(user.getUserId());
+            comment.setCommentAuthorEmail(user.getUserEmail());
+        }
+        comment.setCommentArticleId(articleId);
+        comment.setCommentDate(new Date());
+        comment.setCommentContent(content);
+        comment.setCommentAuthorIp(request.getScheme());
 
-
+        comment.insert();
         return Msg.success();
     }
+
+    @RequestMapping(value = "/like", method = RequestMethod.POST)
+    public Msg likeComment(
+            @RequestParam(value = "id") Integer id
+    ){
+        Comment comment = new Comment();
+        comment.setCommentId(id);
+        comment = comment.selectById();
+        comment.setCommentLikeCount(comment.getCommentLikeCount() + 1);
+        comment.updateById();
+        return Msg.success();
+    }
+
 
 
 }

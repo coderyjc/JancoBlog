@@ -15,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface CommentService extends IService<Comment> {
 
     IPage<Comment> getAll(String userId, Integer pn, Integer limit, String condition);
+
+    IPage<Comment> getCommentByArticle(String id, Integer pn, Integer limit);
 }

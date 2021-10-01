@@ -30,6 +30,22 @@ export function getSingleArticle(id) {
   })
 }
 
+export function likeArticle(id) {
+  return request({
+    url: '/article/like',
+    method: 'post',
+    params: {
+      id: id
+    }
+  })
+}
+
+export function viewArticle(id) {
+  return request({
+    url: '/article/view?id='+id,
+    method: 'get'
+  })
+}
 
 export function getAll(pn, limit, condition) {
   return request({

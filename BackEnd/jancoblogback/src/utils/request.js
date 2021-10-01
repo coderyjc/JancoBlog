@@ -67,8 +67,7 @@ service.interceptors.response.use(
     }
   },
   error => {
-
-    console.log('发生错误' + error) // for debug
+    console.log('发生错误 ' + error) // for debug
     Message({
       message: error.message,
       type: 'error',

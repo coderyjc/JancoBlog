@@ -8,6 +8,15 @@ export function login(data) {
   })
 }
 
+export function checkUserNameUnique(userName) {
+  return request({
+    url: '/user/checkusername',
+    method: 'post',
+    params:{
+      username: userName
+    }
+  })
+}
 
 export function getAuthorInfo(id) {
   return request({
@@ -18,7 +27,6 @@ export function getAuthorInfo(id) {
     }
   })
 }
-
 
 export function getUserInfo() {
   return request({

@@ -115,9 +115,6 @@ public class ArticleController {
     }
 
 
-
-
-
     @RequestMapping(value = "/post", method = RequestMethod.POST)
     public Msg postArticle(
         @RequestParam(value = "title") String title,
@@ -141,7 +138,25 @@ public class ArticleController {
         return Msg.success();
     }
 
+    @RequestMapping(value = "/like", method = RequestMethod.POST)
+    public Msg addLikeCount(@RequestParam(value = "id")String id){
+        Article article = new Article();
+        article.setArticleId(id);
+        article = article.selectById();
+        article.setArticleLikeCount(article.getArticleLikeCount() + 1);
+        article.updateById();
+        return Msg.success();
+    }
 
+    @RequestMapping(value = "/view", method = RequestMethod.GET)
+    public Msg addViewCount(@RequestParam(value = "id")String id){
+        Article article = new Article();
+        article.setArticleId(id);
+        article = article.selectById();
+        article.setArticleViewCount(article.getArticleViewCount() + 1);
+        article.updateById();
+        return Msg.success();
+    }
 
 
 }

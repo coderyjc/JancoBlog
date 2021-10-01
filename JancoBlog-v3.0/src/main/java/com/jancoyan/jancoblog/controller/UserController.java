@@ -100,6 +100,18 @@ public class UserController {
         return Msg.success();
     }
 
+    @RequestMapping(value = "/checkusername", method = RequestMethod.POST)
+    public Msg checkUserNameUnique(
+            @RequestParam(value = "username") String userName
+    ){
+        User user = new User();
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_name", userName);
+        int count = user.selectCount(queryWrapper);
+        return Msg.success().add("unique", count == 0);
+    }
+
+
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public Msg logout(){
 

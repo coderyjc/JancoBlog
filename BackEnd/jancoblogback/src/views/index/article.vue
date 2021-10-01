@@ -67,23 +67,26 @@
             <div class="article-action">
               <!--                        点赞-->
               <div class="article-count">
-                <span class="count-number">
+                <span
+                  class="count-number"
+                  @click="likeArticle"
+                >
                   <svg
-                    t="1632903004851"
+                    t="1633080672923"
                     class="icon"
                     viewBox="0 0 1024 1024"
                     version="1.1"
                     xmlns="http://www.w3.org/2000/svg"
-                    p-id="6924"
+                    p-id="11933"
                     width="40"
                     height="40"
+                    fill="#f00"
                   >
                     <path
-                      d="M484.267 272.021l6.634 6.72c5.974 5.974 13.014 12.843 21.099 20.63l9.195-8.918c7.253-7.04 13.44-13.184 18.56-18.432a193.28 193.28 0 0 1 277.44 0c75.904 77.526 76.629 202.795 2.133 281.195L512 853.333 204.672 553.237c-74.475-78.421-73.77-203.69 2.133-281.216a193.28 193.28 0 0 1 277.44 0z m293.162 232.15c46.272-53.76 44.182-136.15-5.973-187.371a129.28 129.28 0 0 0-185.984 0l-15.125 15.104a1687.253 1687.253 0 0 1-4.395 4.31L512 388.18l-49.28-47.445-13.227-12.928-10.965-11.008a129.28 129.28 0 0 0-186.005 0c-51.456 52.565-52.31 137.963-2.198 191.573L512 763.883l261.675-255.531 3.754-4.181z"
-                      p-id="6925"
+                      d="M484.266667 272.021333l6.634666 6.72c5.973333 5.973333 13.013333 12.842667 21.098667 20.629334l9.194667-8.917334c7.253333-7.04 13.44-13.184 18.56-18.432a193.28 193.28 0 0 1 277.44 0c75.904 77.525333 76.629333 202.794667 2.133333 281.194667L512 853.333333 204.672 553.237333c-74.474667-78.421333-73.770667-203.690667 2.133333-281.216a193.28 193.28 0 0 1 277.44 0z"
+                      p-id="11934"
                     ></path>
                   </svg></span>
-                <span class="count-char">喜欢</span>
               </div>
               <el-divider direction="vertical"></el-divider>
               <!--                        收藏-->
@@ -104,7 +107,6 @@
                       p-id="12324"
                     ></path>
                   </svg></span>
-                <span class="count-char">收藏</span>
               </div>
             </div>
           </div>
@@ -112,9 +114,9 @@
         </el-card>
 
         <!--            文章目录导航-->
-
       </el-col>
 
+      <!-- 评论 -->
       <el-col
         :span="14"
         style="padding: 0 60px"
@@ -125,74 +127,112 @@
         </div>
         <el-divider>The End</el-divider>
         <!--            文章评论和发表评论-->
-        <el-col>
+        <!--                作者关闭了评论-->
+        <el-card
+          shadow="never"
+          style="text-align: center;margin-top: 20px; padding: 20px; color: gray; border: none"
+          v-if="!article.articleIsComment"
+        >
+          作者关闭了评论
+        </el-card>
+        <!-- 评论区 -->
+        <el-col v-if="article.articleIsComment">
           <!--                评论的标题--评论 comment -->
           <div class="comment-area-title">
             <span class="comment-title-chinese">评论区</span>
             <span class="comment-title-english">Comments</span>
           </div>
-          <!--                作者关闭了评论-->
-          <el-card
-            shadow="never"
-            style="text-align: center;margin-top: 20px; padding: 20px; color: gray; border: none"
-            v-if="false"
-          >
-            作者关闭了评论
-          </el-card>
           <!--                分页评论-->
           <div class="comment-list">
-            <div class="comment-item">
+            <div
+              class="comment-item"
+              v-for="item in commentList"
+              :key="item.commentId"
+            >
               <el-card shadow="never">
                 <!--                            评论内容-->
                 <div class="comment-content">
-                  评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容
+                  {{ item.commentContent }}
                 </div>
                 <!--                            评论信息-->
                 <div class="comment-info">
                   <!--                                作者-->
                   <span class="comment-info-item"><i class="el-icon-user"></i>
-                    Jancoyan</span>
+                    {{ item.commentAuthorName }}</span>
                   <!--                                评论时间-->
                   <span class="comment-info-item"><i class="el-icon-date"></i>
-                    2021-03-01</span>
+                    {{ item.commentDate | dateFormat }}</span>
                   <!--                                赞同的数量-->
-                  <span class="comment-info-item"><i class="el-icon-caret-top"></i>
-                    32</span>
+                  <!-- <span class="comment-info-item"><i class="el-icon-caret-top"></i>
+                    {{ item.commentLikeCount }}</span> -->
                   <!--                                回复和赞同-->
-                  <el-row style="float: right">
+                  <!-- <el-row style="float: right">
                     <el-button
                       type="primary"
                       size="mini"
                       plain
+                      @click="likeComment(item.commentId)"
                     >赞同</el-button>
                     <el-button size="mini">回复</el-button>
-                  </el-row>
+                  </el-row> -->
                 </div>
               </el-card>
+            </div>
+            <div class="pagination">
+              <el-pagination
+                background
+                @current-change="commentPageChange"
+                layout="prev, pager, next"
+                :total="pagination.total"
+                :page-size="pagination.size"
+                v-if="commentList.length > 0"
+              >
+              </el-pagination>
             </div>
           </div>
           <!--                发表评论的表单-->
           <div class="post-comment">
             <el-form
-              ref="form"
+              :ref="form"
               :model="form"
               label-width="80px"
+              :rules="rules"
             >
-              <el-form-item label="昵称">
-                <el-input v-model="form.name"></el-input>
+              <el-form-item
+                label="昵称"
+                v-if="userlogin"
+                prop="name"
+              >
+                <el-input
+                  v-model="form.name"
+                  maxlength="20"
+                ></el-input>
               </el-form-item>
-              <el-form-item label="内容">
+              <el-form-item
+                label="邮箱"
+                v-if="userlogin"
+                prop="email"
+              >
+                <el-input
+                  v-model="form.email"
+                  maxlength="50"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                label="评论"
+                prop="content"
+              >
                 <el-input
                   type="textarea"
                   v-model="form.content"
+                  autosize
                 ></el-input>
               </el-form-item>
               <el-form-item>
                 <el-button
                   type="primary"
                   @click="onSubmit"
-                >立即创建</el-button>
-                <el-button>取消</el-button>
+                >评论</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -249,24 +289,71 @@
 </template>
 
 <script>
+import { getToken } from '@/utils/auth'
 import { hljs } from '@/assets/js/highhight'
-import { getSingleArticle } from '@/api/article'
+import { getSingleArticle, viewArticle, likeArticle } from '@/api/article'
 import { getAuthorInfo } from '@/api/user'
+import { getCommentByArticle, likeComment, postComment } from '@/api/comment'
 
 export default {
   data() {
+    var checkEmail = (rule, value, callback) => {
+      const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+      if (!value) {
+        return callback(new Error('邮箱不能为空'))
+      }
+      setTimeout(() => {
+        if (mailReg.test(value)) {
+          callback()
+        } else {
+          callback(new Error('请输入正确的邮箱格式'))
+        }
+      }, 100)
+    }
     return {
+      userlogin: false,
       form: {
+        articleId: '',
         name: '',
+        email: '',
         content: '',
+      },
+      rules: {
+        name: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          {
+            min: 2,
+            max: 20,
+            message: '长度在 2 到 20 个字符',
+            trigger: 'blur',
+          },
+        ],
+        email: [
+          { required: true, message: '请输入邮箱', trigger: 'blur' },
+          { validator: checkEmail, message: '格式不正确', trigger: 'blur' },
+        ],
+        content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
       },
       author: {},
       article: {},
+      commentList: [],
+      pagination: {
+        pn: 1,
+        total: 1,
+        size: 10,
+      },
+      query: {},
+      like: {
+        liked: false,
+        color: '#fffff',
+      },
     }
   },
   created() {
     hljs.highlightAll() // 渲染代码
     this.renderPage()
+    this.userlogin = getToken() === undefined // 有没有登陆
+    this.query = this.$router.query
   },
   filters: {
     dateFormat(date) {
@@ -283,24 +370,75 @@ export default {
     },
   },
   methods: {
-    renderPage() {
+    async renderPage() {
       var _this = this
       var query = this.$route.query
+      this.query = this.$route.query
       // 文章信息
-      getSingleArticle(query.id).then((response) => {
+      // 等待文章信息拉取结束
+      await getSingleArticle(query.id).then((response) => {
         _this.article = response.extend.article
       })
+      this.addViewCount(query.id)
       // 作者信息
-      getAuthorInfo(_this.article.articleAuthor).then((response) => {
-        console.log(response)
-      })
+      getAuthorInfo(_this.article.articleAuthor).then((response) => {})
       // 评论信息
-
-
-      
+      this.get_comment_list(this.$route.query, 1)
     },
-    /* 发表评论 */
-    onSubmit() {},
+    get_comment_list(query, pn) {
+      var _this = this
+      var id = query.id
+      getCommentByArticle(id, pn, 7).then((response) => {
+        var pageInfo = response.extend.pageInfo
+        _this.pagination.total = pageInfo.total
+        _this.pagination.pn = pageInfo.current
+        _this.pagination.size = pageInfo.size
+        _this.commentList = pageInfo.records
+      })
+    },
+    commentPageChange(currentPage) {
+      this.get_comment_list(this.$route.query, currentPage)
+    },
+    onSubmit() {
+      var _this = this
+      // 提交评论
+      this.form.articleId = this.$route.query.id
+      this.$refs[this.form].validate((valid) => {
+        if (valid) {
+          postComment(_this.form).then((res) => {
+            _this.form.name = ''
+            _this.form.email = ''
+            _this.form.content = ''
+            _this.$message({
+              showClose: true,
+              message: '成功',
+              type: 'success',
+            })
+            this.get_comment_list(_this.$route.query, 1)
+          })
+        } else {
+          return false
+        }
+      })
+    },
+    likeComment(commentId) {
+      likeComment(commentId).then((res) => {})
+    },
+    likeArticle() {
+      if (this.likeArticle.liked) return
+      var _this = this
+      likeArticle(this.article.articleId).then((res) => {
+        _this.article.articleLikeCount += 1
+        _this.likeArticle.color = '#ff0000'
+        this.likeArticle.liked = true
+      })
+    },
+    addViewCount(id) {
+      var _this = this
+      viewArticle(id).then((res) => {
+        _this.article.articleViewCount += 1
+      })
+    },
   },
 }
 </script>
@@ -399,5 +537,10 @@ h1 {
 .comment-info-item {
   color: gray;
   margin-right: 20px;
+}
+
+.pagination {
+  margin: 20px 0;
+  text-align: center;
 }
 </style>
