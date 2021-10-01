@@ -121,6 +121,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return baseMapper.getManageList(iPage, wrapper);
     }
 
+    @Override
+    public Article getSingleArticle(String articleId) {
+        return baseMapper.getSingleArticle(articleId);
+    }
 
 
 }

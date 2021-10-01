@@ -26,12 +26,14 @@
     <sql id="Base_Column_List">
         article_id, article_title, article_author, article_type, article_summary, article_html, article_md, article_is_comment, article_rank, article_post_time, article_edit_time, article_view_count, article_comment_count, article_like_count
     </sql>
-
     <select id="getIndexList" resultType="com.jancoyan.jancoblog.pojo.Article">
         select * from v_article_list_show ${ew.customSqlSegment}
     </select>
     <select id="getManageList" resultType="com.jancoyan.jancoblog.pojo.Article">
         select * from v_article_manage_show ${ew.customSqlSegment}
+    </select>
+    <select id="getSingleArticle" resultType="com.jancoyan.jancoblog.pojo.Article">
+        select * from v_article_get_single where article_id = '${id}'
     </select>
 
 </mapper>

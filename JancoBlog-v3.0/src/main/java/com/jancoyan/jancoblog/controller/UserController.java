@@ -80,6 +80,14 @@ public class UserController {
         return Msg.illegalToken();
     }
 
+    @RequestMapping(value = "/authorinfo", method = RequestMethod.GET)
+    public Msg getAuthorInfo(
+            @RequestParam(value = "id")String id
+    ){
+        return Msg.success();
+    }
+
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Msg register(
             @RequestParam("username") String userName,

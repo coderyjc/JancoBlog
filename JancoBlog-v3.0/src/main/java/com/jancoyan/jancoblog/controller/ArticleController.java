@@ -106,6 +106,17 @@ public class ArticleController {
         return Msg.success().add("suc", suc ? "success" : "fail");
     }
 
+    @RequestMapping(value = "/single", method = RequestMethod.GET)
+    public Msg getSingleArticle(
+            @RequestParam(value = "id") String articleId
+    ){
+        Article article = service.getSingleArticle(articleId);
+        return Msg.success().add("article", article);
+    }
+
+
+
+
 
     @RequestMapping(value = "/post", method = RequestMethod.POST)
     public Msg postArticle(

@@ -18,4 +18,5 @@ public interface ArticleService extends IService<Article> {
 
     IPage<Article> getManageList(String userName, Integer pn, Integer limit, String condition);
 
+    Article getSingleArticle(String articleId);
 }
