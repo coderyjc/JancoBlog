@@ -3,7 +3,7 @@
 
     <div class="container">
       <el-tabs
-        value="first"
+        :value="currPanel"
         :stretch="true"
         type="border-card"
       >
@@ -46,9 +46,12 @@
           >
             <el-form-item
               label="用户名"
-              prop="name"
+              prop="username"
             >
-              <el-input v-model="register.username"></el-input>
+              <el-input
+                type="name"
+                v-model="register.username"
+              ></el-input>
             </el-form-item>
             <el-form-item
               label="密码"
@@ -61,11 +64,11 @@
             </el-form-item>
             <el-form-item
               label="确认密码"
-              prop="password"
+              prop="password2"
             >
               <el-input
                 type="password"
-                v-model="register.repeatpassword"
+                v-model="register.password2"
               ></el-input>
             </el-form-item>
             <el-button
@@ -82,27 +85,34 @@
 
 <script>
 import { setToken } from '@/utils/auth'
-import { checkUserNameUnique } from '@/api/user'
+import { checkUserNameUnique, register } from '@/api/user'
 
 export default {
   name: 'Login',
   data() {
     var checkUserName = (rule, value, callback) => {
-      console.log(value);
       if (!value) {
         return callback(new Error('用户名不能为空'))
       }
-      setTimeout(() => {
-        if (true) {
-          console.log(value)
+      checkUserNameUnique(value).then((res) => {
+        if (res.extend.unique) {
           callback()
         } else {
-          callback(new Error('请输入正确的邮箱格式'))
+          return callback(new Error('用户名已被注册'))
         }
-      }, 100)
+      })
     }
-
+    var checkPassAgain = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入密码'))
+      }
+      if (value !== this.register.password) {
+        return callback(new Error('两次密码不一致'))
+      }
+      callback()
+    }
     return {
+      currPanel: 'first',
       login: {
         username: 'admin',
         password: '333',
@@ -110,12 +120,16 @@ export default {
       register: {
         username: '',
         password: '',
-        repeatPassword: '',
+        password2: '',
       },
       rules: {
-        name: [{validator: checkUserName, trigger: 'blur'},
+        username: [
+          { required: true, validator: checkUserName, trigger: 'blur' },
         ],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+        password2: [
+          { required: true, validator: checkPassAgain, trigger: 'blur' },
+        ],
       },
       loading: false,
       registerVisiable: false,
@@ -141,11 +155,31 @@ export default {
         })
     },
     handleRegister() {
+      var _this = this
       this.$refs[this.register].validate((valid) => {
         if (valid) {
-          console.log('valid')
+          // 提交注册表单
+          register(this.register).then((res) => {
+            if (res.extend.success) {
+              // 成功
+              this.$message({
+                message: '注册成功',
+                type: 'success',
+              })
+              // 跳转登录
+              _this.login.username = _this.register.username
+              _this.login.password = _this.register.password
+              _this.register.username = ''
+              _this.register.password = ''
+              _this.register.password2 = ''
+              _this.currPanel = 'first'
+            } else {
+              // 失败
+              this.$message.error('注册失败')
+            }
+          })
         } else {
-          console.log('invalid')
+          // 告知注册失败
           return false
         }
       })

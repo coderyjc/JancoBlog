@@ -7,8 +7,6 @@
         <id column="user_id" property="userId" />
         <result column="user_name" property="userName" />
         <result column="user_password" property="userPassword" />
-        <result column="user_email" property="userEmail" />
-        <result column="user_sex" property="userSex" />
         <result column="user_role" property="userRole" />
         <result column="user_create_date" property="userCreateDate" />
         <result column="user_last_login_date" property="userLastLoginDate" />
@@ -17,7 +15,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        user_id, user_name, user_password, user_email, user_sex, user_role, user_create_date, user_last_login_date, user_ip
+        user_id, user_name, user_password, user_role, user_create_date, user_last_login_date, user_ip
     </sql>
 
     <select id="getAll" resultType="com.jancoyan.jancoblog.pojo.User">

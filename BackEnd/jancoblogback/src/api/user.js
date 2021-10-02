@@ -18,6 +18,18 @@ export function checkUserNameUnique(userName) {
   })
 }
 
+export function register(registerForm) {
+  return request({
+    url: '/user/register',
+    method: 'post',
+    params:{
+      username: registerForm.username,
+      password: registerForm.password
+    }
+  })
+}
+
+
 export function getAuthorInfo(id) {
   return request({
     url: '/user/authorinfo',

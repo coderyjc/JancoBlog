@@ -40,10 +40,6 @@ public class User extends Model<User> {
 
     private String userPassword;
 
-    private String userEmail;
-
-    private Integer userSex;
-
     private String userRole;
 
     private Date userCreateDate;

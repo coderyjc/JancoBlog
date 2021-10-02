@@ -1,6 +1,5 @@
 package com.jancoyan.jancoblog.controller;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.User;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -62,6 +62,8 @@ public class UserController {
             token = JsonWebTokenUtils.createToken(user.getUserId().longValue());
             // 存到redis数据库, 设置过期时间为 60 分钟
             redisUtil.set(token, user, 1800);
+            // 更新上次登录时间
+            user.setUserLastLoginDate(new Date());
         }
 
         if(null != token){
@@ -114,9 +116,15 @@ public class UserController {
             HttpServletRequest request
     ){
         User user = new User();
-
-
-        return Msg.success();
+        // 设置信息
+        user.setUserName(userName)
+                .setUserPassword(MD5Util.getMD5(password))
+                .setUserRole("user")
+                .setUserCreateDate(new Date())
+                .setUserIp(request.getRemoteAddr());
+        // 插入
+        boolean insert = user.insert();
+        return Msg.success().add("success", insert);
     }
 
     /**
@@ -151,7 +159,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public Msg getAll(
+    public Msg getAllUser(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
             @RequestParam(value = "condition", defaultValue = "")String condition

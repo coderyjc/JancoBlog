@@ -162,7 +162,6 @@ public class CommentController {
             // 已经登录的用户发表的评论
             comment.setCommentAuthorName(user.getUserName());
             comment.setCommentAuthorId(user.getUserId());
-            comment.setCommentAuthorEmail(user.getUserEmail());
         }
         comment.setCommentArticleId(articleId);
         comment.setCommentDate(new Date());
