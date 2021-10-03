@@ -67,8 +67,14 @@ public class ArticleController {
     public Msg getManageAll(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
-            @RequestParam(value = "condition", defaultValue = "")String condition
+            @RequestParam(value = "condition", defaultValue = "")String condition,
+            HttpServletRequest request
     ){
+        String token = request.getHeader("token");
+        if(null == token){
+            // 用户登录信息过期了
+            return Msg.expire();
+        }
         IPage<Article> iPage = service.getManageList(null,
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
@@ -111,7 +117,14 @@ public class ArticleController {
      * @return 成功/失败
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public Msg batchDeleteArticle(String ids){
+    public Msg batchDeleteArticle(
+            String ids,
+            HttpServletRequest request){
+        String token = request.getHeader("token");
+        if(null == token){
+            // 用户登录信息过期了
+            return Msg.expire();
+        }
         Article article = new Article();
         boolean suc = false;
         if(!ids.contains("&")){
@@ -149,7 +162,6 @@ public class ArticleController {
      * @param comment 是否允许评论
      * @param md md格式的内容
      * @param html 不加修饰的html格式的内容
-     * @param session session
      * @param request request
      * @return 消息
      * @throws UnsupportedEncodingException 设置编码格式
@@ -162,7 +174,6 @@ public class ArticleController {
         @RequestParam(value = "comment") String comment,
         @RequestParam(value = "md") String md,
         @RequestParam(value = "html") String html,
-        HttpSession session,
         HttpServletRequest request
     ) throws UnsupportedEncodingException {
         request.setCharacterEncoding("utf-8");
@@ -205,6 +216,63 @@ public class ArticleController {
         article.setArticleViewCount(article.getArticleViewCount() + 1);
         article.updateById();
         return Msg.success();
+    }
+
+    /**
+     * 改变当前评论的状态
+     * @param id 评论的id
+     * @return
+     */
+    @RequestMapping(value = "/toggle/comment", method = RequestMethod.POST)
+    public Msg toggleIsComment(
+            @RequestParam(value = "id")String id,
+            HttpServletRequest request
+    ){
+        String token = request.getHeader("token");
+        if(null == token){
+            // 用户登录信息过期了
+            return Msg.expire();
+        }
+        // 改变评论的状态
+        Article article = new Article();
+        article.setArticleId(id);
+        article = article.selectById();
+        article.setArticleIsComment(1 - article.getArticleIsComment());
+        boolean suc = article.updateById();
+
+        if(suc) {
+            return Msg.success();
+        } else {
+            return Msg.fail();
+        }
+    }
+
+    /**
+     * 置顶指定的博文
+     * @param id 博文的id
+     * @return
+     */
+    @RequestMapping(value = "/toggle/top", method = RequestMethod.POST)
+    public Msg stickArticleToTop(
+            @RequestParam(value = "id")String id,
+            HttpServletRequest request
+    ){
+        String token = request.getHeader("token");
+        if(null == token){
+            // 用户登录信息过期了
+            return Msg.expire();
+        }
+        // 改变置顶的状态
+        Article article = new Article();
+        article.setArticleId(id);
+        article = article.selectById();
+        article.setArticleRank(1 - article.getArticleRank());
+        boolean suc = article.updateById();
+        if(suc) {
+            return Msg.success();
+        } else {
+            return Msg.fail();
+        }
     }
 
 

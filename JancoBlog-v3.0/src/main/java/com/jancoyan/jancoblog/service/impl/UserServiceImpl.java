@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jancoyan.jancoblog.pojo.User;
 import com.jancoyan.jancoblog.mapper.UserMapper;
+import com.jancoyan.jancoblog.pojo.VUserTotalData;
 import com.jancoyan.jancoblog.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
         }
         return baseMapper.getAll(iPage, wrapper);
+    }
+
+    @Override
+    public VUserTotalData getUserTotalData(String userId) {
+        return baseMapper.getUserTotalData(userId);
     }
 
 }

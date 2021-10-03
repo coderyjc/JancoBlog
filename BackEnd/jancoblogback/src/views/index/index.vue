@@ -10,20 +10,23 @@
         :offset="4"
       >
         <el-menu
-          :default-active="0"
+          default-active="0"
           class="el-menu-demo"
           mode="horizontal"
         >
           <el-menu-item>
             <span class="logo">Jancoyan</span>
           </el-menu-item>
-          <el-menu-item :index="0">首页</el-menu-item>
-          <el-menu-item style="float: right" @click="linkToDashBoard">
+          <el-menu-item index="0">首页</el-menu-item>
+          <el-menu-item
+            style="float: right"
+            @click="linkToDashBoard"
+          >
             <el-avatar
               size="large"
               src="@/assets/imgs/avatar.png"
             >
-            登录
+              登录
             </el-avatar>
           </el-menu-item>
         </el-menu>
@@ -226,10 +229,12 @@
 <script>
 import { getIndexArticleList } from '@/api/article'
 import { getAllType } from '@/api/type'
+import { getToken } from '@/utils/auth'
 
 export default {
   data() {
     return {
+      islogin: false,
       simpleMode: false,
       base_article_url: '/article?id=',
       condition: '',
@@ -275,8 +280,11 @@ export default {
     this.get_type_list()
   },
   methods: {
-    linkToDashBoard(){
-      this.$router.push('/dashboard/dashboard')
+    linkToDashBoard() {
+      // 判断用户是否登录
+      this.islogin = undefined !== getToken()
+      if (this.islogin) this.$router.push('/dashboard/dashboard')
+      else this.$router.push('/login')
     },
     handleSizeChange(val) {
       this.page_size = val

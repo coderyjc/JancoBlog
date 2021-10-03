@@ -3,6 +3,7 @@ package com.jancoyan.jancoblog.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.User;
+import com.jancoyan.jancoblog.pojo.VUserTotalData;
 import com.jancoyan.jancoblog.service.UserService;
 import com.jancoyan.jancoblog.utils.JsonWebTokenUtils;
 import com.jancoyan.jancoblog.utils.MD5Util;
@@ -74,6 +75,38 @@ public class UserController {
         }
     }
 
+
+    /**
+     * 获取某个用户的数据总数：文章总数、浏览量、获赞、获评总数
+     * @param userId 用户id
+     * @param request request
+     * @return
+     */
+    @RequestMapping(value = "/data/total", method = RequestMethod.GET)
+    public Msg getUserTotalData(
+            @RequestParam(value = "id", defaultValue = "-1")String userId,
+            HttpServletRequest request
+    ){
+        if("-1".equals(userId)){
+            // 没有提供id, 直接获取当前登录的用户
+            String token = request.getHeader("token");
+            if(null == token) {
+                return Msg.expire();
+            }
+            User user = (User)redisUtil.get(token);
+            userId = String.valueOf(user.getUserId());
+            System.out.println(userId);
+        }
+        // 获取数据
+        VUserTotalData data = service.getUserTotalData(userId);
+        if (null != data){
+            return Msg.success().add("data", data);
+        } else {
+            return Msg.fail().add("msg", "找不到用户");
+        }
+    }
+
+
     /**
      * 每一次要获取信息的时候都会发送一次这个
      * @return 带有用户消息的信息
@@ -144,11 +177,19 @@ public class UserController {
         return Msg.success().add("unique", count == 0);
     }
 
-
+    /**
+     * 用户退出登录
+     * @return 成功
+     */
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public Msg logout(){
-
-
+    public Msg logout(HttpServletRequest request){
+        String token = request.getHeader("token");
+        if(null == token || "".equals(token)){
+            // 登录过期
+            return Msg.expire();
+        }
+        // 登录没过期，移除token
+        redisUtil.del(token);
         return Msg.success();
     }
 

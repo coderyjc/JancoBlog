@@ -15,12 +15,37 @@
           <!-- 用户名 -->
           <div class="user-name">{{ name }}</div>
           <!-- 签名 -->
-          <div class="user-signature">{{ userInfo.signature }}</div>
+          <div class="user-signature">{{ user.signature }}</div>
         </el-col>
       </el-card>
 
       <!-- 展示浏览、评论、点赞、收藏等数据 -->
       <el-row class="statastic">
+        <el-col :span="4">
+          <!-- 总浏览量 -->
+          <el-card>
+            <svg
+              t="1633262231414"
+              class="icon"
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              p-id="3504"
+              width="80"
+              height="80"
+            >
+              <path
+                d="M734.634667 72.448C717.824 55.978667 685.226667 42.666667 661.674667 42.666667H204.8C162.389333 42.666667 128 79.189333 128 124.330667v775.338666C128 944.768 162.474667 981.333333 204.8 981.333333h614.4c42.410667 0 76.8-36.693333 76.8-81.578666V273.493333c0-23.68-13.781333-56.405333-30.378667-72.661333l-130.986666-128.426667zM341.333333 298.666667h341.333334a42.666667 42.666667 0 0 1 0 85.333333H341.333333a42.666667 42.666667 0 1 1 0-85.333333z m0 170.666666h170.666667a42.666667 42.666667 0 0 1 0 85.333334H341.333333a42.666667 42.666667 0 0 1 0-85.333334z"
+                p-id="3505"
+                fill="#13227a"
+              ></path>
+            </svg>
+            <div class="count">
+              <span class="count-char">总文章</span>
+              <span class="count-number">{{ user.data.totalArticle }}</span>
+            </div>
+          </el-card>
+        </el-col>
         <el-col :span="4">
           <!-- 总浏览量 -->
           <el-card>
@@ -42,7 +67,7 @@
             </svg>
             <div class="count">
               <span class="count-char">总浏览</span>
-              <span class="count-number">34.4k</span>
+              <span class="count-number">{{ user.data.totalViewCount }}</span>
             </div>
           </el-card>
         </el-col>
@@ -66,8 +91,8 @@
               ></path>
             </svg>
             <div class="count">
-              <span class="count-char">总评论</span>
-              <span class="count-number">341</span>
+              <span class="count-char">总获评</span>
+              <span class="count-number">{{ user.data.totalCommentCount }}</span>
             </div>
           </el-card>
         </el-col>
@@ -91,33 +116,8 @@
               ></path>
             </svg>
             <div class="count">
-              <span class="count-char">总点赞</span>
-              <span class="count-number">312</span>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :span="4">
-          <!-- 收藏量 -->
-          <el-card>
-            <svg
-              t="1633244576060"
-              class="icon"
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              p-id="7355"
-              width="80"
-              height="80"
-            >
-              <path
-                d="M1003.735979 445.925119 1003.735979 445.925119 746.069525 635.190717l99.258655 307.950697c1.547239 4.76963 2.40477 9.924024 2.40477 15.210423 0 26.948769-21.48329 48.734958-47.963385 48.734958-10.509355 0-20.191878-3.477194-28.105105-9.282411l0 0L512.001535 807.118438 252.337587 997.802338l-0.016373 0c-7.896854 5.805216-17.58347 9.282411-28.090778 9.282411-26.495444 0-47.962362-21.786189-47.962362-48.734958 0-5.2864 0.854461-10.440793 2.4017-15.210423l99.259678-307.950697L20.250718 445.925119l0.016373 0C8.244266 437.092963 0.410857 422.717557 0.410857 406.471548c0-26.881231 21.466917-48.671513 47.960315-48.671513l0 0 318.987055 0 98.775654-306.463834c6.027274-19.9821 24.270776-34.422997 45.86663-34.422997 21.595854 0 39.839357 14.439874 45.849234 34.422997l98.791004 306.463834 318.988078 0 0 0c26.494421 0 47.959292 21.790282 47.959292 48.671513C1023.587096 422.717557 1015.756757 437.092963 1003.735979 445.925119z"
-                p-id="7356"
-                fill="#f4ea2a"
-              ></path>
-            </svg>
-            <div class="count">
-              <span class="count-char">总收藏</span>
-              <span class="count-number">1.2k</span>
+              <span class="count-char">总获赞</span>
+              <span class="count-number">{{ user.data.totalLikeCount }}</span>
             </div>
           </el-card>
         </el-col>
@@ -147,6 +147,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { getUserTotalData } from '@/api/user'
 
 export default {
   name: 'Dashboard',
@@ -154,14 +155,31 @@ export default {
     return {
       avatarUrl:
         'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201603%2F28%2F20160328144226_5PVUu.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1635831928&t=ae1954fb30de657700ba8b2e761ca5e7',
-      userInfo: {
+      user: {
         signature: '我忘记了所有悲剧，所见皆是奇迹',
+        info: {},
+        data: {}
       },
+
     }
   },
   computed: {
     ...mapGetters(['name']),
   },
+  created() {
+    this.get_user_total_data()
+  },
+  methods: {
+    get_user_total_data(){
+      var _this = this
+      getUserTotalData(-1).then(res => {
+        _this.user.data = res.extend.data
+      })
+    },
+    get_user_info(){
+
+    },
+  }
 }
 </script>
 

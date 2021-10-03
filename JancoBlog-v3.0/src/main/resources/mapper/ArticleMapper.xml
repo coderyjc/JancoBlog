@@ -26,14 +26,25 @@
     <sql id="Base_Column_List">
         article_id, article_title, article_author, article_type, article_summary, article_html, article_md, article_is_comment, article_rank, article_post_time, article_edit_time, article_view_count, article_comment_count, article_like_count
     </sql>
+
+<!--    首页文章列表-->
     <select id="getIndexList" resultType="com.jancoyan.jancoblog.pojo.Article">
         select * from v_article_list_show ${ew.customSqlSegment}
     </select>
+
+<!--    管理员能看到的文章列表-->
     <select id="getManageList" resultType="com.jancoyan.jancoblog.pojo.Article">
         select * from v_article_manage_show ${ew.customSqlSegment}
     </select>
+
+<!--    查看文章的时候获取文章整体信息 -->
     <select id="getSingleArticle" resultType="com.jancoyan.jancoblog.pojo.Article">
         select * from v_article_get_single where article_id = '${id}'
     </select>
+
+<!--    获取用户最近发表的文章 -->
+
+
+
 
 </mapper>

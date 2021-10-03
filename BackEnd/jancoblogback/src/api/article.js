@@ -1,7 +1,12 @@
 import request from '../utils/request';
 
+
 /**
- * 获取首页的文章列表
+ * 获取首页文章列表
+ * @param {Integer} pn 页码
+ * @param {Integer} limit 容量
+ * @param {String} condition 条件
+ * @returns 
  */
 export function getIndexArticleList(pn, limit, condition) {
   return request({
@@ -17,7 +22,7 @@ export function getIndexArticleList(pn, limit, condition) {
 
 /**
  * 通过首页查看文章的时候获取文章信息
- * @param {id} id 
+ * @param {String} id 
  * @returns 
  */
 export function getSingleArticle(id) {
@@ -30,6 +35,11 @@ export function getSingleArticle(id) {
   })
 }
 
+/**
+ * 点赞
+ * @param {Stirng} id 
+ * @returns 
+ */
 export function likeArticle(id) {
   return request({
     url: '/article/like',
@@ -40,6 +50,11 @@ export function likeArticle(id) {
   })
 }
 
+/**
+ * 浏览文章
+ * @param {String} id 
+ * @returns 
+ */
 export function viewArticle(id) {
   return request({
     url: '/article/view?id='+id,
@@ -47,6 +62,13 @@ export function viewArticle(id) {
   })
 }
 
+/**
+ * 管理员时间获取所有文章
+ * @param {Integer} pn 页码
+ * @param {Integer} limit 容量
+ * @param {String} condition 条件
+ * @returns 
+ */
 export function getAll(pn, limit, condition) {
   return request({
     url: '/article/manage',
@@ -59,6 +81,13 @@ export function getAll(pn, limit, condition) {
   })
 }
 
+/**
+ * 用户视角获取所有文章
+ * @param {Integer} pn 页码
+ * @param {Integer} limit 容量
+ * @param {String} condition 条件
+ * @returns 
+ */
 export function getArticleByUser(pn, limit, condition) {
   return request({
     url: '/article/user',
@@ -72,6 +101,11 @@ export function getArticleByUser(pn, limit, condition) {
 }
 
 
+/**
+ * 批量删除文章
+ * @param {String} ids 文章id的&拼接
+ * @returns 
+ */
 export function batchDeleteArticles(ids) {
   return request({
     url: '/article/delete',
@@ -82,6 +116,16 @@ export function batchDeleteArticles(ids) {
   })
 }
 
+/**
+ * 发表文章
+ * @param {String} title 标题
+ * @param {Integee} type 类型
+ * @param {String} summary 总结
+ * @param {Integer} comment 是否允许评论
+ * @param {String} md md格式的文章
+ * @param {String} html HTML格式的文章
+ * @returns 
+ */
 export function postArticle(title, type, summary, comment, md, html){
   return request({
     url: '/article/post',
@@ -96,3 +140,36 @@ export function postArticle(title, type, summary, comment, md, html){
     }
   })
 }
+
+
+/**
+ * 改变文章允许评论的状态
+ * @param {String} id 文章id
+ * @returns 
+ */
+ export function toggleArticleIsComment(id) {
+  return request({
+    url: '/article/toggle/comment',
+    method: 'post',
+    params: {
+      id: id
+    }
+  })
+}
+
+
+/**
+ * 文章置顶
+ * @param {String} id 文章id
+ * @returns 
+ */
+ export function toggleArticleStickTop(id) {
+  return request({
+    url: '/article/toggle/top',
+    method: 'post',
+    params: {
+      id: id
+    }
+  })
+}
+

@@ -7,7 +7,7 @@
         :offset="5"
       >
         <el-menu
-          :default-active="0"
+          default-active="0"
           class="el-menu-demo"
           mode="horizontal"
         >
@@ -59,7 +59,7 @@
               <el-divider direction="vertical"></el-divider>
               <div class="article-count">
                 <span class="count-number">329</span>
-                <span class="count-char">收藏</span>
+                <span class="count-char">评论</span>
               </div>
             </div>
             <el-divider></el-divider>
@@ -271,7 +271,7 @@
               <el-divider direction="vertical"></el-divider>
               <div class="user-count">
                 <span class="count-number">432</span>
-                <span class="count-char">收藏</span>
+                <span class="count-char">获评</span>
               </div>
             </div>
           </div>
