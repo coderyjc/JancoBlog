@@ -64,6 +64,7 @@ public class UserController {
             redisUtil.set(token, user, 1800);
             // 更新上次登录时间
             user.setUserLastLoginDate(new Date());
+            user.updateById();
         }
 
         if(null != token){

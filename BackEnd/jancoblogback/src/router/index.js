@@ -37,9 +37,7 @@ export const constantRouterMap = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: '数据面板', icon: 'dashboard' }
     }]
-  },
-
-  { path: '*', redirect: '/404', hidden: true }
+  }
 
 ]
 
@@ -69,9 +67,9 @@ export const asyncRouterMap = [
   },
 
   {
-    path: '/article',
+    path: '/article-manage',
     component: Layout,
-    redirect: '/article',
+    redirect: '/article-manage',
     name: 'Article',
     meta: { title: '文章管理', icon: 'el-icon-document', role: ['admin', 'user'] },
     children: [
@@ -147,21 +145,33 @@ export const asyncRouterMap = [
         name: 'User',
         component: () => import('@/views/user/user'),
         meta: { title: '用户管理', icon: 'el-icon-user', role: ['admin'] }
+      },
+      {
+        path: 'user-add',
+        name: 'User-add',
+        component: () => import('@/views/user/user-add'),
+        meta: { title: '用户添加', icon: 'el-icon-plus', role: ['admin'] }
       }
     ]
   },
 
   {
-    path: '/process',
+    path: '/settings',
     component: Layout,
-    redirect: '/process',
-    name: 'Process',
-    meta: { title: '开发历程', icon: 'el-icon-goblet-square-full', role: ['admin'] },
+    redirect: '/settings',
+    name: 'settings',
+    meta: { title: '设置', icon: 'el-icon-setting', role: ['admin', 'user'] },
     children: [
+      {
+        path: 'personal-setting',
+        name: 'personal-setting',
+        component: () => import('@/views/settings/personal-setting'),
+        meta: { title: '个人信息', icon: 'el-icon-user', role: ['admin', 'user'] }
+      },
       {
         path: 'process',
         name: 'Process',
-        component: () => import('@/views/statistic/process'),
+        component: () => import('@/views/settings/process'),
         meta: { title: '开发历程', icon: 'el-icon-goblet-square-full', role: ['admin'] }
       }
     ]

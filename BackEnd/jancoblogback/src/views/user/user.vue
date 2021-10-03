@@ -98,7 +98,7 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="120"
+        width="220"
       >
         <template slot-scope="scope">
           <el-button
@@ -106,6 +106,11 @@
             type="text"
             size="small"
           >详细信息</el-button>
+          <el-button
+            @click="changePassword(scope.row)"
+            type="text"
+            size="small"
+          >修改密码</el-button>
           <el-button
             @click="deleteUser(scope.row)"
             type="text"
@@ -181,6 +186,9 @@ export default {
     },
   },
   methods: {
+    changePassword(){
+
+    },
     viewDetail(row) {
       // this.commentDetailVisable = false
     },

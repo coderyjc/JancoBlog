@@ -7,6 +7,7 @@ import com.jancoyan.jancoblog.pojo.Article;
 import com.jancoyan.jancoblog.mapper.ArticleMapper;
 import com.jancoyan.jancoblog.service.ArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jancoyan.jancoblog.utils.ArticleUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -34,30 +35,30 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 continue;
             }
 
-            if(split2[0].equals("article_author_name")){
+            if("article_author_name".equals(split2[0])){
                 wrapper.like("article_author_name", split2[1]);
-            }else if(split2[0].equals("article_title")){
+            }else if("article_title".equals(split2[0])){
                 wrapper.like("article_title", split2[1]);
-            }else if(split2[0].equals("type")){
+            }else if("type".equals(split2[0])){
                 wrapper.eq("article_type", split2[1]);
-            }else if(split2[0].equals("start")){
+            }else if("start".equals(split2[0])){
                 wrapper.gt("article_post_time", split2[1]);
-            }else if(split2[0].equals("end")){
+            }else if("end".equals(split2[0])){
                 wrapper.lt("article_post_time", split2[1]);
-            }else if(split2[0].equals("rank_view")){
-                if (split2[1].equals("1")) {
+            }else if("rank_view".equals(split2[0])){
+                if ("1".equals(split2[1])) {
                     wrapper.orderByAsc("article_view_count");
                 } else {
                     wrapper.orderByDesc("article_view_count");
                 }
-            }else if(split2[0].equals("rank_like")){
-                if (split2[1].equals("1")) {
+            }else if("rank_like".equals(split2[0])){
+                if ("1".equals(split2[1])) {
                     wrapper.orderByAsc("article_like_count");
                 } else {
                     wrapper.orderByDesc("article_like_count");
                 }
-            }else if(split2[0].equals("rank_comment")){
-                if (split2[1].equals("1")) {
+            }else if("rank_comment".equals(split2[0])){
+                if ("1".equals(split2[1])) {
                     wrapper.orderByAsc("article_comment_count");
                 } else {
                     wrapper.orderByDesc("article_comment_count");
@@ -80,43 +81,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 单一用户的文章获取
         if(null != userName) wrapper.eq("user_name", userName);
 
-        String[] split = condition.split("--");
-        for (String item : split) {
-            String[] split2 = item.split("=");
-            if(split2.length < 2){
-                continue;
-            }
-
-            if(split2[0].equals("article_author_name")){
-                wrapper.like("user_name", split2[1]);
-            }else if(split2[0].equals("article_title")){
-                wrapper.like("article_title", split2[1]);
-            }else if(split2[0].equals("type")){
-                wrapper.eq("article_type", split2[1]);
-            }else if(split2[0].equals("start")){
-                wrapper.gt("article_post_time", split2[1]);
-            }else if(split2[0].equals("end")){
-                wrapper.lt("article_post_time", split2[1]);
-            }else if(split2[0].equals("rank_view")){
-                if (split2[1].equals("1")) {
-                    wrapper.orderByAsc("article_view_count");
-                } else {
-                    wrapper.orderByDesc("article_view_count");
-                }
-            }else if(split2[0].equals("rank_like")){
-                if (split2[1].equals("1")) {
-                    wrapper.orderByAsc("article_like_count");
-                } else {
-                    wrapper.orderByDesc("article_like_count");
-                }
-            }else if(split2[0].equals("rank_comment")){
-                if (split2[1].equals("1")) {
-                    wrapper.orderByAsc("article_comment_count");
-                } else {
-                    wrapper.orderByDesc("article_comment_count");
-                }
-            }
-        }
+        wrapper = ArticleUtils.generateManageArticleWrapperByCondition(wrapper, condition);
 
         return baseMapper.getManageList(iPage, wrapper);
     }

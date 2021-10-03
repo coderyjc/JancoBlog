@@ -1,34 +1,147 @@
 <template>
   <div class="dashboard-container">
     <div class="personal-info">
-      <el-card>
+
+      <!-- 个人界面展示 -->
+      <el-card class="personal-info-sign">
         <!-- 头像 -->
-        <!-- 用户名 -->
-        <!-- 签名 -->
+        <el-col>
+          <el-avatar
+            :size="150"
+            :src="avatarUrl"
+          ></el-avatar>
+        </el-col>
+        <el-col class="sign">
+          <!-- 用户名 -->
+          <div class="user-name">{{ name }}</div>
+          <!-- 签名 -->
+          <div class="user-signature">{{ userInfo.signature }}</div>
+        </el-col>
       </el-card>
-      <el-row>
+
+      <!-- 展示浏览、评论、点赞、收藏等数据 -->
+      <el-row class="statastic">
         <el-col :span="4">
-          <el-card></el-card>
+          <!-- 总浏览量 -->
+          <el-card>
+            <svg
+              t="1633243178182"
+              class="icon"
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              p-id="5920"
+              width="80"
+              height="80"
+            >
+              <path
+                d="M510.557138 204.354248c-302.839283 0-458.323497 306.150702-458.323497 306.150702s117.330242 306.189587 458.323497 306.189587c308.802088 0 458.300984-304.995389 458.300984-304.995389S818.167075 204.354248 510.557138 204.354248L510.557138 204.354248 510.557138 204.354248zM511.245823 701.866279c-110.729917 0-190.772928-83.72589-190.772928-191.364399 0-107.647719 80.049151-191.352119 190.772928-191.352119 110.723777 0 190.763718 83.697237 190.763718 191.352119C702.010565 618.140389 621.970624 701.866279 511.245823 701.866279L511.245823 701.866279 511.245823 701.866279zM511.245823 395.675668c-63.286372 0.145309-114.460892 53.321416-114.460892 114.827235 0 61.473073 51.175543 114.821095 114.460892 114.821095 63.282279 0 114.453728-53.352115 114.453728-114.821095C625.703645 448.975595 574.529125 395.556964 511.245823 395.675668L511.245823 395.675668 511.245823 395.675668z"
+                p-id="5921"
+                fill="#1296db"
+              ></path>
+            </svg>
+            <div class="count">
+              <span class="count-char">总浏览</span>
+              <span class="count-number">34.4k</span>
+            </div>
+          </el-card>
         </el-col>
         <el-col :span="4">
-          <el-card></el-card>
+          <!-- 评论量 -->
+          <el-card>
+            <svg
+              t="1633244239936"
+              class="icon"
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              p-id="7377"
+              width="80"
+              height="80"
+            >
+              <path
+                d="M832 128 192 128C139.072 128 96 171.072 96 224l0 512c0 52.928 43.072 96 96 96l210.752 0 86.624 86.624C495.616 924.864 503.808 928 512 928s16.384-3.136 22.624-9.376L621.248 832 832 832c52.928 0 96-43.072 96-96L928 224C928 171.072 884.928 128 832 128zM336 512C309.536 512 288 490.464 288 464S309.536 416 336 416s48 21.536 48 48S362.464 512 336 512zM528 512c-26.464 0-48-21.536-48-48s21.536-48 48-48 48 21.536 48 48S554.464 512 528 512zM720 512c-26.464 0-48-21.536-48-48s21.536-48 48-48 48 21.536 48 48S746.464 512 720 512z"
+                p-id="7378"
+                fill="#1dd76f"
+              ></path>
+            </svg>
+            <div class="count">
+              <span class="count-char">总评论</span>
+              <span class="count-number">341</span>
+            </div>
+          </el-card>
         </el-col>
         <el-col :span="4">
-          <el-card></el-card>
+          <!-- 点赞量 -->
+          <el-card>
+            <svg
+              t="1633244324852"
+              class="icon"
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              p-id="8333"
+              width="80"
+              height="80"
+            >
+              <path
+                d="M581.674667 170.666667c6.72 0 18.538667 1.429333 27.584 4.352 44.544 14.442667 70.186667 61.76 59.797333 109.12l-1.066667 4.437333-39.701333 148.906667h157.269333c19.093333 0 37.973333 7.082667 50.773334 21.248 14.293333 15.829333 19.861333 36.778667 15.616 57.109333l-1.066667 4.352-82.922667 295.253333a51.882667 51.882667 0 0 1-46.08 37.76l-3.84 0.128H298.666667V452.501333c84.949333-18.389333 209.194667-244.373333 209.194666-244.373333C525.525333 184.170667 546.944 170.666667 581.674667 170.666667zM234.666667 448v405.333333H170.666667V448h64z"
+                p-id="8334"
+                fill="#d81e06"
+              ></path>
+            </svg>
+            <div class="count">
+              <span class="count-char">总点赞</span>
+              <span class="count-number">312</span>
+            </div>
+          </el-card>
         </el-col>
         <el-col :span="4">
-          <el-card></el-card>
-        </el-col>
-        <el-col :span="4">
-          <el-card></el-card>
-        </el-col>
-        <el-col :span="4">
-          <el-card></el-card>
+          <!-- 收藏量 -->
+          <el-card>
+            <svg
+              t="1633244576060"
+              class="icon"
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              p-id="7355"
+              width="80"
+              height="80"
+            >
+              <path
+                d="M1003.735979 445.925119 1003.735979 445.925119 746.069525 635.190717l99.258655 307.950697c1.547239 4.76963 2.40477 9.924024 2.40477 15.210423 0 26.948769-21.48329 48.734958-47.963385 48.734958-10.509355 0-20.191878-3.477194-28.105105-9.282411l0 0L512.001535 807.118438 252.337587 997.802338l-0.016373 0c-7.896854 5.805216-17.58347 9.282411-28.090778 9.282411-26.495444 0-47.962362-21.786189-47.962362-48.734958 0-5.2864 0.854461-10.440793 2.4017-15.210423l99.259678-307.950697L20.250718 445.925119l0.016373 0C8.244266 437.092963 0.410857 422.717557 0.410857 406.471548c0-26.881231 21.466917-48.671513 47.960315-48.671513l0 0 318.987055 0 98.775654-306.463834c6.027274-19.9821 24.270776-34.422997 45.86663-34.422997 21.595854 0 39.839357 14.439874 45.849234 34.422997l98.791004 306.463834 318.988078 0 0 0c26.494421 0 47.959292 21.790282 47.959292 48.671513C1023.587096 422.717557 1015.756757 437.092963 1003.735979 445.925119z"
+                p-id="7356"
+                fill="#f4ea2a"
+              ></path>
+            </svg>
+            <div class="count">
+              <span class="count-char">总收藏</span>
+              <span class="count-number">1.2k</span>
+            </div>
+          </el-card>
         </el-col>
       </el-row>
 
     </div>
-    <!-- <div class="dashboard-text">name: {{ name }}</div> -->
+
+    <!-- 最近发表的文章列表和收到的消息等 -->
+    <div class="message">
+      <el-row :gutter="12">
+        <!-- 最近发表的文章列表 -->
+        <el-col :span="8">
+          <el-card></el-card>
+        </el-col>
+        <!-- 收到的点赞 -->
+        <el-col :span="8">
+          <el-card></el-card>
+        </el-col>
+        <!-- 收到的评论 -->
+        <el-col :span="8">
+          <el-card></el-card>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
@@ -37,6 +150,15 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Dashboard',
+  data() {
+    return {
+      avatarUrl:
+        'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201603%2F28%2F20160328144226_5PVUu.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1635831928&t=ae1954fb30de657700ba8b2e761ca5e7',
+      userInfo: {
+        signature: '我忘记了所有悲剧，所见皆是奇迹',
+      },
+    }
+  },
   computed: {
     ...mapGetters(['name']),
   },
@@ -45,16 +167,54 @@ export default {
 
 <style lang="scss" scoped>
 .dashboard {
+  background-color: rgb(240, 242, 245);
   &-container {
-    margin: 30px;
-  }
-  &-text {
-    font-size: 30px;
-    line-height: 46px;
-  }
+    padding: 20px;
 
-  .personal-info {
-    width: 100%;
+    .personal-info {
+      width: 100%;
+      text-align: center;
+
+      .personal-info-sign {
+        margin: 10px auto;
+        background-image: url('../../assets/imgs/personal-card.png');
+
+        .sign {
+          text-align: center;
+          color: white;
+
+          .user-name {
+            margin: 10px auto;
+            font-size: 40px;
+          }
+
+          .user-signature {
+            margin: 10px auto;
+            font-size: 18px;
+          }
+        }
+      }
+
+      .statastic {
+        display: flex;
+        justify-content: space-around;
+      }
+
+      .count {
+        .count-char {
+          font-size: 15px;
+          margin: 0 5px;
+        }
+        .count-number {
+          font-size: 25px;
+          font-weight: 550;
+        }
+      }
+    }
+
+    .message {
+      margin: 10px auto;
+    }
   }
 }
 </style>
