@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.Article;
 import com.jancoyan.jancoblog.pojo.User;
 import com.jancoyan.jancoblog.service.ArticleService;
+import com.jancoyan.jancoblog.utils.ArticleUtils;
 import com.jancoyan.jancoblog.utils.Msg;
 import com.jancoyan.jancoblog.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * <p>
@@ -177,15 +183,44 @@ public class ArticleController {
         HttpServletRequest request
     ) throws UnsupportedEncodingException {
         request.setCharacterEncoding("utf-8");
-        System.out.println(title);
-        System.out.println(type);
-        System.out.println(summary);
-        System.out.println(comment);
-        System.out.println(md);
-        System.out.println(html);
+        // 判断用户登录状态
+        String token = request.getHeader("token");
+        User user = new User();
+        if(null == token){
+            // 用户登录信息过期了
+            return Msg.expire();
+        }else{
+            user = (User) redisUtil.get(token);
+            if(null == user) {
+                return Msg.expire();
+            }
+        }
+        // 此时User已经拿到了。组装文章
+        Article article = new Article();
+        article.setArticleTitle(title)
+                .setArticleAuthor(user.getUserId())
+                .setArticleType(Integer.parseInt(type))
+                .setArticleHtml(html)
+                .setArticleMd(ArticleUtils.replaceSingleSlash(md))
+                .setArticleIsComment("true".equals(comment) ? 1 : 0)
+                .setArticleRank(0);
 
-        // 先这样   先写登录
-        return Msg.success();
+        // 统一发布时间
+        long now = System.currentTimeMillis();
+        article.setArticleId(ArticleUtils.getArticleId(user.getUserId(), now))
+                .setArticlePostTime(new Date(now))
+                .setArticleEditTime(new Date(now));
+
+        // 填充文章摘要
+        if(!"".equals(summary)){
+            article.setArticleSummary(summary);
+        }else{
+            article.setArticleSummary(ArticleUtils.getArticleDefaultSummary(html));
+        }
+
+        boolean suc = article.insert();
+
+        return Msg.success().add("suc", suc).add("id", article.getArticleId());
     }
 
     /**
@@ -273,6 +308,45 @@ public class ArticleController {
         } else {
             return Msg.fail();
         }
+    }
+
+    @RequestMapping(value = "/picture", method = RequestMethod.POST)
+    public Msg uploadPicture(
+            @RequestParam(value = "file") MultipartFile file,
+            HttpServletRequest request
+    ){
+        if (file == null) {
+            return Msg.fail().add("msg", "请选择要上传的图片");
+        }
+        if (file.getSize() > 1024 * 1024 * 10) {
+            return Msg.fail().add("msg", "文件大小不能大于10M");
+        }
+        //获取文件后缀
+        String suffix = Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+        if (!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
+            return Msg.fail().add("msg", "请选择jpg,jpeg,gif,png格式的图片");
+        }
+//        String savePath = System.getProperty("user.dir");
+        String savePath = "/";
+        File savePathFile = new File(savePath);
+        if (!savePathFile.exists()) {
+            //若不存在该目录，则创建目录
+            savePathFile.mkdir();
+        }
+        //通过UUID生成唯一文件名
+        String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
+
+        System.out.println(filename);
+
+        try {
+            //将文件保存指定目录
+            file.transferTo(new File(savePath + filename));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail().add("msg", "保存文件异常");
+        }
+        //返回文件名称
+        return Msg.success().add("filename", filename);
     }
 
 

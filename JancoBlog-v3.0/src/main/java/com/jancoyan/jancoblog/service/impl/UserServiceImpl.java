@@ -36,11 +36,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 continue;
             }
 
-            if(split2[0].equals("user_name")){
+            if("user_name".equals(split2[0])){
                 wrapper.like("user_name", split2[1]);
-            }else if(split2[0].equals("start")){
+            }else if("start".equals(split2[0])){
                 wrapper.gt("user_create_date", split2[1]);
-            }else if(split2[0].equals("end")){
+            }else if("end".equals(split2[0])){
                 wrapper.lt("user_create_date", split2[1]);
             }
         }

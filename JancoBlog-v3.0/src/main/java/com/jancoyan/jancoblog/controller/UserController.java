@@ -3,6 +3,7 @@ package com.jancoyan.jancoblog.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.User;
+import com.jancoyan.jancoblog.pojo.UserInfo;
 import com.jancoyan.jancoblog.pojo.VUserTotalData;
 import com.jancoyan.jancoblog.service.UserService;
 import com.jancoyan.jancoblog.utils.JsonWebTokenUtils;
@@ -77,7 +78,7 @@ public class UserController {
 
 
     /**
-     * 获取某个用户的数据总数：文章总数、浏览量、获赞、获评总数
+     * 用户主页的内容
      * @param userId 用户id
      * @param request request
      * @return
@@ -120,6 +121,9 @@ public class UserController {
             // 获取用户成功
             return Msg.success().add("user", user);
         }
+        // 获取用户的信息
+
+
         return Msg.illegalToken();
     }
 

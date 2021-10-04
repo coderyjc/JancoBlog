@@ -116,14 +116,12 @@
         <!--            文章目录导航-->
       </el-col>
 
-      <!-- 评论 -->
       <el-col
         :span="14"
         style="padding: 0 60px"
       >
         <!--            内容-->
-        <div class="md-content">
-          {{article.articleHtml}}
+        <div class="md-content" v-html='article.articleHtml'>
         </div>
         <el-divider>The End</el-divider>
         <!--            文章评论和发表评论-->
@@ -350,7 +348,6 @@ export default {
     }
   },
   created() {
-    hljs.highlightAll() // 渲染代码
     this.renderPage()
     this.userlogin = getToken() === undefined // 有没有登陆
     this.query = this.$router.query
@@ -384,6 +381,7 @@ export default {
       getAuthorInfo(_this.article.articleAuthor).then((response) => {})
       // 评论信息
       this.get_comment_list(this.$route.query, 1)
+      hljs.highlightAll() // 渲染代码
     },
     get_comment_list(query, pn) {
       var _this = this

@@ -29,10 +29,6 @@
       <markdown-editor ref="markdownEditor" v-model="content" :options="{hideModeSwitch:true,previewStyle:'tab'}" height="580px" />
     </div>
     <el-button type="primary" style="margin: 20px; float:right; width: 200px" @click="postArticle">发表</el-button>
-    <!-- <el-button  type="primary" icon="el-icon-document" @click="getHtml">
-      HTML
-    </el-button>
-    <div v-html="html" /> -->
   </div>
 </template>
 
@@ -40,7 +36,6 @@
 import MarkdownEditor from '@/components/MarkdownEditor'
 import { getAllType } from '@/api/type'
 import { postArticle } from '@/api/article'
-import { Pass } from 'codemirror'
 
 const content = ``
 
@@ -71,6 +66,7 @@ export default {
       })
     },
     postArticle(){
+      var _this = this
       this.getHtml();
       postArticle(
         this.article_title, 
@@ -80,7 +76,27 @@ export default {
         this.content,
         this.html
       ).then(response => {
+        var id = response.extend.id
+        var msg = '发表成功，点击查看'
+        this.$message({
+          dangerouslyUseHTMLString: true,
+          message: msg,
+          type: 'success',
+          duration: 3000
+        });
+        _this.article_title = '' 
+        _this.article_type = '' 
+        _this.article_summary = ''
+        _this.is_comment = true
+        _this.content = ''
+        _this.html = ''
       })
+    },
+    validateArticle(){
+      // 对博文的发表进行验证
+
+
+
     }
   }
 }

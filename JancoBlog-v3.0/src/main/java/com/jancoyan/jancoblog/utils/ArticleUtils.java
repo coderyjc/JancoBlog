@@ -62,9 +62,6 @@ public class ArticleUtils {
 
         return wrapper;
     }
-
-
-
     /**
      * 把换行的\n转换为文本的\n
      * @param str 要替换的文本
@@ -83,23 +80,32 @@ public class ArticleUtils {
         return str.replaceAll("'", "\\\\'");
     }
 
-
     /**
-     * 删除所有的html标签
-     * 并把所有的tab和换行符都换成空格
+     * 获取文章的默认摘要
      * @param innerHTML 作者写入的md转成的html（带有格式）
      * @return 文章的摘要
      */
-    public static String getArticleAbstract(String innerHTML){
+    public static String getArticleDefaultSummary(String innerHTML){
         // 去掉所有的HTML标签
         String rst = innerHTML.replaceAll("<.*?>", "");
         // 转换所有的空格
         rst = rst.replaceAll("\\s", " ");
         // 过长截取
-        if(rst.length() > 150){
-            rst = rst.substring(0, 150) + "......";
+        if(rst.length() >= 100){
+            rst = rst.substring(0, 100) + "......";
         }
         return rst;
+    }
+
+    /**
+     * 获取文章id
+     * @param userId 用户id
+     * @return 文章id
+     */
+    public static String getArticleId(Integer userId, long now){
+        String str = String.valueOf(userId);
+        str += String.valueOf(now);
+        return str;
     }
 
 }

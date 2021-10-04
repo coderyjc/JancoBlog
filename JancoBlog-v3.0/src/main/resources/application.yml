@@ -20,8 +20,13 @@ spring:
     host: 101.201.64.102
     port: 6379
     password: 333
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 server:
   port: 8080
+  max-http-header-size: 1MB
 
 logging:
   level:

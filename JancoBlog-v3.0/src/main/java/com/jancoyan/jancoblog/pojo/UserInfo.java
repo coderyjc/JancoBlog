@@ -43,9 +43,7 @@ public class UserInfo extends Model<UserInfo> {
 
     private String userEmail;
 
-    private long userSex;
-
-    private String userSignature;
+    private Integer userSex;
 
     private String userRegion;
 

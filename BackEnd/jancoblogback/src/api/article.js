@@ -1,6 +1,5 @@
 import request from '../utils/request';
 
-
 /**
  * 获取首页文章列表
  * @param {Integer} pn 页码
@@ -173,3 +172,20 @@ export function postArticle(title, type, summary, comment, md, html){
   })
 }
 
+/**
+ * 文章中的图片的上传
+ * @param {blob}} blob
+ * @returns 
+ */
+ export function uploadPicture(file) {
+  return request({
+    url: '/article/picture',
+    method: 'post',
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    params: {
+      file: file
+    },
+  })
+}

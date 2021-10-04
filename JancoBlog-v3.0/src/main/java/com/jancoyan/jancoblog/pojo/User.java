@@ -38,6 +38,8 @@ public class User extends Model<User> {
 
     private String userName;
 
+    private String userSignature;
+
     private String userPassword;
 
     private String userRole;

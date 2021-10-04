@@ -15,7 +15,7 @@
           <!-- 用户名 -->
           <div class="user-name">{{ name }}</div>
           <!-- 签名 -->
-          <div class="user-signature">{{ user.signature }}</div>
+          <div class="user-signature">{{ user.data.userSignature }}</div>
         </el-col>
       </el-card>
 
@@ -156,8 +156,6 @@ export default {
       avatarUrl:
         'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201603%2F28%2F20160328144226_5PVUu.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1635831928&t=ae1954fb30de657700ba8b2e761ca5e7',
       user: {
-        signature: '我忘记了所有悲剧，所见皆是奇迹',
-        info: {},
         data: {}
       },
 

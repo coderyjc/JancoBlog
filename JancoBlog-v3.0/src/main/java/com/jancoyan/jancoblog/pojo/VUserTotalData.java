@@ -24,6 +24,10 @@ public class VUserTotalData {
 
     private Integer articleAuthor;
 
+    private String userName;
+
+    private String userSignature;
+
     private Integer  totalArticle;
 
     private Integer  totalViewCount;
