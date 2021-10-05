@@ -71,6 +71,17 @@ export function getUserInfo() {
 }
 
 /**
+ * 获取当前已经登录的用户详细信息
+ * @returns 
+ */
+export function getUserDetailInfo() {
+  return request({
+    url: '/user/userdetail',
+    method: 'get'
+  })
+}
+
+/**
  * 获取用户的总的数据统计
  * @param {String} userId 用户id
  * @returns 

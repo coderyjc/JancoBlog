@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Objects;
@@ -314,7 +315,7 @@ public class ArticleController {
     public Msg uploadPicture(
             @RequestParam(value = "file") MultipartFile file,
             HttpServletRequest request
-    ){
+    ) throws IOException {
         if (file == null) {
             return Msg.fail().add("msg", "请选择要上传的图片");
         }
@@ -326,13 +327,17 @@ public class ArticleController {
         if (!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
             return Msg.fail().add("msg", "请选择jpg,jpeg,gif,png格式的图片");
         }
-//        String savePath = System.getProperty("user.dir");
-        String savePath = "/";
+
+        String savePath = new File(".").getCanonicalPath() + "\\target\\classes\\static\\p\\";
+
+        System.out.println(savePath);
+
         File savePathFile = new File(savePath);
         if (!savePathFile.exists()) {
             //若不存在该目录，则创建目录
             savePathFile.mkdir();
         }
+
         //通过UUID生成唯一文件名
         String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
 
@@ -345,8 +350,10 @@ public class ArticleController {
             e.printStackTrace();
             return Msg.fail().add("msg", "保存文件异常");
         }
+        String url = "http://localhost:8080/p/" + filename;
+
         //返回文件名称
-        return Msg.success().add("filename", filename);
+        return Msg.success().add("url", url);
     }
 
 

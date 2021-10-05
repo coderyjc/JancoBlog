@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.jancoyan.jancoblog.pojo.UserInfo;
 import com.jancoyan.jancoblog.pojo.VUserTotalData;
 
 import java.util.List;
@@ -23,4 +24,5 @@ public interface UserMapper extends BaseMapper<User> {
 
     VUserTotalData getUserTotalData(String userId);
 
+    UserInfo getUserInfo(Integer userId);
 }

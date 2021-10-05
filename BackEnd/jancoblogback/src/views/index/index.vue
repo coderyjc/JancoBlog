@@ -168,7 +168,7 @@
           </router-link>
           <!--                    简洁模式的文章列表-->
           <router-link
-            to="/article"
+            :to="base_article_url + item.articleId"
             target="_blank"
           >
             <el-card

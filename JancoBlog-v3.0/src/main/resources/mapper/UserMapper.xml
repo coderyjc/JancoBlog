@@ -72,5 +72,8 @@
     </sql>
 
 
+    <select id="getUserInfo" resultType="com.jancoyan.jancoblog.pojo.UserInfo">
+        select * from tbl_user_info where user_id = ${userId}
+    </select>
 
 </mapper>

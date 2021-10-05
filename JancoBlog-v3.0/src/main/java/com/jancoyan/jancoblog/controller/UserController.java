@@ -116,27 +116,57 @@ public class UserController {
     public Msg getUserInfo(HttpServletRequest request){
         // 把token放在请求头中
         String token = request.getHeader("token");
-        Object user = redisUtil.get(token);
+        User user = (User)redisUtil.get(token);
         if(null != user){
             // 获取用户成功
             return Msg.success().add("user", user);
         }
-        // 获取用户的信息
-
-
-        return Msg.illegalToken();
+        return Msg.fail().add("msg", "找不到用户");
     }
+
+
+    /**
+     * 获取当前已经登录的用户的详细信息
+     * @param request req
+     * @return
+     */
+    @RequestMapping(value = "/userdetail", method = RequestMethod.GET)
+    public Msg getUserDetailInfo(
+            HttpServletRequest request
+    ){
+        // 把token放在请求头中
+        String token = request.getHeader("token");
+        User user = (User)redisUtil.get(token);
+        if(null == user){
+            // 获取用户失败
+            return Msg.fail().add("msg", "用户已过期");
+        }
+        // 获取用户的信息
+        UserInfo info = service.getUserInfo(user.getUserId());
+        if(null != info){
+            return Msg.success().add("info", info);
+        } else {
+            return Msg.fail();
+        }
+    }
+
+
 
     /**
      * 在进入文章的时候，简要显示用户展示给别人看的信息
-     * @param id 用户id
+     * @param userId 用户id
      * @return 消息
      */
     @RequestMapping(value = "/authorinfo", method = RequestMethod.GET)
     public Msg getAuthorInfo(
-            @RequestParam(value = "id")String id
+            @RequestParam(value = "id")String userId
     ){
-        return Msg.success();
+        VUserTotalData data = service.getUserTotalData(userId);
+        if(null != data) {
+            return Msg.success().add("data", data);
+        } else {
+            return Msg.fail().add("msg", "获取数据失败");
+        }
     }
 
 
@@ -238,6 +268,14 @@ public class UserController {
             }
         }
         return Msg.success().add("suc", suc ? "success" : "fail");
+    }
+
+    @RequestMapping(value = "/upload/avatar", method = RequestMethod.POST)
+    public Msg changeAvatar(){
+
+
+
+        return Msg.success();
     }
 
 
