@@ -270,6 +270,10 @@ public class UserController {
         return Msg.success().add("suc", suc ? "success" : "fail");
     }
 
+    /**
+     * 更换头像
+     * @return
+     */
     @RequestMapping(value = "/upload/avatar", method = RequestMethod.POST)
     public Msg changeAvatar(){
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.awt.geom.IllegalPathStateException;
@@ -45,7 +46,10 @@ public class TypeController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Msg addType(){
+    public Msg addType(
+            @RequestParam(value = "name") String typeName,
+            @RequestParam(value = "description", defaultValue = "") String description
+    ){
 
 
 
@@ -53,7 +57,9 @@ public class TypeController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public Msg deleteType(){
+    public Msg deleteType(
+            @RequestParam(value = "ids")String ids
+    ){
 
 
 
@@ -61,7 +67,10 @@ public class TypeController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public Msg updateType(){
+    public Msg updateType(
+            @RequestParam(value = "name") String typeName,
+            @RequestParam(value = "description", defaultValue = "") String description
+    ){
 
 
         return Msg.success();

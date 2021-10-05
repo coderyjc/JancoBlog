@@ -174,9 +174,6 @@ export default {
         _this.user.data = res.extend.data
       })
     },
-    get_user_info(){
-
-    },
   }
 }
 </script>
