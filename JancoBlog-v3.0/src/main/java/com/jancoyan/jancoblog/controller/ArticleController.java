@@ -2,8 +2,10 @@ package com.jancoyan.jancoblog.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.Article;
+import com.jancoyan.jancoblog.pojo.LikeRecord;
 import com.jancoyan.jancoblog.pojo.User;
 import com.jancoyan.jancoblog.service.ArticleService;
+import com.jancoyan.jancoblog.service.LikeRecordService;
 import com.jancoyan.jancoblog.utils.ArticleUtils;
 import com.jancoyan.jancoblog.utils.Msg;
 import com.jancoyan.jancoblog.utils.RedisUtil;
@@ -39,7 +41,6 @@ public class ArticleController {
 
     @Autowired
     ArticleService service;
-
 
     @Autowired
     RedisUtil redisUtil;
@@ -336,8 +337,23 @@ public class ArticleController {
      * @return 成功
      */
     @RequestMapping(value = "/like", method = RequestMethod.POST)
-    public Msg addLikeCount(@RequestParam(value = "id")String id){
+    public Msg addLikeCount(
+            @RequestParam(value = "id")String id,
+            HttpServletRequest request
+    ){
+        String token = request.getHeader("token");
+        if(null == token){
+            return Msg.expire();
+        }
+        User user = (User) redisUtil.get(token);
         Article article = new Article();
+        // 插入点赞记录
+        LikeRecord record = new LikeRecord();
+        record.setLikeDate(new Date())
+                .setAuthorId(user.getUserId())
+                .setArticleId(id);
+        record.insert();
+        // 增加点赞量
         article.setArticleId(id);
         article = article.selectById();
         article.setArticleLikeCount(article.getArticleLikeCount() + 1);

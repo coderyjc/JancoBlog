@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 public class TestGenerator{
 
 
-    @Test
+//    @Test
     public void testGenerator(){
 //        全局配置
         GlobalConfig config = new GlobalConfig();

@@ -61,7 +61,7 @@ service.interceptors.response.use(
           })
         })
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject(new Error(res.msg || 'Error'))
     } else {
       return response.data
     }
@@ -69,7 +69,7 @@ service.interceptors.response.use(
   error => {
     console.log('发生错误 ' + error) // for debug
     Message({
-      message: error.message,
+      message: error.msg,
       type: 'error',
       duration: 5 * 1000
     })
