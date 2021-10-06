@@ -16,10 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * <p>
@@ -275,11 +279,47 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/upload/avatar", method = RequestMethod.POST)
-    public Msg changeAvatar(){
-
-
-
-        return Msg.success();
+    public Msg changeAvatar(
+            @RequestParam(value = "file") MultipartFile file,
+            HttpServletRequest request
+    ){
+//        if (file == null) {
+//            return Msg.fail().add("msg", "请选择要上传的图片");
+//        }
+//        if (file.getSize() > 1024 * 1024 * 10) {
+//            return Msg.fail().add("msg", "文件大小不能大于10M");
+//        }
+//        //获取文件后缀
+//        String suffix = Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+//        if (!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
+//            return Msg.fail().add("msg", "请选择jpg,jpeg,gif,png格式的图片");
+//        }
+//
+//        String savePath = new File(".").getCanonicalPath() + "\\target\\classes\\static\\p\\";
+//
+//        System.out.println(savePath);
+//
+//        File savePathFile = new File(savePath);
+//        if (!savePathFile.exists()) {
+//            //若不存在该目录，则创建目录
+//            savePathFile.mkdir();
+//        }
+//
+//        //通过UUID生成唯一文件名
+//        String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
+//
+//        System.out.println(filename);
+//
+//        try {
+//            //将文件保存指定目录
+//            file.transferTo(new File(savePath + filename));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return Msg.fail().add("msg", "保存文件异常");
+//        }
+//
+//        //返回文件名称
+        return Msg.success().add("suc", true);
     }
 
 

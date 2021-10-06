@@ -52,7 +52,7 @@ public class ArticleController {
      * @return 标准的pageInfo
      */
     @RequestMapping(value = "/all")
-    public Msg getAll(
+    public Msg getIndexArticles(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
             @RequestParam(value = "condition", defaultValue = "")String condition
@@ -64,7 +64,7 @@ public class ArticleController {
     }
 
     /**
-     * 获取文章管理列表的文章
+     * 获取管理的文章管理列表的文章
      * @param pn 第几页
      * @param limit 容量
      * @param condition 条件
@@ -98,7 +98,7 @@ public class ArticleController {
      * @return 成功
      */
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public Msg getArticleByUser(
+    public Msg getManageByUser(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
             @RequestParam(value = "condition", defaultValue = "")String condition,
@@ -110,12 +110,117 @@ public class ArticleController {
             return Msg.expire();
         }
         User user = (User) redisUtil.get(token);
+        if(null == user){
+            return Msg.fail();
+        }
         IPage<Article> iPage = service.getManageList(
                 user.getUserName(),
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
                 condition);
         return Msg.success().add("pageInfo", iPage);
+    }
+
+    /**
+     * 获取全站所有删除的文章
+     * @param pn 页码
+     * @param limit 容量
+     * @param condition 条件
+     * @param request 获取token
+     * @return
+     */
+    @RequestMapping(value = "/deleted/all", method = RequestMethod.GET)
+    public Msg getDeletedAll(
+            @RequestParam(value = "pn")String pn,
+            @RequestParam(value = "limit", defaultValue = "10")String limit,
+            @RequestParam(value = "condition", defaultValue = "")String condition,
+            HttpServletRequest request
+    ){
+        String token = request.getHeader("token");
+        if(null == token){
+            // 用户登录信息过期了
+            return Msg.expire();
+        }
+        IPage<Article> iPage = service.getDeletedList(null,
+                Integer.parseInt(pn),
+                Integer.parseInt(limit),
+                condition);
+        return Msg.success().add("pageInfo", iPage);
+    }
+
+    /**
+     * 获取用户删除的文章
+     * @param pn 页码
+     * @param limit 容量
+     * @param condition 条件
+     * @param request 获取token
+     * @return
+     */
+    @RequestMapping(value = "/deleted/user", method = RequestMethod.GET)
+    public Msg getDeletedByUser(
+            @RequestParam(value = "pn")String pn,
+            @RequestParam(value = "limit", defaultValue = "10")String limit,
+            @RequestParam(value = "condition", defaultValue = "")String condition,
+            HttpServletRequest request
+    ){
+        // 从token中拿到用户
+        String token = request.getHeader("token");
+        if(null == token){
+            // 用户信息已经过期了
+            return Msg.expire();
+        }
+        User user = (User) redisUtil.get(token);
+        if(null == user){
+            return Msg.fail();
+        }
+        IPage<Article> iPage = service.getDeletedList(
+                user.getUserId(),
+                Integer.parseInt(pn),
+                Integer.parseInt(limit),
+                condition);
+        return Msg.success().add("pageInfo", iPage);
+    }
+
+
+    /**
+     * 彻底删除已经删除了的文章
+     * @param ids id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/deleted/delete", method = RequestMethod.POST)
+    public Msg batchDeleteDeletedArticle(
+            String ids,
+            HttpServletRequest request
+    ){
+        String token = request.getHeader("token");
+        if(null == token){
+            // 用户登录信息过期了
+            return Msg.expire();
+        }
+        boolean suc = false;
+        suc = service.deleteCompletely(ids);
+        return Msg.success().add("suc", suc);
+    }
+
+    /**
+     * 批量恢复用户已经删除的文章
+     * @param ids id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/deleted/recover", method = RequestMethod.POST)
+    public Msg batchRecoverDeletedArticle(
+            String ids,
+            HttpServletRequest request
+    ){
+        // 验证用户登录
+        String token = request.getHeader("token");
+        if(null == token){
+            return Msg.expire();
+        }
+        boolean suc = service.batchRecoverDeletedArticle(ids);
+        return Msg.success().add("suc", suc);
     }
 
     /**
@@ -126,7 +231,8 @@ public class ArticleController {
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public Msg batchDeleteArticle(
             String ids,
-            HttpServletRequest request){
+            HttpServletRequest request
+    ){
         String token = request.getHeader("token");
         if(null == token){
             // 用户登录信息过期了
@@ -144,7 +250,7 @@ public class ArticleController {
                 suc = article.deleteById();
             }
         }
-        return Msg.success().add("suc", suc ? "success" : "fail");
+        return Msg.success().add("suc", suc);
     }
 
     /**
@@ -188,7 +294,7 @@ public class ArticleController {
         String token = request.getHeader("token");
         User user = new User();
         if(null == token){
-            // 用户登录信息过期了
+            // 用户未登录
             return Msg.expire();
         }else{
             user = (User) redisUtil.get(token);
@@ -311,6 +417,13 @@ public class ArticleController {
         }
     }
 
+    /**
+     * 文章中图片上传
+     * @param file 图片
+     * @param request
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(value = "/picture", method = RequestMethod.POST)
     public Msg uploadPicture(
             @RequestParam(value = "file") MultipartFile file,
@@ -355,6 +468,7 @@ public class ArticleController {
         //返回文件名称
         return Msg.success().add("url", url);
     }
+
 
 
 }

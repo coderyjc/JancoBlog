@@ -86,6 +86,39 @@ public class CommentController {
     }
 
     /**
+     * 获取当前登录的用户所发表的所有评论
+     * @param pn 页码
+     * @param limit 容量
+     * @param condition 条件
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/posted")
+    public Msg getCommentByUserPosted(
+            @RequestParam(value = "pn")String pn,
+            @RequestParam(value = "limit", defaultValue = "10")String limit,
+            @RequestParam(value = "condition", defaultValue = "")String condition,
+            HttpServletRequest request
+    ){
+        // 从token中拿到用户
+        String token = request.getHeader("token");
+        if(null == token){
+            return Msg.expire();
+        }
+        User user = (User) redisUtil.get(token);
+        if(null == user){
+            return Msg.fail().add("msg", "获取失败");
+        }
+        IPage<Comment> iPage = service.getCommentByUserPosted(
+                String.valueOf(user.getUserId()),
+                Integer.parseInt(pn),
+                Integer.parseInt(limit),
+                condition);
+        return Msg.success().add("pageInfo", iPage);
+    }
+
+
+    /**
      * 批量删除评论
      * @param ids 评论id
      * @return 消息
@@ -109,6 +142,7 @@ public class CommentController {
         return Msg.success().add("suc", suc ? "success" : "fail");
     }
 
+
     /**
      * 获取某个文章的分页评论
      * @param id 文章id
@@ -125,6 +159,8 @@ public class CommentController {
         IPage<Comment> iPage = service.getCommentByArticle(id, pn, limit);
         return Msg.success().add("pageInfo", iPage);
     }
+
+
 
 
     /**

@@ -39,4 +39,30 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     Article getSingleArticle(String articleId);
+
+    /**
+     * 获取所有删除的文章
+     * @param userName 用户名，可选
+     * @param pn 页码
+     * @param limit 容量
+     * @param condition 条件
+     * @return
+     */
+    IPage<Article> getDeletedList(Integer userId, Integer pn, Integer limit, String condition);
+
+    /**
+     * 彻底删除已经删除了的文章
+     * @param ids id
+     * @return
+     */
+    boolean deleteCompletely(String ids);
+
+
+    /**
+     * 批量恢复指定的文章
+     * @param ids ids
+     * @return
+     */
+    boolean batchRecoverDeletedArticle(String ids);
+
 }

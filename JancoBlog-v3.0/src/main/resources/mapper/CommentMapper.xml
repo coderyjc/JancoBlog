@@ -25,7 +25,11 @@
     <select id="getAll" resultType="com.jancoyan.jancoblog.pojo.Comment">
         select * from v_comment_manage_list ${ew.customSqlSegment}
     </select>
+
     <select id="getCommentByArticle" resultType="com.jancoyan.jancoblog.pojo.Comment">
         select * from v_comment_article ${ew.customSqlSegment}
+    </select>
+    <select id="getCommentByUserPosted" resultType="com.jancoyan.jancoblog.pojo.Comment">
+        select * from v_comment_manage_list ${ew.customSqlSegment}
     </select>
 </mapper>

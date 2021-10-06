@@ -27,7 +27,7 @@
         article_id, article_title, article_author, article_type, article_summary, article_html, article_md, article_is_comment, article_rank, article_post_time, article_edit_time, article_view_count, article_comment_count, article_like_count
     </sql>
 
-<!--    首页文章列表-->
+    <!--    首页文章列表-->
     <select id="getIndexList" resultType="com.jancoyan.jancoblog.pojo.Article">
         select * from v_article_list_show ${ew.customSqlSegment}
     </select>
@@ -42,7 +42,23 @@
         select * from v_article_get_single where article_id = '${id}'
     </select>
 
-<!--    获取用户最近发表的文章 -->
+<!--    获取删除的文章-->
+    <select id="getDeletedList" resultType="com.jancoyan.jancoblog.pojo.Article">
+        select * from v_article_deleted_list ${ew.customSqlSegment}
+    </select>
+
+
+<!--    彻底删除文章-->
+    <delete id="deleteCompletely">
+        delete from tbl_deleted_article where article_id = '${articleId}'
+    </delete>
+
+    <!--    获取用户最近发表的文章 -->
+
+<!--    恢复用户的文章-->
+    <select id="batchRecover">
+        CALL proc_recover_article(${articleId});
+    </select>
 
 
 

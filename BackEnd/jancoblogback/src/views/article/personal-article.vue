@@ -273,7 +273,7 @@ export default {
       })
         .then(() => {
           batchDeleteArticles(row.articleId).then((response) => {
-            if (response.extend.suc === 'success') {
+            if (response.extend.suc) {
               this.$message({
                 type: 'success',
                 message: '删除成功!',
@@ -325,7 +325,7 @@ export default {
       })
         .then(() => {
           batchDeleteArticles(ids).then((response) => {
-            if (response.extend.suc === 'success') {
+            if (response.extend.suc) {
               this.$message({
                 type: 'success',
                 message: '删除成功!',

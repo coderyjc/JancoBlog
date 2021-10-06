@@ -1,5 +1,12 @@
 import request from '../utils/request';
 
+/**
+ * 获取收到的评论
+ * @param {Integer} pn 页码
+ * @param {Integer} limit 容量
+ * @param {String} condition 条件
+ * @returns 
+ */
 export function getAll(pn, limit, condition) {
   return request({
     url: '/comment/all',
@@ -12,6 +19,11 @@ export function getAll(pn, limit, condition) {
   })
 }
 
+/**
+ * 发表评论
+ * @param {Map} param 参数列表
+ * @returns 
+ */
 export function postComment(param) {
   return request({
     url: '/comment/post',
@@ -20,6 +32,11 @@ export function postComment(param) {
   })
 }
 
+/**
+ * 赞同评论
+ * @param {Integer} id 评论id
+ * @returns 
+ */
 export function likeComment(id) {
   return request({
     url: '/comment/like',
@@ -30,6 +47,13 @@ export function likeComment(id) {
   })
 }
 
+/**
+ * 获取文章下面的所有评论
+ * @param {Integer} pn 页码
+ * @param {Integer} limit 容量
+ * @param {String} condition 条件
+ * @returns 
+ */
 export function getCommentByArticle(id, pn, limit) {
   return request({
     url: '/comment/article',
@@ -42,6 +66,13 @@ export function getCommentByArticle(id, pn, limit) {
   })
 }
 
+/**
+ * 获取用户收到的所有评论
+ * @param {Integer} pn 页码
+ * @param {Integer} limit 容量
+ * @param {String} condition 条件
+ * @returns 
+ */
 export function getCommentByUserReceive(pn, limit, condition) {
   return request({
     url: '/comment/receive',
@@ -54,6 +85,11 @@ export function getCommentByUserReceive(pn, limit, condition) {
   })
 }
 
+/**
+ * 批量删除
+ * @param {String} ids id拼接
+ * @returns 
+ */
 export function batchDeleteComments(ids) {
   return request({
     url: '/comment/delete',
@@ -64,3 +100,23 @@ export function batchDeleteComments(ids) {
   })
 }
 
+
+
+/**
+ * 获取用户发表的所有评论
+ * @param {Integer} pn 页码
+ * @param {Integer} limit 容量
+ * @param {String} condition 条件
+ * @returns 
+ */
+ export function getCommentByUserPosted(pn, limit, condition) {
+  return request({
+    url: '/comment/posted',
+    method: 'get',
+    params: {
+      pn: pn,
+      limit: limit,
+      condition: condition
+    }
+  })
+}

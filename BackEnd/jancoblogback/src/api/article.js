@@ -62,7 +62,7 @@ export function viewArticle(id) {
 }
 
 /**
- * 管理员时间获取所有文章
+ * 管理员视角获取所有文章
  * @param {Integer} pn 页码
  * @param {Integer} limit 容量
  * @param {String} condition 条件
@@ -81,7 +81,45 @@ export function getAll(pn, limit, condition) {
 }
 
 /**
- * 用户视角获取所有文章
+ * 管理员视角获取所有已经删除的文章
+ * @param {Integer} pn 页码
+ * @param {Integer} limit 容量
+ * @param {String} condition 条件
+ * @returns 
+ */
+export function getAllDeleted(pn, limit, condition) {
+  return request({
+    url: '/article/deleted/all',
+    method: 'get',
+    params: {
+      pn: pn,
+      limit: limit,
+      condition: condition
+    }
+  })
+}
+
+/**
+ * 用户视角获取所有已经删除的文章
+ * @param {Integer} pn 页码
+ * @param {Integer} limit 容量
+ * @param {String} condition 条件
+ * @returns 
+ */
+export function getArticleByUserDeleted(pn, limit, condition) {
+  return request({
+    url: '/article/deleted/user',
+    method: 'get',
+    params: {
+      pn: pn,
+      limit: limit,
+      condition: condition
+    }
+  })
+}
+
+/**
+ * 用户视角获取所有的文章
  * @param {Integer} pn 页码
  * @param {Integer} limit 容量
  * @param {String} condition 条件
@@ -99,6 +137,36 @@ export function getArticleByUser(pn, limit, condition) {
   })
 }
 
+
+/**
+ * 批量彻底删除文章
+ * @param {String} ids 文章id的&拼接
+ * @returns 
+ */
+export function batchDeleteDeletedArticles(ids) {
+  return request({
+    url: '/article/deleted/delete',
+    method: 'post',
+    params: {
+      ids: ids
+    }
+  })
+}
+
+/**
+ * 批量恢复文章
+ * @param {String} ids 文章id的&拼接
+ * @returns 
+ */
+export function batchRecoverArticles(ids) {
+  return request({
+    url: '/article/deleted/recover',
+    method: 'post',
+    params: {
+      ids: ids
+    }
+  })
+}
 
 /**
  * 批量删除文章

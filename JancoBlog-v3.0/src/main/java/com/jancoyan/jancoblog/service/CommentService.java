@@ -32,4 +32,15 @@ public interface CommentService extends IService<Comment> {
      * @return
      */
     IPage<Comment> getCommentByArticle(String id, Integer pn, Integer limit);
+
+    /**
+     * 评论管理，获取用户发表的所有评论
+     * @param id 用户id
+     * @param pn 页码
+     * @param limit 容量
+     * @param condition 条件
+     * @return
+     */
+    IPage<Comment> getCommentByUserPosted(String id, Integer pn, Integer limit,
+                                          String condition);
 }

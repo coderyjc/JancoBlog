@@ -1,5 +1,6 @@
 package com.jancoyan.jancoblog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.Query;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -74,7 +75,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                                         Integer pn,
                                         Integer limit,
                                         String condition) {
-
         //        分页查询
         IPage<Article> iPage = new Page<>(pn, limit);
         QueryWrapper<Article> wrapper = new QueryWrapper<>();
@@ -89,6 +89,46 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public Article getSingleArticle(String articleId) {
         return baseMapper.getSingleArticle(articleId);
+    }
+
+    @Override
+    public IPage<Article> getDeletedList(Integer userId, Integer pn, Integer limit,
+                                         String condition) {
+        //        分页查询
+        IPage<Article> iPage = new Page<>(pn, limit);
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        // 单一用户的文章获取
+        if(null != userId) wrapper.eq("user_id", userId);
+
+        wrapper = ArticleUtils.generateManageArticleWrapperByCondition(wrapper, condition);
+
+        return baseMapper.getDeletedList(iPage, wrapper);
+    }
+
+    @Override
+    public boolean deleteCompletely(String ids) {
+        if(!ids.contains("&")){
+            baseMapper.deleteCompletely(ids);
+        } else {
+            String[] id = ids.split("&");
+            for (String item : id) {
+                baseMapper.deleteCompletely(item);
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean batchRecoverDeletedArticle(String ids) {
+        if(!ids.contains("&")){
+            baseMapper.batchRecover(ids);
+        } else {
+            String[] id = ids.split("&");
+            for (String item : id) {
+                baseMapper.batchRecover(item);
+            }
+        }
+        return true;
     }
 
 

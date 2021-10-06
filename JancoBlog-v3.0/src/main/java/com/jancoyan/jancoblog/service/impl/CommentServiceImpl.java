@@ -37,16 +37,16 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 continue;
             }
 
-            if(split2[0].equals("comment_author_name")){
+            if("comment_author_name".equals(split2[0])){
                 wrapper.like("comment_author_name", split2[1]);
-            }else if(split2[0].equals("article_title")){
+            }else if("article_title".equals(split2[0])){
                 wrapper.like("article_title", split2[1]);
-            }else if(split2[0].equals("start")){
+            }else if("start".equals(split2[0])){
                 wrapper.gt("comment_date", split2[1]);
-            }else if(split2[0].equals("end")){
+            }else if("end".equals(split2[0])){
                 wrapper.lt("comment_date", split2[1]);
-            }else if(split2[0].equals("rank_like")){
-                if (split2[1].equals("1")) {
+            }else if("rank_like".equals(split2[0])){
+                if ("1".equals(split2[1])) {
                     wrapper.orderByAsc("comment_like_count");
                 } else {
                     wrapper.orderByDesc("comment_like_count");
@@ -64,4 +64,41 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         wrapper.orderByDesc("comment_date");
         return baseMapper.getCommentByArticle(page, wrapper);
     }
+
+    @Override
+    public IPage<Comment> getCommentByUserPosted(String id, Integer pn, Integer limit, String condition) {
+
+        // 分页查询
+        IPage<Comment> iPage = new Page<>(pn, limit);
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+
+        if(id != null) wrapper.eq("comment_author_id", id);
+
+        String[] split = condition.split("--");
+        for (String item : split) {
+            String[] split2 = item.split("=");
+            if(split2.length < 2){
+                continue;
+            }
+
+            if("comment_author_name".equals(split2[0])){
+                wrapper.like("user_id", split2[1]);
+            }else if("article_title".equals(split2[0])){
+                wrapper.like("article_title", split2[1]);
+            }else if("start".equals(split2[0])){
+                wrapper.gt("comment_date", split2[1]);
+            }else if("end".equals(split2[0])){
+                wrapper.lt("comment_date", split2[1]);
+            }else if("rank_like".equals(split2[0])){
+                if ("1".equals(split2[1])) {
+                    wrapper.orderByAsc("comment_like_count");
+                } else {
+                    wrapper.orderByDesc("comment_like_count");
+                }
+            }
+        }
+        return baseMapper.getCommentByUserPosted(iPage, wrapper);
+    }
+
+
 }
