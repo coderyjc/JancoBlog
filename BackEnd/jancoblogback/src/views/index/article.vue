@@ -17,7 +17,7 @@
             </router-link>
           </el-menu-item>
           <el-menu-item style="float: right">
-            <el-avatar src="../../assets/imgs/avatar.png">
+            <el-avatar src="http://localhost:8080/avatar/10800.jpg">
               <a
                 href="http://localhost:9528"
                 target="_blank"
@@ -58,7 +58,7 @@
               </div>
               <el-divider direction="vertical"></el-divider>
               <div class="article-count">
-                <span class="count-number">329</span>
+                <span class="count-number">{{ article.articleCommentCount }}</span>
                 <span class="count-char">评论</span>
               </div>
             </div>
@@ -85,26 +85,6 @@
                     <path
                       d="M484.266667 272.021333l6.634666 6.72c5.973333 5.973333 13.013333 12.842667 21.098667 20.629334l9.194667-8.917334c7.253333-7.04 13.44-13.184 18.56-18.432a193.28 193.28 0 0 1 277.44 0c75.904 77.525333 76.629333 202.794667 2.133333 281.194667L512 853.333333 204.672 553.237333c-74.474667-78.421333-73.770667-203.690667 2.133333-281.216a193.28 193.28 0 0 1 277.44 0z"
                       p-id="11934"
-                    ></path>
-                  </svg></span>
-              </div>
-              <el-divider direction="vertical"></el-divider>
-              <!--                        收藏-->
-              <div class="article-count">
-                <span class="count-number">
-                  <svg
-                    t="1632903235224"
-                    class="icon"
-                    viewBox="0 0 1024 1024"
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    p-id="12323"
-                    width="40"
-                    height="40"
-                  >
-                    <path
-                      d="M490.261333 173.44a49.066667 49.066667 0 0 1 64.064 19.178667l1.664 3.093333 87.850667 177.813333 196.352 28.501334a49.066667 49.066667 0 0 1 29.717333 81.066666l-2.538666 2.645334L725.333333 624l33.536 195.349333a49.066667 49.066667 0 0 1-68.010666 53.269334l-3.157334-1.514667L512 778.858667l-175.701333 92.266666a49.066667 49.066667 0 0 1-71.637334-48.426666l0.469334-3.328L298.666667 624.021333 156.629333 485.76a49.066667 49.066667 0 0 1 23.893334-83.114667l3.285333-0.597333 196.352-28.501333 87.850667-177.813334a49.066667 49.066667 0 0 1 22.250666-22.272z m-67.626666 258.581333l-199.658667 28.992 144.469333 140.650667-34.133333 198.741333L512 706.56l178.688 93.845333-34.133333-198.741333 144.469333-140.650667-199.658667-28.992L512 251.157333l-89.386667 180.864z"
-                      p-id="12324"
                     ></path>
                   </svg></span>
               </div>
@@ -247,28 +227,28 @@
           <!--                头像-->
           <el-avatar
             :size="80"
-            src="/imgs/avatar.png"
+            :src="authorAvatar"
           ></el-avatar>
           <div class="user-info">
             <!--                用户名-->
-            <h3>Jancoyan</h3>
+            <h3>{{ author.userName }}</h3>
             <!--                签名-->
-            <blockquote>Change and Challenge</blockquote>
+            <blockquote> {{ author.userSignature }} </blockquote>
             <el-divider></el-divider>
             <!-- 文章数量、获赞、收藏-->
             <div>
               <div class="user-count">
-                <span class="count-number">454</span>
+                <span class="count-number">{{ author.totalArticle }}</span>
                 <span class="count-char">文章</span>
               </div>
               <el-divider direction="vertical"></el-divider>
               <div class="user-count">
-                <span class="count-number">2321</span>
+                <span class="count-number">{{ author.totalLikeCount }}</span>
                 <span class="count-char">获赞</span>
               </div>
               <el-divider direction="vertical"></el-divider>
               <div class="user-count">
-                <span class="count-number">432</span>
+                <span class="count-number">{{ author.totalCommentCount }}</span>
                 <span class="count-char">获评</span>
               </div>
             </div>
@@ -292,6 +272,8 @@ import { hljs } from '@/assets/js/highhight'
 import { getSingleArticle, viewArticle, likeArticle } from '@/api/article'
 import { getAuthorInfo } from '@/api/user'
 import { getCommentByArticle, likeComment, postComment } from '@/api/comment'
+import { isLiked } from '@/api/like'
+
 
 export default {
   data() {
@@ -309,13 +291,18 @@ export default {
       }, 100)
     }
     return {
+      // 用户有没有登录
       userlogin: false,
+      // 用户头像地址
+      authorAvatar: "http://localhost:8080/avatar/10417.png",
+      // 评论表单
       form: {
         articleId: '',
         name: '',
         email: '',
         content: '',
       },
+      // 评论校验规则
       rules: {
         name: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -332,14 +319,19 @@ export default {
         ],
         content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
       },
+      // 作者total信息
       author: {},
+      // 文章信息
       article: {},
+      // 评论列表
       commentList: [],
+      //  评论分页
       pagination: {
         pn: 1,
         total: 1,
         size: 10,
       },
+      // 文章id对象
       query: {},
       like: {
         liked: false,
@@ -378,10 +370,16 @@ export default {
       })
       this.addViewCount(query.id)
       // 作者信息
-      getAuthorInfo(_this.article.articleAuthor).then((response) => {})
+      getAuthorInfo(_this.article.articleAuthor).then((response) => {
+        _this.author = response.extend.data
+      })
       // 评论信息
       this.get_comment_list(this.$route.query, 1)
       hljs.highlightAll() // 渲染代码
+      // 作者是否对这个文章点过赞
+      isLiked().then(res => {
+
+      })
     },
     get_comment_list(query, pn) {
       var _this = this

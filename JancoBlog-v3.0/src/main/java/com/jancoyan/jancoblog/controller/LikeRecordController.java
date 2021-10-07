@@ -2,6 +2,8 @@ package com.jancoyan.jancoblog.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jancoyan.jancoblog.pojo.Article;
 import com.jancoyan.jancoblog.pojo.LikeRecord;
 import com.jancoyan.jancoblog.pojo.User;
@@ -36,7 +38,7 @@ public class LikeRecordController {
     RedisUtil redisUtil;
 
     /**
-     * 判断用户是否点赞了这个文章
+     * 判断用户是否点赞了这个文章，只有用户登录了之后才会到这个请求中来
      * @param id 文章id
      * @param request
      * @return
@@ -49,7 +51,8 @@ public class LikeRecordController {
 //        登录认证
         String token = request.getHeader("token");
         if(null == token){
-            return Msg.expire();
+            // 未登录，说明是游客
+            return Msg.success().add("suc", false);
         }
         User user;
         user = (User) redisUtil.get(token);
@@ -74,17 +77,35 @@ public class LikeRecordController {
     }
 
     /**
-     * 获取一个用户最近收到的点赞记录
+     * 获取一个用户最近收到的分页点赞记录
      * @param id 用户id
      * @return
      */
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/recent", method = RequestMethod.POST)
     public Msg getUserLike(
-            @RequestParam(value = "id") String id
+            @RequestParam(value = "id",  defaultValue = "") String id,
+            @RequestParam(value = "pn")Integer pn,
+            @RequestParam(value = "limit")Integer limit,
+            HttpServletRequest request
     ) {
+        //        登录认证
+        String token = request.getHeader("token");
+        if(null == token){
+            return Msg.expire();
+        }
+        User user;
+        user = (User) redisUtil.get(token);
+        if(null != user){
+            return Msg.fail();
+        }
 
+        if(null == id || "".equals(id)){
+            id  = String.valueOf(user.getUserId());
+        }
 
-        return Msg.success();
+        IPage<LikeRecord> pageInfo = service.getUserReceive(id, pn, limit);
+
+        return Msg.success().add("pageInfo", pageInfo);
     }
 }
 

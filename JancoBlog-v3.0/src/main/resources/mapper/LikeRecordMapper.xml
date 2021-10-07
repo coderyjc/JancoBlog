@@ -14,5 +14,11 @@
     <sql id="Base_Column_List">
         like_id, article_id, author_id, like_date
     </sql>
+    <select id="getUserReceive" resultType="com.jancoyan.jancoblog.pojo.LikeRecord">
+        select *
+        from tbl_like_record where article_id in (
+            select article_id from tbl_article where article_author = ${userId}
+        ) ${ew.customSqlSegment}
+    </select>
 
 </mapper>

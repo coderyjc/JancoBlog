@@ -1,5 +1,8 @@
 package com.jancoyan.jancoblog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jancoyan.jancoblog.pojo.LikeRecord;
 import com.jancoyan.jancoblog.mapper.LikeRecordMapper;
 import com.jancoyan.jancoblog.service.LikeRecordService;
@@ -17,4 +20,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class LikeRecordServiceImpl extends ServiceImpl<LikeRecordMapper, LikeRecord> implements LikeRecordService {
 
+    @Override
+    public IPage<LikeRecord> getUserReceive(String userId, Integer pn, Integer limit) {
+        IPage<LikeRecord> iPage = new Page<>(pn, limit);
+        QueryWrapper<LikeRecord> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("like_date");
+        return baseMapper.getUserReceive(iPage, wrapper, userId);
+    }
 }

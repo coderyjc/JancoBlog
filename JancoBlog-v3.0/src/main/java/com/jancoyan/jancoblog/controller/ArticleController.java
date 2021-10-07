@@ -341,17 +341,18 @@ public class ArticleController {
             @RequestParam(value = "id")String id,
             HttpServletRequest request
     ){
-        String token = request.getHeader("token");
-        if(null == token){
-            return Msg.expire();
-        }
-        User user = (User) redisUtil.get(token);
         Article article = new Article();
-        // 插入点赞记录
         LikeRecord record = new LikeRecord();
-        record.setLikeDate(new Date())
-                .setAuthorId(user.getUserId())
-                .setArticleId(id);
+
+        String token = request.getHeader("token");
+        if(null != token){
+            // 不是游客点赞
+            User user = (User) redisUtil.get(token);
+            record.setAuthorId(user.getUserId());
+        }
+        // 游客点赞的话 author_id 就设置为 null
+        record.setLikeDate(new Date());
+        record.setArticleId(id);
         record.insert();
         // 增加点赞量
         article.setArticleId(id);

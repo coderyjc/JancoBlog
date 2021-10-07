@@ -41,4 +41,6 @@ public class LikeRecord extends Model<LikeRecord> {
 
     private Date likeDate;
 
+    private String authorEmail;
+
 }
