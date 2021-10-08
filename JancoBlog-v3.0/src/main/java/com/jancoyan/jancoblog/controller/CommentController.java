@@ -3,6 +3,7 @@ package com.jancoyan.jancoblog.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.Comment;
+import com.jancoyan.jancoblog.pojo.PageComment;
 import com.jancoyan.jancoblog.pojo.User;
 import com.jancoyan.jancoblog.service.CommentService;
 import com.jancoyan.jancoblog.utils.Msg;
@@ -117,7 +118,6 @@ public class CommentController {
         return Msg.success().add("pageInfo", iPage);
     }
 
-
     /**
      * 批量删除评论
      * @param ids 评论id
@@ -142,7 +142,6 @@ public class CommentController {
         return Msg.success().add("suc", suc ? "success" : "fail");
     }
 
-
     /**
      * 获取某个文章的分页评论
      * @param id 文章id
@@ -159,9 +158,6 @@ public class CommentController {
         IPage<Comment> iPage = service.getCommentByArticle(id, pn, limit);
         return Msg.success().add("pageInfo", iPage);
     }
-
-
-
 
     /**
      * 发表评论
@@ -225,6 +221,20 @@ public class CommentController {
         return Msg.success();
     }
 
+    /**
+     * 获取指定用户最近收到的评论
+     * @param authorId 用户id
+     * @return
+     */
+    @RequestMapping(value = "/recent", method = RequestMethod.GET)
+    public Msg getCommentByUserRecentlyReceive(
+            @RequestParam(value = "id") String authorId,
+            @RequestParam(value = "pn", defaultValue = "1") String pn,
+            @RequestParam(value = "limit", defaultValue = "10") String limit
+    ){
+        IPage<PageComment> iPage  = service.getCommentByUserRecently(authorId);
+        return Msg.success().add("pageInfo", iPage);
+    }
 
 
 }

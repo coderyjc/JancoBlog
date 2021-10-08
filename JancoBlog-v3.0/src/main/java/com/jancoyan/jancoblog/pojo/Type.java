@@ -22,9 +22,9 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Accessors(chain = true)
 @TableName("tbl_type")
 public class Type extends Model<Type> {
 
@@ -41,6 +41,5 @@ public class Type extends Model<Type> {
     protected Serializable pkVal() {
         return this.typeId;
     }
-
 
 }

@@ -72,21 +72,21 @@
                   @click="likeArticle"
                 >
                   <svg
-                    t="1633080672923"
-                    class="icon"
+                    t="1633675948290"
                     viewBox="0 0 1024 1024"
                     version="1.1"
                     xmlns="http://www.w3.org/2000/svg"
-                    p-id="11933"
+                    p-id="2028"
                     width="40"
                     height="40"
-                    fill="#f00"
                   >
                     <path
-                      d="M484.266667 272.021333l6.634666 6.72c5.973333 5.973333 13.013333 12.842667 21.098667 20.629334l9.194667-8.917334c7.253333-7.04 13.44-13.184 18.56-18.432a193.28 193.28 0 0 1 277.44 0c75.904 77.525333 76.629333 202.794667 2.133333 281.194667L512 853.333333 204.672 553.237333c-74.474667-78.421333-73.770667-203.690667 2.133333-281.216a193.28 193.28 0 0 1 277.44 0z"
-                      p-id="11934"
+                      d="M938.666667 362.666667A234.666667 234.666667 0 0 0 704 128 271.36 271.36 0 0 0 512 216.32 271.36 271.36 0 0 0 320 128 234.666667 234.666667 0 0 0 85.333333 362.666667c0 167.253333 202.666667 352 298.666667 448l97.28 97.28a32 32 0 0 0 22.613333 9.386666h16.213334a32 32 0 0 0 22.613333-9.386666L640 810.666667c96-96 298.666667-280.746667 298.666667-448z"
+                      p-id="2029"
+                      :fill="like.liked ? '#f00' : '#dbdbdb'"
                     ></path>
-                  </svg></span>
+                  </svg>
+                </span>
               </div>
             </div>
           </div>
@@ -101,7 +101,10 @@
         style="padding: 0 60px"
       >
         <!--            内容-->
-        <div class="md-content" v-html='article.articleHtml'>
+        <div
+          class="md-content"
+          v-html='article.articleHtml'
+        >
         </div>
         <el-divider>The End</el-divider>
         <!--            文章评论和发表评论-->
@@ -269,11 +272,10 @@
 <script>
 import { getToken } from '@/utils/auth'
 import { hljs } from '@/assets/js/highhight'
-import { getSingleArticle, viewArticle, likeArticle } from '@/api/article'
+import { getSingleArticle, viewArticle, likeArticle, dislikeArticle } from '@/api/article'
 import { getAuthorInfo } from '@/api/user'
 import { getCommentByArticle, likeComment, postComment } from '@/api/comment'
 import { isLiked } from '@/api/like'
-
 
 export default {
   data() {
@@ -294,7 +296,7 @@ export default {
       // 用户有没有登录
       userlogin: false,
       // 用户头像地址
-      authorAvatar: "http://localhost:8080/avatar/10417.png",
+      authorAvatar: 'http://localhost:8080/avatar/10417.png',
       // 评论表单
       form: {
         articleId: '',
@@ -375,11 +377,11 @@ export default {
       })
       // 评论信息
       this.get_comment_list(this.$route.query, 1)
-      hljs.highlightAll() // 渲染代码
       // 作者是否对这个文章点过赞
-      isLiked().then(res => {
-
+      isLiked(this.$route.query.id).then((res) => {
+        _this.like.liked = res.extend.suc
       })
+      hljs.highlightAll() // 渲染代码
     },
     get_comment_list(query, pn) {
       var _this = this
@@ -421,13 +423,18 @@ export default {
       likeComment(commentId).then((res) => {})
     },
     likeArticle() {
-      if (this.likeArticle.liked) return
       var _this = this
-      likeArticle(this.article.articleId).then((res) => {
-        _this.article.articleLikeCount += 1
-        _this.likeArticle.color = '#ff0000'
-        this.likeArticle.liked = true
-      })
+      if (this.like.liked) {
+        dislikeArticle(this.article.articleId).then(res => {
+          _this.article.articleLikeCount -= 1
+          _this.like.liked = false
+        })
+      } else {
+        likeArticle(this.article.articleId).then((res) => {
+          _this.article.articleLikeCount += 1
+          _this.like.liked = true
+        })
+      }
     },
     addViewCount(id) {
       var _this = this
@@ -479,6 +486,10 @@ h1 {
   .count-char {
     font-size: 15px;
   }
+}
+
+.like {
+  fill: #f00;
 }
 
 /* 文章内容 */

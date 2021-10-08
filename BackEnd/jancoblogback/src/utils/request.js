@@ -33,14 +33,18 @@ service.interceptors.response.use(
 
     // if the custom code is not 100, it is judged as an error.
     if (res.code !== 100) {
-      Message({
-        message: res.message || 'Error',
-        type: 'error',
-        duration: 5 * 1000
-      })
     
       // 数据CRUD问题，直接显示错误信息
       if (res.code === 200) {
+        Message({
+          message: res.msg,
+          type: 'error',
+          duration: 5 * 1000
+        })
+      }
+
+      // 用户未登录
+      if (res.code === 603) {
         Message({
           message: res.msg,
           type: 'error',

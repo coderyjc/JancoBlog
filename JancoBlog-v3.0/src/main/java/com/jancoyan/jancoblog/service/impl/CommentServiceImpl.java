@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jancoyan.jancoblog.pojo.Article;
 import com.jancoyan.jancoblog.pojo.Comment;
 import com.jancoyan.jancoblog.mapper.CommentMapper;
+import com.jancoyan.jancoblog.pojo.PageComment;
 import com.jancoyan.jancoblog.service.CommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -98,6 +99,16 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             }
         }
         return baseMapper.getCommentByUserPosted(iPage, wrapper);
+    }
+
+    @Override
+    public IPage<PageComment> getCommentByUserRecently(String authorId) {
+        IPage<PageComment> iPage = new Page<>(1, 10);
+        QueryWrapper<PageComment> wrapper = new QueryWrapper<>();
+        wrapper.eq("article_author", authorId);
+        wrapper.orderByDesc("comment_date");
+        return baseMapper.getCommentByUserRecently(iPage, wrapper);
+
     }
 
 

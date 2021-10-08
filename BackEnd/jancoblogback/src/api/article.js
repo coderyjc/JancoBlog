@@ -50,6 +50,21 @@ export function likeArticle(id) {
 }
 
 /**
+ * 取消点赞
+ * @param {Stirng} id 
+ * @returns 
+ */
+export function dislikeArticle(id) {
+  return request({
+    url: '/article/dislike',
+    method: 'post',
+    params: {
+      id: id
+    }
+  })
+}
+
+/**
  * 浏览文章
  * @param {String} id 
  * @returns 
@@ -255,5 +270,22 @@ export function postArticle(title, type, summary, comment, md, html){
     params: {
       file: file
     },
+  })
+}
+
+/**
+ * 获取用户最近发表的文章
+ * @param {String} id 用户id
+ * @returns 
+ */
+ export function getUserArticleRecently(id, pn, limit) {
+  return request({
+    url: '/article/recent',
+    method: 'get',
+    params: {
+      id: id,
+      pn: pn,
+      limit: limit
+    }
   })
 }

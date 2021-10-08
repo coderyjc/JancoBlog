@@ -120,3 +120,20 @@ export function batchDeleteComments(ids) {
     }
   })
 }
+
+/**
+ * 获取用户最近收到的评论数量
+ * @param {String} id 用户id
+ * @returns 
+ */
+ export function getUserCommentRecently(id, pn, limit) {
+  return request({
+    url: '/comment/recent',
+    method: 'get',
+    params: {
+      id: id,
+      pn: pn,
+      limit: limit
+    }
+  })
+}

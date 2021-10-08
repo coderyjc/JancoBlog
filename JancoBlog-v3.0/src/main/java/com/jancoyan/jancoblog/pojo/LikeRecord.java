@@ -1,5 +1,6 @@
 package com.jancoyan.jancoblog.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -35,12 +36,37 @@ public class LikeRecord extends Model<LikeRecord> {
     @TableId(value = "like_id", type = IdType.AUTO)
     private Integer likeId;
 
+    /**
+     * 被点赞文章id
+     */
     private String articleId;
 
+    /**
+     * 点赞的人
+     */
     private Integer authorId;
 
+    /**
+     * 点赞时间
+     */
     private Date likeDate;
 
-    private String authorEmail;
+    /**
+     * 点赞人用户名
+     */
+    @TableField(exist = false)
+    private String userName;
+
+    /**
+     * 被点赞的文章标题
+     */
+    @TableField(exist = false)
+    private String articleTitle;
+
+    /**
+     * 被点赞的文章的作者
+     */
+    @TableField(exist = false)
+    private String articleAuthor;
 
 }

@@ -66,6 +66,17 @@ public class Msg {
     }
 
     /**
+     * 用户未登录
+     * @return 结果
+     */
+    public static Msg loginNeeded(){
+        Msg result = new Msg();
+        result.setCode(603);
+        result.setMsg("用户未登录");
+        return result;
+    }
+
+    /**
      * 数据传输失败
      * @return 结果
      */

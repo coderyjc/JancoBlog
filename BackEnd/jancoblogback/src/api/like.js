@@ -7,19 +7,22 @@ import request from '../utils/request';
  */
 export function isLiked(id) {
   return request({
-    url: '/like_record/like',
-    method: 'get'
+    url: '/like/like',
+    method: 'get',
+    params:{
+      id: id
+    }
   })
 }
 
 /**
- * 获取用户最近受到的点赞数量
+ * 获取用户最近收到的点赞数量
  * @param {String} id 用户id
  * @returns 
  */
 export function getUserLikeRecently(id, pn, limit) {
   return request({
-    url: '/like_record/recent',
+    url: '/like/recent',
     method: 'get',
     params: {
       id: id,

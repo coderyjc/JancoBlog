@@ -190,12 +190,18 @@ public class UserController {
         User user = new User();
         // 设置信息
         user.setUserName(userName)
+                .setUserLastLoginDate(null)
+                .setUserId(null)
+                .setUserSignature("Hello World")
                 .setUserPassword(MD5Util.getMD5(password))
                 .setUserRole("user")
                 .setUserCreateDate(new Date())
                 .setUserIp(request.getRemoteAddr());
         // 插入
         boolean insert = user.insert();
+        if(!insert){
+            return Msg.fail().add("msg", "用户注册失败");
+        }
         return Msg.success().add("success", insert);
     }
 

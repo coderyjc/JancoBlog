@@ -3,6 +3,7 @@ package com.jancoyan.jancoblog.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jancoyan.jancoblog.pojo.PageComment;
 
 /**
  * <p>
@@ -43,4 +44,11 @@ public interface CommentService extends IService<Comment> {
      */
     IPage<Comment> getCommentByUserPosted(String id, Integer pn, Integer limit,
                                           String condition);
+
+    /**
+     * 获取用户最近获取的评论
+     * @param authorId 作者id
+     * @return
+     */
+    IPage<PageComment> getCommentByUserRecently(String authorId);
 }

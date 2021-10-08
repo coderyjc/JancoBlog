@@ -24,6 +24,9 @@ public class LikeRecordServiceImpl extends ServiceImpl<LikeRecordMapper, LikeRec
     public IPage<LikeRecord> getUserReceive(String userId, Integer pn, Integer limit) {
         IPage<LikeRecord> iPage = new Page<>(pn, limit);
         QueryWrapper<LikeRecord> wrapper = new QueryWrapper<>();
+
+        wrapper.eq("article_author", userId);
+
         wrapper.orderByDesc("like_date");
         return baseMapper.getUserReceive(iPage, wrapper, userId);
     }

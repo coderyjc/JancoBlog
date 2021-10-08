@@ -3,6 +3,7 @@ package com.jancoyan.jancoblog.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jancoyan.jancoblog.pojo.PageArticle;
 
 /**
  * <p>
@@ -65,4 +66,12 @@ public interface ArticleService extends IService<Article> {
      */
     boolean batchRecoverDeletedArticle(String ids);
 
+    /**
+     * 获区用户最近发表的文章
+     * @param id 用户id
+     * @param pn 页码
+     * @param limit 容量
+     * @return
+     */
+    IPage<PageArticle> getArticleByUserRecently(String id, Integer pn, Integer limit);
 }

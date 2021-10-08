@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,8 +28,8 @@ import javax.servlet.http.HttpServletRequest;
  * @author Jancoyan
  * @since 2021-10-06
  */
-@Controller
-@RequestMapping("/like_record")
+@RestController
+@RequestMapping("/like")
 public class LikeRecordController {
 
     @Autowired
@@ -52,11 +53,11 @@ public class LikeRecordController {
         String token = request.getHeader("token");
         if(null == token){
             // 未登录，说明是游客
-            return Msg.success().add("suc", false);
+            return Msg.success().add("suc", true);
         }
         User user;
         user = (User) redisUtil.get(token);
-        if(null != user){
+        if(null == user){
             return Msg.fail();
         }
 
@@ -81,31 +82,14 @@ public class LikeRecordController {
      * @param id 用户id
      * @return
      */
-    @RequestMapping(value = "/recent", method = RequestMethod.POST)
+    @RequestMapping(value = "/recent", method = RequestMethod.GET)
     public Msg getUserLike(
-            @RequestParam(value = "id",  defaultValue = "") String id,
+            @RequestParam(value = "id") String id,
             @RequestParam(value = "pn")Integer pn,
-            @RequestParam(value = "limit")Integer limit,
-            HttpServletRequest request
+            @RequestParam(value = "limit")Integer limit
     ) {
         //        登录认证
-        String token = request.getHeader("token");
-        if(null == token){
-            return Msg.expire();
-        }
-        User user;
-        user = (User) redisUtil.get(token);
-        if(null != user){
-            return Msg.fail();
-        }
-
-        if(null == id || "".equals(id)){
-            id  = String.valueOf(user.getUserId());
-        }
-
         IPage<LikeRecord> pageInfo = service.getUserReceive(id, pn, limit);
-
         return Msg.success().add("pageInfo", pageInfo);
     }
 }
-

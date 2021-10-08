@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.Article;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.jancoyan.jancoblog.pojo.PageArticle;
 
 import javax.swing.event.InternalFrameAdapter;
 
@@ -29,4 +30,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
     void deleteCompletely(String articleId);
 
     void batchRecover(String articleId);
+
+    IPage<PageArticle> getArticleByUserRecently(IPage<PageArticle> iPage, Wrapper ew);
 }

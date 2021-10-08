@@ -130,15 +130,63 @@
       <el-row :gutter="12">
         <!-- 最近发表的文章列表 -->
         <el-col :span="8">
-          <el-card></el-card>
+          <el-card
+            class="not-exist"
+            v-if="user.article.length <= 0"
+          >
+          </el-card>
+          <el-card v-if="user.article.length >= 0">
+            <h3>最近文章</h3>
+            <div
+              class="message-item"
+              v-for="(item, index) in user.article"
+              :key="index"
+            >
+              <span class="article">{{ item.articleTitle }}</span>
+              <span class="time">2小时前</span>
+            </div>
+          </el-card>
         </el-col>
         <!-- 收到的点赞 -->
         <el-col :span="8">
-          <el-card></el-card>
+          <el-card
+            class="not-exist"
+            v-if="user.article.length <= 0"
+          >
+          </el-card>
+          <el-card v-if="user.like.length >= 0">
+            <h3>最近收到的赞</h3>
+            <div
+              class="message-item"
+              v-for="(item, index) in user.like"
+              :key="index"
+            >
+              <span class="name">{{item.userName}}</span> 点赞了
+              <span class="article">{{item.articleTitle}}</span>
+              <span class="time">2小时前</span>
+            </div>
+          </el-card>
         </el-col>
         <!-- 收到的评论 -->
         <el-col :span="8">
-          <el-card></el-card>
+          <el-card
+            class="not-exist"
+            v-if="user.article.length <= 0"
+          >
+          </el-card>
+
+          <el-card v-if="user.comment.length >= 0">
+            <h3>最近收到的评论</h3>
+            <div
+              class="message-item"
+              v-for="(item, index) in user.comment"
+              :key="index"
+            >
+              <span class="name">{{item.commentAuthorName}}</span> 评论了
+              <span class="article">{{item.articleTitle}}</span>
+              <span class="time">2小时前</span>
+            </div>
+          </el-card>
         </el-col>
       </el-row>
     </div>
@@ -148,6 +196,9 @@
 <script>
 import { mapGetters } from 'vuex'
 import { getUserTotalData } from '@/api/user'
+import { getUserCommentRecently } from '@/api/comment'
+import { getUserLikeRecently } from '@/api/like'
+import { getUserArticleRecently } from '@/api/article'
 
 export default {
   name: 'Dashboard',
@@ -156,9 +207,19 @@ export default {
       avatarUrl:
         'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201603%2F28%2F20160328144226_5PVUu.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1635831928&t=ae1954fb30de657700ba8b2e761ca5e7',
       user: {
-        data: {}
+        data: {
+          articleAuthor: '',
+          userName: '',
+          userSignature: '代码改变世界', 
+          totalArticle: 0,
+          totalViewCount: 0,
+          totalLikeCount: 0,
+          totalCommentCount: 0,
+        },
+        article: [],
+        like: [],
+        comment: [],
       },
-
     }
   },
   computed: {
@@ -168,13 +229,26 @@ export default {
     this.get_user_total_data()
   },
   methods: {
-    get_user_total_data(){
+    async get_user_total_data() {
       var _this = this
-      getUserTotalData(-1).then(res => {
+      await getUserTotalData(-1).then((res) => {
         _this.user.data = res.extend.data
       })
+      getUserLikeRecently(_this.user.data.articleAuthor, 1, 10).then((res) => {
+        _this.user.like = res.extend.pageInfo.records
+      })
+      getUserCommentRecently(_this.user.data.articleAuthor, 1, 10).then(
+        (res) => {
+          _this.user.comment = res.extend.pageInfo.records
+        }
+      )
+      getUserArticleRecently(_this.user.data.articleAuthor, 1, 10).then(
+        (res) => {
+          _this.user.article = res.extend.pageInfo.records
+        }
+      )
     },
-  }
+  },
 }
 </script>
 
@@ -227,6 +301,30 @@ export default {
 
     .message {
       margin: 10px auto;
+
+      .message-item {
+        padding-top: 6px;
+        padding-bottom: 6px;
+        cursor: pointer;
+
+        .time {
+          float: right;
+          font-size: 13px;
+          color: #afa8a8;
+        }
+
+        .name {
+          font-weight: 600;
+        }
+
+        .article {
+          font-weight: 750;
+        }
+
+        &:hover {
+          background-color: rgb(236, 236, 236);
+        }
+      }
     }
   }
 }

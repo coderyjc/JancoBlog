@@ -1,8 +1,10 @@
 package com.jancoyan.jancoblog.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.Article;
 import com.jancoyan.jancoblog.pojo.LikeRecord;
+import com.jancoyan.jancoblog.pojo.PageArticle;
 import com.jancoyan.jancoblog.pojo.User;
 import com.jancoyan.jancoblog.service.ArticleService;
 import com.jancoyan.jancoblog.service.LikeRecordService;
@@ -269,6 +271,24 @@ public class ArticleController {
 
 
     /**
+     * 获取用户最近发布的文章 10 个
+     * @param id 用户id
+     * @param pn 页码
+     * @param limit 容量
+     * @return
+     */
+    @RequestMapping(value = "/recent", method = RequestMethod.GET)
+    public Msg getArticleByUserRecently(
+            @RequestParam(value = "id") String id,
+            @RequestParam(value = "pn", defaultValue = "1")Integer pn,
+            @RequestParam(value = "limit" ,defaultValue = "10")Integer limit
+    ){
+        IPage<PageArticle> iPage = service.getArticleByUserRecently(id, pn, limit);
+        return Msg.success().add("pageInfo", iPage);
+    }
+
+
+    /**
      * 发表文章
      * @param title 标题
      * @param type 类型
@@ -332,7 +352,7 @@ public class ArticleController {
     }
 
     /**
-     * 点赞
+     * 点赞, 游客不能点赞
      * @param id 点赞的文章
      * @return 成功
      */
@@ -341,16 +361,17 @@ public class ArticleController {
             @RequestParam(value = "id")String id,
             HttpServletRequest request
     ){
+        //        登录认证
+        String token = request.getHeader("token");
         Article article = new Article();
         LikeRecord record = new LikeRecord();
-
-        String token = request.getHeader("token");
-        if(null != token){
-            // 不是游客点赞
-            User user = (User) redisUtil.get(token);
-            record.setAuthorId(user.getUserId());
+        if(null == token){
+            // 未登录，说明是游客
+            return Msg.loginNeeded();
         }
-        // 游客点赞的话 author_id 就设置为 null
+        // 不是游客点赞，增加点赞记录
+        User user = (User) redisUtil.get(token);
+        record.setAuthorId(user.getUserId());
         record.setLikeDate(new Date());
         record.setArticleId(id);
         record.insert();
@@ -361,6 +382,44 @@ public class ArticleController {
         article.updateById();
         return Msg.success();
     }
+
+
+
+    /**
+     * 取消点赞
+     * @param id 点赞的文章
+     * @return 成功
+     */
+    @RequestMapping(value = "/dislike", method = RequestMethod.POST)
+    public Msg subLikeCount(
+            @RequestParam(value = "id")String id,
+            HttpServletRequest request
+    ){
+        //        登录认证
+        String token = request.getHeader("token");
+        Article article = new Article();
+        LikeRecord record = new LikeRecord();
+        if(null == token){
+            // 未登录，说明是游客
+            return Msg.loginNeeded();
+        }
+        // 不是游客点赞，增加点赞记录
+        User user = (User) redisUtil.get(token);
+        QueryWrapper<LikeRecord> wrapper = new QueryWrapper<>();
+        wrapper.eq("article_id", id);
+        wrapper.eq("author_id", user.getUserId());
+        record.delete(wrapper);
+        // 减少点赞量
+        article.setArticleId(id);
+        article = article.selectById();
+        article.setArticleLikeCount(article.getArticleLikeCount() - 1);
+        article.updateById();
+        return Msg.success();
+    }
+
+
+
+
 
     /**
      * 浏览
