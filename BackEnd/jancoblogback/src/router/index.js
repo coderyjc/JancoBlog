@@ -67,6 +67,28 @@ export const asyncRouterMap = [
   },
 
   {
+    path: '/personal-info',
+    component: Layout,
+    redirect: '/personal-info',
+    name: 'Write',
+    meta: { title: '个人信息', icon: 'el-icon-user', role: ['admin', 'user'] },
+    children: [
+      {
+        path: 'personal-info',
+        name: 'personal-info',
+        component: () => import('@/views/personal/personal-setting'),
+        meta: { title: '个人信息', icon: 'el-icon-user', role: ['admin', 'user'] }
+      },
+      {
+        path: 'change-password',
+        name: 'change-password',
+        component: () => import('@/views/personal/change-password'),
+        meta: { title: '修改密码', icon: 'el-icon-key', role: ['admin', 'user'] }
+      },
+    ]
+  },
+
+  {
     path: '/article-manage',
     component: Layout,
     redirect: '/article-manage',
@@ -145,12 +167,6 @@ export const asyncRouterMap = [
         name: 'User',
         component: () => import('@/views/user/user'),
         meta: { title: '用户管理', icon: 'el-icon-user', role: ['admin'] }
-      },
-      {
-        path: 'user-add',
-        name: 'User-add',
-        component: () => import('@/views/user/user-add'),
-        meta: { title: '用户添加', icon: 'el-icon-plus', role: ['admin'] }
       }
     ]
   },
@@ -162,12 +178,6 @@ export const asyncRouterMap = [
     name: 'settings',
     meta: { title: '设置', icon: 'el-icon-setting', role: ['admin', 'user'] },
     children: [
-      {
-        path: 'personal-setting',
-        name: 'personal-setting',
-        component: () => import('@/views/settings/personal-setting'),
-        meta: { title: '个人信息', icon: 'el-icon-user', role: ['admin', 'user'] }
-      },
       {
         path: 'process',
         name: 'Process',

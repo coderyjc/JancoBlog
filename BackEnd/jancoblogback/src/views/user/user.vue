@@ -1,11 +1,13 @@
 <template>
   <div class="main">
-    <!-- 搜索框 -->
+    <!-- 搜索框和添加用户 -->
     <el-col :span="12">
+      <!-- 搜索框 -->
       <el-collapse
         accordion
         class="search-bar"
       >
+        <!-- 搜索 -->
         <el-collapse-item>
           <template slot="title">
             <i
@@ -47,8 +49,59 @@
             </el-form-item>
           </el-form>
         </el-collapse-item>
+        <!-- 添加用户 -->
+        <el-collapse-item>
+          <template slot="title">
+            <i
+              class="header-icon el-icon-plus"
+              style="font-size:20px;margin-right: 5px;"
+            ></i>添加用户
+          </template>
+
+          <el-form
+            label-width="80px"
+            :model="register"
+            class="register"
+            :rules="rules"
+            :ref="register"
+          >
+            <el-form-item
+              label="用户名"
+              prop="username"
+            >
+              <el-input
+                type="name"
+                v-model="register.username"
+              ></el-input>
+            </el-form-item>
+            <el-form-item
+              label="密码"
+              prop="password"
+            >
+              <el-input
+                type="password"
+                v-model="register.password"
+              ></el-input>
+            </el-form-item>
+            <el-form-item
+              label="确认密码"
+              prop="password2"
+            >
+              <el-input
+                type="password"
+                v-model="register.password2"
+              ></el-input>
+            </el-form-item>
+            <el-button
+              type="primary"
+              @click="handleRegister"
+            >添加</el-button>
+          </el-form>
+        </el-collapse-item>
       </el-collapse>
+
     </el-col>
+    <!-- 用户表格 -->
     <el-table
       :data="tableData"
       border
@@ -107,7 +160,7 @@
             size="small"
           >详细信息</el-button>
           <el-button
-            @click="changePassword(scope.row)"
+            @click="changePwdDialog(scope.row)"
             type="text"
             size="small"
           >修改密码</el-button>
@@ -125,6 +178,8 @@
         @click="batchDelete"
       >删除选中</el-button>
     </div>
+
+    <!-- 分页 -->
     <div class="pagiation">
       <el-pagination
         @size-change="handleSizeChange"
@@ -137,18 +192,59 @@
       >
       </el-pagination>
     </div>
-    <!-- <el-dialog title="评论详情" :visible.sync="commentDetailVisable">
-    hello
-  </el-dialog> -->
+    <el-dialog title="修改密码" :visible.sync="changePwdVisable">
+      <el-form
+          label-width="80px"
+          :model="password"
+          class="password"
+          :rules="rules"
+          :ref="password"
+        >
+          <el-form-item
+            label="新密码"
+            prop="password"
+          >
+            <el-input
+              type="password"
+              v-model="password.password"
+            ></el-input>
+          </el-form-item>
+          <el-button
+            type="primary"
+            @click="changePwd"
+          >修改密码</el-button>
+        </el-form>
+  </el-dialog>
   </div>
 </template>
 
 <script>
-import { getAll, batchDeleteUsers } from '@/api/user'
+import { getAll, batchDeleteUsers, checkUserNameUnique, register, changePassword } from '@/api/user'
 import { parseTime } from '@/utils/index'
 
 export default {
   data() {
+    var checkUserName = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('用户名不能为空'))
+      }
+      checkUserNameUnique(value).then((res) => {
+        if (res.extend.unique) {
+          callback()
+        } else {
+          return callback(new Error('用户名已被注册'))
+        }
+      })
+    }
+    var checkPassAgain = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入密码'))
+      }
+      if (value !== this.register.password) {
+        return callback(new Error('两次密码不一致'))
+      }
+      callback()
+    }
     return {
       loading: false,
       tableData: [],
@@ -164,7 +260,25 @@ export default {
         end: '',
       },
       commentDetailVisable: false,
+      changePwdVisable: false,
       commentDatail: {},
+      register: {
+        username: '',
+        password: '',
+      },
+      password: {
+        id: '',
+        password: '',
+      },
+      rules: {
+        username: [
+          { required: true, validator: checkUserName, trigger: 'blur' },
+        ],
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+        password2: [
+          { required: true, validator: checkPassAgain, trigger: 'blur' },
+        ],
+      }
     }
   },
   created() {
@@ -186,8 +300,36 @@ export default {
     },
   },
   methods: {
-    changePassword(){
-
+    changePwdDialog(col){
+      this.password.id = col.userId
+      this.changePwdVisable = true
+    },
+    changePwd() {
+      var _this = this
+      this.$refs[this.password].validate((valid) => {
+        if (valid) {
+          changePassword(
+            _this.password.id,
+            '',
+            _this.password.password
+          ).then((res) => {
+            let suc = res.extend.suc
+            if(suc){
+              // 修改成功
+              this.$message({
+                message: '修改成功',
+                type: 'success',
+                duration: 3000
+              })
+              _this.password.password = ''
+              _this.changePwdVisable = false
+            }
+          })
+        } else {
+          // 告知注册失败
+          return false
+        }
+      })
     },
     viewDetail(row) {
       // this.commentDetailVisable = false
@@ -200,7 +342,7 @@ export default {
       this.get_user_list(val)
     },
     deleteUser(row) {
-      var msg = '将要删除该评论 , 是否继续?'
+      var msg = '将要删除该用户 , 是否继续?'
       this.$confirm(msg, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -248,7 +390,7 @@ export default {
       this.multipleSelection.forEach((item) => {
         ids += item.userId + '&'
       })
-      this.$confirm('确定删除选中评论？', '提示', {
+      this.$confirm('确定删除选中用户？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
@@ -305,6 +447,34 @@ export default {
           : condition
 
       this.condition = condition
+    },
+    handleRegister() {
+      var _this = this
+      this.$refs[this.register].validate((valid) => {
+        if (valid) {
+          // 提交注册表单
+          register(this.register).then((res) => {
+            if (res.extend.success) {
+              // 成功
+              this.$message({
+                message: '注册成功',
+                type: 'success',
+              })
+              // 跳转登录
+              _this.register.username = ''
+              _this.register.password = ''
+              _this.register.password2 = ''
+              _this.currPanel = 'first'
+            } else {
+              // 失败
+              this.$message.error('注册失败')
+            }
+          })
+        } else {
+          // 告知注册失败
+          return false
+        }
+      })
     },
   },
 }

@@ -141,3 +141,22 @@ export function batchDeleteUsers(ids) {
   })
 }
 
+
+/**
+ * 修改用户密码
+ * @param {Stirng} id 要修改密码的用户id
+ * @param {String} oldpwd 旧密码
+ * @param {String} newpwd 新密码
+ * @returns 
+ */
+export function changePassword(id = '-1', oldpwd, newpwd){
+  return request({
+    url: '/user/changepwd',
+    method: 'post',
+    params: {
+      id: id,
+      old: oldpwd,
+      new: newpwd
+    }
+  })
+}

@@ -104,6 +104,7 @@ public class UserController {
         }
         // 获取数据
         VUserTotalData data = service.getUserTotalData(userId);
+
         if (null != data){
             return Msg.success().add("data", data);
         } else {
@@ -234,7 +235,7 @@ public class UserController {
         }
         // 登录没过期，移除token
         redisUtil.del(token);
-        return Msg.success();
+        return Msg.success().add("suc", true);
     }
 
     /**
@@ -328,6 +329,49 @@ public class UserController {
         return Msg.success().add("suc", true);
     }
 
+
+    /**
+     * 修改密码
+     * @param userId 用户id，如果没有就是修改自己的密码
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/changepwd", method = RequestMethod.POST)
+    public Msg changePassword(
+            @RequestParam(value = "id", defaultValue = "-1") String userId,
+            @RequestParam(value = "old") String oldPassword,
+            @RequestParam(value = "new") String newPassword,
+            HttpServletRequest request
+    ){
+        boolean suc = false;
+        // 先判断有没有id
+        if("-1".equals(userId)){
+            // 没有id，修改目前登录的用户的id
+            String token = request.getHeader("token");
+            if(null == token) {
+                return Msg.expire();
+            }
+            User user = (User) redisUtil.get(token);
+            if(user.getUserPassword().equals(MD5Util.getMD5(oldPassword))){
+                // 密码正确
+                user.setUserPassword(MD5Util.getMD5(newPassword));
+                suc = user.updateById();
+                return Msg.success().add("suc", suc);
+            } else {
+                return Msg.success().add("suc", suc);
+            }
+        } //修改当前登录的用户的密码
+        // 管理员修改用户的密码
+        User user = new User();
+        user.setUserId(Integer.parseInt(userId));
+        user.setUserPassword(MD5Util.getMD5(newPassword));
+        // 不需要验证旧密码
+        suc = user.updateById();
+        // 直接修改
+        return Msg.success().add("suc", suc);
+    }
 
 }
 
