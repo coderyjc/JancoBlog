@@ -108,4 +108,15 @@ public class ArticleUtils {
         return str;
     }
 
+
+    /**
+     * 标准化博文中的图片，宽度调整为容器大小的70%
+     * @param html
+     * @return
+     */
+    public static String simplifyImages(String html){
+        return html.replaceAll("<img src", "<img style=\"max-width:70%\" src");
+    }
+
+
 }

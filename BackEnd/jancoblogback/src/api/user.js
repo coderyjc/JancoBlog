@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { getUserCommentRecently } from './comment'
 
 /**
  * 登录
@@ -81,6 +82,7 @@ export function getUserDetailInfo() {
   })
 }
 
+
 /**
  * 获取用户的总的数据统计
  * @param {String} userId 用户id
@@ -160,3 +162,19 @@ export function changePassword(id = '-1', oldpwd, newpwd){
     }
   })
 }
+
+/**
+ * 修改用户个人信息
+ * @param {String} user 用户
+ * @returns 
+ */
+export function updateUserInfo(user){
+  return request({
+    url: '/user/info/update',
+    method: 'post',
+    params: {
+      user: user
+    }
+  })
+}
+

@@ -21,6 +21,12 @@
               {{ user.userSignature }}
             </div>
           </el-col>
+          <!-- <el-button
+            type="primary"
+            @click="submit_sign_info"
+          >提交</el-button>
+          <el-button>取消</el-button>
+          <el-button class="edit-btn">编辑</el-button> -->
         </el-card>
         <!-- 个人信息：真实姓名、性别、邮箱、电话、地区、生日 -->
         <el-card>
@@ -29,6 +35,7 @@
             ref="form"
             :model="userInfo"
             label-width="80px"
+            :disabled="!editBtn.personal"
           >
             <el-form-item label="真实姓名">
               <el-col
@@ -91,13 +98,22 @@
               </el-col>
             </el-form-item>
             <el-form-item>
-              <el-button
-                type="primary"
-                @click="submit_personal_info"
-              >提交</el-button>
-              <el-button>取消</el-button>
             </el-form-item>
           </el-form>
+          <el-button
+            type="primary"
+            @click="submit_user_info"
+            v-show="editBtn.personal"
+          >提交</el-button>
+          <el-button 
+          v-show="editBtn.personal"
+          @click="editBtn.personal = false;get_user_info()"
+          >取消</el-button>
+          <el-button
+            class="edit-btn"
+            v-show="!editBtn.personal"
+            @click="editBtn.personal = true"
+          >编辑</el-button>
         </el-card>
         <!-- 教育信息：学校、学位、入学时间、最高学历 -->
         <el-card>
@@ -106,6 +122,7 @@
             ref="form"
             :model="userInfo"
             label-width="80px"
+            :disabled="!editBtn.education"
           >
             <el-form-item label="毕业院校">
               <el-col
@@ -140,13 +157,22 @@
               </el-col>
             </el-form-item>
             <el-form-item>
-              <el-button
-                type="primary"
-                @click="submit_personal_info"
-              >提交</el-button>
-              <el-button>取消</el-button>
             </el-form-item>
           </el-form>
+          <el-button
+            type="primary"
+            @click="submit_user_info"
+            v-if="editBtn.education"
+          >提交</el-button>
+          <el-button
+           v-if="editBtn.education"
+           @click="editBtn.education = false;get_user_info()"
+           >取消</el-button>
+          <el-button
+            class="edit-btn"
+            v-if="!editBtn.education"
+            @click="editBtn.education = true"
+          >编辑</el-button>
         </el-card>
         <!-- 工作信息：公司、职位、领域 -->
         <el-card>
@@ -155,6 +181,7 @@
             ref="form"
             :model="userInfo"
             label-width="80px"
+            :disabled="!editBtn.work"
           >
             <el-form-item label="公司">
               <el-col
@@ -180,14 +207,21 @@
                 <el-input v-model="userInfo.userField"></el-input>
               </el-col>
             </el-form-item>
-            <el-form-item>
-              <el-button
-                type="primary"
-                @click="submit_personal_info"
-              >提交</el-button>
-              <el-button>取消</el-button>
-            </el-form-item>
           </el-form>
+          <el-button
+            type="primary"
+            @click="submit_user_info"
+            v-if="editBtn.work"
+          >提交</el-button>
+          <el-button 
+          v-if="editBtn.work"
+          @click="editBtn.work = false;get_user_info()"
+          >取消</el-button>
+          <el-button
+            class="edit-btn"
+            v-if="!editBtn.work"
+            @click="editBtn.work = true"
+          >编辑</el-button>
         </el-card>
       </el-col>
     </el-row>
@@ -195,7 +229,7 @@
 </template>
 
 <script>
-import { getUserDetailInfo, getUserInfo } from '@/api/user'
+import { getUserDetailInfo, getUserInfo, updateUserInfo } from '@/api/user'
 
 export default {
   data() {
@@ -203,6 +237,12 @@ export default {
       structure: {
         formSpan: 10,
         formOffset: 0,
+      },
+      editBtn: {
+        sign: false,
+        education: false,
+        personal: false,
+        work: false,
       },
       user: {},
       userInfo: {},
@@ -224,7 +264,30 @@ export default {
         _this.user = res.extend.user
       })
     },
-    submit_personal_info() {},
+    submit_user_info(){
+      updateUserInfo(this.userInfo).then(res => {
+        if(res.extend.suc){
+          // 成功
+          // 修改成功
+          this.$message({
+            message: '修改成功',
+            type: 'success',
+            duration: 3000
+          })
+          this.editBtn.personal = false
+          this.editBtn.education = false
+          this.editBtn.work = false
+          this.get_user_info()
+        }else{
+          // 修改成功
+          this.$message({
+            message: '修改失败',
+            type: 'fail',
+            duration: 3000
+          })
+        }
+      })
+    }
   },
 }
 </script>
@@ -250,6 +313,12 @@ export default {
       font-size: 18px;
       margin: 20px;
     }
+  }
+
+  // 编辑按钮
+  .edit-btn {
+    float: right;
+    margin-bottom: 8px;
   }
 }
 </style>

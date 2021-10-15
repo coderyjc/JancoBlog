@@ -37,7 +37,7 @@
         <result column="total_comment_count" property="totalCommentCount"/>
     </resultMap>
 
-    <sql id="User_Totao_Data_List">
+    <sql id="User_Total_Data_List">
         article_author, user_name, user_signature, total_article, total_view_count,
         total_like_count, total_comment_count
     </sql>

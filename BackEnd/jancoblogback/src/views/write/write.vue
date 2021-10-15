@@ -1,34 +1,67 @@
 <template>
   <div class="write">
-    <el-form ref="form" label-width="80px">
-      <el-form-item label="标题">
-        <el-input v-model="article_title" maxlength="35"></el-input>
+    <el-form
+      :ref="post_article"
+      label-width="80px"
+      :rules="rules"
+      :model="post_article"
+    >
+      <el-form-item
+        label="标题"
+        prop="article_title"
+      >
+        <el-input
+          v-model="post_article.article_title"
+          maxlength="50"
+        ></el-input>
       </el-form-item>
-      <el-form-item label="摘要">
-        <el-input v-model="article_summary" placeholder="如果不写，就会截取内容的前100字符" maxlength="150"></el-input>
+      <el-form-item
+        label="摘要"
+        prop="article_summary"
+      >
+        <el-input
+          v-model="post_article.article_summary"
+          placeholder="如果不写，就会截取内容的前100字符"
+          maxlength="150"
+        ></el-input>
       </el-form-item>
-      <el-form-item label="类型">
-          <el-select v-model="article_type" filterable placeholder="选择或搜索">
-              <el-option
-                  v-for="item in typeList"
-                  :key="item.typeId"
-                  :label="item.typeName"
-                  :value="item.typeId">
-              </el-option>
-          </el-select>
+      <el-form-item label="类型" prop="article_type">
+        <el-select
+          v-model="post_article.article_type"
+          filterable
+          placeholder="选择或搜索"
+        >
+          <el-option
+            v-for="item in typeList"
+            :key="item.typeId"
+            :label="item.typeName"
+            :value="item.typeId"
+          >
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-switch
-          v-model="is_comment"
+          v-model="post_article.is_comment"
           active-text="开启评论"
-          inactive-text="关闭评论">
+          inactive-text="关闭评论"
+        >
         </el-switch>
       </el-form-item>
     </el-form>
     <div class="editor-container">
-      <markdown-editor ref="markdownEditor" v-model="content" :options="{hideModeSwitch:true,previewStyle:'tab'}" height="580px" />
+      <markdown-editor
+        ref="markdownEditor"
+        v-model="content"
+        :options="{hideModeSwitch:true,previewStyle:'tab'}"
+        height="580px"
+      />
     </div>
-    <el-button type="primary" style="margin: 20px; float:right; width: 200px" @click="postArticle">发表</el-button>
+    <el-button
+      type="primary"
+      style="margin: 20px; float:right; width: 200px"
+      @click="postArticle"
+    >发表</el-button>
   </div>
 </template>
 
@@ -43,69 +76,100 @@ export default {
   name: 'MarkdownDemo',
   components: { MarkdownEditor },
   data() {
+    var checkTitle = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入标题'))
+      }
+      if (value.length > 50) {
+        return callback(new Error('长度不能大于50个字'))
+      }
+      callback()
+    }
+    var checkSummary = (rule, value, callback) => {
+      if (value.length > 150) {
+        return callback(new Error('长度不能大于150个字'))
+      }
+      callback()
+    }
+
     return {
       typeList: [],
-      article_title: '',
-      article_summary: '',
-      article_type: '',
-      is_comment: true,
+      post_article:{
+        article_title: '',
+        article_summary: '',
+        article_type: '',
+        is_comment: true,
+      },
       content: content,
-      html: ''
+      html: '',
+      rules: {
+        article_title: [
+          { required: true, validator: checkTitle, trigger: 'blur' },
+        ],
+        article_summary: [
+          { required: true, validator: checkSummary, trigger: 'blur' },
+        ],
+        article_type: [
+          { required: true, message: '请选择类型', trigger: 'blur' },
+        ],
+      },
     }
   },
-  mounted(){
+  mounted() {
     this.get_type_list()
   },
   methods: {
     getHtml() {
       this.html = this.$refs.markdownEditor.getHtml()
     },
-    get_type_list(){
-      getAllType().then(response => {
+    get_type_list() {
+      getAllType().then((response) => {
         this.typeList = response.extend.pageInfo.records
       })
     },
-    postArticle(){
+    postArticle() {
       var _this = this
-      this.getHtml();
-      postArticle(
-        this.article_title, 
-        this.article_type, 
-        this.article_summary,
-        this.is_comment,
-        this.content,
-        this.html
-      ).then(response => {
-        var id = response.extend.id
-        var msg = '发表成功，点击查看'
-        this.$message({
-          dangerouslyUseHTMLString: true,
-          message: msg,
-          type: 'success',
-          duration: 3000
-        });
-        _this.article_title = '' 
-        _this.article_type = '' 
-        _this.article_summary = ''
-        _this.is_comment = true
-        _this.content = ''
-        _this.html = ''
+      this.getHtml()
+      if (this.html.length < 50) {
+        this.$message.error('字数太少了，多写一点吧')
+        return
+      }
+      this.$refs[this.post_article].validate((valid) => {
+        if (valid) {
+          postArticle(
+            this.post_article.article_title,
+            this.post_article.article_type,
+            this.post_article.article_summary,
+            this.post_article.is_comment,
+            this.content,
+            this.html
+          ).then((response) => {
+            var id = response.extend.id
+            var msg = '发表成功'
+            this.$message({
+              dangerouslyUseHTMLString: true,
+              message: msg,
+              type: 'success',
+              duration: 3000,
+            })
+            _this.post_article.article_title = ''
+            _this.post_article.article_type = ''
+            _this.post_article.article_summary = ''
+            _this.post_article.is_comment = true
+            _this.content = ''
+            _this.html = ''
+          })
+        } else {
+          return false
+        }
       })
-    },
-    validateArticle(){
-      // 对博文的发表进行验证
-
-
-
     }
-  }
+  },
 }
 </script>
 
 <style scoped>
-
-.write{
+.write {
   margin: 20px;
 }
-
 </style>

@@ -104,6 +104,7 @@
         <div
           class="md-content"
           v-html='article.articleHtml'
+          style="word-break:break-all;"
         >
         </div>
         <el-divider>The End</el-divider>
@@ -494,33 +495,33 @@ h1 {
 
 /* 文章内容 */
 .md-content {
-  line-height: 26px;
+line-height: 26px;
 
-  blockquote {
-    padding: 20px;
-    background-color: #f7f6f3;
-  }
+// blockquote {
+//   padding: 20px;
+//   background-color: #f7f6f3;
+// }
 
-  code {
-    display: block;
-    padding: 20px;
-    background-color: #f7f6f3;
-  }
+// code {
+//   display: block;
+//   padding: 20px;
+//   background-color: #f7f6f3;
+// }
 
-  h2 {
-    margin: 15px 0;
-    font-weight: 600;
-    font-size: 30px;
-  }
-  h3 {
-    margin: 15px 0;
-    font-weight: 550;
-    font-size: 25px;
-  }
-  p {
-    margin: 5px 0;
-  }
+// h2 {
+//   margin: 15px 0;
+//   font-weight: 600;
+//   font-size: 30px;
+// }
+// h3 {
+//   margin: 15px 0;
+//   font-weight: 550;
+//   font-size: 25px;
+// }
 }
+
+
+
 
 /*评论的标题*/
 .comment-area-title {

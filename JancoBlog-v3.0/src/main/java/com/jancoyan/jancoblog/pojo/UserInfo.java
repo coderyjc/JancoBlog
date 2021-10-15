@@ -66,5 +66,4 @@ public class UserInfo extends Model<UserInfo> {
     private String userPosition;
 
     private String userField;
-
 }

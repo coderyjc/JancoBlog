@@ -4,12 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.User;
 import com.jancoyan.jancoblog.pojo.UserInfo;
+import com.jancoyan.jancoblog.pojo.UserLogin;
 import com.jancoyan.jancoblog.pojo.VUserTotalData;
+import com.jancoyan.jancoblog.service.UserLoginService;
 import com.jancoyan.jancoblog.service.UserService;
-import com.jancoyan.jancoblog.utils.JsonWebTokenUtils;
-import com.jancoyan.jancoblog.utils.MD5Util;
-import com.jancoyan.jancoblog.utils.Msg;
-import com.jancoyan.jancoblog.utils.RedisUtil;
+import com.jancoyan.jancoblog.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -52,7 +51,8 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Msg login(
             @RequestParam(value = "username") String username,
-            @RequestParam(value = "password") String password
+            @RequestParam(value = "password") String password,
+            HttpServletRequest request
     ){
         User user = new User();
         String token = null;
@@ -67,13 +67,28 @@ public class UserController {
             // 登录成功, 生成token
             token = JsonWebTokenUtils.createToken(user.getUserId().longValue());
             // 存到redis数据库, 设置过期时间为 60 分钟
-            redisUtil.set(token, user, 1800);
+            redisUtil.set(token, user, 30 * 60);
             // 更新上次登录时间
             user.setUserLastLoginDate(new Date());
             user.updateById();
         }
 
+        //构造登录记录
+        UserLogin log = new UserLogin();
+        String userAgent = request.getHeader("User-Agent");
+        log.setLoginUser(user.getUserId());
+        log.setLoginDate(new Date());
+        log.setLoginAddress(NetworkUtils.queryAddressByIp(request.getRemoteAddr()));
+        log.setLoginIp(request.getRemoteAddr());
+        log.setUserAgent(userAgent);
+        log.setBrowserName(UserAgentUtils.getBorderName(userAgent));
+        log.setBrowserVersion(UserAgentUtils.getBrowserVersion(userAgent));
+        log.setOsName(UserAgentUtils.getOsName(userAgent));
+        log.setOsVersion(UserAgentUtils.getOsVersion(userAgent));
+
         if(null != token){
+            //插入用户登录信息
+            log.insert();
             return Msg.success().add("token", token);
         } else {
             return Msg.fail().add("msg", "登录失败");
@@ -96,11 +111,10 @@ public class UserController {
             // 没有提供id, 直接获取当前登录的用户
             String token = request.getHeader("token");
             if(null == token) {
-                return Msg.expire();
+                return Msg.fail();
             }
             User user = (User)redisUtil.get(token);
             userId = String.valueOf(user.getUserId());
-            System.out.println(userId);
         }
         // 获取数据
         VUserTotalData data = service.getUserTotalData(userId);
@@ -144,7 +158,7 @@ public class UserController {
         User user = (User)redisUtil.get(token);
         if(null == user){
             // 获取用户失败
-            return Msg.fail().add("msg", "用户已过期");
+            return Msg.expire().add("msg", "用户已过期");
         }
         // 获取用户的信息
         UserInfo info = service.getUserInfo(user.getUserId());
@@ -231,7 +245,7 @@ public class UserController {
         String token = request.getHeader("token");
         if(null == token || "".equals(token)){
             // 登录过期
-            return Msg.expire();
+            return Msg.fail();
         }
         // 登录没过期，移除token
         redisUtil.del(token);
@@ -351,7 +365,7 @@ public class UserController {
             // 没有id，修改目前登录的用户的id
             String token = request.getHeader("token");
             if(null == token) {
-                return Msg.expire();
+                return Msg.fail();
             }
             User user = (User) redisUtil.get(token);
             if(user.getUserPassword().equals(MD5Util.getMD5(oldPassword))){
@@ -372,6 +386,111 @@ public class UserController {
         // 直接修改
         return Msg.success().add("suc", suc);
     }
+
+
+    /**
+     * 修改用户信息
+     * @param userInfo 用户信息
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/info/update", method = RequestMethod.POST)
+    public Msg updateUserInfo(
+            @RequestParam(value = "user")String userInfo,
+            HttpServletRequest request
+    ){
+        UserInfo info = new UserInfo();
+
+        // 收到一个userInfo - Json字符串，直接从这里拆开，然后update
+        userInfo = userInfo.substring(1, userInfo.length() - 1);
+
+        // 取出 “userId”：00000 这种
+        String[] kvs = userInfo.split(",");
+
+        for (String kv: kvs) {
+            String[] nameAndValue = kv.split(":");
+            // 下标0 为 “userID”  下标1为 “asdasd” “1” 10929 null
+            // userId
+            String name = nameAndValue[0].substring(1, nameAndValue[0].length() - 1);
+            String value = nameAndValue[1];
+            // 查找与选择逐个排查
+            if((!"null".equals(value)) && (!"".equals(value))){
+                // 此字段不是null
+                // 逐个判断 userInfo 中的属性
+                if("userId".equals(name)){
+                    info.setUserId(Integer.parseInt(value));
+                    continue;
+                }
+                if("userEmail".equals(name)){
+                    info.setUserEmail(value.substring(1, value.length() - 1));
+                    continue;
+                }
+                if("userSex".equals(name)){
+                    if("\"1\"".equals(value)){
+                        // 男
+                        info.setUserSex(1);
+                    } else if("\"0\"".equals(value)){
+                        // 女
+                        info.setUserSex(0);
+                    }
+                    continue;
+                }
+                if("userRegion".equals(name)){
+                    info.setUserRegion(value.substring(1, value.length() - 1));
+                    continue;
+                }
+                if("userBirthdate".equals(name)){
+                    info.setUserBirthdate(TimeUtils.castDateStringToDateTypeYMD(
+                            value.substring(1, 11)));
+                    continue;
+                }
+                if("userTelephone".equals(name)){
+                    info.setUserTelephone(value.substring(1, value.length() - 1));
+                    continue;
+                }
+                if("userRealName".equals(name)){
+                    info.setUserRealName(value.substring(1, value.length() - 1));
+                    continue;
+                }
+                if("userSchool".equals(name)){
+                    info.setUserSchool(value.substring(1, value.length() - 1));
+                    continue;
+                }
+                if("userMajor".equals(name)){
+                    info.setUserMajor(value.substring(1, value.length() - 1));
+                    continue;
+                }
+                if("userEnterSchoolDate".equals(name)) {
+                    info.setUserEnterSchoolDate(TimeUtils.castDateStringToDateTypeYMD(
+                            value.substring(1, 11)));
+                    continue;
+                }
+                if("userAcademicDegree".equals(name)){
+                    info.setUserAcademicDegree(value.substring(1, value.length() - 1));
+                    continue;
+                }
+                if("userCompany".equals(name)){
+                    info.setUserCompany(value.substring(1, value.length() - 1));
+                    continue;
+                }
+                if("userPosition".equals(name)){
+                    info.setUserPosition(value.substring(1, value.length() - 1));
+                    continue;
+                }
+                if("userField".equals(name)){
+                    info.setUserField(value.substring(1, value.length() - 1));
+                }
+
+            }
+
+        }
+
+        boolean suc = info.updateById();
+
+        return Msg.success().add("suc", suc);
+    }
+
+
 
 }
 

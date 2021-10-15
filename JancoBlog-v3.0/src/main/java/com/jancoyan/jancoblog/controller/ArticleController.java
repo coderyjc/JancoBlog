@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -170,11 +169,11 @@ public class ArticleController {
         String token = request.getHeader("token");
         if(null == token){
             // 用户信息已经过期了
-            return Msg.expire();
+            return Msg.fail();
         }
         User user = (User) redisUtil.get(token);
         if(null == user){
-            return Msg.fail();
+            return Msg.expire();
         }
         IPage<Article> iPage = service.getDeletedList(
                 user.getUserId(),
@@ -198,8 +197,8 @@ public class ArticleController {
     ){
         String token = request.getHeader("token");
         if(null == token){
-            // 用户登录信息过期了
-            return Msg.expire();
+            // 未登录
+            return Msg.fail();
         }
         boolean suc = false;
         suc = service.deleteCompletely(ids);
@@ -220,7 +219,7 @@ public class ArticleController {
         // 验证用户登录
         String token = request.getHeader("token");
         if(null == token){
-            return Msg.expire();
+            return Msg.fail();
         }
         boolean suc = service.batchRecoverDeletedArticle(ids);
         return Msg.success().add("suc", suc);
@@ -238,8 +237,8 @@ public class ArticleController {
     ){
         String token = request.getHeader("token");
         if(null == token){
-            // 用户登录信息过期了
-            return Msg.expire();
+            // 用户未登录
+            return Msg.fail();
         }
         Article article = new Article();
         boolean suc = false;
@@ -316,7 +315,7 @@ public class ArticleController {
         User user = new User();
         if(null == token){
             // 用户未登录
-            return Msg.expire();
+            return Msg.fail();
         }else{
             user = (User) redisUtil.get(token);
             if(null == user) {
@@ -328,7 +327,7 @@ public class ArticleController {
         article.setArticleTitle(title)
                 .setArticleAuthor(user.getUserId())
                 .setArticleType(Integer.parseInt(type))
-                .setArticleHtml(html)
+                .setArticleHtml(ArticleUtils.simplifyImages(html))
                 .setArticleMd(ArticleUtils.replaceSingleSlash(md))
                 .setArticleIsComment("true".equals(comment) ? 1 : 0)
                 .setArticleRank(0);
@@ -448,8 +447,8 @@ public class ArticleController {
     ){
         String token = request.getHeader("token");
         if(null == token){
-            // 用户登录信息过期了
-            return Msg.expire();
+            // 用户未登录
+            return Msg.fail();
         }
         // 改变评论的状态
         Article article = new Article();
@@ -477,8 +476,8 @@ public class ArticleController {
     ){
         String token = request.getHeader("token");
         if(null == token){
-            // 用户登录信息过期了
-            return Msg.expire();
+            // 用户未登录
+            return Msg.fail();
         }
         // 改变置顶的状态
         Article article = new Article();

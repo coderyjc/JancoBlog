@@ -1,7 +1,7 @@
 package com.jancoyan.jancoblog.service;
 
+import com.jancoyan.jancoblog.pojo.UserLogin;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.jancoyan.jancoblog.pojo.UserInfo;
 
 /**
  * <p>
@@ -9,8 +9,8 @@ import com.jancoyan.jancoblog.pojo.UserInfo;
  * </p>
  *
  * @author Jancoyan
- * @since 2021-10-14
+ * @since 2021-10-15
  */
-public interface UserInfoService extends IService<UserInfo> {
+public interface UserLoginService extends IService<UserLogin> {
 
 }

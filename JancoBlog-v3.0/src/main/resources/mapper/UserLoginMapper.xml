@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jancoyan.jancoblog.mapper.UserLoginMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.pojo.UserLogin">
+        <id column="id" property="id" />
+        <result column="login_user" property="loginUser" />
+        <result column="login_date" property="loginDate" />
+        <result column="login_ip" property="loginIp" />
+        <result column="login_address" property="loginAddress" />
+        <result column="user_agent" property="userAgent" />
+        <result column="browser_name" property="browserName" />
+        <result column="browser_version" property="browserVersion" />
+        <result column="os_name" property="osName" />
+        <result column="os_version" property="osVersion" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, login_user, login_date, login_ip, login_address, user_agent, browser_name,
+        browser_version, os_name, os_version
+    </sql>
+
+</mapper>

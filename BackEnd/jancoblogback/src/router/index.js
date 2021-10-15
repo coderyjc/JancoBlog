@@ -32,7 +32,7 @@ export const constantRouterMap = [
     path: '/dashboard',
     component: Layout,
     children: [{
-      path: 'dashboard',
+      path: '/dashboard',
       name: 'Dashboard', // 路由的名字
       component: () => import('@/views/dashboard/index'),
       meta: { title: '数据面板', icon: 'dashboard' }
@@ -84,6 +84,12 @@ export const asyncRouterMap = [
         name: 'change-password',
         component: () => import('@/views/personal/change-password'),
         meta: { title: '修改密码', icon: 'el-icon-key', role: ['admin', 'user'] }
+      },
+      {
+        path: 'login-log',
+        name: 'login-log',
+        component: () => import('@/views/personal/login-log'),
+        meta: { title: '登录记录', icon: 'el-icon-position', role: ['admin', 'user'] }
       },
     ]
   },
