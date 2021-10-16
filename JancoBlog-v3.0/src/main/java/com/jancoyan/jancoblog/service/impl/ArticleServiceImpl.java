@@ -5,11 +5,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jancoyan.jancoblog.pojo.Article;
 import com.jancoyan.jancoblog.mapper.ArticleMapper;
+import com.jancoyan.jancoblog.pojo.ArticleImage;
 import com.jancoyan.jancoblog.pojo.PageArticle;
 import com.jancoyan.jancoblog.service.ArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jancoyan.jancoblog.utils.ArticleUtils;
+import com.jancoyan.jancoblog.utils.FileUtils;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * <p>
@@ -111,11 +116,32 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public boolean deleteCompletely(String ids) {
+        QueryWrapper<ArticleImage> wrapper = new QueryWrapper<>();
+        ArticleImage articleImage = new ArticleImage();
+
         if(!ids.contains("&")){
+            wrapper.eq("article_id", ids);
+            List<ArticleImage> articleImages = articleImage.selectList(wrapper);
+            for (ArticleImage image : articleImages) {
+                // 依次删除图片文件
+                FileUtils.deleteImageIfExists(image.getInsertDate(), image.getFilename());
+            }
+            // 从表中删除
+            articleImage.delete(wrapper);
             baseMapper.deleteCompletely(ids);
         } else {
             String[] id = ids.split("&");
             for (String item : id) {
+                // 删除图片文件
+                wrapper.eq("article_id", item);
+                List<ArticleImage> articleImages = articleImage.selectList(wrapper);
+                for (ArticleImage image : articleImages) {
+                    // 依次删除图片文件
+                    FileUtils.deleteImageIfExists(image.getInsertDate(), image.getFilename());
+                }
+                // 从表中删除
+                articleImage.delete(wrapper);
+                // 从文章表中删除文章
                 baseMapper.deleteCompletely(item);
             }
         }

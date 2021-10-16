@@ -61,7 +61,7 @@ export const asyncRouterMap = [
         path: 'write',
         name: 'Write',
         component: () => import('@/views/write/write'),
-        meta: { title: '写博客', icon: 'el-icon-edit', role: ['admin'] }
+        meta: { title: '写博客', icon: 'el-icon-edit', role: ['admin', 'user'] }
       }
     ]
   },

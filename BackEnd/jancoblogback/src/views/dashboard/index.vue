@@ -42,7 +42,7 @@
             </svg>
             <div class="count">
               <span class="count-char">总文章</span>
-              <span class="count-number">{{ user.data.totalArticle }}</span>
+              <span class="count-number">{{ user.data.totalArticle | dataFormat}}</span>
             </div>
           </el-card>
         </el-col>
@@ -67,7 +67,7 @@
             </svg>
             <div class="count">
               <span class="count-char">总浏览</span>
-              <span class="count-number">{{ user.data.totalViewCount }}</span>
+              <span class="count-number">{{ user.data.totalViewCount | dataFormat }}</span>
             </div>
           </el-card>
         </el-col>
@@ -92,7 +92,7 @@
             </svg>
             <div class="count">
               <span class="count-char">总获评</span>
-              <span class="count-number">{{ user.data.totalCommentCount }}</span>
+              <span class="count-number">{{ user.data.totalCommentCount | dataFormat }}</span>
             </div>
           </el-card>
         </el-col>
@@ -117,7 +117,7 @@
             </svg>
             <div class="count">
               <span class="count-char">总获赞</span>
-              <span class="count-number">{{ user.data.totalLikeCount }}</span>
+              <span class="count-number">{{ user.data.totalLikeCount | dataFormat }}</span>
             </div>
           </el-card>
         </el-col>
@@ -134,8 +134,9 @@
             class="not-exist"
             v-if="user.article.length <= 0"
           >
+          最近未发表文章
           </el-card>
-          <el-card v-if="user.article.length >= 0">
+          <el-card v-if="user.article.length > 0">
             <h3>最近文章</h3>
             <div
               class="message-item"
@@ -153,8 +154,9 @@
             class="not-exist"
             v-if="user.article.length <= 0"
           >
+          最近未收到点赞
           </el-card>
-          <el-card v-if="user.like.length >= 0">
+          <el-card v-if="user.like.length > 0">
             <h3>最近收到的赞</h3>
             <div
               class="message-item"
@@ -173,9 +175,10 @@
             class="not-exist"
             v-if="user.article.length <= 0"
           >
+          最近未收到评论
           </el-card>
 
-          <el-card v-if="user.comment.length >= 0">
+          <el-card v-if="user.comment.length > 0">
             <h3>最近收到的评论</h3>
             <div
               class="message-item"
@@ -225,6 +228,15 @@ export default {
   computed: {
     ...mapGetters(['name']),
   },
+  filters:{
+    dataFormat(data){
+      if(null === data) return 0;
+      if(data > 1000){
+        return String(data/1000) + "k"
+      }
+      return data
+    }
+  },
   created() {
     this.get_user_total_data()
   },
@@ -234,8 +246,9 @@ export default {
       await getUserTotalData(-1).then((res) => {
         _this.user.data = res.extend.data
       })
-      getUserLikeRecently(_this.user.data.articleAuthor, 1, 10).then((res) => {
-        _this.user.like = res.extend.pageInfo.records
+      getUserLikeRecently(_this.user.data.articleAuthor, 1, 10).then(
+        (res) => {
+         _this.user.like = res.extend.pageInfo.records
       })
       getUserCommentRecently(_this.user.data.articleAuthor, 1, 10).then(
         (res) => {
@@ -325,6 +338,13 @@ export default {
           background-color: rgb(236, 236, 236);
         }
       }
+
+      .not-exist{
+        padding: 20px;
+        text-align: center;
+        color: gray;
+      }
+
     }
   }
 }

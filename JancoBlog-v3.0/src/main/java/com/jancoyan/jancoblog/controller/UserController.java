@@ -6,7 +6,6 @@ import com.jancoyan.jancoblog.pojo.User;
 import com.jancoyan.jancoblog.pojo.UserInfo;
 import com.jancoyan.jancoblog.pojo.UserLogin;
 import com.jancoyan.jancoblog.pojo.VUserTotalData;
-import com.jancoyan.jancoblog.service.UserLoginService;
 import com.jancoyan.jancoblog.service.UserService;
 import com.jancoyan.jancoblog.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * <p>

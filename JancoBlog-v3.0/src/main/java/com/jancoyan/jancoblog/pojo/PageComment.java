@@ -25,7 +25,7 @@ public class PageComment extends Model<LikeRecord> {
 
     private String commentAuthorName;
 
-    private Integer articleId;
+    private String articleId;
 
     private Integer articleAuthor;
 

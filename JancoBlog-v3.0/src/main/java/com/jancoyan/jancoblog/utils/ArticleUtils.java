@@ -7,9 +7,13 @@
 
 package com.jancoyan.jancoblog.utils;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jancoyan.jancoblog.pojo.Article;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ArticleUtils {
 
@@ -118,5 +122,27 @@ public class ArticleUtils {
         return html.replaceAll("<img src", "<img style=\"max-width:70%\" src");
     }
 
+
+    /**
+     * 获取文章中的图片名称
+     * @param html html标签
+     * @return
+     */
+    public static List<String> getPicturesInArticle(String html){
+        String regex = "src=\".*?\"";
+
+        Pattern p = Pattern.compile(regex);
+        Matcher matcher = p.matcher(html);
+        List<String> fileNames = new ArrayList<>(16);
+        while (matcher.find()){
+            // 当前匹配到的字符串
+            String fileName = matcher.group();
+            fileName = fileName.substring(fileName.lastIndexOf('/') + 1, fileName.length() - 1);
+            fileNames.add(fileName);
+            System.out.println(fileName);
+        }
+
+        return fileNames;
+    }
 
 }

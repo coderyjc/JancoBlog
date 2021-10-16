@@ -2,15 +2,13 @@ package com.jancoyan.jancoblog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jancoyan.jancoblog.pojo.Article;
-import com.jancoyan.jancoblog.pojo.LikeRecord;
-import com.jancoyan.jancoblog.pojo.PageArticle;
-import com.jancoyan.jancoblog.pojo.User;
+import com.jancoyan.jancoblog.pojo.*;
 import com.jancoyan.jancoblog.service.ArticleService;
 import com.jancoyan.jancoblog.service.LikeRecordService;
 import com.jancoyan.jancoblog.utils.ArticleUtils;
 import com.jancoyan.jancoblog.utils.Msg;
 import com.jancoyan.jancoblog.utils.RedisUtil;
+import com.jancoyan.jancoblog.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.stream.FileImageInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -345,6 +345,18 @@ public class ArticleController {
             article.setArticleSummary(ArticleUtils.getArticleDefaultSummary(html));
         }
 
+        // 向文章——图片表中插入记录
+        List<String> images = ArticleUtils.getPicturesInArticle(html);
+        // 向 file-image 表中插入文章图片记录
+        ArticleImage articleImage = new ArticleImage();
+        for (String image : images) {
+            articleImage.setInsertDate(new Date(now));
+            articleImage.setArticleId(article.getArticleId());
+            articleImage.setFilename(image);
+            articleImage.insert();
+        }
+
+
         boolean suc = article.insert();
 
         return Msg.success().add("suc", suc).add("id", article.getArticleId());
@@ -516,9 +528,11 @@ public class ArticleController {
             return Msg.fail().add("msg", "请选择jpg,jpeg,gif,png格式的图片");
         }
 
-        String savePath = new File(".").getCanonicalPath() + "\\target\\classes\\static\\p\\";
-
-        System.out.println(savePath);
+        // 获取当前年-月， 如 2021-01
+        String nowMonth = TimeUtils.getCurrentTimeString().substring(0, 7);
+        String savePath =
+                new File(".").getCanonicalPath() + "\\target\\classes\\static\\p\\" +
+                        nowMonth + "\\";
 
         File savePathFile = new File(savePath);
         if (!savePathFile.exists()) {
@@ -529,8 +543,6 @@ public class ArticleController {
         //通过UUID生成唯一文件名
         String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
 
-        System.out.println(filename);
-
         try {
             //将文件保存指定目录
             file.transferTo(new File(savePath + filename));
@@ -538,7 +550,8 @@ public class ArticleController {
             e.printStackTrace();
             return Msg.fail().add("msg", "保存文件异常");
         }
-        String url = "http://localhost:8080/p/" + filename;
+
+        String url = "http://localhost:8080/p/" + nowMonth + "/" + filename;
 
         //返回文件名称
         return Msg.success().add("url", url);

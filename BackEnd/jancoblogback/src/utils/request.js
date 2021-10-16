@@ -37,7 +37,7 @@ service.interceptors.response.use(
       // 数据CRUD问题，直接显示错误信息
       if (res.code === 200) {
         Message({
-          message: res.msg,
+          message: res.msg || '数据错误',
           type: 'error',
           duration: 5 * 1000
         })
@@ -46,7 +46,7 @@ service.interceptors.response.use(
       // 用户未登录
       if (res.code === 603) {
         Message({
-          message: res.msg,
+          message: res.msg || '用户未登录',
           type: 'error',
           duration: 5 * 1000
         })
@@ -74,7 +74,7 @@ service.interceptors.response.use(
   error => {
     console.log('发生错误 ' + error) // for debug
     Message({
-      message: error.msg,
+      message: error.msg || '网络错误',
       type: 'error',
       duration: 5 * 1000
     })
