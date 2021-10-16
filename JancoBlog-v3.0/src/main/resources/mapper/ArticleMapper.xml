@@ -34,7 +34,7 @@
 
 <!--    管理员能看到的文章列表-->
     <select id="getManageList" resultType="com.jancoyan.jancoblog.pojo.Article">
-        select * from v_article_manage_show ${ew.customSqlSegment}
+        select * from v_article_manage_list ${ew.customSqlSegment}
     </select>
 
 <!--    查看文章的时候获取文章整体信息 -->

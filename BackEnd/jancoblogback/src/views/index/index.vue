@@ -283,7 +283,7 @@ export default {
     linkToDashBoard() {
       // 判断用户是否登录
       this.islogin = undefined !== getToken()
-      if (this.islogin) this.$router.push('/dashboard/dashboard')
+      if (this.islogin) this.$router.push('/dashboard')
       else this.$router.push('/login')
     },
     handleSizeChange(val) {

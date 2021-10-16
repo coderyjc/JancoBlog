@@ -116,7 +116,7 @@ public class ArticleController {
             return Msg.fail();
         }
         IPage<Article> iPage = service.getManageList(
-                user.getUserName(),
+                user.getUserId(),
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
                 condition);

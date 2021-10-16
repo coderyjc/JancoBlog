@@ -71,7 +71,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public IPage<Article> getManageList(String userName,
+    public IPage<Article> getManageList(Integer userId,
                                         Integer pn,
                                         Integer limit,
                                         String condition) {
@@ -79,7 +79,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         IPage<Article> iPage = new Page<>(pn, limit);
         QueryWrapper<Article> wrapper = new QueryWrapper<>();
         // 单一用户的文章获取
-        if(null != userName) wrapper.eq("user_name", userName);
+        if(null != userId) {
+            wrapper.eq("user_id", userId);
+        }
 
         wrapper = ArticleUtils.generateManageArticleWrapperByCondition(wrapper, condition);
 
@@ -98,7 +100,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         IPage<Article> iPage = new Page<>(pn, limit);
         QueryWrapper<Article> wrapper = new QueryWrapper<>();
         // 单一用户的文章获取
-        if(null != userId) wrapper.eq("user_id", userId);
+        if(null != userId) {
+            wrapper.eq("user_id", userId);
+        }
 
         wrapper = ArticleUtils.generateManageArticleWrapperByCondition(wrapper, condition);
 

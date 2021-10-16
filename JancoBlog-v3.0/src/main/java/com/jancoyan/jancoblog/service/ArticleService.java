@@ -26,13 +26,13 @@ public interface ArticleService extends IService<Article> {
 
     /**
      * 文章管理的时候获得用于管理的文章列表
-     * @param userName 用户名，可选
+     * @param userId 用户id，可选
      * @param pn 页码
      * @param limit 容量
      * @param condition 条件
      * @return
      */
-    IPage<Article> getManageList(String userName, Integer pn, Integer limit, String condition);
+    IPage<Article> getManageList(Integer userId, Integer pn, Integer limit, String condition);
 
     /**
      * 获取一篇文章
