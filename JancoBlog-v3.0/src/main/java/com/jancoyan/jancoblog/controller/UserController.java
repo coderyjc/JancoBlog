@@ -49,14 +49,10 @@ public class UserController {
             @RequestParam(value = "password") String password,
             HttpServletRequest request
     ){
-        User user = new User();
         String token = null;
 
-        // 登录数据校验
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_name", username);
-        wrapper.eq("user_password", MD5Util.getMD5(password));
-        user = user.selectOne(wrapper);
+        // 从视图选择登录
+        User user = service.login(username, password);
 
         if(null != user){
             // 登录成功, 生成token
@@ -68,7 +64,7 @@ public class UserController {
             user.updateById();
         }
 
-        //构造登录记录
+        //登录记录
         UserLogin log = new UserLogin();
         String userAgent = request.getHeader("User-Agent");
         log.setLoginUser(user.getUserId());
@@ -204,7 +200,7 @@ public class UserController {
                 .setUserId(null)
                 .setUserSignature("Hello World")
                 .setUserPassword(MD5Util.getMD5(password))
-                .setUserRole("user")
+                .setUserRole(2)
                 .setUserCreateDate(new Date())
                 .setUserIp(request.getRemoteAddr());
         // 插入

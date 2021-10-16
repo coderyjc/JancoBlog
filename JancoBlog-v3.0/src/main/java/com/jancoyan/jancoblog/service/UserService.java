@@ -40,4 +40,6 @@ public interface UserService extends IService<User> {
      * @return
      */
     UserInfo getUserInfo(Integer userId);
+
+    User login(String username, String password);
 }

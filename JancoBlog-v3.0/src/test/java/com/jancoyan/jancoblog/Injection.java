@@ -102,7 +102,7 @@ public class Injection extends JancoBlogApplicationTests {
         user.setUserIp("127.0.0.1").
                 setUserName("admin")
                 .setUserPassword(MD5Util.getMD5("333"))
-                .setUserRole("user")
+                .setUserRole(2)
                 .setUserCreateDate(new Date())
                 .setUserLastLoginDate(new Date());
         user.insert();

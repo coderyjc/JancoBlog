@@ -9,6 +9,7 @@ import com.jancoyan.jancoblog.pojo.UserInfo;
 import com.jancoyan.jancoblog.pojo.VUserTotalData;
 import com.jancoyan.jancoblog.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jancoyan.jancoblog.utils.MD5Util;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,6 +57,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public UserInfo getUserInfo(Integer userId) {
         return baseMapper.getUserInfo(userId);
+    }
+
+    @Override
+    public User login(String username, String password) {
+        // 登录数据校验
+        password = MD5Util.getMD5(password);
+        return baseMapper.login(username, password);
     }
 
 }

@@ -17,6 +17,12 @@ export const constantRouterMap = [
   },
 
   {
+    path: '/404',
+    component: () => import('@/views/404'),
+    hidden: true
+  },
+
+  {
     path: '/article',
     component: () => import('@/views/index/article'),
     hidden: true
@@ -38,7 +44,7 @@ export const constantRouterMap = [
       meta: { title: '数据面板', icon: 'dashboard' }
     }]
   }
-
+  
 ]
 
 //实例化vue的时候只挂载constantRouter

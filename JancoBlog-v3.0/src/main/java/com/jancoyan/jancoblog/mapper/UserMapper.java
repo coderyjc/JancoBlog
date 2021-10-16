@@ -25,4 +25,6 @@ public interface UserMapper extends BaseMapper<User> {
     VUserTotalData getUserTotalData(String userId);
 
     UserInfo getUserInfo(Integer userId);
+
+    User login(String username, String password);
 }
