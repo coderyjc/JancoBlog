@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jancoyan.jancoblog.pojo.Article;
 import com.jancoyan.jancoblog.mapper.ArticleMapper;
 import com.jancoyan.jancoblog.pojo.ArticleImage;
+import com.jancoyan.jancoblog.pojo.DeletedComment;
 import com.jancoyan.jancoblog.pojo.PageArticle;
 import com.jancoyan.jancoblog.service.ArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -99,6 +100,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    public Article getSingleArticleDeleted(String articleId) {
+        return baseMapper.getSingleArticleDeleted(articleId);
+    }
+
+    @Override
     public IPage<Article> getDeletedList(Integer userId, Integer pn, Integer limit,
                                          String condition) {
         //        分页查询
@@ -118,9 +124,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public boolean deleteCompletely(String ids) {
         QueryWrapper<ArticleImage> wrapper = new QueryWrapper<>();
         ArticleImage articleImage = new ArticleImage();
+        QueryWrapper<DeletedComment> deletedCommentQueryWrapper = new QueryWrapper<>();
+        DeletedComment deletedComment = new DeletedComment();
 
         if(!ids.contains("&")){
             wrapper.eq("article_id", ids);
+            deletedCommentQueryWrapper.eq("comment_article_id", ids);
             List<ArticleImage> articleImages = articleImage.selectList(wrapper);
             for (ArticleImage image : articleImages) {
                 // 依次删除图片文件
@@ -128,12 +137,15 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             }
             // 从表中删除
             articleImage.delete(wrapper);
+            deletedComment.delete(deletedCommentQueryWrapper);
+            // 删除所有已删除的评论
             baseMapper.deleteCompletely(ids);
         } else {
             String[] id = ids.split("&");
             for (String item : id) {
                 // 删除图片文件
                 wrapper.eq("article_id", item);
+                deletedCommentQueryWrapper.eq("comment_article_id", item);
                 List<ArticleImage> articleImages = articleImage.selectList(wrapper);
                 for (ArticleImage image : articleImages) {
                     // 依次删除图片文件
@@ -141,6 +153,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 }
                 // 从表中删除
                 articleImage.delete(wrapper);
+                deletedComment.delete(deletedCommentQueryWrapper);
                 // 从文章表中删除文章
                 baseMapper.deleteCompletely(item);
             }

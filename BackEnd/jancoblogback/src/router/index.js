@@ -23,6 +23,12 @@ export const constantRouterMap = [
   },
 
   {
+    path: '/deleted-article',
+    component: () => import('@/views/index/deleted-article'),
+    hidden: true
+  },
+
+  {
     path: '/article',
     component: () => import('@/views/index/article'),
     hidden: true
@@ -117,7 +123,7 @@ export const asyncRouterMap = [
         path: 'personal-deleted',
         name: 'personal-deleted',
         component: () => import('@/views/article/personal-deleted'),
-        meta: { title: '我删除的文章', icon: 'el-icon-delete', role: ['admin'] }
+        meta: { title: '我删除的文章', icon: 'el-icon-delete', role: ['admin', 'user'] }
       },
       {
         path: 'all-article',

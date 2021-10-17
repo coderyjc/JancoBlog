@@ -6,10 +6,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jancoyan.jancoblog.pojo.Article;
 import com.jancoyan.jancoblog.pojo.Comment;
 import com.jancoyan.jancoblog.mapper.CommentMapper;
+import com.jancoyan.jancoblog.pojo.DeletedComment;
 import com.jancoyan.jancoblog.pojo.PageComment;
 import com.jancoyan.jancoblog.service.CommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.lettuce.core.dynamic.annotation.CommandNaming;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -73,7 +77,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         IPage<Comment> iPage = new Page<>(pn, limit);
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
 
-        if(id != null) wrapper.eq("comment_author_id", id);
+        if(id != null) {
+            wrapper.eq("comment_author_id", id);
+        }
 
         String[] split = condition.split("--");
         for (String item : split) {
@@ -111,5 +117,44 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     }
 
+    @Override
+    public void deleteCommentByArticle(String articleId) {
+        // 先查出来评论，再依次删除
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+        Comment comment = new Comment();
+        wrapper.eq("comment_article_id", articleId);
+        List<Comment> list = comment.selectList(wrapper);
+        if(!list.isEmpty()){
+            for (Comment item : list){
+                baseMapper.deleteComment(item.getCommentId());
+            }
+        }
+    }
 
+    @Override
+    public void recoverCommentByArticle(String ids) {
+        QueryWrapper<DeletedComment> wrapper = new QueryWrapper<>();
+        DeletedComment comment = new DeletedComment();
+        // 先查出来评论，再依次恢复
+        if(!ids.contains("&")){
+            wrapper.eq("comment_article_id", ids);
+            List<DeletedComment> list = comment.selectList(wrapper);
+            if(!list.isEmpty()){
+                for (DeletedComment item : list){
+                    baseMapper.recoverComment(item.getCommentId());
+                }
+            }
+        } else {
+            String[] id = ids.split("&");
+            for (String article : id) {
+                wrapper.eq("comment_article_id", article);
+                List<DeletedComment> list = comment.selectList(wrapper);
+                if(!list.isEmpty()){
+                    for (DeletedComment item : list){
+                        baseMapper.recoverComment(item.getCommentId());
+                    }
+                }
+            }
+        }
+    }
 }

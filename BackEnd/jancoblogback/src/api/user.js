@@ -40,10 +40,33 @@ export function register(registerForm) {
     method: 'post',
     params:{
       username: registerForm.username,
+      password: registerForm.password,
+      code: registerForm.code
+    }
+  })
+}
+
+
+
+/**
+ * 添加用户
+ * @param {*} registerForm 表单
+ * @returns 
+ */
+export function addUser(registerForm) {
+  return request({
+    url: '/user/add',
+    method: 'post',
+    params:{
+      username: registerForm.username,
       password: registerForm.password
     }
   })
 }
+
+
+
+
 
 /**
  * 获取作者信息

@@ -32,6 +32,7 @@ export function postComment(param) {
   })
 }
 
+
 /**
  * 赞同评论
  * @param {Integer} id 评论id
@@ -46,6 +47,7 @@ export function likeComment(id) {
     }
   })
 }
+
 
 /**
  * 获取文章下面的所有评论
@@ -65,6 +67,28 @@ export function getCommentByArticle(id, pn, limit) {
     }
   })
 }
+
+
+/**
+ * 获取已经删除的文章下面的评论
+ * @param {Integer} pn 页码
+ * @param {Integer} limit 容量
+ * @param {String} condition 条件
+ * @returns 
+ */
+export function getCommentByDeletedArticle(id, pn, limit) {
+  return request({
+    url: '/deleted/comment/article',
+    method: 'get',
+    params: {
+      id: id,
+      pn : pn,
+      limit: limit
+    }
+  })
+}
+
+
 
 /**
  * 获取用户收到的所有评论

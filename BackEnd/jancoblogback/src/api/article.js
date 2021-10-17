@@ -35,6 +35,21 @@ export function getSingleArticle(id) {
 }
 
 /**
+ * 通过首页查看文章的时候获取文章信息
+ * @param {String} id 
+ * @returns 
+ */
+export function getSingleArticleDeleted(id) {
+  return request({
+    url: '/article/single/deleted',
+    method: 'get',
+    params: {
+      id: id
+    }
+  })
+}
+
+/**
  * 点赞
  * @param {Stirng} id 
  * @returns 

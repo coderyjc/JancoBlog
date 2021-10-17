@@ -51,4 +51,17 @@ public interface CommentService extends IService<Comment> {
      * @return
      */
     IPage<PageComment> getCommentByUserRecently(String authorId);
+
+
+    /**
+     * 按照文章“删除”评论
+     * @param articleId
+     */
+    void deleteCommentByArticle(String articleId);
+
+    /**
+     * 按照文章“恢复”评论
+     * @param ids 多个id
+     */
+    void recoverCommentByArticle(String ids);
 }

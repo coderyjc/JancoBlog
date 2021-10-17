@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.*;
 import com.jancoyan.jancoblog.service.ArticleService;
-import com.jancoyan.jancoblog.service.LikeRecordService;
+import com.jancoyan.jancoblog.service.CommentService;
 import com.jancoyan.jancoblog.utils.ArticleUtils;
 import com.jancoyan.jancoblog.utils.Msg;
 import com.jancoyan.jancoblog.utils.RedisUtil;
@@ -12,13 +12,11 @@ import com.jancoyan.jancoblog.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.stream.FileImageInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +40,9 @@ public class ArticleController {
 
     @Autowired
     ArticleService service;
+
+    @Autowired
+    CommentService  commentService;
 
     @Autowired
     RedisUtil redisUtil;
@@ -222,6 +223,7 @@ public class ArticleController {
             return Msg.fail();
         }
         boolean suc = service.batchRecoverDeletedArticle(ids);
+        commentService.recoverCommentByArticle(ids);
         return Msg.success().add("suc", suc);
     }
 
@@ -245,11 +247,15 @@ public class ArticleController {
         if(!ids.contains("&")){
             article.setArticleId(ids);
             suc = article.deleteById();
+            // 将删除文章的评论挪到另一张表中
+            commentService.deleteCommentByArticle(ids);
         } else {
             String[] id = ids.split("&");
             for (String item : id) {
                 article.setArticleId(item);
                 suc = article.deleteById();
+                // 将删除文章的评论挪到另一张表中
+                commentService.deleteCommentByArticle(item);
             }
         }
         return Msg.success().add("suc", suc);
@@ -265,6 +271,19 @@ public class ArticleController {
             @RequestParam(value = "id") String articleId
     ){
         Article article = service.getSingleArticle(articleId);
+        return Msg.success().add("article", article);
+    }
+
+    /**
+     * 查看文章的时候获取单个文章
+     * @param articleId 文章ID
+     * @return 成功
+     */
+    @RequestMapping(value = "/single/deleted", method = RequestMethod.GET)
+    public Msg getSingleArticleDeleted(
+            @RequestParam(value = "id") String articleId
+    ){
+        Article article = service.getSingleArticleDeleted(articleId);
         return Msg.success().add("article", article);
     }
 

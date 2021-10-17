@@ -32,4 +32,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
     void batchRecover(String articleId);
 
     IPage<PageArticle> getArticleByUserRecently(IPage<PageArticle> iPage, Wrapper ew);
+
+    Article getSingleArticleDeleted(String id);
 }

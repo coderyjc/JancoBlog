@@ -37,7 +37,7 @@ service.interceptors.response.use(
       // 数据CRUD问题，直接显示错误信息
       if (res.code === 200) {
         Message({
-          message: res.msg || '数据错误',
+          message: res.extend.msg || '数据错误',
           type: 'error',
           duration: 5 * 1000
         })
@@ -66,7 +66,7 @@ service.interceptors.response.use(
           })
         })
       }
-      return Promise.reject(new Error(res.msg || 'Error'))
+      return Promise.reject(new Error( res.msg || 'Error'))
     } else {
       return response.data
     }

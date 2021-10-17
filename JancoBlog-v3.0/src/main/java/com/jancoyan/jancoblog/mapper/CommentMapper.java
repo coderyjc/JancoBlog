@@ -24,4 +24,8 @@ public interface CommentMapper extends BaseMapper<Comment> {
     IPage<Comment> getCommentByUserPosted(IPage<Comment> iPage, Wrapper ew);
 
     IPage<PageComment> getCommentByUserRecently(IPage<PageComment> iPage, Wrapper ew);
+
+    void deleteComment(Integer commentId);
+
+    void recoverComment(Integer commentId);
 }

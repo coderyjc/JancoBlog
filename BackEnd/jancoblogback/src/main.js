@@ -14,10 +14,14 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import Axios from 'axios'
 
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+
+Axios.defaults.withCredentials = true
+
 
 new Vue({
   el: '#app',

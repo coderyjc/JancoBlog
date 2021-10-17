@@ -164,10 +164,10 @@
           <el-button
             type="text"
             size="small"
-          ><a
-              href="http://localhost:8080"
+          ><router-link
+              :to="'/deleted-article?id=' + scope.row.articleId"
               target="_blank"
-            >查看</a></el-button>
+            >查看</router-link></el-button>
           <el-button
             @click="deleteArticle(scope.row)"
             type="text"

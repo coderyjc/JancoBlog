@@ -8,6 +8,7 @@ import com.jancoyan.jancoblog.pojo.UserLogin;
 import com.jancoyan.jancoblog.pojo.VUserTotalData;
 import com.jancoyan.jancoblog.service.UserService;
 import com.jancoyan.jancoblog.utils.*;
+import io.lettuce.core.output.ScanOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,8 +17,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * <p>
@@ -189,10 +199,17 @@ public class UserController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Msg register(
-            @RequestParam("username") String userName,
-            @RequestParam("password") String password,
+            @RequestParam(value = "username") String userName,
+            @RequestParam(value = "password") String password,
+            @RequestParam(value = "code") String code,
             HttpServletRequest request
     ){
+        String verify = (String) request.getSession().getAttribute(VerifyCodeUtil.RANDOMCODEKEY);
+
+        if(!verify.toLowerCase(Locale.ROOT).equals(code.toLowerCase(Locale.ROOT))){
+            return Msg.fail().add("msg", "验证码输入错误");
+        }
+
         User user = new User();
         // 设置信息
         user.setUserName(userName)
@@ -477,11 +494,64 @@ public class UserController {
         }
 
         boolean suc = info.updateById();
-
         return Msg.success().add("suc", suc);
     }
 
 
+    /**
+     * 获取验证码
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getverifycode", method = RequestMethod.GET)
+    public void generateValidationCode(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session
+    ){
+        try {
+            //设置相应类型,告诉浏览器输出的内容为图片
+            response.setContentType("image/jpeg");
+
+            //设置响应头信息，告诉浏览器不要缓存此内容
+            response.setHeader("Pragma", "No-cache");
+
+            response.setHeader("Cache-Control", "no-cache");
+            response.setDateHeader("Expire", 0);
+            VerifyCodeUtil verifyCodeUtil = new VerifyCodeUtil();
+            //输出验证码图片方法
+            verifyCodeUtil.getRandcode(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public Msg addUser(
+            @RequestParam("username") String userName,
+            @RequestParam("password") String password,
+            HttpServletRequest request
+    ){
+
+        User user = new User();
+        // 设置信息
+        user.setUserName(userName)
+                .setUserLastLoginDate(null)
+                .setUserId(null)
+                .setUserSignature("Hello World")
+                .setUserPassword(MD5Util.getMD5(password))
+                .setUserRole(2)
+                .setUserCreateDate(new Date())
+                .setUserIp(request.getRemoteAddr());
+        // 插入
+        boolean insert = user.insert();
+        if(!insert){
+            return Msg.fail().add("msg", "用户注册失败");
+        }
+        return Msg.success().add("success", insert);
+    }
 
 }
 

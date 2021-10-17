@@ -42,6 +42,10 @@
         select * from v_article_get_single where article_id = '${id}'
     </select>
 
+    <select id="getSingleArticleDeleted" resultType="com.jancoyan.jancoblog.pojo.Article">
+        select * from v_article_get_single_deleted where article_id = '${id}'
+    </select>
+
 <!--    获取删除的文章-->
     <select id="getDeletedList" resultType="com.jancoyan.jancoblog.pojo.Article">
         select * from v_article_deleted_list ${ew.customSqlSegment}
@@ -65,4 +69,5 @@
             resultType="com.jancoyan.jancoblog.pojo.PageArticle">
         select * from v_page_article ${ew.customSqlSegment}
     </select>
+
 </mapper>

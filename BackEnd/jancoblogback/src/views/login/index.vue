@@ -71,6 +71,22 @@
                 v-model="register.password2"
               ></el-input>
             </el-form-item>
+            <el-form-item
+              label="验证码"
+              prop="code"
+            >
+              <el-col :span="12">
+                <el-input
+                  type="text"
+                  v-model="register.code"
+                >
+                </el-input>
+              </el-col>
+              <el-image
+                :src="verifyCode"
+                @click="generateVerifyCode"
+              ></el-image>
+            </el-form-item>
             <el-button
               type="primary"
               @click="handleRegister"
@@ -79,12 +95,11 @@
         </el-tab-pane>
       </el-tabs>
     </div>
-
   </div>
 </template>
 
 <script>
-import { setToken } from '@/utils/auth'
+
 import { checkUserNameUnique, register } from '@/api/user'
 
 export default {
@@ -121,6 +136,7 @@ export default {
         username: '',
         password: '',
         password2: '',
+        code: '',
       },
       rules: {
         username: [
@@ -130,12 +146,22 @@ export default {
         password2: [
           { required: true, validator: checkPassAgain, trigger: 'blur' },
         ],
+        code: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
       },
       loading: false,
       registerVisiable: false,
+      verifyCode: '',
     }
   },
+  created() {
+    this.generateVerifyCode()
+  },
   methods: {
+    generateVerifyCode() {
+      var url = 'http://localhost:8080/user/getverifycode?' + Math.random()
+
+      this.verifyCode = url
+    },
     handleLogin() {
       this.$router.push({ path: '/' })
       this.loading = true
@@ -172,10 +198,10 @@ export default {
               _this.register.username = ''
               _this.register.password = ''
               _this.register.password2 = ''
+              _this.register.code = ''
               _this.currPanel = 'first'
             } else {
               // 失败
-              this.$message.error('注册失败')
             }
           })
         } else {
@@ -183,6 +209,7 @@ export default {
           return false
         }
       })
+      this.generateVerifyCode()
     },
   },
 }

@@ -219,7 +219,7 @@
 </template>
 
 <script>
-import { getAll, batchDeleteUsers, checkUserNameUnique, register, changePassword } from '@/api/user'
+import { getAll, batchDeleteUsers, checkUserNameUnique, addUser, changePassword } from '@/api/user'
 import { parseTime } from '@/utils/index'
 
 export default {
@@ -453,7 +453,7 @@ export default {
       this.$refs[this.register].validate((valid) => {
         if (valid) {
           // 提交注册表单
-          register(this.register).then((res) => {
+          addUser(this.register).then((res) => {
             if (res.extend.success) {
               // 成功
               this.$message({

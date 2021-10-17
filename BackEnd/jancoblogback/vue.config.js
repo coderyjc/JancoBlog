@@ -36,7 +36,21 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    before: require('./mock/mock-server.js')
+    // before: require('./mock/mock-server.js')
+    proxy: {
+      '/app': {
+        // 目标 API 地址
+        target: 'http://localhost:8080/',
+        // 如果要代理 websockets
+        // ws: true,
+        // 将主机标头的原点更改为目标URL
+        changeOrigin: true,
+        //这个必须写啊。。。。（我也不知道为啥，不写就错了）
+        pathRewrite: {
+          '^/app': ""
+        }
+      }
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -88,7 +102,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()

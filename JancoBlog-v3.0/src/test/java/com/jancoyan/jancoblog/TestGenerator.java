@@ -44,7 +44,7 @@ public class TestGenerator{
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig.setTablePrefix("tbl_")
                 .setColumnNaming(NamingStrategy.underline_to_camel)
-                .setInclude("tbl_article_image");
+                .setInclude("tbl_deleted_comment");
 
 //        包名策略配置
         PackageConfig packageConfig = new PackageConfig();

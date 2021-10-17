@@ -22,6 +22,13 @@
         comment_id, pre_comment_id, comment_article_id, comment_author_id, comment_author_name, comment_author_email, comment_content, comment_date, comment_author_ip, comment_like_count
     </sql>
 
+    <update id="recoverComment">
+        CALL proc_recover_comment(${commentId});
+    </update>
+    <delete id="deleteComment">
+        CALL proc_transfer_comment(${commentId});
+    </delete>
+
     <select id="getAll" resultType="com.jancoyan.jancoblog.pojo.Comment">
         select * from v_comment_manage_list ${ew.customSqlSegment}
     </select>

@@ -31,6 +31,6 @@ server:
   port: 8080
   max-http-header-size: 1MB
 
-#logging:
-#  level:
-#    com.jancoyan.jancoblog.mapper: debug
+logging:
+  level:
+    com.jancoyan.jancoblog.mapper: debug

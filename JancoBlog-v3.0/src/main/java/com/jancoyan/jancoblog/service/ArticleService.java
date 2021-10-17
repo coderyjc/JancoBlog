@@ -41,9 +41,12 @@ public interface ArticleService extends IService<Article> {
      */
     Article getSingleArticle(String articleId);
 
+
+    Article getSingleArticleDeleted(String articleId);
+
     /**
      * 获取所有删除的文章
-     * @param userName 用户名，可选
+     * @param userId 用户名，可选
      * @param pn 页码
      * @param limit 容量
      * @param condition 条件
@@ -57,7 +60,6 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     boolean deleteCompletely(String ids);
-
 
     /**
      * 批量恢复指定的文章
@@ -74,4 +76,5 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     IPage<PageArticle> getArticleByUserRecently(String id, Integer pn, Integer limit);
+
 }
