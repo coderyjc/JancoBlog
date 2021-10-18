@@ -308,7 +308,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/upload/avatar", method = RequestMethod.POST)
-    public Msg changeAvatar(
+    public Msg uploadAvatar(
             @RequestParam(value = "file") MultipartFile file,
             HttpServletRequest request
     ){
@@ -407,6 +407,16 @@ public class UserController {
             @RequestParam(value = "user")String userInfo,
             HttpServletRequest request
     ){
+        String token = request.getHeader("token");
+        if(null == token){
+            return Msg.fail().add("msg", "用户未登录");
+        }
+        User user = new User();
+        user = (User) redisUtil.get(token);
+        if(null == user){
+            return Msg.expire();
+        }
+
         UserInfo info = new UserInfo();
 
         // 收到一个userInfo - Json字符串，直接从这里拆开，然后update
@@ -494,6 +504,32 @@ public class UserController {
         }
 
         boolean suc = info.updateById();
+        return Msg.success().add("suc", suc);
+    }
+
+    @RequestMapping(value = "/info/user", method = RequestMethod.POST)
+    public Msg updateUser(
+            @RequestParam(value = "username") String username,
+            @RequestParam(value = "signature") String signature,
+            HttpServletRequest request
+    ){
+        // 判断用户登录状态
+        String token = request.getHeader("token");
+        if(null == token){
+            return Msg.fail().add("msg", "用户未登录");
+        }
+        User user = new User();
+        user = (User) redisUtil.get(token);
+        if(null == user){
+            return Msg.expire();
+        }
+        // 修改用户
+        user.setUserSignature(signature);
+        user.setUserName(username);
+        boolean suc = user.updateById();
+        if(suc){
+            redisUtil.set(token, user, 20 * 60);
+        }
         return Msg.success().add("suc", suc);
     }
 

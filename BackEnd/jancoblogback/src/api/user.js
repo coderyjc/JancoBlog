@@ -186,6 +186,7 @@ export function changePassword(id = '-1', oldpwd, newpwd){
   })
 }
 
+
 /**
  * 修改用户个人信息
  * @param {String} user 用户
@@ -197,6 +198,24 @@ export function updateUserInfo(user){
     method: 'post',
     params: {
       user: user
+    }
+  })
+}
+
+
+/**
+ * 修改用户信息
+ * @param {String} username  用户名
+ * @param {String} signature 用户签名
+ * @returns 
+ */
+export function updateUser(username, signature){
+  return request({
+    url: '/user/info/user',
+    method: 'post',
+    params: {
+      username: username,
+      signature: signature
     }
   })
 }
