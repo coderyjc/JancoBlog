@@ -244,7 +244,7 @@
     </el-row>
 
     <el-dialog
-      title="裁切封面"
+      title="裁剪头像"
       :visible.sync="changeAvatarVisiable"
       width="950px"
       center
@@ -255,19 +255,6 @@
         ref="child"
       >
       </cropper-image>
-    </el-dialog>
-    <!--查看大封面-->
-    <el-dialog
-      title="查看大封面"
-      :visible.sync="imgVisible"
-      center
-    >
-      <img
-        :src="imgName"
-        v-if="imgVisible"
-        style="width: 100%"
-        alt="查看"
-      >
     </el-dialog>
   </div>
 </template>
@@ -282,7 +269,6 @@ import {
 } from '@/api/user'
 
 export default {
-
   data() {
     return {
       structure: {
@@ -296,10 +282,7 @@ export default {
         work: false,
         user: false,
       },
-      option: {
-        img: 'http://localhost:8080/avatar/10800.jpg',
-      },
-      changeAvatarVisiable: true,
+      changeAvatarVisiable: false,
       user: {},
       userInfo: {},
       userAvatar: '',
@@ -322,7 +305,7 @@ export default {
       getUserDetailInfo().then((res) => {
         _this.userInfo = res.extend.info
         _this.userAvatar =
-          'http://localhost:8080/avatar/' + _this.userInfo.userId + '.jpg'
+          'http://localhost:8080/avatar/' + _this.userInfo.userId + '.png'
       })
       getUserInfo().then((res) => {
         _this.user = res.extend.user
@@ -377,21 +360,22 @@ export default {
         }
       })
     },
-    //封面设置
-    uploadPicture(name) {
-      this.cropperName = name
-      this.cropperModel = true
-    },
     //图片上传成功后
     handleUploadSuccess(data) {
-      console.log(data)
-      switch (data.name) {
-        case 'flagImg':
-          this.formValidate.mainImage = ''
-          console.log('最终输出' + data.name)
-          break
+      if (JSON.parse(data).extend.suc) {
+        this.$message({
+          message: '修改成功',
+          type: 'success',
+        })
+        this.cropperModel = false
+        this.changeAvatarVisiable = false
+        // 重新获取用户头像
+        this.get_user_info()
+      } else {
+        this.$message.error('修改失败');
+        this.cropperModel = false
+        this.changeAvatarVisiable = false
       }
-      this.cropperModel = false
     },
   },
 }

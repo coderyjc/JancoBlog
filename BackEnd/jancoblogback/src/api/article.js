@@ -272,7 +272,7 @@ export function postArticle(title, type, summary, comment, md, html){
 
 /**
  * 文章中的图片的上传
- * @param {blob}} blob
+ * @param {blob} blob
  * @returns 
  */
  export function uploadPicture(file) {

@@ -24,7 +24,7 @@
           >
             <el-avatar
               size="large"
-              src="@/assets/imgs/avatar.png"
+              :src="avatarUrl"
             >
               登录
             </el-avatar>
@@ -236,6 +236,7 @@ export default {
     return {
       islogin: false,
       simpleMode: false,
+      avatarUrl: '',
       base_article_url: '/article?id=',
       condition: '',
       query: {
@@ -278,6 +279,7 @@ export default {
     // 进行数据请求，拿到数据
     this.get_article_list(1)
     this.get_type_list()
+    this.avatarUrl = this.$store.getters.avatar
   },
   methods: {
     linkToDashBoard() {

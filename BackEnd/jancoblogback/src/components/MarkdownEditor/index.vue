@@ -114,7 +114,6 @@ export default {
               ajax.status === 304
             ) {
               const obj = JSON.parse(ajax.responseText)
-              console.log(obj);
               if (obj.code && obj.code === 100) {
                 // 回调，回显上传后图片的地址
                 callback(obj.extend.url)

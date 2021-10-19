@@ -29,6 +29,9 @@ const mutations = {
   },
   SET_ROLE: (state, roles) => {
     state.roles = roles
+  },
+  SET_AVATAR: (state, url) => {
+    state.avatar = url
   }
 }
 
@@ -59,9 +62,12 @@ const actions = {
         // 获取安全的用户信息
         const user = response.extend.user
 
+        const avatarUrl = 'http://localhost:8080/avatar/' + user.userId + '.png'
+
         commit('SET_NAME', user.userName)
         commit('SET_ID', user.userId)
         commit('SET_ROLE', user.roleName)
+        commit('SET_AVATAR', avatarUrl)
 
         resolve(data)
       }).catch(error => {

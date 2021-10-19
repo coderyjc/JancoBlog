@@ -297,7 +297,7 @@ export default {
       // 用户有没有登录
       userlogin: false,
       // 用户头像地址
-      authorAvatar: 'http://localhost:8080/avatar/10417.png',
+      authorAvatar: '',
       // 评论表单
       form: {
         articleId: '',
@@ -375,6 +375,8 @@ export default {
       // 作者信息
       getAuthorInfo(_this.article.articleAuthor).then((response) => {
         _this.author = response.extend.data
+        // 作者头像
+        _this.authorAvatar = 'http://localhost:8080/avatar/' + _this.author.articleAuthor + '.png'
       })
       // 评论信息
       this.get_comment_list(this.$route.query, 1)

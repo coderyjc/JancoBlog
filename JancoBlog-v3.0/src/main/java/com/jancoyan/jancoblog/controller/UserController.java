@@ -24,10 +24,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * <p>
@@ -312,41 +315,57 @@ public class UserController {
             @RequestParam(value = "file") MultipartFile file,
             HttpServletRequest request
     ){
-//        if (file == null) {
-//            return Msg.fail().add("msg", "请选择要上传的图片");
-//        }
-//        if (file.getSize() > 1024 * 1024 * 10) {
-//            return Msg.fail().add("msg", "文件大小不能大于10M");
-//        }
-//        //获取文件后缀
-//        String suffix = Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-//        if (!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
-//            return Msg.fail().add("msg", "请选择jpg,jpeg,gif,png格式的图片");
-//        }
-//
-//        String savePath = new File(".").getCanonicalPath() + "\\target\\classes\\static\\p\\";
-//
-//        System.out.println(savePath);
-//
-//        File savePathFile = new File(savePath);
-//        if (!savePathFile.exists()) {
-//            //若不存在该目录，则创建目录
-//            savePathFile.mkdir();
-//        }
-//
-//        //通过UUID生成唯一文件名
-//        String filename = UUID.randomUUID().toString().replaceAll("-","") + "." + suffix;
-//
-//        System.out.println(filename);
-//
-//        try {
-//            //将文件保存指定目录
-//            file.transferTo(new File(savePath + filename));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return Msg.fail().add("msg", "保存文件异常");
-//        }
-//
+        // 登录状态
+        String token = request.getHeader("token");
+        if (null == token){
+            return Msg.fail();
+        }
+        // 获取用户
+        User user = (User) redisUtil.get(token);
+        if (null == user){
+            return Msg.expire();
+        }
+        // 文件判定
+        if (null == file) {
+            return Msg.fail().add("msg", "请选择要上传的图片");
+        }
+        if (file.getSize() > 1024 * 1024 * 10) {
+            return Msg.fail().add("msg", "文件大小不能大于10M");
+        }
+        //获取文件后缀
+        String suffix = Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+        if (!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
+            return Msg.fail().add("msg", "请选择jpg,jpeg,gif,png格式的图片");
+        }
+        String savePath = null;
+        try {
+            savePath = new File(".").getCanonicalPath() + "\\target\\classes\\static\\avatar\\";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File savePathFile = new File(savePath);
+        if (!savePathFile.exists()) {
+            //若不存在该目录，则创建目录
+            savePathFile.mkdir();
+        }
+
+        //用户头像名称就是用户的id
+        String filename = user.getUserId() + "." + suffix;
+        // 如果头衔已存在就先删除
+        File oldFile = new File(savePath + filename);
+        if(oldFile.exists()){
+            oldFile.delete();
+        }
+
+        try {
+            //将文件保存指定目录
+            file.transferTo(new File(savePath + filename));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail().add("msg", "保存文件异常");
+        }
+
 //        //返回文件名称
         return Msg.success().add("suc", true);
     }

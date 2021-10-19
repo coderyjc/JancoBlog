@@ -36,7 +36,7 @@
           <label
             class="btn"
             for="uploads"
-          >选择封面</label>
+          >选择图片</label>
           <input
             type="file"
             id="uploads"
@@ -76,7 +76,7 @@
             size="mini"
             type="success"
             @click="uploadImg('blob')"
-          >上传封面 <i class="el-icon-upload"></i></el-button>
+          >上传 <i class="el-icon-upload"></i></el-button>
         </div>
       </div>
     </div>
@@ -97,6 +97,8 @@
 
 <script>
 import { VueCropper } from 'vue-cropper'
+import { getToken } from '@/utils/auth'
+
 export default {
   name: 'CropperImage',
   components: {
@@ -110,14 +112,14 @@ export default {
       option: {
         img: '', //裁剪图片的地址
         outputSize: 1, //裁剪生成图片的质量(可选0.1 - 1)
-        outputType: 'jpeg', //裁剪生成图片的格式（jpeg || png || webp）
+        outputType: 'png', //裁剪生成图片的格式（jpeg || png || webp）
         info: true, //图片大小信息
         canScale: true, //图片是否允许滚轮缩放
         autoCrop: true, //是否默认生成截图框
-        autoCropWidth: 230, //默认生成截图框宽度
-        autoCropHeight: 150, //默认生成截图框高度
+        autoCropWidth: 256, //默认生成截图框宽度
+        autoCropHeight: 256, //默认生成截图框高度
         fixed: true, //是否开启截图框宽高固定比例
-        fixedNumber: [1.53, 1], //截图框的宽高比例
+        fixedNumber: [1, 1], //截图框的宽高比例
         full: false, //false按原比例裁切图片，不失真
         fixedBox: true, //固定截图框大小，不允许改变
         canMove: false, //上传图片是否可以移动
@@ -126,17 +128,15 @@ export default {
         centerBox: false, //截图框是否被限制在图片里面
         height: true, //是否按照设备的dpr 输出等比例图片
         infoTrue: false, //true为展示真实输出图片宽高，false展示看到的截图框宽高
-        maxImgSize: 3000, //限制图片最大宽度和高度
+        maxImgSize: 2000, //限制图片最大宽度和高度
         enlarge: 1, //图片根据截图框输出比例倍数
-        mode: '230px 150px', //图片默认渲染方式
+        mode: '256px 256px', //图片默认渲染方式
       },
     }
   },
   methods: {
     //初始化函数
-    imgLoad(msg) {
-      console.log('工具初始化函数=====' + msg)
-    },
+    imgLoad(msg) {},
     //图片缩放
     changeScale(num) {
       num = num || 1
@@ -185,28 +185,16 @@ export default {
         //获取截图的blob数据
         this.$refs.cropper.getCropBlob(async (data) => {
           let formData = new FormData()
-          formData.append('file', data, 'DX.jpg')
-          //调用axios上传
-          let { data: res } = await _this.$http.post(
-            '/api/file/imgUpload',
-            formData
-          )
-          if (res.code === 200) {
-            _this.$message({
-              message: res.msg,
-              type: 'success',
-            })
-            let data = res.data.replace('[', '').replace(']', '').split(',')
-            let imgInfo = {
-              name: _this.Name,
-              url: data[0],
+          formData.append('file', data, 'file.png')
+          //调用
+          const ajax = new XMLHttpRequest()
+          ajax.open('POST', 'http://localhost:8080/user/upload/avatar', true)
+          ajax.setRequestHeader('token', getToken())
+          ajax.send(formData)
+          ajax.onreadystatechange = function () {
+            if(ajax.readyState === 4){
+              _this.$emit('uploadImgSuccess', ajax.responseText)
             }
-            _this.$emit('uploadImgSuccess', imgInfo)
-          } else {
-            _this.$message({
-              message: '文件服务异常，请联系管理员！',
-              type: 'error',
-            })
           }
         })
       }

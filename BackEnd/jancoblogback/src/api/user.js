@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import { getUserCommentRecently } from './comment'
 
 /**
  * 登录
@@ -219,4 +218,3 @@ export function updateUser(username, signature){
     }
   })
 }
-

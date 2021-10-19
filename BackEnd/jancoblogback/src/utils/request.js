@@ -17,6 +17,7 @@ service.interceptors.request.use(
     if (store.getters.token) {
       config.headers['token'] = getToken()
     }
+
     return config
   },
   error => {

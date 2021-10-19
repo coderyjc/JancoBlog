@@ -207,8 +207,7 @@ export default {
   name: 'Dashboard',
   data() {
     return {
-      avatarUrl:
-        'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201603%2F28%2F20160328144226_5PVUu.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1635831928&t=ae1954fb30de657700ba8b2e761ca5e7',
+      avatarUrl: '',
       user: {
         data: {
           articleAuthor: '',
@@ -239,6 +238,7 @@ export default {
   },
   created() {
     this.get_user_total_data()
+    this.avatarUrl = this.$store.getters.avatar
   },
   methods: {
     async get_user_total_data() {
@@ -260,6 +260,7 @@ export default {
           _this.user.article = res.extend.pageInfo.records
         }
       )
+      
     },
   },
 }
