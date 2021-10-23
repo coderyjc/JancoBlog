@@ -34,4 +34,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
     IPage<PageArticle> getArticleByUserRecently(IPage<PageArticle> iPage, Wrapper ew);
 
     Article getSingleArticleDeleted(String id);
+
+    Article getArticleEdit(String id);
 }

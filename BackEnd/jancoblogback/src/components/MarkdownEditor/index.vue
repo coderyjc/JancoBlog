@@ -7,12 +7,10 @@
 import 'codemirror/lib/codemirror.css' // codemirror
 import 'tui-editor/dist/tui-editor.css' // editor ui
 import 'tui-editor/dist/tui-editor-contents.css' // editor content
-
 import Editor from 'tui-editor'
 import defaultOptions from './default-options'
 // import { uploadPicture } from '../../api/article'
 import axios from 'axios'
-
 export default {
   name: 'MarkdownEditor',
   props: {
@@ -95,9 +93,7 @@ export default {
         el: document.getElementById(this.id),
         ...this.editorOptions,
       })
-      if (this.value) {
-        this.editor.setValue(this.value)
-      }
+
       // 删除默认监听事件后，添加自定义监听事件
       this.editor.eventManager.removeEventHandler('addImageBlobHook')
       this.editor.eventManager.listen('addImageBlobHook', (blob, callback) => {
@@ -121,6 +117,12 @@ export default {
             }
           }
         }
+      })
+      if (this.value) {
+        this.editor.setValue(this.value)
+      }
+      this.editor.on('change', () => {
+        this.$emit('input', this.editor.getValue())
       })
     },
     destroyEditor() {

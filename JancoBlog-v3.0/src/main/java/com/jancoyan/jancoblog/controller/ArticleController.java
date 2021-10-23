@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.*;
 import com.jancoyan.jancoblog.service.ArticleService;
 import com.jancoyan.jancoblog.service.CommentService;
+import com.jancoyan.jancoblog.service.LikeRecordService;
 import com.jancoyan.jancoblog.utils.ArticleUtils;
 import com.jancoyan.jancoblog.utils.Msg;
 import com.jancoyan.jancoblog.utils.RedisUtil;
@@ -45,6 +46,9 @@ public class ArticleController {
     CommentService  commentService;
 
     @Autowired
+    LikeRecordService likeRecordService;
+
+    @Autowired
     RedisUtil redisUtil;
 
     /**
@@ -55,12 +59,12 @@ public class ArticleController {
      * @return 标准的pageInfo
      */
     @RequestMapping(value = "/all")
-    public Msg getIndexArticles(
+    public Msg listArticleIndex(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
             @RequestParam(value = "condition", defaultValue = "")String condition
     ){
-        IPage<Article> iPage = service.getIndexList(Integer.parseInt(pn),
+        IPage<Article> iPage = service.listArticleIndex(Integer.parseInt(pn),
                 Integer.parseInt(limit),
                 condition);
         return Msg.success().add("pageInfo", iPage);
@@ -74,7 +78,7 @@ public class ArticleController {
      * @return 成功
      */
     @RequestMapping(value = "/manage")
-    public Msg getManageAll(
+    public Msg listArticleManageAll(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
             @RequestParam(value = "condition", defaultValue = "")String condition,
@@ -85,7 +89,7 @@ public class ArticleController {
             // 用户登录信息过期了
             return Msg.expire();
         }
-        IPage<Article> iPage = service.getManageList(null,
+        IPage<Article> iPage = service.listArticleManage(null,
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
                 condition);
@@ -101,7 +105,7 @@ public class ArticleController {
      * @return 成功
      */
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public Msg getManageByUser(
+    public Msg listArticleManageUser(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
             @RequestParam(value = "condition", defaultValue = "")String condition,
@@ -116,7 +120,7 @@ public class ArticleController {
         if(null == user){
             return Msg.fail();
         }
-        IPage<Article> iPage = service.getManageList(
+        IPage<Article> iPage = service.listArticleManage(
                 user.getUserId(),
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
@@ -133,7 +137,7 @@ public class ArticleController {
      * @return
      */
     @RequestMapping(value = "/deleted/all", method = RequestMethod.GET)
-    public Msg getDeletedAll(
+    public Msg listDeletedAll(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
             @RequestParam(value = "condition", defaultValue = "")String condition,
@@ -144,7 +148,8 @@ public class ArticleController {
             // 用户登录信息过期了
             return Msg.expire();
         }
-        IPage<Article> iPage = service.getDeletedList(null,
+        IPage<Article> iPage = service.listDeleted(
+                null,
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
                 condition);
@@ -160,7 +165,7 @@ public class ArticleController {
      * @return
      */
     @RequestMapping(value = "/deleted/user", method = RequestMethod.GET)
-    public Msg getDeletedByUser(
+    public Msg listDeletedUser(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
             @RequestParam(value = "condition", defaultValue = "")String condition,
@@ -176,7 +181,7 @@ public class ArticleController {
         if(null == user){
             return Msg.expire();
         }
-        IPage<Article> iPage = service.getDeletedList(
+        IPage<Article> iPage = service.listDeleted(
                 user.getUserId(),
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
@@ -192,7 +197,7 @@ public class ArticleController {
      * @return
      */
     @RequestMapping(value = "/deleted/delete", method = RequestMethod.POST)
-    public Msg batchDeleteDeletedArticle(
+    public Msg deleteArticleDeleted(
             String ids,
             HttpServletRequest request
     ){
@@ -201,8 +206,7 @@ public class ArticleController {
             // 未登录
             return Msg.fail();
         }
-        boolean suc = false;
-        suc = service.deleteCompletely(ids);
+        boolean suc = service.deleteCompletely(ids);
         return Msg.success().add("suc", suc);
     }
 
@@ -213,7 +217,7 @@ public class ArticleController {
      * @return
      */
     @RequestMapping(value = "/deleted/recover", method = RequestMethod.POST)
-    public Msg batchRecoverDeletedArticle(
+    public Msg recoverArticle(
             String ids,
             HttpServletRequest request
     ){
@@ -222,7 +226,9 @@ public class ArticleController {
         if(null == token){
             return Msg.fail();
         }
+        // 恢复删除的文章
         boolean suc = service.batchRecoverDeletedArticle(ids);
+        // 恢复删除的评论
         commentService.recoverCommentByArticle(ids);
         return Msg.success().add("suc", suc);
     }
@@ -233,7 +239,7 @@ public class ArticleController {
      * @return 成功/失败
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public Msg batchDeleteArticle(
+    public Msg deleteArticle(
             String ids,
             HttpServletRequest request
     ){
@@ -242,24 +248,33 @@ public class ArticleController {
             // 用户未登录
             return Msg.fail();
         }
-        Article article = new Article();
-        boolean suc = false;
-        if(!ids.contains("&")){
-            article.setArticleId(ids);
-            suc = article.deleteById();
-            // 将删除文章的评论挪到另一张表中
-            commentService.deleteCommentByArticle(ids);
-        } else {
-            String[] id = ids.split("&");
-            for (String item : id) {
-                article.setArticleId(item);
-                suc = article.deleteById();
-                // 将删除文章的评论挪到另一张表中
-                commentService.deleteCommentByArticle(item);
-            }
-        }
+        // 批量删除文章
+        boolean suc = service.batchDeleteArticle(ids);
+        commentService.deleteCommentByArticle(ids);
         return Msg.success().add("suc", suc);
     }
+
+
+    /**
+     * 获取文章用于编辑
+     * @param id 文章id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public Msg getArticleEdit(
+            @RequestParam(value = "id") String id,
+            HttpServletRequest request){
+        String token = request.getHeader("token");
+        if(null == token){
+            // 用户未登录
+            return Msg.fail();
+        }
+        Article article = service.getArticleEdit(id);
+        return Msg.success().add("article", article);
+    }
+
+
 
     /**
      * 查看文章的时候获取单个文章
@@ -267,26 +282,25 @@ public class ArticleController {
      * @return 成功
      */
     @RequestMapping(value = "/single", method = RequestMethod.GET)
-    public Msg getSingleArticle(
+    public Msg getArticleSingle(
             @RequestParam(value = "id") String articleId
     ){
-        Article article = service.getSingleArticle(articleId);
+        Article article = service.getArticleSingle(articleId);
         return Msg.success().add("article", article);
     }
 
     /**
-     * 查看文章的时候获取单个文章
+     * 查看被删除的文章的时候获取单个文章
      * @param articleId 文章ID
      * @return 成功
      */
     @RequestMapping(value = "/single/deleted", method = RequestMethod.GET)
-    public Msg getSingleArticleDeleted(
+    public Msg getArticleSingleDeleted(
             @RequestParam(value = "id") String articleId
     ){
-        Article article = service.getSingleArticleDeleted(articleId);
+        Article article = service.getArticleSingleDeleted(articleId);
         return Msg.success().add("article", article);
     }
-
 
     /**
      * 获取用户最近发布的文章 10 个
@@ -296,90 +310,15 @@ public class ArticleController {
      * @return
      */
     @RequestMapping(value = "/recent", method = RequestMethod.GET)
-    public Msg getArticleByUserRecently(
+    public Msg listArticleUserRecently(
             @RequestParam(value = "id") String id,
             @RequestParam(value = "pn", defaultValue = "1")Integer pn,
             @RequestParam(value = "limit" ,defaultValue = "10")Integer limit
     ){
-        IPage<PageArticle> iPage = service.getArticleByUserRecently(id, pn, limit);
+        IPage<PageArticle> iPage = service.listArticleUserRecently(id, pn, limit);
         return Msg.success().add("pageInfo", iPage);
     }
 
-
-    /**
-     * 发表文章
-     * @param title 标题
-     * @param type 类型
-     * @param summary 摘要
-     * @param comment 是否允许评论
-     * @param md md格式的内容
-     * @param html 不加修饰的html格式的内容
-     * @param request request
-     * @return 消息
-     * @throws UnsupportedEncodingException 设置编码格式
-     */
-    @RequestMapping(value = "/post", method = RequestMethod.POST)
-    public Msg postArticle(
-        @RequestParam(value = "title") String title,
-        @RequestParam(value = "type") String type,
-        @RequestParam(value = "summary") String summary,
-        @RequestParam(value = "comment") String comment,
-        @RequestParam(value = "md") String md,
-        @RequestParam(value = "html") String html,
-        HttpServletRequest request
-    ) throws UnsupportedEncodingException {
-        request.setCharacterEncoding("utf-8");
-        // 判断用户登录状态
-        String token = request.getHeader("token");
-        User user = new User();
-        if(null == token){
-            // 用户未登录
-            return Msg.fail();
-        }else{
-            user = (User) redisUtil.get(token);
-            if(null == user) {
-                return Msg.expire();
-            }
-        }
-        // 此时User已经拿到了。组装文章
-        Article article = new Article();
-        article.setArticleTitle(title)
-                .setArticleAuthor(user.getUserId())
-                .setArticleType(Integer.parseInt(type))
-                .setArticleHtml(ArticleUtils.simplifyImages(html))
-                .setArticleMd(ArticleUtils.replaceSingleSlash(md))
-                .setArticleIsComment("true".equals(comment) ? 1 : 0)
-                .setArticleRank(0);
-
-        // 统一发布时间
-        long now = System.currentTimeMillis();
-        article.setArticleId(ArticleUtils.getArticleId(user.getUserId(), now))
-                .setArticlePostTime(new Date(now))
-                .setArticleEditTime(new Date(now));
-
-        // 填充文章摘要
-        if(!"".equals(summary)){
-            article.setArticleSummary(summary);
-        }else{
-            article.setArticleSummary(ArticleUtils.getArticleDefaultSummary(html));
-        }
-
-        // 向文章——图片表中插入记录
-        List<String> images = ArticleUtils.getPicturesInArticle(html);
-        // 向 file-image 表中插入文章图片记录
-        ArticleImage articleImage = new ArticleImage();
-        for (String image : images) {
-            articleImage.setInsertDate(new Date(now));
-            articleImage.setArticleId(article.getArticleId());
-            articleImage.setFilename(image);
-            articleImage.insert();
-        }
-
-
-        boolean suc = article.insert();
-
-        return Msg.success().add("suc", suc).add("id", article.getArticleId());
-    }
 
     /**
      * 点赞, 游客不能点赞
@@ -393,27 +332,20 @@ public class ArticleController {
     ){
         //        登录认证
         String token = request.getHeader("token");
-        Article article = new Article();
-        LikeRecord record = new LikeRecord();
         if(null == token){
             // 未登录，说明是游客
             return Msg.loginNeeded();
         }
-        // 不是游客点赞，增加点赞记录
         User user = (User) redisUtil.get(token);
-        record.setAuthorId(user.getUserId());
-        record.setLikeDate(new Date());
-        record.setArticleId(id);
-        record.insert();
-        // 增加点赞量
-        article.setArticleId(id);
-        article = article.selectById();
-        article.setArticleLikeCount(article.getArticleLikeCount() + 1);
-        article.updateById();
+        if(null == user){
+            return Msg.expire();
+        }
+
+        service.addLikeCount(id);
+        likeRecordService.insertRecord(user.getUserId(), id);
+
         return Msg.success();
     }
-
-
 
     /**
      * 取消点赞
@@ -427,29 +359,17 @@ public class ArticleController {
     ){
         //        登录认证
         String token = request.getHeader("token");
-        Article article = new Article();
-        LikeRecord record = new LikeRecord();
         if(null == token){
             // 未登录，说明是游客
             return Msg.loginNeeded();
         }
-        // 不是游客点赞，增加点赞记录
         User user = (User) redisUtil.get(token);
-        QueryWrapper<LikeRecord> wrapper = new QueryWrapper<>();
-        wrapper.eq("article_id", id);
-        wrapper.eq("author_id", user.getUserId());
-        record.delete(wrapper);
-        // 减少点赞量
-        article.setArticleId(id);
-        article = article.selectById();
-        article.setArticleLikeCount(article.getArticleLikeCount() - 1);
-        article.updateById();
+
+        service.subLikeCount(id);
+        likeRecordService.deleteRecord(user.getUserId(), id);
+
         return Msg.success();
     }
-
-
-
-
 
     /**
      * 浏览
@@ -458,11 +378,7 @@ public class ArticleController {
      */
     @RequestMapping(value = "/view", method = RequestMethod.GET)
     public Msg addViewCount(@RequestParam(value = "id")String id){
-        Article article = new Article();
-        article.setArticleId(id);
-        article = article.selectById();
-        article.setArticleViewCount(article.getArticleViewCount() + 1);
-        article.updateById();
+        service.addViewCount(id);
         return Msg.success();
     }
 
@@ -472,7 +388,7 @@ public class ArticleController {
      * @return
      */
     @RequestMapping(value = "/toggle/comment", method = RequestMethod.POST)
-    public Msg toggleIsComment(
+    public Msg updateIsComment(
             @RequestParam(value = "id")String id,
             HttpServletRequest request
     ){
@@ -481,12 +397,8 @@ public class ArticleController {
             // 用户未登录
             return Msg.fail();
         }
-        // 改变评论的状态
-        Article article = new Article();
-        article.setArticleId(id);
-        article = article.selectById();
-        article.setArticleIsComment(1 - article.getArticleIsComment());
-        boolean suc = article.updateById();
+
+        boolean suc = service.updateIsComment(id);
 
         if(suc) {
             return Msg.success();
@@ -501,7 +413,7 @@ public class ArticleController {
      * @return
      */
     @RequestMapping(value = "/toggle/top", method = RequestMethod.POST)
-    public Msg stickArticleToTop(
+    public Msg updateArticleTop(
             @RequestParam(value = "id")String id,
             HttpServletRequest request
     ){
@@ -510,12 +422,8 @@ public class ArticleController {
             // 用户未登录
             return Msg.fail();
         }
-        // 改变置顶的状态
-        Article article = new Article();
-        article.setArticleId(id);
-        article = article.selectById();
-        article.setArticleRank(1 - article.getArticleRank());
-        boolean suc = article.updateById();
+
+        boolean suc = service.updateIsTop(id);
         if(suc) {
             return Msg.success();
         } else {
@@ -576,6 +484,157 @@ public class ArticleController {
         return Msg.success().add("url", url);
     }
 
+
+
+    /**
+     * 发表文章
+     * @param title 标题
+     * @param type 类型
+     * @param summary 摘要
+     * @param comment 是否允许评论
+     * @param md md格式的内容
+     * @param html 不加修饰的html格式的内容
+     * @param request request
+     * @return 消息
+     * @throws UnsupportedEncodingException 设置编码格式
+     */
+    @RequestMapping(value = "/post", method = RequestMethod.POST)
+    public Msg insertArticle(
+            @RequestParam(value = "title") String title,
+            @RequestParam(value = "type") String type,
+            @RequestParam(value = "summary") String summary,
+            @RequestParam(value = "comment") String comment,
+            @RequestParam(value = "md") String md,
+            @RequestParam(value = "html") String html,
+            HttpServletRequest request
+    ) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
+        // 判断用户登录状态
+        String token = request.getHeader("token");
+        User user;
+        if(null == token){
+            // 用户未登录
+            return Msg.fail();
+        }else{
+            user = (User) redisUtil.get(token);
+            if(null == user) {
+                return Msg.expire();
+            }
+        }
+        // 此时User已经拿到了。组装文章
+        Article article = new Article();
+        article.setArticleTitle(title)
+                .setArticleAuthor(user.getUserId())
+                .setArticleType(Integer.parseInt(type))
+                .setArticleHtml(ArticleUtils.simplifyImages(html))
+                .setArticleMd(ArticleUtils.replaceSingleSlash(md))
+                .setArticleIsComment("true".equals(comment) ? 1 : 0)
+                .setArticleRank(0);
+
+        // 统一发布时间
+        long now = System.currentTimeMillis();
+        article.setArticleId(ArticleUtils.getArticleId(user.getUserId(), now))
+                .setArticlePostTime(new Date(now))
+                .setArticleEditTime(new Date(now));
+
+        // 填充文章摘要
+        if(!"".equals(summary)){
+            article.setArticleSummary(summary);
+        }else{
+            article.setArticleSummary(ArticleUtils.getArticleDefaultSummary(html));
+        }
+
+        // 向文章——图片表中插入记录
+        List<String> images = ArticleUtils.getPicturesInArticle(html);
+        // 向 file-image 表中插入文章图片记录
+        ArticleImage articleImage = new ArticleImage();
+        for (String image : images) {
+            articleImage.setInsertDate(new Date(now));
+            articleImage.setArticleId(article.getArticleId());
+            articleImage.setFilename(image);
+            articleImage.insert();
+        }
+
+        boolean suc = article.insert();
+
+        return Msg.success().add("suc", suc).add("id", article.getArticleId());
+    }
+
+    /**
+     * 修改文章
+     * @param id 修改的文章的id
+     * @param title 标题
+     * @param type 类型
+     * @param summary 摘要
+     * @param comment 是否允许评论
+     * @param md md格式的内容
+     * @param html 不加修饰的html格式的内容
+     * @param request request
+     * @return 消息
+     * @throws UnsupportedEncodingException 设置编码格式
+     */
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public Msg updateArticle(
+            @RequestParam(value = "id") String id,
+            @RequestParam(value = "title") String title,
+            @RequestParam(value = "type") String type,
+            @RequestParam(value = "summary") String summary,
+            @RequestParam(value = "comment") String comment,
+            @RequestParam(value = "md") String md,
+            @RequestParam(value = "html") String html,
+            HttpServletRequest request
+    ) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
+        // 判断用户登录状态
+        String token = request.getHeader("token");
+        User user;
+        if(null == token){
+            // 用户未登录
+            return Msg.fail();
+        }else{
+            user = (User) redisUtil.get(token);
+            if(null == user) {
+                return Msg.expire();
+            }
+        }
+        // 此时User已经拿到了。组装文章
+        Article article = new Article();
+
+        article.setArticleId(id)
+                .setArticleTitle(title)
+                .setArticleAuthor(user.getUserId())
+                .setArticleType(Integer.parseInt(type))
+                .setArticleHtml(ArticleUtils.simplifyImages(html))
+                .setArticleMd(ArticleUtils.replaceSingleSlash(md))
+                .setArticleIsComment("true".equals(comment) ? 1 : 0)
+                .setArticleRank(0);
+
+        // 统一发布时间
+        long now = System.currentTimeMillis();
+        article.setArticleEditTime(new Date(now));
+
+        // 填充文章摘要
+        if(!"".equals(summary)){
+            article.setArticleSummary(summary);
+        }else{
+            article.setArticleSummary(ArticleUtils.getArticleDefaultSummary(html));
+        }
+
+        // 向文章——图片表中插入记录
+        List<String> images = ArticleUtils.getPicturesInArticle(html);
+        // 向 file-image 表中插入文章图片记录
+        ArticleImage articleImage = new ArticleImage();
+        for (String image : images) {
+            articleImage.setInsertDate(new Date(now));
+            articleImage.setArticleId(article.getArticleId());
+            articleImage.setFilename(image);
+            articleImage.insert();
+        }
+
+        boolean suc = article.updateById();
+
+        return Msg.success().add("suc", suc).add("id", article.getArticleId());
+    }
 
 
 }

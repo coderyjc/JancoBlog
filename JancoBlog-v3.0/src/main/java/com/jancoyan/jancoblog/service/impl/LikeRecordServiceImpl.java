@@ -9,6 +9,8 @@ import com.jancoyan.jancoblog.service.LikeRecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * <p>
  *  服务实现类
@@ -29,5 +31,24 @@ public class LikeRecordServiceImpl extends ServiceImpl<LikeRecordMapper, LikeRec
 
         wrapper.orderByDesc("like_date");
         return baseMapper.getUserReceive(iPage, wrapper, userId);
+    }
+
+
+    @Override
+    public void insertRecord(Integer userId, String articleId) {
+        LikeRecord record = new LikeRecord();
+        record.setAuthorId(userId);
+        record.setLikeDate(new Date());
+        record.setArticleId(articleId);
+        record.insert();
+    }
+
+    @Override
+    public void deleteRecord(Integer userId, String articleId) {
+        LikeRecord record = new LikeRecord();
+        QueryWrapper<LikeRecord> wrapper = new QueryWrapper<>();
+        wrapper.eq("article_id", articleId);
+        wrapper.eq("author_id", userId);
+        record.delete(wrapper);
     }
 }

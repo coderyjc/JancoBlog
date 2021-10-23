@@ -52,7 +52,7 @@
     <div class="editor-container">
       <markdown-editor
         ref="markdownEditor"
-        v-model="content"
+        v-model="post_article.article_md"
         :options="{hideModeSwitch:true,previewStyle:'tab'}"
         height="580px"
       />
@@ -61,16 +61,21 @@
       type="primary"
       style="margin: 20px; float:right; width: 200px"
       @click="postArticle"
+      v-if="!edit"
     >发表</el-button>
+    <el-button
+      type="primary"
+      style="margin: 20px; float:right; width: 200px"
+      @click="saveEdit"
+      v-if="edit"
+    >保存修改</el-button>
   </div>
 </template>
 
 <script>
 import MarkdownEditor from '@/components/MarkdownEditor'
 import { getAllType } from '@/api/type'
-import { postArticle } from '@/api/article'
-
-const content = ``
+import { postArticle, getArticleEdit, updateArticle } from '@/api/article'
 
 export default {
   name: 'MarkdownDemo',
@@ -94,13 +99,16 @@ export default {
 
     return {
       typeList: [],
+      edit: false,
       post_article:{
+        article_id: '',
         article_title: '',
         article_summary: '',
+        article_md: '',
         article_type: '',
         is_comment: true,
       },
-      content: content,
+      editId: '',
       html: '',
       rules: {
         article_title: [
@@ -116,9 +124,28 @@ export default {
     }
   },
   mounted() {
+    this.get_article_edit(this.$route.query)
     this.get_type_list()
   },
   methods: {
+    get_article_edit(id){
+      if(undefined == id.id){
+        // 普通的写文章
+        this.edit = false
+        return
+      }
+      this.edit = true
+      var _this = this
+      getArticleEdit(id.id).then(res => {
+        let article = res.extend.article
+        _this.post_article.article_title = article.articleTitle 
+        _this.post_article.article_summary = article.articleSummary 
+        _this.post_article.article_type = article.articleType 
+        _this.post_article.is_comment = article.articleIsComment
+        _this.post_article.id = article.articleId
+        _this.post_article.article_md = article.articleMd
+      })
+    },
     getHtml() {
       this.html = this.$refs.markdownEditor.getHtml()
     },
@@ -156,14 +183,54 @@ export default {
             _this.post_article.article_type = ''
             _this.post_article.article_summary = ''
             _this.post_article.is_comment = true
-            _this.content = ''
+            _this.post_article.article_md = ''
             _this.html = ''
           })
         } else {
           return false
         }
       })
-    }
+    },
+    saveEdit() {
+      var _this = this
+      this.getHtml()
+      if (this.html.length < 50) {
+        this.$message.error('字数太少了，多写一点吧')
+        return
+      }
+      this.$refs[this.post_article].validate((valid) => {
+        if (valid) {
+          updateArticle(
+            this.post_article.id,
+            this.post_article.article_title,
+            this.post_article.article_type,
+            this.post_article.article_summary,
+            this.post_article.is_comment,
+            this.post_article.article_md,
+            this.html
+          ).then((response) => {
+            var msg = '发表成功'
+            this.$message({
+              dangerouslyUseHTMLString: true,
+              message: msg,
+              type: 'success',
+              duration: 3000,
+            })
+            _this.post_article.article_title = ''
+            _this.post_article.article_type = ''
+            _this.post_article.article_summary = ''
+            _this.post_article.is_comment = true
+            _this.post_article.article_md = ''
+            _this.html = ''
+            this.$router.push('/write/write')
+            this.edit = false
+          })
+        } else {
+          return false
+        }
+      })
+    },
+
   },
 }
 </script>

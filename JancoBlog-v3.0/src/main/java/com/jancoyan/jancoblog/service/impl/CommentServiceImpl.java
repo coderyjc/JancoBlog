@@ -27,7 +27,7 @@ import java.util.List;
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
     @Override
-    public IPage<Comment> getAll(String userId, Integer pn, Integer limit, String condition) {
+    public IPage<Comment> listAll(String userId, Integer pn, Integer limit, String condition) {
 
         // 分页查询
         IPage<Comment> iPage = new Page<>(pn, limit);
@@ -62,7 +62,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public IPage<Comment> getCommentByArticle(String id, Integer pn, Integer limit) {
+    public IPage<Comment> listCommentByArticle(String id, Integer pn, Integer limit) {
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
         IPage<Comment> page = new Page<>(pn, limit);
         wrapper.eq("comment_article_id", id);
@@ -71,7 +71,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public IPage<Comment> getCommentByUserPosted(String id, Integer pn, Integer limit, String condition) {
+    public IPage<Comment> listCommentByUserPosted(String id, Integer pn, Integer limit, String condition) {
 
         // 分页查询
         IPage<Comment> iPage = new Page<>(pn, limit);
@@ -108,7 +108,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public IPage<PageComment> getCommentByUserRecently(String authorId) {
+    public IPage<PageComment> listCommentByUserRecently(String authorId) {
         IPage<PageComment> iPage = new Page<>(1, 10);
         QueryWrapper<PageComment> wrapper = new QueryWrapper<>();
         wrapper.eq("article_author", authorId);
@@ -118,17 +118,33 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public void deleteCommentByArticle(String articleId) {
+    public void deleteCommentByArticle(String ids) {
         // 先查出来评论，再依次删除
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
         Comment comment = new Comment();
-        wrapper.eq("comment_article_id", articleId);
-        List<Comment> list = comment.selectList(wrapper);
-        if(!list.isEmpty()){
-            for (Comment item : list){
-                baseMapper.deleteComment(item.getCommentId());
+        Article article = new Article();
+        if(!ids.contains("&")){
+            // 将删除文章的评论挪到另一张表中
+            wrapper.eq("comment_article_id", ids);
+            List<Comment> list = comment.selectList(wrapper);
+            if(!list.isEmpty()){
+                for (Comment item : list){
+                    baseMapper.deleteComment(item.getCommentId());
+                }
+            }
+        } else {
+            String[] id = ids.split("&");
+            for (String articleId : id) {
+                wrapper.eq("comment_article_id", articleId);
+                List<Comment> list = comment.selectList(wrapper);
+                if(!list.isEmpty()){
+                    for (Comment item : list){
+                        baseMapper.deleteComment(item.getCommentId());
+                    }
+                }
             }
         }
+
     }
 
     @Override
@@ -156,5 +172,31 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 }
             }
         }
+    }
+
+    @Override
+    public boolean batchDeleteComment(String ids) {
+        Comment comment = new Comment();
+        boolean suc = false;
+        if(!ids.contains("&")){
+            comment.setCommentId(Integer.parseInt(ids));
+            suc = comment.deleteById();
+        } else {
+            String[] id = ids.split("&");
+            for (String item : id) {
+                comment.setCommentId(Integer.parseInt(item));
+                suc = comment.deleteById();
+            }
+        }
+        return suc;
+    }
+
+    @Override
+    public void likeComment(Integer id) {
+        Comment comment = new Comment();
+        comment.setCommentId(id);
+        comment = comment.selectById();
+        comment.setCommentLikeCount(comment.getCommentLikeCount() + 1);
+        comment.updateById();
     }
 }

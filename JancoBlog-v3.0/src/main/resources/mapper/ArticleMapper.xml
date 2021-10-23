@@ -57,17 +57,27 @@
         delete from tbl_deleted_article where article_id = '${articleId}'
     </delete>
 
-    <!--    获取用户最近发表的文章 -->
 
 <!--    恢复用户的文章-->
     <select id="batchRecover">
         CALL proc_recover_article(${articleId});
     </select>
 
-
+    <!--    获取用户最近发表的文章 -->
     <select id="getArticleByUserRecently"
             resultType="com.jancoyan.jancoblog.pojo.PageArticle">
         select * from v_page_article ${ew.customSqlSegment}
+    </select>
+
+<!--    获取用户文章用于编辑文章-->
+    <select id="getArticleEdit" resultType="com.jancoyan.jancoblog.pojo.Article">
+        select article_id,
+               article_title,
+               article_summary,
+               article_md,
+               article_type,
+               article_is_comment
+               from tbl_article where article_id = '${id}'
     </select>
 
 </mapper>

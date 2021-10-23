@@ -39,6 +39,21 @@ export function getSingleArticle(id) {
  * @param {String} id 
  * @returns 
  */
+export function getArticleEdit(id) {
+  return request({
+    url: '/article/edit',
+    method: 'get',
+    params: {
+      id: id
+    }
+  })
+}
+
+/**
+ * 通过首页查看文章的时候获取文章信息
+ * @param {String} id 
+ * @returns 
+ */
 export function getSingleArticleDeleted(id) {
   return request({
     url: '/article/single/deleted',
@@ -238,6 +253,32 @@ export function postArticle(title, type, summary, comment, md, html){
   })
 }
 
+/**
+ * 修改文章
+ * @param {String} title 标题
+ * @param {Integee} type 类型
+ * @param {String} summary 总结
+ * @param {Integer} comment 是否允许评论
+ * @param {String} md md格式的文章
+ * @param {String} html HTML格式的文章
+ * @returns 
+ */
+export function updateArticle(id, title, type, summary, comment, md, html){
+  return request({
+    url: '/article/update',
+    method: 'post',
+    params: {
+      id: id,
+      title: title,
+      type: type,
+      summary: summary,
+      comment: comment,
+      md: md,
+      html: html
+    }
+  })
+}
+
 
 /**
  * 改变文章允许评论的状态
@@ -253,7 +294,6 @@ export function postArticle(title, type, summary, comment, md, html){
     }
   })
 }
-
 
 /**
  * 文章置顶
@@ -304,3 +344,4 @@ export function postArticle(title, type, summary, comment, md, html){
     }
   })
 }
+

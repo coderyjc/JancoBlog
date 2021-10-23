@@ -45,12 +45,12 @@ public class CommentController {
      * @return 成功
      */
     @RequestMapping(value = "/all")
-    public Msg getAll(
+    public Msg listAll(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
             @RequestParam(value = "condition", defaultValue = "")String condition
     ){
-        IPage<Comment> iPage = service.getAll(null, Integer.parseInt(pn),
+        IPage<Comment> iPage = service.listAll(null, Integer.parseInt(pn),
                 Integer.parseInt(limit),
                 condition);
         return Msg.success().add("pageInfo", iPage);
@@ -66,7 +66,7 @@ public class CommentController {
      * @return 消息
      */
     @RequestMapping(value = "/receive")
-    public Msg getCommentByUserReceive(
+    public Msg listCommentByUserReceive(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
             @RequestParam(value = "condition", defaultValue = "")String condition,
@@ -78,7 +78,7 @@ public class CommentController {
             return Msg.expire();
         }
         User user = (User) redisUtil.get(token);
-        IPage<Comment> iPage = service.getAll(
+        IPage<Comment> iPage = service.listAll(
                 String.valueOf(user.getUserId()),
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
@@ -95,7 +95,7 @@ public class CommentController {
      * @return
      */
     @RequestMapping(value = "/posted")
-    public Msg getCommentByUserPosted(
+    public Msg listCommentByUserPosted(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
             @RequestParam(value = "condition", defaultValue = "")String condition,
@@ -110,7 +110,7 @@ public class CommentController {
         if(null == user){
             return Msg.fail().add("msg", "获取失败");
         }
-        IPage<Comment> iPage = service.getCommentByUserPosted(
+        IPage<Comment> iPage = service.listCommentByUserPosted(
                 String.valueOf(user.getUserId()),
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
@@ -127,18 +127,7 @@ public class CommentController {
     public Msg deleteComment(
             @RequestParam(value = "ids") String ids
     ){
-        Comment comment = new Comment();
-        boolean suc = false;
-        if(!ids.contains("&")){
-            comment.setCommentId(Integer.parseInt(ids));
-            suc = comment.deleteById();
-        } else {
-            String[] id = ids.split("&");
-            for (String item : id) {
-                comment.setCommentId(Integer.parseInt(item));
-                suc = comment.deleteById();
-            }
-        }
+        boolean suc = service.batchDeleteComment(ids);
         return Msg.success().add("suc", suc ? "success" : "fail");
     }
 
@@ -150,12 +139,12 @@ public class CommentController {
      * @return 消息
      */
     @RequestMapping(value = "/article")
-    public Msg getCommentByArticle(
+    public Msg listCommentByArticle(
             @RequestParam(value = "id") String id,
             @RequestParam(value = "pn")Integer pn,
             @RequestParam(value = "limit", defaultValue = "7") Integer limit
     ){
-        IPage<Comment> iPage = service.getCommentByArticle(id, pn, limit);
+        IPage<Comment> iPage = service.listCommentByArticle(id, pn, limit);
         return Msg.success().add("pageInfo", iPage);
     }
 
@@ -169,7 +158,7 @@ public class CommentController {
      * @return 消息
      */
     @RequestMapping(value = "/post", method = RequestMethod.POST)
-    public Msg postComment(
+    public Msg insertComment(
             @RequestParam(value = "articleId")String articleId,
             @RequestParam(value = "name", defaultValue = "") String userName,
             @RequestParam(value = "email", defaultValue = "")String email,
@@ -213,11 +202,7 @@ public class CommentController {
     public Msg likeComment(
             @RequestParam(value = "id") Integer id
     ){
-        Comment comment = new Comment();
-        comment.setCommentId(id);
-        comment = comment.selectById();
-        comment.setCommentLikeCount(comment.getCommentLikeCount() + 1);
-        comment.updateById();
+        service.likeComment(id);
         return Msg.success();
     }
 
@@ -227,12 +212,12 @@ public class CommentController {
      * @return
      */
     @RequestMapping(value = "/recent", method = RequestMethod.GET)
-    public Msg getCommentByUserRecentlyReceive(
+    public Msg listCommentByUserRecentlyReceive(
             @RequestParam(value = "id") String authorId,
             @RequestParam(value = "pn", defaultValue = "1") String pn,
             @RequestParam(value = "limit", defaultValue = "10") String limit
     ){
-        IPage<PageComment> iPage  = service.getCommentByUserRecently(authorId);
+        IPage<PageComment> iPage  = service.listCommentByUserRecently(authorId);
         return Msg.success().add("pageInfo", iPage);
     }
 

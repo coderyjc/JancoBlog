@@ -14,7 +14,6 @@ import com.jancoyan.jancoblog.utils.ArticleUtils;
 import com.jancoyan.jancoblog.utils.FileUtils;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -29,7 +28,7 @@ import java.util.List;
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     @Override
-    public IPage<Article> getIndexList(Integer pn, Integer limit, String condition) {
+    public IPage<Article> listArticleIndex(Integer pn, Integer limit, String condition) {
 
         //        分页查询
         IPage<Article> iPage = new Page<>(pn, limit);
@@ -77,7 +76,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public IPage<Article> getManageList(Integer userId,
+    public IPage<Article> listArticleManage(Integer userId,
                                         Integer pn,
                                         Integer limit,
                                         String condition) {
@@ -95,18 +94,20 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public Article getSingleArticle(String articleId) {
+    public Article getArticleSingle(String articleId) {
         return baseMapper.getSingleArticle(articleId);
     }
 
     @Override
-    public Article getSingleArticleDeleted(String articleId) {
+    public Article getArticleSingleDeleted(String articleId) {
         return baseMapper.getSingleArticleDeleted(articleId);
     }
 
     @Override
-    public IPage<Article> getDeletedList(Integer userId, Integer pn, Integer limit,
-                                         String condition) {
+    public IPage<Article> listDeleted(Integer userId,
+                                      Integer pn,
+                                      Integer limit,
+                                      String condition) {
         //        分页查询
         IPage<Article> iPage = new Page<>(pn, limit);
         QueryWrapper<Article> wrapper = new QueryWrapper<>();
@@ -175,12 +176,81 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public IPage<PageArticle> getArticleByUserRecently(String id, Integer pn, Integer limit) {
+    public boolean batchDeleteArticle(String ids) {
+        Article article = new Article();
+        if(!ids.contains("&")){
+            article.setArticleId(ids);
+            article.deleteById();
+        } else {
+            String[] id = ids.split("&");
+            for (String item : id) {
+                article.setArticleId(item);
+                article.deleteById();
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public IPage<PageArticle> listArticleUserRecently(String id, Integer pn, Integer limit) {
         IPage<PageArticle> iPage = new Page<>(pn, limit);
         QueryWrapper<PageArticle> wrapper = new QueryWrapper<>();
         wrapper.eq("article_author", id);
         wrapper.orderByDesc("article_post_time");
         return baseMapper.getArticleByUserRecently(iPage, wrapper);
+    }
+
+    @Override
+    public void addLikeCount(String id) {
+        // 增加点赞量
+        Article article = new Article();
+        article.setArticleId(id);
+        article = article.selectById();
+        article.setArticleLikeCount(article.getArticleLikeCount() + 1);
+        article.updateById();
+    }
+
+    @Override
+    public void subLikeCount(String id) {
+        Article article = new Article();
+        article.setArticleId(id);
+        article = article.selectById();
+        article.setArticleLikeCount(article.getArticleLikeCount() - 1);
+        article.updateById();
+    }
+
+    @Override
+    public void addViewCount(String id) {
+        Article article = new Article();
+        article.setArticleId(id);
+        article = article.selectById();
+        article.setArticleViewCount(article.getArticleViewCount() + 1);
+        article.updateById();
+    }
+
+    @Override
+    public boolean updateIsComment(String id) {
+        // 改变评论的状态
+        Article article = new Article();
+        article.setArticleId(id);
+        article = article.selectById();
+        article.setArticleIsComment(1 - article.getArticleIsComment());
+        return article.updateById();
+    }
+
+    @Override
+    public boolean updateIsTop(String id) {
+        // 改变置顶的状态
+        Article article = new Article();
+        article.setArticleId(id);
+        article = article.selectById();
+        article.setArticleRank(1 - article.getArticleRank());
+        return article.updateById();
+    }
+
+    @Override
+    public Article getArticleEdit(String id) {
+        return baseMapper.getArticleEdit(id);
     }
 
 

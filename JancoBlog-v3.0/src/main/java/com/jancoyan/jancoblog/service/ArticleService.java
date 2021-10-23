@@ -22,7 +22,7 @@ public interface ArticleService extends IService<Article> {
      * @param condition 条件
      * @return
      */
-    IPage<Article> getIndexList(Integer pn, Integer limit, String condition);
+    IPage<Article> listArticleIndex(Integer pn, Integer limit, String condition);
 
     /**
      * 文章管理的时候获得用于管理的文章列表
@@ -32,17 +32,21 @@ public interface ArticleService extends IService<Article> {
      * @param condition 条件
      * @return
      */
-    IPage<Article> getManageList(Integer userId, Integer pn, Integer limit, String condition);
+    IPage<Article> listArticleManage(Integer userId, Integer pn, Integer limit, String condition);
 
     /**
      * 获取一篇文章
      * @param articleId 文章id
      * @return
      */
-    Article getSingleArticle(String articleId);
+    Article getArticleSingle(String articleId);
 
-
-    Article getSingleArticleDeleted(String articleId);
+    /**
+     * 获取单个已经删除的文章
+     * @param articleId
+     * @return
+     */
+    Article getArticleSingleDeleted(String articleId);
 
     /**
      * 获取所有删除的文章
@@ -52,7 +56,7 @@ public interface ArticleService extends IService<Article> {
      * @param condition 条件
      * @return
      */
-    IPage<Article> getDeletedList(Integer userId, Integer pn, Integer limit, String condition);
+    IPage<Article> listDeleted(Integer userId, Integer pn, Integer limit, String condition);
 
     /**
      * 彻底删除已经删除了的文章
@@ -69,12 +73,55 @@ public interface ArticleService extends IService<Article> {
     boolean batchRecoverDeletedArticle(String ids);
 
     /**
+     * 批量删除指定文章
+     * @param ids
+     * @return
+     */
+    boolean batchDeleteArticle(String ids);
+
+    /**
      * 获区用户最近发表的文章
      * @param id 用户id
      * @param pn 页码
      * @param limit 容量
      * @return
      */
-    IPage<PageArticle> getArticleByUserRecently(String id, Integer pn, Integer limit);
+    IPage<PageArticle> listArticleUserRecently(String id, Integer pn, Integer limit);
 
+    /**
+     * 给文章点赞
+     * @param id 文章id
+     */
+    void addLikeCount(String id);
+
+    /**
+     * 取消文章的点赞
+     * @param id 文章id
+     */
+    void subLikeCount(String id);
+
+    /**
+     * 增加文章的浏览量
+     * @param id
+     */
+    void addViewCount(String id);
+
+    /**
+     * 改变文章是否评论的状态
+     * @param id 文章id
+     * @return
+     */
+    boolean updateIsComment(String id);
+
+    /**
+     * 改变文章的置顶状态
+     * @return
+     */
+    boolean updateIsTop(String id);
+
+    /**
+     * 获取文章用于修改
+     * @return
+     */
+    Article getArticleEdit(String id);
 }

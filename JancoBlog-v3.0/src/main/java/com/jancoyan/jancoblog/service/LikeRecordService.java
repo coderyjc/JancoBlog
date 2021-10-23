@@ -22,4 +22,18 @@ public interface LikeRecordService extends IService<LikeRecord> {
      * @return
      */
     IPage<LikeRecord> getUserReceive(String userId, Integer pn, Integer limit);
+
+    /**
+     * 增加点赞记录
+     * @param userId 用户id
+     * @param articleId 文章id
+     */
+    void insertRecord(Integer userId, String articleId);
+
+    /**
+     * 删除点赞记录
+     * @param userId 用户id
+     * @param articleId 文章id
+     */
+    void deleteRecord(Integer userId, String articleId);
 }

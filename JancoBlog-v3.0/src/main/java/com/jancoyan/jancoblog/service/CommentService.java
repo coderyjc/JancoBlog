@@ -23,7 +23,7 @@ public interface CommentService extends IService<Comment> {
      * @param condition 条件
      * @return
      */
-    IPage<Comment> getAll(String userId, Integer pn, Integer limit, String condition);
+    IPage<Comment> listAll(String userId, Integer pn, Integer limit, String condition);
 
     /**
      * 获取某个文章的所有评论
@@ -32,7 +32,7 @@ public interface CommentService extends IService<Comment> {
      * @param limit 容量
      * @return
      */
-    IPage<Comment> getCommentByArticle(String id, Integer pn, Integer limit);
+    IPage<Comment> listCommentByArticle(String id, Integer pn, Integer limit);
 
     /**
      * 评论管理，获取用户发表的所有评论
@@ -42,7 +42,7 @@ public interface CommentService extends IService<Comment> {
      * @param condition 条件
      * @return
      */
-    IPage<Comment> getCommentByUserPosted(String id, Integer pn, Integer limit,
+    IPage<Comment> listCommentByUserPosted(String id, Integer pn, Integer limit,
                                           String condition);
 
     /**
@@ -50,7 +50,7 @@ public interface CommentService extends IService<Comment> {
      * @param authorId 作者id
      * @return
      */
-    IPage<PageComment> getCommentByUserRecently(String authorId);
+    IPage<PageComment> listCommentByUserRecently(String authorId);
 
 
     /**
@@ -64,4 +64,17 @@ public interface CommentService extends IService<Comment> {
      * @param ids 多个id
      */
     void recoverCommentByArticle(String ids);
+
+    /**
+     * 批量删除评论
+     * @param ids
+     * @return
+     */
+    boolean batchDeleteComment(String ids);
+
+    /**
+     * 给评论点赞
+     * @param id
+     */
+    void likeComment(Integer id);
 }
