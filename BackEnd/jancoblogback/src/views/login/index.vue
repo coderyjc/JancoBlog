@@ -1,6 +1,15 @@
 <template>
   <div class="login">
-
+    <vue-particles
+      class="particles"
+      color="#fff"
+      linesColor="#fff"
+      shapeType="polygon"
+      :hoverEffect="true"
+      :clickEffect="false"
+      :linesWidth="2"
+      :lineOpacity="0.6"
+    ></vue-particles>
     <div class="container">
       <el-tabs
         :value="currPanel"
@@ -216,14 +225,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.login {
+.particles {
   width: 100%;
-  height: 100%;
-  background-image: url('../../assets/imgs/bg.jpg');
+  height: 90vh;
+  position: absolute;
+}
+.login {
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(#0ED2F7, #0ED2F7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .container {
-  width: 500px;
-  margin: 10% 5%;
+  margin-bottom: 5%;
+  width: 400px;
   float: right;
 
   .el-button {

@@ -1,6 +1,16 @@
 <template>
   <div class="app">
     <!--    导航栏-->
+
+    <vue-particles
+      class="particles"
+      color="#dedede"
+      shapeType="polygon"
+      :hoverEffect="false"
+      :clickEffect="false"
+      :linesWidth="2"
+    ></vue-particles>
+
     <el-row
       :gutter="20"
       style="position: fixed; width:100%; z-index: 1"
@@ -32,6 +42,7 @@
         </el-menu>
       </el-col>
     </el-row>
+
     <!--    主要部分-->
     <el-row :gutter="20">
       <!--    左栏搜索文章、文章列表、分页-->
@@ -223,15 +234,20 @@
 
     </el-row>
     <el-backtop></el-backtop>
+
   </div>
 </template>
 
 <script>
+// import VueParticles from 'vue-particles'
+
 import { getIndexArticleList } from '@/api/article'
 import { getAllType } from '@/api/type'
 import { getToken } from '@/utils/auth'
 
 export default {
+  // name: 'index',
+  // components: { VueParticles },
   data() {
     return {
       islogin: false,
@@ -374,6 +390,12 @@ export default {
 <style lang='scss' scoped>
 a {
   text-decoration: none;
+}
+
+.particles {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
 }
 
 .app {
