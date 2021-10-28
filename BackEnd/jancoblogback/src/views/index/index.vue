@@ -9,8 +9,10 @@
       :hoverEffect="false"
       :clickEffect="false"
       :linesWidth="2"
+      v-show="backgroundMode"
     ></vue-particles>
 
+      <!-- 导航栏 -->
     <el-row
       :gutter="20"
       style="position: fixed; width:100%; z-index: 1"
@@ -108,23 +110,23 @@
               </el-form-item>
               <el-form-item label="浏览量">
                 <el-radio-group v-model="query.rank_view">
-                  <el-radio label="无"></el-radio>
-                  <el-radio label="升序"></el-radio>
-                  <el-radio label="降序"></el-radio>
+                  <el-radio :label="-1">无</el-radio>
+                  <el-radio :label="1">升序</el-radio>
+                  <el-radio :label="0">降序</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="点赞">
                 <el-radio-group v-model="query.rank_like">
-                  <el-radio label="无"></el-radio>
-                  <el-radio label="升序"></el-radio>
-                  <el-radio label="降序"></el-radio>
+                  <el-radio :label="-1">无</el-radio>
+                  <el-radio :label="1">升序</el-radio>
+                  <el-radio :label="0">降序</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="评论">
                 <el-radio-group v-model="query.rank_comment">
-                  <el-radio label="无"></el-radio>
-                  <el-radio label="升序"></el-radio>
-                  <el-radio label="降序"></el-radio>
+                  <el-radio :label="-1">无</el-radio>
+                  <el-radio :label="1">升序</el-radio>
+                  <el-radio :label="0">降序</el-radio>
                 </el-radio-group>
               </el-form-item>
 
@@ -147,6 +149,15 @@
           inactive-text="标准模式"
         >
         </el-switch>
+        <!--              动画开关 -->
+        <span style="margin:0 10px"></span>
+        <el-switch
+          v-model="backgroundMode"
+          active-color="#13ce66"
+          active-text="打开背景"
+          inactive-text="关闭背景"
+        >
+        </el-switch>
 
         <!-- 文章列表动态更新 -->
         <div
@@ -154,7 +165,6 @@
           v-for="item in articleList"
           :key="item.articleId"
         >
-          <!--                非简介模式的文章列表-->
           <router-link
             :to="base_article_url + item.articleId"
             target="_blank"
@@ -162,12 +172,11 @@
             <el-card
               class="box-card"
               shadow="hover"
-              v-if="!simpleMode"
             >
               <div style="font-weight: 700;">{{ item.articleTitle }}</div>
-              <el-divider class="el-divider"><i class="el-icon-star-off"></i></el-divider>
-              <div>{{ item.articleSummary }}</div>
-              <el-divider class="el-divider"><i class="el-icon-star-off"></i></el-divider>
+              <el-divider  v-if="!simpleMode" class="el-divider"><i class="el-icon-star-off"></i></el-divider>
+              <div  v-if="!simpleMode">{{ item.articleSummary }}</div>
+              <el-divider  v-if="!simpleMode" class="el-divider"><i class="el-icon-star-off"></i></el-divider>
               <div>
                 <span><i class="el-icon-user"></i> {{ item.userName }} </span>
                 <el-divider direction="vertical"></el-divider>
@@ -175,19 +184,6 @@
                 <el-divider direction="vertical"></el-divider>
                 <span><i class="el-icon-view"></i> {{ item.articleViewCount }}</span>
               </div>
-            </el-card>
-          </router-link>
-          <!--                    简洁模式的文章列表-->
-          <router-link
-            :to="base_article_url + item.articleId"
-            target="_blank"
-          >
-            <el-card
-              class="box-card"
-              shadow="hover"
-              v-if="simpleMode"
-            >
-              <div style="font-weight: 700;">{{ item.articleTitle }}</div>
             </el-card>
           </router-link>
         </div>
@@ -246,12 +242,13 @@ import { getAllType } from '@/api/type'
 import { getToken } from '@/utils/auth'
 
 export default {
-  // name: 'index',
-  // components: { VueParticles },
   data() {
     return {
       islogin: false,
+      // 简洁模式
       simpleMode: false,
+      // 背景开关
+      backgroundMode: true, 
       avatarUrl: '',
       base_article_url: '/article?id=',
       condition: '',
@@ -261,9 +258,9 @@ export default {
         article_type: '',
         start: '',
         end: '',
-        rank_view: '',
-        rank_like: '',
-        rank_comment: '',
+        rank_view: -1,
+        rank_like: -1,
+        rank_comment: -1,
       },
       // 文章列表
       articleList: [],
@@ -315,6 +312,10 @@ export default {
       getIndexArticleList(pn, this.page_size, this.condition).then(
         (response) => {
           var pageInfo = response.extend.pageInfo
+          if(pageInfo.total === 0){
+            this.$message.error('没有相关文章~')
+            return
+          }
           this.articleList = pageInfo.records
           this.page_size = pageInfo.size
           this.total = pageInfo.total
@@ -337,14 +338,15 @@ export default {
       this.query.article_type = ''
       this.query.start = ''
       this.query.end = ''
-      this.query.rank_view = ''
-      this.query.rank_like = ''
-      this.query.rank_comment = ''
+      this.query.rank_view = '无'
+      this.query.rank_like = '无'
+      this.query.rank_comment = '无'
       this.get_article_list(1)
     },
     generateQueryString() {
       let condition = ''
       let query = this.query
+      console.log(query);
       if (query.article_author_name !== '') {
         condition += 'article_author_name=' + query.article_author_name + '--'
       }
@@ -360,17 +362,14 @@ export default {
       if (query.end !== '') {
         condition += 'end=' + String(query.end) + '--'
       }
-      if (query.rank_view !== '无' || query.rank_view !== '') {
-        let tgt = query.rank_view === '升序' ? 1 : 0
-        condition += 'rank_view=' + String(tgt) + '--'
+      if (query.rank_view !== -1) {
+        condition += 'rank_view=' + String(query.rank_view) + '--'
       }
-      if (query.rank_like !== '无' || query.rank_view !== '') {
-        let tgt = query.rank_like === '升序' ? 1 : 0
-        condition += 'rank_like=' + String(tgt) + '--'
+      if (query.rank_like !== -1) {
+        condition += 'rank_like=' + String(query.rank_like) + '--'
       }
-      if (query.rank_comment !== '无' || query.rank_view !== '') {
-        let tgt = query.rank_comment === '升序' ? 1 : 0
-        condition += 'rank_comment=' + String(tgt) + '--'
+      if (query.rank_comment !== -1) {
+        condition += 'rank_comment=' + String(query.rank_comment) + '--'
       }
       condition =
         condition.lastIndexOf('#') === condition.length - 1
@@ -449,4 +448,5 @@ a {
     }
   }
 }
+
 </style>

@@ -1,6 +1,5 @@
 package com.jancoyan.jancoblog.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jancoyan.jancoblog.pojo.*;
 import com.jancoyan.jancoblog.service.ArticleService;
@@ -188,7 +187,6 @@ public class ArticleController {
                 condition);
         return Msg.success().add("pageInfo", iPage);
     }
-
 
     /**
      * 彻底删除已经删除了的文章

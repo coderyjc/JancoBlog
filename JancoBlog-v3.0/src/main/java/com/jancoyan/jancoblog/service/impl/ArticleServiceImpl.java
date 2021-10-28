@@ -42,7 +42,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             }
 
             if("article_author_name".equals(split2[0])){
-                wrapper.like("article_author_name", split2[1]);
+                wrapper.like("user_name", split2[1]);
             }else if("article_title".equals(split2[0])){
                 wrapper.like("article_title", split2[1]);
             }else if("type".equals(split2[0])){
@@ -72,6 +72,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             }
         }
 
+        wrapper.orderByDesc("article_post_time");
+
         return baseMapper.getIndexList(iPage, wrapper);
     }
 
@@ -89,6 +91,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
 
         wrapper = ArticleUtils.generateManageArticleWrapperByCondition(wrapper, condition);
+
+        wrapper.orderByDesc("article_post_time");
 
         return baseMapper.getManageList(iPage, wrapper);
     }
@@ -117,7 +121,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
 
         wrapper = ArticleUtils.generateManageArticleWrapperByCondition(wrapper, condition);
-
+        wrapper.orderByDesc("article_post_time");
         return baseMapper.getDeletedList(iPage, wrapper);
     }
 

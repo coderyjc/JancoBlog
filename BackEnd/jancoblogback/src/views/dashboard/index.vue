@@ -144,7 +144,7 @@
               :key="index"
             >
               <span class="article">{{ item.articleTitle }}</span>
-              <span class="time">2小时前</span>
+              <span class="time">{{ item.articlePostTime | changeTime }}</span>
             </div>
           </el-card>
         </el-col>
@@ -165,7 +165,7 @@
             >
               <span class="name">{{item.userName}}</span> 点赞了
               <span class="article">{{item.articleTitle}}</span>
-              <span class="time">2小时前</span>
+              <span class="time">{{ item.likeDate | changeTime }}</span>
             </div>
           </el-card>
         </el-col>
@@ -187,7 +187,7 @@
             >
               <span class="name">{{item.commentAuthorName}}</span> 评论了
               <span class="article">{{item.articleTitle}}</span>
-              <span class="time">2小时前</span>
+              <span class="time">{{ item.commentDate | changeTime }}</span>
             </div>
           </el-card>
         </el-col>
@@ -202,6 +202,7 @@ import { getUserTotalData } from '@/api/user'
 import { getUserCommentRecently } from '@/api/comment'
 import { getUserLikeRecently } from '@/api/like'
 import { getUserArticleRecently } from '@/api/article'
+import timeago from '@/assets/js/timeago.js'
 
 export default {
   name: 'Dashboard',
@@ -231,9 +232,14 @@ export default {
     dataFormat(data){
       if(null === data) return 0;
       if(data > 1000){
-        return String(data/1000) + "k"
+        return Number(data/1000) + "k"
       }
       return data
+    },
+    //计算时间，类似于几分钟前，几小时前，几天前等
+    changeTime(val){
+        let time = new Date(val); //先将接收到的json格式的日期数据转换成可用的js对象日期
+        return new timeago().format(time, 'zh_CN'); //转换成类似于几天前的格式
     }
   },
   created() {
