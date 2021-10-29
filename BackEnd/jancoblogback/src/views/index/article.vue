@@ -16,12 +16,15 @@
               <span class="logo">Jancoyan</span>
             </router-link>
           </el-menu-item>
-          <el-menu-item style="float: right">
-            <el-avatar src="http://localhost:8080/avatar/10800.jpg">
-              <a
-                href="http://localhost:9528"
-                target="_blank"
-              ></a>
+          <el-menu-item
+            style="float: right"
+            @click="linkToDashBoard"
+          >
+            <el-avatar
+              size="large"
+              :src="avatarUrl"
+            >
+              登录
             </el-avatar>
           </el-menu-item>
         </el-menu>
@@ -273,7 +276,12 @@
 <script>
 import { getToken } from '@/utils/auth'
 import { hljs } from '@/assets/js/highhight'
-import { getSingleArticle, viewArticle, likeArticle, dislikeArticle } from '@/api/article'
+import {
+  getSingleArticle,
+  viewArticle,
+  likeArticle,
+  dislikeArticle,
+} from '@/api/article'
 import { getAuthorInfo } from '@/api/user'
 import { getCommentByArticle, likeComment, postComment } from '@/api/comment'
 import { isLiked } from '@/api/like'
@@ -297,7 +305,7 @@ export default {
       // 用户有没有登录
       userlogin: false,
       // 用户头像地址
-      authorAvatar: '',
+      avatarUrl: '',
       // 评论表单
       form: {
         articleId: '',
@@ -346,6 +354,7 @@ export default {
     this.renderPage()
     this.userlogin = getToken() === undefined // 有没有登陆
     this.query = this.$router.query
+    this.avatarUrl = this.$store.getters.avatar
   },
   filters: {
     dateFormat(date) {
@@ -362,6 +371,13 @@ export default {
     },
   },
   methods: {
+    // 将用户头像连接到后台
+    linkToDashBoard() {
+      // 判断用户是否登录
+      this.islogin = undefined !== getToken()
+      if (this.islogin) this.$router.push('/dashboard')
+      else this.$router.push('/login')
+    },
     async renderPage() {
       var _this = this
       var query = this.$route.query
@@ -376,7 +392,8 @@ export default {
       getAuthorInfo(_this.article.articleAuthor).then((response) => {
         _this.author = response.extend.data
         // 作者头像
-        _this.authorAvatar = 'http://localhost:8080/avatar/' + _this.author.articleAuthor + '.png'
+        _this.authorAvatar =
+          'http://localhost:8080/avatar/' + _this.author.articleAuthor + '.png'
       })
       // 评论信息
       this.get_comment_list(this.$route.query, 1)
@@ -428,7 +445,7 @@ export default {
     likeArticle() {
       var _this = this
       if (this.like.liked) {
-        dislikeArticle(this.article.articleId).then(res => {
+        dislikeArticle(this.article.articleId).then((res) => {
           _this.article.articleLikeCount -= 1
           _this.like.liked = false
         })
@@ -497,33 +514,30 @@ h1 {
 
 /* 文章内容 */
 .md-content {
-line-height: 26px;
+  line-height: 26px;
 
-// blockquote {
-//   padding: 20px;
-//   background-color: #f7f6f3;
-// }
+  // blockquote {
+  //   padding: 20px;
+  //   background-color: #f7f6f3;
+  // }
 
-// code {
-//   display: block;
-//   padding: 20px;
-//   background-color: #f7f6f3;
-// }
+  // code {
+  //   display: block;
+  //   padding: 20px;
+  //   background-color: #f7f6f3;
+  // }
 
-// h2 {
-//   margin: 15px 0;
-//   font-weight: 600;
-//   font-size: 30px;
-// }
-// h3 {
-//   margin: 15px 0;
-//   font-weight: 550;
-//   font-size: 25px;
-// }
+  // h2 {
+  //   margin: 15px 0;
+  //   font-weight: 600;
+  //   font-size: 30px;
+  // }
+  // h3 {
+  //   margin: 15px 0;
+  //   font-weight: 550;
+  //   font-size: 25px;
+  // }
 }
-
-
-
 
 /*评论的标题*/
 .comment-area-title {

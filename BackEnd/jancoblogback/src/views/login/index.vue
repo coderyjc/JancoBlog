@@ -15,6 +15,8 @@
         :value="currPanel"
         :stretch="true"
         type="border-card"
+        v-loading="loading"
+        element-loading-text="登陆中"
       >
         <!-- 登录界面 -->
         <el-tab-pane
@@ -108,7 +110,6 @@
 </template>
 
 <script>
-
 import { checkUserNameUnique, register } from '@/api/user'
 
 export default {
@@ -168,11 +169,9 @@ export default {
   methods: {
     generateVerifyCode() {
       var url = 'http://localhost:8080/user/getverifycode?' + Math.random()
-
       this.verifyCode = url
     },
     handleLogin() {
-      this.$router.push({ path: '/' })
       this.loading = true
       this.$store
         .dispatch('user/login', this.login)
@@ -182,14 +181,16 @@ export default {
             message: '登录成功',
             type: 'success',
           })
-          this.$router.push({ path: '/' })
+          setTimeout(() => {
+            this.$router.push({ path: '/' })
+          }, 1000)
           this.loading = false
         })
         .catch(() => {
           this.loading = false
         })
     },
-    handleRegister() {
+    async handleRegister() {
       var _this = this
       this.$refs[this.register].validate((valid) => {
         if (valid) {
@@ -209,8 +210,10 @@ export default {
               _this.register.password2 = ''
               _this.register.code = ''
               _this.currPanel = 'first'
+              this.generateVerifyCode()
             } else {
               // 失败
+              this.generateVerifyCode()
             }
           })
         } else {
@@ -218,7 +221,7 @@ export default {
           return false
         }
       })
-      this.generateVerifyCode()
+      
     },
   },
 }
@@ -233,7 +236,7 @@ export default {
 .login {
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(#0ED2F7, #0ED2F7);
+  background-image: linear-gradient(#0ed2f7, #0ed2f7);
   display: flex;
   justify-content: center;
   align-items: center;

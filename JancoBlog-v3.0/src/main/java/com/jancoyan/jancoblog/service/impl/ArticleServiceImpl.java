@@ -34,44 +34,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         IPage<Article> iPage = new Page<>(pn, limit);
         QueryWrapper<Article> wrapper = new QueryWrapper<>();
 
-        String[] split = condition.split("--");
-        for (String item : split) {
-            String[] split2 = item.split("=");
-            if(split2.length < 2){
-                continue;
-            }
-
-            if("article_author_name".equals(split2[0])){
-                wrapper.like("user_name", split2[1]);
-            }else if("article_title".equals(split2[0])){
-                wrapper.like("article_title", split2[1]);
-            }else if("type".equals(split2[0])){
-                wrapper.eq("article_type", split2[1]);
-            }else if("start".equals(split2[0])){
-                wrapper.gt("article_post_time", split2[1]);
-            }else if("end".equals(split2[0])){
-                wrapper.lt("article_post_time", split2[1]);
-            }else if("rank_view".equals(split2[0])){
-                if ("1".equals(split2[1])) {
-                    wrapper.orderByAsc("article_view_count");
-                } else {
-                    wrapper.orderByDesc("article_view_count");
-                }
-            }else if("rank_like".equals(split2[0])){
-                if ("1".equals(split2[1])) {
-                    wrapper.orderByAsc("article_like_count");
-                } else {
-                    wrapper.orderByDesc("article_like_count");
-                }
-            }else if("rank_comment".equals(split2[0])){
-                if ("1".equals(split2[1])) {
-                    wrapper.orderByAsc("article_comment_count");
-                } else {
-                    wrapper.orderByDesc("article_comment_count");
-                }
-            }
-        }
-
+        wrapper.orderByDesc("article_rank");
+        wrapper = ArticleUtils.generateManageArticleWrapperByCondition(wrapper, condition);
         wrapper.orderByDesc("article_post_time");
 
         return baseMapper.getIndexList(iPage, wrapper);

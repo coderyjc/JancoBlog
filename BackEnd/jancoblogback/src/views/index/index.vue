@@ -12,7 +12,7 @@
       v-show="backgroundMode"
     ></vue-particles>
 
-      <!-- 导航栏 -->
+    <!-- 导航栏 -->
     <el-row
       :gutter="20"
       style="position: fixed; width:100%; z-index: 1"
@@ -52,94 +52,14 @@
         :span="10"
         :offset="4"
       >
-        <!-- 搜索框 -->
-        <el-collapse
-          accordion
-          class="search-bar"
-        >
-          <el-collapse-item>
-            <template slot="title">
-              <i
-                class="header-icon el-icon-search"
-                style="font-size:20px;margin-right:
-                         5px;"
-              ></i>搜索文章
-            </template>
-            <el-form
-              ref="form"
-              label-width="80px"
-            >
-              <el-form-item label="标题包含">
-                <el-input v-model="query.article_title"></el-input>
-              </el-form-item>
-              <el-form-item label="作者">
-                <el-input v-model="query.article_author_name"></el-input>
-              </el-form-item>
-              <el-form-item label="发表时间">
-                <el-col :span="11">
-                  <el-date-picker
-                    type="date"
-                    placeholder="开始日期"
-                    v-model="query.start"
-                    style="width: 100%;"
-                  ></el-date-picker>
-                </el-col>
-                <el-col :span="11">
-                  <el-date-picker
-                    type="date"
-                    placeholder="结束日期"
-                    v-model="query.end"
-                    style="width: 100%;"
-                  ></el-date-picker>
-                </el-col>
-              </el-form-item>
-              <el-form-item label="类型">
-                <el-select
-                  v-model="query.article_type"
-                  filterable
-                  placeholder="选择或搜索"
-                >
-                  <el-option
-                    v-for="item in typeList"
-                    :key="item.typeId"
-                    :label="item.typeName"
-                    :value="item.typeId"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="浏览量">
-                <el-radio-group v-model="query.rank_view">
-                  <el-radio :label="-1">无</el-radio>
-                  <el-radio :label="1">升序</el-radio>
-                  <el-radio :label="0">降序</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="点赞">
-                <el-radio-group v-model="query.rank_like">
-                  <el-radio :label="-1">无</el-radio>
-                  <el-radio :label="1">升序</el-radio>
-                  <el-radio :label="0">降序</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="评论">
-                <el-radio-group v-model="query.rank_comment">
-                  <el-radio :label="-1">无</el-radio>
-                  <el-radio :label="1">升序</el-radio>
-                  <el-radio :label="0">降序</el-radio>
-                </el-radio-group>
-              </el-form-item>
-
-              <el-form-item>
-                <el-button
-                  type="primary"
-                  @click="submitSearch"
-                >搜索</el-button>
-                <el-button @click="resetForm">重置</el-button>
-              </el-form-item>
-            </el-form>
-          </el-collapse-item>
-        </el-collapse>
+     
+        <!-- 组件 - 搜索文章的搜索框 -->
+        <search-article
+          ref="searchArticle"
+          :typeList="typeList"
+          @submit="submit"
+          @reset="resetForm"
+        ></search-article>
 
         <!--               简洁开关-->
         <el-switch
@@ -173,10 +93,25 @@
               class="box-card"
               shadow="hover"
             >
-              <div style="font-weight: 700;">{{ item.articleTitle }}</div>
-              <el-divider  v-if="!simpleMode" class="el-divider"><i class="el-icon-star-off"></i></el-divider>
-              <div  v-if="!simpleMode">{{ item.articleSummary }}</div>
-              <el-divider  v-if="!simpleMode" class="el-divider"><i class="el-icon-star-off"></i></el-divider>
+              <div style="font-weight: 700;">
+                <!-- 置顶标签 -->
+                <el-tag 
+                size="mini"
+                effect="dark"
+                type="danger"
+                v-if="item.articleRank"
+                >置顶</el-tag>
+                {{ item.articleTitle }}
+                </div>
+              <el-divider
+                v-if="!simpleMode"
+                class="el-divider"
+              ><i class="el-icon-star-off"></i></el-divider>
+              <div v-if="!simpleMode">{{ item.articleSummary }}</div>
+              <el-divider
+                v-if="!simpleMode"
+                class="el-divider"
+              ><i class="el-icon-star-off"></i></el-divider>
               <div>
                 <span><i class="el-icon-user"></i> {{ item.userName }} </span>
                 <el-divider direction="vertical"></el-divider>
@@ -235,33 +170,24 @@
 </template>
 
 <script>
-// import VueParticles from 'vue-particles'
-
 import { getIndexArticleList } from '@/api/article'
 import { getAllType } from '@/api/type'
 import { getToken } from '@/utils/auth'
 
+import SearchArticle from '@/components/SearchArticle'
+
 export default {
+  components: { SearchArticle },
   data() {
     return {
       islogin: false,
       // 简洁模式
       simpleMode: false,
       // 背景开关
-      backgroundMode: true, 
+      backgroundMode: true,
       avatarUrl: '',
       base_article_url: '/article?id=',
       condition: '',
-      query: {
-        article_author_name: '',
-        article_title: '',
-        article_type: '',
-        start: '',
-        end: '',
-        rank_view: -1,
-        rank_like: -1,
-        rank_comment: -1,
-      },
       // 文章列表
       articleList: [],
       // 类型列表
@@ -295,24 +221,28 @@ export default {
     this.avatarUrl = this.$store.getters.avatar
   },
   methods: {
+    // 将用户头像连接到后台
     linkToDashBoard() {
       // 判断用户是否登录
       this.islogin = undefined !== getToken()
       if (this.islogin) this.$router.push('/dashboard')
       else this.$router.push('/login')
     },
+    // 分页大小的改变
     handleSizeChange(val) {
       this.page_size = val
       this.get_article_list(1)
     },
+    // 当前页面的改变
     handleCurrentChange(val) {
       this.get_article_list(val)
     },
+    // 获取文章列表
     get_article_list(pn) {
       getIndexArticleList(pn, this.page_size, this.condition).then(
         (response) => {
           var pageInfo = response.extend.pageInfo
-          if(pageInfo.total === 0){
+          if (pageInfo.total === 0) {
             this.$message.error('没有相关文章~')
             return
           }
@@ -322,62 +252,27 @@ export default {
         }
       )
     },
+
+    // 获取类型列表
     get_type_list(pn) {
       getAllType().then((response) => {
         var pageInfo = response.extend.pageInfo
         this.typeList = pageInfo.records
       })
     },
-    submitSearch() {
-      this.generateQueryString()
-      this.get_article_list(1)
-    },
-    resetForm() {
-      this.query.article_author_name = ''
-      this.query.article_title = ''
-      this.query.article_type = ''
-      this.query.start = ''
-      this.query.end = ''
-      this.query.rank_view = '无'
-      this.query.rank_like = '无'
-      this.query.rank_comment = '无'
-      this.get_article_list(1)
-    },
-    generateQueryString() {
-      let condition = ''
-      let query = this.query
-      console.log(query);
-      if (query.article_author_name !== '') {
-        condition += 'article_author_name=' + query.article_author_name + '--'
-      }
-      if (query.article_title !== '') {
-        condition += 'article_title=' + query.article_title + '--'
-      }
-      if (query.article_type !== '') {
-        condition += 'type=' + String(query.article_type) + '--'
-      }
-      if (query.start !== '') {
-        condition += 'start=' + String(query.start) + '--'
-      }
-      if (query.end !== '') {
-        condition += 'end=' + String(query.end) + '--'
-      }
-      if (query.rank_view !== -1) {
-        condition += 'rank_view=' + String(query.rank_view) + '--'
-      }
-      if (query.rank_like !== -1) {
-        condition += 'rank_like=' + String(query.rank_like) + '--'
-      }
-      if (query.rank_comment !== -1) {
-        condition += 'rank_comment=' + String(query.rank_comment) + '--'
-      }
-      condition =
-        condition.lastIndexOf('#') === condition.length - 1
-          ? condition.substr(0, condition.length - 1)
-          : condition
 
-      this.condition = condition
+    // 提交搜索
+    submit() {
+      this.condition = this.$refs.searchArticle.generateQueryString()
+      this.get_article_list(1)
     },
+
+    // 文章列表重置
+    resetForm(){
+      this.condition = ''
+      this.get_article_list(1)
+    },
+    // 从类型获取文章(搜)
     get_article_by_type(typeId) {
       this.condition = 'type=' + String(typeId)
       this.get_article_list(1)
@@ -448,5 +343,4 @@ a {
     }
   }
 }
-
 </style>

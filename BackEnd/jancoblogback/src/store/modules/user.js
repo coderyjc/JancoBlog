@@ -41,6 +41,12 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
+        // if(response.code === 200){
+        //     this.$message({
+        //     message: '登录失败',
+        //     type: 'success',
+        //   })
+        // }
         commit('SET_TOKEN', response.extend.token)
         setToken(response.extend.token)
         resolve()

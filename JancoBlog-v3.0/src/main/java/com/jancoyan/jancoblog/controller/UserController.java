@@ -75,6 +75,8 @@ public class UserController {
             // 更新上次登录时间
             user.setUserLastLoginDate(new Date());
             user.updateById();
+        } else {
+            return Msg.fail().add("msg", "登录失败");
         }
 
         //登录记录
@@ -94,9 +96,8 @@ public class UserController {
             //插入用户登录信息
             log.insert();
             return Msg.success().add("token", token);
-        } else {
-            return Msg.fail().add("msg", "登录失败");
         }
+        return Msg.fail();
     }
 
 

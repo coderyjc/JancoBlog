@@ -2,92 +2,15 @@
   <div class="main">
     <!-- 搜索框 -->
     <el-col :span="12">
-      <el-collapse
-        accordion
-        class="search-bar"
-      >
-        <el-collapse-item>
-          <template slot="title">
-            <i
-              class="header-icon el-icon-search"
-              style="font-size:20px;margin-right: 5px;"
-            ></i>筛选文章
-          </template>
-          <el-form
-            ref="form"
-            label-width="80px"
-          >
-            <el-form-item label="标题包含">
-              <el-input v-model="query.article_title"></el-input>
-            </el-form-item>
-            <el-form-item label="作者">
-              <el-input v-model="query.article_author_name"></el-input>
-            </el-form-item>
-            <el-form-item label="发表时间">
-              <el-col :span="11">
-                <el-date-picker
-                  type="date"
-                  placeholder="开始日期"
-                  v-model="query.start"
-                  style="width: 100%;"
-                ></el-date-picker>
-              </el-col>
-              <el-col :span="11">
-                <el-date-picker
-                  type="date"
-                  placeholder="结束日期"
-                  v-model="query.end"
-                  style="width: 100%;"
-                ></el-date-picker>
-              </el-col>
-            </el-form-item>
-            <el-form-item label="类型">
-              <el-select
-                v-model="query.article_type"
-                filterable
-                placeholder="选择或搜索"
-              >
-                <el-option
-                  v-for="item in typeList"
-                  :key="item.typeId"
-                  :label="item.typeName"
-                  :value="item.typeId"
-                >
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="浏览量">
-              <el-radio-group v-model="query.rank_view">
-                <el-radio label="无"></el-radio>
-                <el-radio label="升序"></el-radio>
-                <el-radio label="降序"></el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="点赞">
-              <el-radio-group v-model="query.rank_like">
-                <el-radio label="无"></el-radio>
-                <el-radio label="升序"></el-radio>
-                <el-radio label="降序"></el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="评论">
-              <el-radio-group v-model="query.rank_comment">
-                <el-radio label="无"></el-radio>
-                <el-radio label="升序"></el-radio>
-                <el-radio label="降序"></el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item>
-              <el-button
-                type="primary"
-                @click="submitSearch"
-              >搜索</el-button>
-              <el-button @click="resetForm">重置</el-button>
-            </el-form-item>
-          </el-form>
-        </el-collapse-item>
-      </el-collapse>
+      <!-- 组件 - 搜索文章的搜索框 -->
+      <search-article
+        ref="searchArticle"
+        :typeList="typeList"
+        @submit="submit"
+        @reset="resetForm"
+      ></search-article>
     </el-col>
+    <!-- 文章表格 -->
     <el-table
       :data="tableData"
       border
@@ -189,6 +112,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <div class="btn-group">
       <el-button
         type="danger"
@@ -199,6 +123,8 @@
         @click="batchRecover"
       >恢复选中</el-button>
     </div>
+
+    <!-- 分页 -->
     <div class="pagiation">
       <el-pagination
         @size-change="handleSizeChange"
@@ -221,8 +147,10 @@ import {
   batchRecoverArticles,
 } from '@/api/article'
 import { getAllType } from '@/api/type'
-import { parseTime } from '@/utils/index'
+import SearchArticle from '@/components/SearchArticle'
+
 export default {
+  components: { SearchArticle },
   data() {
     return {
       loading: false,
@@ -233,16 +161,6 @@ export default {
       total: 0,
       multipleSelection: [],
       condition: '',
-      query: {
-        article_author_name: '',
-        article_title: '',
-        article_type: '',
-        start: '',
-        end: '',
-        rank_view: '',
-        rank_like: '',
-        rank_comment: '',
-      },
     }
   },
   created() {
@@ -264,13 +182,18 @@ export default {
     },
   },
   methods: {
+    // 分页的一页的大小
     handleSizeChange(val) {
       this.limit = val
       this.get_article_list(1)
     },
+
+    // 跳转到某一页
     handleCurrentChange(val) {
       this.get_article_list(val)
     },
+
+    // 删除文章
     deleteArticle(row) {
       var msg =
         '将要彻底删除文章 <' + row.articleTitle + '> ！不可恢复！是否继续?'
@@ -299,9 +222,10 @@ export default {
           })
         })
     },
+
+    // 恢复文章
     recoverArticle(row) {
-      var msg =
-        '将要恢复文章 <' + row.articleTitle + '> 是否继续?'
+      var msg = '将要恢复文章 <' + row.articleTitle + '> 是否继续?'
       this.$confirm(msg, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -327,6 +251,8 @@ export default {
           })
         })
     },
+
+    // 获取文章列表
     get_article_list(pn) {
       this.loading = true
       getAllDeleted(pn, this.limit, this.condition).then((response) => {
@@ -336,14 +262,20 @@ export default {
       })
       this.loading = false
     },
+
+    // 获取类型列表
     get_type_list() {
       getAllType().then((response) => {
         this.typeList = response.extend.pageInfo.records
       })
     },
+
+    // 多选
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
+
+    // 批量删除
     batchDelete() {
       var ids = ''
       if (this.multipleSelection.length === 0) {
@@ -380,6 +312,8 @@ export default {
           })
         })
     },
+
+    // 批量恢复
     batchRecover() {
       var ids = ''
       if (this.multipleSelection.length === 0) {
@@ -416,66 +350,19 @@ export default {
           })
         })
     },
-    submitSearch() {
-      this.generateQueryString()
+
+    // 提交搜索
+    submit() {
+      this.condition = this.$refs.searchArticle.generateQueryString()
       this.get_article_list(1)
     },
+
+    // 文章列表重置
     resetForm() {
-      this.query.article_author_name = ''
-      this.query.article_title = ''
-      this.query.article_type = ''
-      this.query.start = ''
-      this.query.end = ''
-      this.query.rank_view = ''
-      this.query.rank_like = ''
-      this.query.rank_comment = ''
       this.condition = ''
       this.get_article_list(1)
     },
-    generateQueryString() {
-      let condition = ''
-      let query = this.query
-      if (query.article_author_name !== '') {
-        condition += 'article_author_name=' + query.article_author_name + '--'
-      }
-      if (query.article_title !== '') {
-        condition += 'article_title=' + query.article_title + '--'
-      }
-      if (query.article_type !== '') {
-        condition += 'type=' + String(query.article_type) + '--'
-      }
-      if (query.start !== '') {
-        condition += 'start=' + parseTime(query.start) + '--'
-      }
-      if (query.end !== '') {
-        condition += 'end=' + parseTime(query.end) + '--'
-      }
-
-      if (query.rank_view == '升序') {
-        condition += 'rank_view=1--'
-      } else if (query.rank_view == '降序') {
-        condition += 'rank_view=0--'
-      }
-
-      if (query.rank_like == '升序') {
-        condition += 'rank_like=1--'
-      } else if (query.rank_like == '降序') {
-        condition += 'rank_like=0--'
-      }
-
-      if (query.rank_comment == '升序') {
-        condition += 'rank_comment=1--'
-      } else if (query.rank_comment == '降序') {
-        condition += 'rank_comment=0--'
-      }
-
-      condition =
-        condition.lastIndexOf('--') === condition.length - 2
-          ? condition.substr(0, condition.length - 2)
-          : condition
-
-      this.condition = condition
-    },
+   
   },
 }
 </script>
