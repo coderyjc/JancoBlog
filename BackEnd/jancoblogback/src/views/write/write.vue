@@ -168,7 +168,7 @@ export default {
             this.post_article.article_type,
             this.post_article.article_summary,
             this.post_article.is_comment,
-            this.content,
+            this.post_article.article_md,
             this.html
           ).then((response) => {
             var id = response.extend.id

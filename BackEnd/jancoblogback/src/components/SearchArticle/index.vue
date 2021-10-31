@@ -19,7 +19,7 @@
         <el-form-item label="标题包含">
           <el-input v-model="query.article_title"></el-input>
         </el-form-item>
-        <el-form-item label="作者">
+        <el-form-item label="作者" v-if="isAdmin">
           <el-input v-model="query.article_author_name"></el-input>
         </el-form-item>
         <el-form-item label="发表时间">
@@ -98,6 +98,10 @@ export default {
     typeList: {
       type: Array
     },
+    isAdmin:{
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {

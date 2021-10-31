@@ -6,6 +6,7 @@
       <search-article
         ref="searchArticle"
         :typeList="typeList"
+        :isAdmin="true"
         @submit="submit"
         @reset="resetForm"
       ></search-article>

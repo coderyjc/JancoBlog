@@ -2,6 +2,7 @@ package com.jancoyan.jancoblog.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.jancoyan.jancoblog.pojo.Article;
 import com.jancoyan.jancoblog.pojo.Comment;
 import com.jancoyan.jancoblog.pojo.PageComment;
 import com.jancoyan.jancoblog.pojo.User;
@@ -188,6 +189,12 @@ public class CommentController {
         comment.setCommentDate(new Date());
         comment.setCommentContent(content);
         comment.setCommentAuthorIp(request.getScheme());
+
+        Article article = new Article();
+        article.setArticleId(articleId);
+        article = article.selectById();
+        article.setArticleCommentCount(article.getArticleCommentCount() + 1);
+        article.updateById();
 
         comment.insert();
         return Msg.success();
