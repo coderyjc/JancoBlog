@@ -128,7 +128,7 @@
           <span style="margin-left: 10px">{{ scope.row.userCreateDate | dateFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         label="上次登录"
         width="200"
       >
@@ -141,7 +141,7 @@
         label="IP"
         width="150"
       >
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="userRole"
         label="权限"
@@ -154,11 +154,11 @@
         width="220"
       >
         <template slot-scope="scope">
-          <el-button
+          <!-- <el-button
             @click="viewDetail(scope.row)"
             type="text"
             size="small"
-          >详细信息</el-button>
+          >详细信息</el-button> -->
           <el-button
             @click="changePwdDialog(scope.row)"
             type="text"
