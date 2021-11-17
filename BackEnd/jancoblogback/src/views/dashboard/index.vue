@@ -236,7 +236,6 @@ export default {
       }
       return data
     },
-    //计算时间，类似于几分钟前，几小时前，几天前等
     changeTime(val){
         let time = new Date(val); //先将接收到的json格式的日期数据转换成可用的js对象日期
         return new timeago().format(time, 'zh_CN'); //转换成类似于几天前的格式

@@ -272,8 +272,6 @@ public class ArticleController {
         return Msg.success().add("article", article);
     }
 
-
-
     /**
      * 查看文章的时候获取单个文章
      * @param articleId 文章ID

@@ -8,7 +8,7 @@
         <img class="pic-404__child right" src="@/assets/404_images/404_cloud.png" alt="404">
       </div>
       <div class="bullshit">
-        <div class="bullshit__oops">哦！找不到地址!</div>
+        <div class="bullshit__oops">找不到地址了!</div>
         <div class="bullshit__headline">{{ message }}</div>
         <div class="bullshit__info">请检查您的URL是否正确，或者点击下方按钮回到首页</div>
         <a href="" class="bullshit__return-home">回到首页</a>
@@ -23,7 +23,7 @@ export default {
   name: 'Page404',
   computed: {
     message() {
-      return '页面不存在...'
+      return '页面不存在了...'
     }
   }
 }

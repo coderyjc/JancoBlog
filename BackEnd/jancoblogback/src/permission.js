@@ -12,7 +12,7 @@ const whiteList = ['/', '/article', '/login', '/404'] // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
 
-  console.log('进入beforeeach, 目标是' + to.path);
+  // console.log('进入beforeeach, 目标是' + to.path);
 
   // 开始登录的进度条
   NProgress.start()

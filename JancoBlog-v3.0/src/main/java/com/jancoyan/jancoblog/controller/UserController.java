@@ -148,7 +148,6 @@ public class UserController {
         return Msg.fail().add("msg", "找不到用户");
     }
 
-
     /**
      * 获取当前已经登录的用户的详细信息
      * @param request req
@@ -207,7 +206,7 @@ public class UserController {
             @RequestParam(value = "password") String password,
             @RequestParam(value = "code") String code,
             HttpServletRequest request
-    ){
+    ) throws IOException {
         String verify = (String) request.getSession().getAttribute(VerifyCodeUtil.RANDOMCODEKEY);
 
         if(!verify.toLowerCase(Locale.ROOT).equals(code.toLowerCase(Locale.ROOT))){
@@ -224,6 +223,10 @@ public class UserController {
                 .setUserRole(2)
                 .setUserCreateDate(new Date())
                 .setUserIp(request.getRemoteAddr());
+        // 生成头像
+        AvatarUtil.generateImg(userName,
+                ConstantUtil.STATIC_RESOURCES + "/avatar/",
+                userName);
         // 插入
         boolean insert = user.insert();
         if(!insert){
@@ -339,11 +342,8 @@ public class UserController {
             return Msg.fail().add("msg", "请选择jpg,jpeg,gif,png格式的图片");
         }
         String savePath = null;
-        try {
-            savePath = new File(".").getCanonicalPath() + "\\target\\classes\\static\\avatar\\";
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //            savePath = new File(".").getCanonicalPath() + "\\target\\classes\\static\\avatar\\";
+        savePath = ConstantUtil.STATIC_RESOURCES + "/avatar/";
 
         File savePathFile = new File(savePath);
         if (!savePathFile.exists()) {
@@ -352,7 +352,7 @@ public class UserController {
         }
 
         //用户头像名称就是用户的id
-        String filename = user.getUserId() + "." + suffix;
+        String filename = user.getUserName() + "." + suffix;
         // 如果头衔已存在就先删除
         File oldFile = new File(savePath + filename);
         if(oldFile.exists()){
@@ -589,7 +589,7 @@ public class UserController {
             @RequestParam("username") String userName,
             @RequestParam("password") String password,
             HttpServletRequest request
-    ){
+    ) throws IOException {
 
         User user = new User();
         // 设置信息
@@ -601,6 +601,11 @@ public class UserController {
                 .setUserRole(2)
                 .setUserCreateDate(new Date())
                 .setUserIp(request.getRemoteAddr());
+
+        // 生成头像
+        AvatarUtil.generateImg(userName,
+                ConstantUtil.STATIC_RESOURCES + "/avatar",
+                userName);
         // 插入
         boolean insert = user.insert();
         if(!insert){

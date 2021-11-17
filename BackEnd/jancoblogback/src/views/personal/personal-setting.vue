@@ -305,7 +305,7 @@ export default {
       getUserDetailInfo().then((res) => {
         _this.userInfo = res.extend.info
         _this.userAvatar =
-          'http://localhost:8080/avatar/' + _this.userInfo.userId + '.png'
+          'http://localhost:8080/avatar/' + _this.user.userName + '.png'
       })
       getUserInfo().then((res) => {
         _this.user = res.extend.user

@@ -9,6 +9,6 @@ package com.jancoyan.jancoblog.utils;
 
 public class ConstantUtil {
 
-
+    public static final String STATIC_RESOURCES =  "C:/Users/Administrator/Pictures/webstatic";
 
 }

@@ -35,6 +35,7 @@
               <el-input
                 type="password"
                 v-model="login.password"
+                @keydown.native="handleLogin"
               ></el-input>
             </el-form-item>
             <el-button
@@ -90,6 +91,7 @@
                 <el-input
                   type="text"
                   v-model="register.code"
+                  @keyup.enter.native="handleRegister"
                 >
                 </el-input>
               </el-col>

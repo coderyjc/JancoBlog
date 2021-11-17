@@ -68,7 +68,7 @@ const actions = {
         // 获取安全的用户信息
         const user = response.extend.user
 
-        const avatarUrl = 'http://localhost:8080/avatar/' + user.userId + '.png'
+        const avatarUrl = 'http://localhost:8080/avatar/' + user.userName + '.png'
 
         commit('SET_NAME', user.userName)
         commit('SET_ID', user.userId)
