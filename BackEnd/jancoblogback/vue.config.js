@@ -40,7 +40,7 @@ module.exports = {
     proxy: {
       '/app': {
         // 目标 API 地址
-        target: 'http://localhost:8080/',
+        target: 'http://localhost:8000/',
         // 如果要代理 websockets
         // ws: true,
         // 将主机标头的原点更改为目标URL

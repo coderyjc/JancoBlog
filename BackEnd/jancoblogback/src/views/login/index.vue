@@ -35,7 +35,7 @@
               <el-input
                 type="password"
                 v-model="login.password"
-                @keydown.native="handleLogin"
+                @keyup.enter.native="handleLogin"
               ></el-input>
             </el-form-item>
             <el-button
@@ -141,8 +141,8 @@ export default {
     return {
       currPanel: 'first',
       login: {
-        username: 'admin',
-        password: '333',
+        username: '',
+        password: '',
       },
       register: {
         username: '',
@@ -170,7 +170,8 @@ export default {
   },
   methods: {
     generateVerifyCode() {
-      var url = 'http://localhost:8080/user/getverifycode?' + Math.random()
+      // var url = 'http://101.201.64.102:8000/user/getverifycode?' + Math.random()
+      var url = 'http://localhost:8000/user/getverifycode?' + Math.random()
       this.verifyCode = url
     },
     handleLogin() {

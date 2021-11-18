@@ -71,7 +71,7 @@ public class UserController {
             // 登录成功, 生成token
             token = JsonWebTokenUtils.createToken(user.getUserId().longValue());
             // 存到redis数据库, 设置过期时间为 60 分钟
-            redisUtil.set(token, user, 30 * 60);
+            redisUtil.set(token, user, 120 * 60);
             // 更新上次登录时间
             user.setUserLastLoginDate(new Date());
             user.updateById();
@@ -367,7 +367,7 @@ public class UserController {
             return Msg.fail().add("msg", "保存文件异常");
         }
 
-//        //返回文件名称
+        //返回文件名称
         return Msg.success().add("suc", true);
     }
 
@@ -518,7 +518,6 @@ public class UserController {
                 if("userField".equals(name)){
                     info.setUserField(value.substring(1, value.length() - 1));
                 }
-
             }
 
         }

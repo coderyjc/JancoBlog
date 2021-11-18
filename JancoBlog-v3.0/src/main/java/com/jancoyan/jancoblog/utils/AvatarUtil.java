@@ -20,14 +20,6 @@ import javax.imageio.ImageIO;
  * 根据姓名创建图片
  */
 public class AvatarUtil {
-//    /**
-//     * @throws IOException
-//     * @throws
-//     **/
-//    public static void main(String[] args) throws IOException {
-//        String name = "Jancoyan";
-//        generateImg(name, "C:/Users/Administrator/Pictures/webstatic/", name);
-//    }
     /**
      * 绘制字体头像
      * 如果是英文名，只显示首字母大写

@@ -374,7 +374,7 @@ export default {
     // 将用户头像连接到后台
     linkToDashBoard() {
       // 判断用户是否登录
-      this.islogin = undefined !== getToken()
+      this.islogin = (undefined !== getToken())
       if (this.islogin) this.$router.push('/dashboard')
       else this.$router.push('/login')
     },
@@ -393,7 +393,7 @@ export default {
         _this.author = response.extend.data
         // 作者头像
         _this.authorAvatar =
-          'http://localhost:8080/avatar/' + _this.author.articleAuthor + '.png'
+          'http://101.201.64.102:8000/avatar/' + _this.author.userName + '.png'
       })
       // 评论信息
       this.get_comment_list(this.$route.query, 1)

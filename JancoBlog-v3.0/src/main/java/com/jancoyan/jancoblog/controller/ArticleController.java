@@ -5,10 +5,7 @@ import com.jancoyan.jancoblog.pojo.*;
 import com.jancoyan.jancoblog.service.ArticleService;
 import com.jancoyan.jancoblog.service.CommentService;
 import com.jancoyan.jancoblog.service.LikeRecordService;
-import com.jancoyan.jancoblog.utils.ArticleUtils;
-import com.jancoyan.jancoblog.utils.Msg;
-import com.jancoyan.jancoblog.utils.RedisUtil;
-import com.jancoyan.jancoblog.utils.TimeUtils;
+import com.jancoyan.jancoblog.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -21,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -453,9 +451,7 @@ public class ArticleController {
 
         // 获取当前年-月， 如 2021-01
         String nowMonth = TimeUtils.getCurrentTimeString().substring(0, 7);
-        String savePath =
-                new File(".").getCanonicalPath() + "\\target\\classes\\static\\p\\" +
-                        nowMonth + "\\";
+        String savePath = ConstantUtil.STATIC_RESOURCES + "/p/" + nowMonth + "/";
 
         File savePathFile = new File(savePath);
         if (!savePathFile.exists()) {
@@ -474,7 +470,7 @@ public class ArticleController {
             return Msg.fail().add("msg", "保存文件异常");
         }
 
-        String url = "http://localhost:8080/p/" + nowMonth + "/" + filename;
+        String url =  ConstantUtil.STATIC_URL + "/p/" + nowMonth + "/" + filename;
 
         //返回文件名称
         return Msg.success().add("url", url);
@@ -624,7 +620,11 @@ public class ArticleController {
             articleImage.setInsertDate(new Date(now));
             articleImage.setArticleId(article.getArticleId());
             articleImage.setFilename(image);
-            articleImage.insert();
+            try {
+                articleImage.insert();
+            }catch (Exception e){
+                // 略过
+            }
         }
 
         boolean suc = article.updateById();

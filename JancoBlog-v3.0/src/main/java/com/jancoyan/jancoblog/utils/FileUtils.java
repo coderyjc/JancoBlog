@@ -16,27 +16,20 @@ public class FileUtils {
 
 
     /**
-     * 删除指定图片
+     * 删除文章中的指定图片
      * @param date 日期
      * @param imageName 图片的名称
      */
     public static void deleteImageIfExists(Date date, String imageName)  {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM");
-        String format = simpleDateFormat.format(date);
+        String formatMonth = simpleDateFormat.format(date);
         String path = null;
-        try {
-            path = new File(".").getCanonicalPath() + "\\target\\classes\\static\\p\\" +
-                    format + "\\" + imageName;
-            File file = new File(path);
-            if(file.exists()){
-                file.delete();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        path = ConstantUtil.STATIC_RESOURCES + "/p/" + formatMonth + "/" + imageName;
+        File file = new File(path);
+        if(file.exists()){
+            file.delete();
         }
     }
-
-
 
 
 }
