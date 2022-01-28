@@ -2,6 +2,19 @@
 
 ## 更新日志
 
+### 2022.01.27
+
+<font style="color:red;font-size:20px">JancoBlog V4.0 计划启动</font>
+
+前端分两块
+
+- 前台 - 使用原生前端技术 + Vue-Cli
+- 后台 - 使用vue-element-admin进行后台管理
+
+后端接口基本不变。
+
+---
+
 ### 2021.09.14
 
 <font style="color:red;font-size:20px">JancoBlog V3.0 完全重构</font>

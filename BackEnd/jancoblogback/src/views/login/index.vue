@@ -170,8 +170,8 @@ export default {
   },
   methods: {
     generateVerifyCode() {
-      // var url = 'http://101.201.64.102:8000/user/getverifycode?' + Math.random()
-      var url = 'http://localhost:8000/user/getverifycode?' + Math.random()
+      var url = 'http://101.201.64.102:8000/user/getverifycode?' + Math.random()
+      // var url = 'http://localhost:8000/user/getverifycode?' + Math.random()
       this.verifyCode = url
     },
     handleLogin() {

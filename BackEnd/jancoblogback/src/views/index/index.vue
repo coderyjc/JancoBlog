@@ -30,6 +30,7 @@
             <span class="logo">Jancoyan</span>
           </el-menu-item>
           <el-menu-item index="0">首页</el-menu-item>
+          <!-- <el-menu-item index="1">读书笔记</el-menu-item> -->
           <el-menu-item
             style="float: right"
             @click="linkToDashBoard"

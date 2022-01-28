@@ -101,8 +101,8 @@ export default {
         const formData = new FormData()
         formData.append('file', blob)
         const ajax = new XMLHttpRequest()
-        // ajax.open('POST', 'http://101.201.64.102:8000/article/picture', true)
-        ajax.open('POST', 'http://localhost:8000/article/picture', true)
+        ajax.open('POST', 'http://101.201.64.102:8000/article/picture', true)
+        // ajax.open('POST', 'http://localhost:8000/article/picture', true)
         ajax.send(formData)
         ajax.onreadystatechange = function () {
           if (ajax.readyState === 4) {

@@ -1,6 +1,6 @@
 jar:
-  fileUrl: /home/jancoyan/springbootApp/blog/static
-#  fileUrl: C:/Users/Administrator/Pictures/webstatic
+  # fileUrl: /home/jancoyan/springbootApp/blog/static
+ fileUrl: C:/Users/Administrator/Pictures/webstatic
 
 spring:
   datasource:
