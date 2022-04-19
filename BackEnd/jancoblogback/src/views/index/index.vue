@@ -27,9 +27,9 @@
           mode="horizontal"
         >
           <el-menu-item>
-            <span class="logo">Jancoyan</span>
+            <span class="logo">NICE</span>
           </el-menu-item>
-          <el-menu-item index="0">首页</el-menu-item>
+          <!-- <el-menu-item index="0">首页</el-menu-item> -->
           <!-- <el-menu-item index="1">读书笔记</el-menu-item> -->
           <el-menu-item
             style="float: right"
@@ -52,8 +52,9 @@
       <el-col
         :span="10"
         :offset="4"
+        class="left"
       >
-     
+
         <!-- 组件 - 搜索文章的搜索框 -->
         <search-article
           ref="searchArticle"
@@ -96,7 +97,7 @@
             >
               <div style="font-weight: 700;">
                 <!-- 置顶标签 -->
-                <el-tag 
+                <el-tag
                 size="mini"
                 effect="dark"
                 type="danger"
@@ -139,10 +140,12 @@
         </div>
 
       </el-col>
+
       <!--    右栏分类等-->
       <el-col
         :span="5"
         :offset="1"
+        class="right"
       >
         <!-- 文章类型分类 -->
         <el-card
@@ -283,6 +286,20 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+
+*{
+/* 设置网页的字体的基调 */
+font-family: 'Nunito', sans-serif;
+/* 设置所有盒子的展示样式 */
+box-sizing: border-box;
+/* outline和border都是把所有元素的轮廓取消 */
+outline: none; border: none;
+/* 字体样式 */
+text-decoration: none;
+/* 设置所有的变化都是线性的持续0.2秒的 */
+transition: all .2s linear;
+}
+
 a {
   text-decoration: none;
 }
@@ -344,4 +361,15 @@ a {
     }
   }
 }
+
+@media (max-width: 991px) {
+
+  .right{
+    display: none;
+  }
+
+
+}
+
+
 </style>

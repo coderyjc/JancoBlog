@@ -35,7 +35,7 @@ service.interceptors.response.use(
 
     // if the custom code is not 100, it is judged as an error.
     if (res.code !== 100) {
-    
+
       // 数据CRUD问题，直接显示错误信息
       if (res.code === 200) {
         Message({
