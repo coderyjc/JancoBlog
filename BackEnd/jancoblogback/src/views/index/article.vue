@@ -1,20 +1,23 @@
 <template>
-  <div id="app">
+  <div class="app">
+
+
     <!--    导航栏-->
-    <el-row style="position: fixed; width:100%; z-index: 1">
-      <el-col
-        :span="14"
-        :offset="5"
-      >
+    <el-row
+      style="position: fixed; width:100%; z-index: 1"
+    >
+      <el-col>
         <el-menu
           default-active="0"
-          class="el-menu-demo"
+           class="nav-bar"
           mode="horizontal"
         >
+          <el-menu-item class="smallscreen">
+            <!-- 目录抽屉 -->
+            <i class="el-icon-s-unfold" @click="toggleDrawer()"></i>
+          </el-menu-item>
           <el-menu-item>
-            <router-link to="/dashboard">
-              <span class="logo">Jancoyan</span>
-            </router-link>
+            <a href="http://101.201.64.102" class="logo">NICE</a>
           </el-menu-item>
           <el-menu-item
             style="float: right"
@@ -34,78 +37,49 @@
     <!--        页面主体-->
     <el-row
       :gutter="24"
-      style="padding-top: 60px"
-    >
-      <!--            作者信息栏 和 文章目录导航-->
-      <el-col :span="5">
-        <!--            文章信息卡片-->
-        <el-card
-          shadow="hover"
-          style="text-align: center;"
-        >
-          <div class="article-info">
-            <!--                标题-->
-            <h2>{{ article.articleTitle }}</h2>
-            <div>{{ article.articlePostTime | dateFormat }}</div>
-            <el-divider></el-divider>
-            <!--                    文章信息栏-->
-            <div>
-              <div class="article-count">
-                <span class="count-number">{{ article.articleViewCount }}</span>
-                <span class="count-char">浏览</span>
-              </div>
-              <el-divider direction="vertical"></el-divider>
-              <div class="article-count">
-                <span class="count-number">{{ article.articleLikeCount }}</span>
-                <span class="count-char">获赞</span>
-              </div>
-              <el-divider direction="vertical"></el-divider>
-              <div class="article-count">
-                <span class="count-number">{{ article.articleCommentCount }}</span>
-                <span class="count-char">评论</span>
-              </div>
-            </div>
-            <el-divider></el-divider>
-            <!--                    文章操作栏-->
-            <div class="article-action">
-              <!--                        点赞-->
-              <div class="article-count">
-                <span
-                  class="count-number"
-                  @click="likeArticle"
-                >
-                  <svg
-                    t="1633675948290"
-                    viewBox="0 0 1024 1024"
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    p-id="2028"
-                    width="40"
-                    height="40"
-                  >
-                    <path
-                      d="M938.666667 362.666667A234.666667 234.666667 0 0 0 704 128 271.36 271.36 0 0 0 512 216.32 271.36 271.36 0 0 0 320 128 234.666667 234.666667 0 0 0 85.333333 362.666667c0 167.253333 202.666667 352 298.666667 448l97.28 97.28a32 32 0 0 0 22.613333 9.386666h16.213334a32 32 0 0 0 22.613333-9.386666L640 810.666667c96-96 298.666667-280.746667 298.666667-448z"
-                      p-id="2029"
-                      :fill="like.liked ? '#f00' : '#dbdbdb'"
-                    ></path>
-                  </svg>
-                </span>
-              </div>
-            </div>
+      style="padding-top: 60px">
+
+<!-- 小屏幕目录 -->
+      <el-drawer
+        title="目录"
+        :visible.sync="drawerVisibility"
+        direction="ltr">
+        <div class="catalog-box">
+        <li v-for="item in catalog" :class="item.id == activeId ? 'active' : ''">
+          <a @click="scrollIntoView(item.id)">
+            <span :style="'margin-left:' + (7*item.level) + 'px'">
+              {{item.title}}
+            </span>
+          </a>
+        </li>
+      </div>
+<!-- 大屏幕目录 -->
+      </el-drawer>
+      <el-col :span="5" style="position: fixed;" class="catalog-col" v-if="catalog.length >= 1">
+        <el-card>
+          <div class="catalog-box">
+          <li v-for="item in catalog" :class="item.id == activeId ? 'active' : ''">
+            <a @click="scrollIntoView(item.id)">
+              <span :style="'margin-left:' + (7*item.level) + 'px'">
+                {{item.title}}
+              </span>
+            </a>
+          </li>
           </div>
-
         </el-card>
-
-        <!--            文章目录导航-->
       </el-col>
 
+<!-- 文章主要部分 -->
       <el-col
-        :span="14"
+        :md="{span: 14, offset: 5}"
+        :sm="{span: 24}"
+        :xs="{span: 24}"
         style="padding: 0 60px"
       >
         <!--            内容-->
         <div
           class="md-content"
+          id="md-content"
           v-html='article.articleHtml'
           style="word-break:break-all;"
         >
@@ -147,19 +121,6 @@
                   <!--                                评论时间-->
                   <span class="comment-info-item"><i class="el-icon-date"></i>
                     {{ item.commentDate | dateFormat }}</span>
-                  <!--                                赞同的数量-->
-                  <!-- <span class="comment-info-item"><i class="el-icon-caret-top"></i>
-                    {{ item.commentLikeCount }}</span> -->
-                  <!--                                回复和赞同-->
-                  <!-- <el-row style="float: right">
-                    <el-button
-                      type="primary"
-                      size="mini"
-                      plain
-                      @click="likeComment(item.commentId)"
-                    >赞同</el-button>
-                    <el-button size="mini">回复</el-button>
-                  </el-row> -->
                 </div>
               </el-card>
             </div>
@@ -224,12 +185,72 @@
         </el-col>
       </el-col>
 
+      <!--            作者信息栏 和 文章目录导航-->
       <el-col :span="5">
+        <!--            文章信息卡片-->
+        <el-card
+          shadow="hover"
+          style="text-align: center;"
+          class="side-card"
+        >
+          <div class="article-info">
+            <!--                标题-->
+            <h2>{{ article.articleTitle }}</h2>
+            <div>{{ article.articlePostTime | dateFormat }}</div>
+            <el-divider></el-divider>
+            <!--                    文章信息栏-->
+            <div>
+              <div class="article-count">
+                <span class="count-number">{{ article.articleViewCount }}</span>
+                <span class="count-char">浏览</span>
+              </div>
+              <el-divider direction="vertical"></el-divider>
+              <div class="article-count">
+                <span class="count-number">{{ article.articleLikeCount }}</span>
+                <span class="count-char">获赞</span>
+              </div>
+              <el-divider direction="vertical"></el-divider>
+              <div class="article-count">
+                <span class="count-number">{{ article.articleCommentCount }}</span>
+                <span class="count-char">评论</span>
+              </div>
+            </div>
+            <el-divider></el-divider>
+            <!--                    文章操作栏-->
+            <div class="article-action">
+              <!--                        点赞-->
+              <div class="article-count">
+                <span
+                  class="count-number"
+                  @click="likeArticle"
+                >
+                  <svg
+                    t="1633675948290"
+                    viewBox="0 0 1024 1024"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    p-id="2028"
+                    width="40"
+                    height="40"
+                  >
+                    <path
+                      d="M938.666667 362.666667A234.666667 234.666667 0 0 0 704 128 271.36 271.36 0 0 0 512 216.32 271.36 271.36 0 0 0 320 128 234.666667 234.666667 0 0 0 85.333333 362.666667c0 167.253333 202.666667 352 298.666667 448l97.28 97.28a32 32 0 0 0 22.613333 9.386666h16.213334a32 32 0 0 0 22.613333-9.386666L640 810.666667c96-96 298.666667-280.746667 298.666667-448z"
+                      p-id="2029"
+                      :fill="like.liked ? '#f00' : '#dbdbdb'"
+                    ></path>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </el-card>
 
         <!--            作者信息卡片-->
         <el-card
           shadow="hover"
-          style="text-align: center;"
+          style="text-align: center;display:fixed;"
+          class="side-card"
         >
           <!--                头像-->
           <el-avatar
@@ -240,7 +261,7 @@
             <!--                用户名-->
             <h3>{{ author.userName }}</h3>
             <!--                签名-->
-            <blockquote> {{ author.userSignature }} </blockquote>
+            <quote> {{ author.userSignature }} </quote>
             <el-divider></el-divider>
             <!-- 文章数量、获赞、收藏-->
             <div>
@@ -262,9 +283,9 @@
           </div>
         </el-card>
 
-        <!--            推荐文章列表-->
 
       </el-col>
+
     </el-row>
 
     <!--    返回顶部-->
@@ -285,6 +306,7 @@ import {
 import { getAuthorInfo } from '@/api/user'
 import { getCommentByArticle, likeComment, postComment } from '@/api/comment'
 import { isLiked } from '@/api/like'
+import { ConsoleWriter } from 'istanbul-lib-report'
 
 export default {
   data() {
@@ -302,10 +324,17 @@ export default {
       }, 100)
     }
     return {
+      // 目录
+      catalog: [],
+      // 激活的目录
+      activeId: '',
+      // 抽屉开关
+      drawerVisibility: false,
       // 用户有没有登录
       userlogin: false,
       // 用户头像地址
       avatarUrl: '',
+      authorAvatar: '',
       // 评论表单
       form: {
         articleId: '',
@@ -356,6 +385,13 @@ export default {
     this.query = this.$router.query
     this.avatarUrl = this.$store.getters.avatar
   },
+  mounted() {
+    this.$refs.document = document
+    let _this = this
+    window.addEventListener('scroll', function() {
+      _this.loadScroll()
+    })
+  },
   filters: {
     dateFormat(date) {
       var s = new Date(date)
@@ -402,6 +438,7 @@ export default {
         _this.like.liked = res.extend.suc
       })
       hljs.highlightAll() // 渲染代码
+      this.generateTableOfContent() // 生成目录
     },
     get_comment_list(query, pn) {
       var _this = this
@@ -462,6 +499,79 @@ export default {
         _this.article.articleViewCount += 1
       })
     },
+    generateTableOfContent(){
+      let paraent = document.getElementById("md-content")
+      let doms = paraent.querySelectorAll('h1,h2,h3,h4,h5,h6')
+      let hEles = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+      let catalog = []
+      let index = 0
+
+      if(doms.length > 0){
+        doms.forEach(element => {
+           var nodetext = element.innerHTML.replace(/<\/?[^>]+>/g, "");
+            nodetext = nodetext.replace(/&nbsp;/ig, "");
+            let name = element.nodeName.toLowerCase();
+            if (hEles.includes(name)) {
+              index++;
+              let id = `catalog_${index}`;
+              element.setAttribute("id", id)
+              let level = name.replace("h", "");
+              catalog.push({ id: id, key: name, title: nodetext, level: Number(level) });
+            }
+        })
+        this.catalog = catalog
+      }
+    },
+    toggleDrawer(){
+      this.drawerVisibility = true
+      this.loadScroll()
+    },
+    scrollIntoView(traget) {
+      let document =  this.$refs.document
+      const tragetElem = document.getElementById(traget);
+      const tragetElemPostition = tragetElem.offsetTop - 80;
+
+        // 当前滚动高度
+        let scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop;
+        // 滚动step方法
+        const step = function() {
+          // 距离目标滚动距离
+          let distance = tragetElemPostition - scrollTop;
+
+          // 目标需要滚动的距离，也就是只走全部距离的五分之一
+          scrollTop = scrollTop + distance / 3;
+          if (Math.abs(distance) < 1) {
+            window.scrollTo(0, tragetElemPostition);
+          } else {
+            window.scrollTo(0, scrollTop);
+            setTimeout(step, 20);
+          }
+        };
+        step();
+    },
+    loadScroll: function () {
+      let document = this.$refs.document
+      let _this = this
+      this.catalog.forEach(cata => {
+          let El = document.getElementById(cata.id)
+          if(El == null) return
+          let toBottom = El.getBoundingClientRect().bottom
+          if(toBottom < 150 && toBottom > 0){
+            // 给这个元素加上active，其他的都不加
+            if(_this.activeId != cata.id){
+              for(let i = 0; i < _this.catalog.length; i++){
+                if(_this.catalog[i].id == cata.id) {
+                  _this.activeId = cata.id
+                  // console.log(_this.activeId);
+                  break
+                }
+              }
+            }
+            return
+          }
+      })
+    }
   },
 }
 </script>
@@ -470,12 +580,60 @@ export default {
 <style lang='scss' scoped>
 @import '../../assets/css/highlight.css';
 
+*{
+  /* 设置网页的字体的基调 */
+  font-family: '等线';
+  /* 设置所有盒子的展示样式 */
+  box-sizing: border-box;
+  /* outline和border都是把所有元素的轮廓取消 */
+  outline: none; border: none;
+  /* 字体样式 */
+  text-decoration: none;
+  /* 设置所有的变化都是线性的持续0.2秒的 */
+  transition: all .2s linear;
+  scroll-behavior: smooth;
+}
+
 a {
   text-decoration: none;
 }
 
 body {
   background-color: white;
+}
+
+
+.app{
+
+  .nav-bar{
+    padding: 0 18%;
+
+    .smallscreen {
+      display: none;
+    }
+  }
+
+  .catalog-box{
+    .active{
+      background-color: #efefef;
+    }
+    li{
+      list-style: none;
+      a{
+        display: block;
+        width:100%;
+        height: 100%;
+        padding: 5px 10px;
+        &:hover{
+          background-color: #efefef;
+        }
+      }
+    }
+  }
+
+  .side-card{
+    margin: 20px 0;
+  }
 }
 
 /*导航栏*/
@@ -513,30 +671,8 @@ h1 {
 }
 
 /* 文章内容 */
-.md-content {
+#md-content {
   line-height: 26px;
-
-  // blockquote {
-  //   padding: 20px;
-  //   background-color: #f7f6f3;
-  // }
-
-  // code {
-  //   display: block;
-  //   padding: 20px;
-  //   background-color: #f7f6f3;
-  // }
-
-  // h2 {
-  //   margin: 15px 0;
-  //   font-weight: 600;
-  //   font-size: 30px;
-  // }
-  // h3 {
-  //   margin: 15px 0;
-  //   font-weight: 550;
-  //   font-size: 25px;
-  // }
 }
 
 /*评论的标题*/
@@ -566,5 +702,28 @@ h1 {
 .pagination {
   margin: 20px 0;
   text-align: center;
+}
+
+@media (max-width: 992px) {
+  .app{
+
+    .catalog-col{
+      display: none;
+    }
+
+    .nav-bar{
+      padding: 0;
+
+      .smallscreen{
+        display: block;
+      }
+    }
+
+    .side-card{
+      display: none;
+    }
+
+  }
+
 }
 </style>

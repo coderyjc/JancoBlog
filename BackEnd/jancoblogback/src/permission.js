@@ -8,7 +8,7 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/', '/article', '/login', '/404'] // no redirect whitelist
+const whiteList = ['/', '/article', '/login', '/404' ] // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
 
@@ -69,7 +69,7 @@ router.beforeEach(async (to, from, next) => {
       // 跳到目标页面
       next()
     } else {
-      // 没有到达这个页面的权限, 
+      // 没有到达这个页面的权限,
       next(`/404`)
       NProgress.done()
     }

@@ -2,6 +2,7 @@
   <div class="app">
     <!--    导航栏-->
 
+    <!-- 背景粒子 -->
     <vue-particles
       class="particles"
       color="#dedede"
@@ -11,26 +12,36 @@
       :linesWidth="2"
       v-show="backgroundMode"
     ></vue-particles>
-
+    <!-- 文章分类抽屉 -->
+    <el-drawer
+      title="文章分类"
+      :visible.sync="drawerVisibility"
+      direction="ltr">
+      <div
+        v-for="item in typeList"
+        :key="item.typeId"
+        class="drawer-list"
+      >
+          <a @click="get_article_by_type(item.typeId)">{{ item.typeName }}</a>
+      </div>
+    </el-drawer>
     <!-- 导航栏 -->
     <el-row
-      :gutter="20"
       style="position: fixed; width:100%; z-index: 1"
     >
-      <el-col
-        :span="16"
-        :offset="4"
-      >
+      <el-col>
         <el-menu
           default-active="0"
-          class="el-menu-demo"
+           class="nav-bar"
           mode="horizontal"
         >
-          <el-menu-item>
-            <span class="logo">NICE</span>
+          <el-menu-item class="smallscreen">
+            <!-- 分类抽屉 -->
+            <i class="el-icon-s-unfold" @click="toggleDrawer()"></i>
           </el-menu-item>
-          <!-- <el-menu-item index="0">首页</el-menu-item> -->
-          <!-- <el-menu-item index="1">读书笔记</el-menu-item> -->
+          <el-menu-item>
+            <a href="http://101.201.64.102" class="logo">NICE</a>
+          </el-menu-item>
           <el-menu-item
             style="float: right"
             @click="linkToDashBoard"
@@ -47,11 +58,12 @@
     </el-row>
 
     <!--    主要部分-->
-    <el-row :gutter="20">
+    <el-row>
       <!--    左栏搜索文章、文章列表、分页-->
       <el-col
-        :span="10"
-        :offset="4"
+        :md="{span: 10, offset: 4}"
+        :sm="{span: 24, offset: 0}"
+        :xs="{span: 24, offset: 0}"
         class="left"
       >
 
@@ -114,7 +126,7 @@
                 v-if="!simpleMode"
                 class="el-divider"
               ><i class="el-icon-star-off"></i></el-divider>
-              <div>
+              <div v-if="!simpleMode">
                 <span><i class="el-icon-user"></i> {{ item.userName }} </span>
                 <el-divider direction="vertical"></el-divider>
                 <span><i class="el-icon-time"></i> {{ item.articlePostTime | dateFormat }}</span>
@@ -133,7 +145,7 @@
             :current-page="currentPage"
             :page-sizes="[10, 20, 30, 40]"
             :page-size="page_size"
-            layout="total, sizes, prev, pager, next, jumper"
+            layout="total, sizes, prev, pager, next"
             :total="total"
           >
           </el-pagination>
@@ -156,7 +168,7 @@
             slot="header"
             class="clearfix"
           >
-            <span style="font-weight: 600">文章分类</span>
+            <span style="font-weight: 600">分类</span>
           </div>
           <div
             v-for="item in typeList"
@@ -189,6 +201,8 @@ export default {
       simpleMode: false,
       // 背景开关
       backgroundMode: true,
+      // 抽屉开关
+      drawerVisibility: false,
       avatarUrl: '',
       base_article_url: '/article?id=',
       condition: '',
@@ -281,6 +295,10 @@ export default {
       this.condition = 'type=' + String(typeId)
       this.get_article_list(1)
     },
+    // 打开代表分类的抽屉
+    toggleDrawer(){
+      this.drawerVisibility = !this.drawerVisibility
+    }
   },
 }
 </script>
@@ -288,16 +306,16 @@ export default {
 <style lang='scss' scoped>
 
 *{
-/* 设置网页的字体的基调 */
-font-family: 'Nunito', sans-serif;
-/* 设置所有盒子的展示样式 */
-box-sizing: border-box;
-/* outline和border都是把所有元素的轮廓取消 */
-outline: none; border: none;
-/* 字体样式 */
-text-decoration: none;
-/* 设置所有的变化都是线性的持续0.2秒的 */
-transition: all .2s linear;
+  /* 设置网页的字体的基调 */
+  font-family: '等线';
+  /* 设置所有盒子的展示样式 */
+  box-sizing: border-box;
+  /* outline和border都是把所有元素的轮廓取消 */
+  outline: none; border: none;
+  /* 字体样式 */
+  text-decoration: none;
+  /* 设置所有的变化都是线性的持续0.2秒的 */
+  transition: all .2s linear;
 }
 
 a {
@@ -311,7 +329,27 @@ a {
 }
 
 .app {
+
   padding-bottom: 40px;
+
+    .drawer-list{
+        text-align: center;
+        height: 20px;
+        a{
+          margin: 10px 0;
+          display: block;
+          height: 100%;
+        }
+
+    }
+
+    .nav-bar{
+      padding: 0 18%;
+
+      .smallscreen{
+        display: none;
+      }
+    }
 }
 
 /* 头像右浮动 */
@@ -336,6 +374,7 @@ a {
 #article-list {
   margin-top: 20px;
   margin-bottom: 20px;
+
 }
 .search-bar {
   margin-top: 60px;
@@ -351,12 +390,11 @@ a {
     color: black;
     text-decoration: none;
     display: block;
-    height: 30px;
+    height: 100%;
     font-size: 16px;
     padding: 10px;
 
     &:hover {
-      font-weight: 600;
       background-color: #ebeff5;
     }
   }
@@ -364,10 +402,26 @@ a {
 
 @media (max-width: 991px) {
 
-  .right{
-    display: none;
-  }
 
+  .app{
+
+    .left{
+      padding: 0 20px;
+    }
+
+
+    .right{
+      display: none;
+    }
+
+    .nav-bar{
+      padding: 0;
+
+      .smallscreen{
+        display: block;
+      }
+    }
+  }
 
 }
 

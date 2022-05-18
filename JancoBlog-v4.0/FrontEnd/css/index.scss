@@ -61,7 +61,7 @@ header{
   }
 
   .burger{
-    display: none;
+    // display: none;
   }
 
   &.sticky{
@@ -215,7 +215,7 @@ footer{
 }
 
 
-@media (max-width:550px){
+@media (max-width:620px){
   section{
     margin: auto 0;
     width: 100%;
