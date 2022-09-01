@@ -3,11 +3,18 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
-// create an axios instance
+// var currentBaseURL = 'http://101.201.64.102:8000'
+var currentBaseURL = 'http://localhost:8000'
+
+// axios.get('/config.json').then(res =>{
+//   currentBaseURL = res.data.BASE_URL
+//   console.log('res: ', res)
+//   console.log('currentBaseURL', currentBaseURL)
+// })
+
 const service = axios.create({
-  // baseURL: 'http://localhost:8000', // url = base url + request url
-  baseURL: 'http://101.201.64.102:8000', // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
+  // baseURL: 'http://101.201.64.102:8000', // url = base url + request url
+  baseURL: currentBaseURL,
   timeout: 5000 // request timeout
 })
 

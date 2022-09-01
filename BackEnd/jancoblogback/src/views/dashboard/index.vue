@@ -213,7 +213,7 @@ export default {
         data: {
           articleAuthor: '',
           userName: '',
-          userSignature: '代码改变世界', 
+          userSignature: '代码改变世界',
           totalArticle: 0,
           totalViewCount: 0,
           totalLikeCount: 0,
@@ -265,7 +265,7 @@ export default {
           _this.user.article = res.extend.pageInfo.records
         }
       )
-      
+
     },
   },
 }

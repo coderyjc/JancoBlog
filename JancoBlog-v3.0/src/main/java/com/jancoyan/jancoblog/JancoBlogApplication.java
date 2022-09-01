@@ -17,7 +17,6 @@ public class JancoBlogApplication {
         SpringApplication.run(JancoBlogApplication.class, args);
     }
 
-
     @Bean
     public ConfigurableServletWebServerFactory webServerFactory() {
         TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();

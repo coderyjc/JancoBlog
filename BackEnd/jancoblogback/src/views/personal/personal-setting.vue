@@ -304,8 +304,7 @@ export default {
       var _this = this
       getUserDetailInfo().then((res) => {
         _this.userInfo = res.extend.info
-        _this.userAvatar =
-          'http://101.201.64.102:8000/avatar/' + _this.user.userName + '.png'
+        _this.userAvatar = this.$store.getters.avatar
       })
       getUserInfo().then((res) => {
         _this.user = res.extend.user

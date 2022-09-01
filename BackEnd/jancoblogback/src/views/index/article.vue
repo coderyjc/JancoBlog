@@ -1,7 +1,5 @@
 <template>
   <div class="app">
-
-
     <!--    导航栏-->
     <el-row
       style="position: fixed; width:100%; z-index: 1"
@@ -17,7 +15,7 @@
             <i class="el-icon-s-unfold" @click="toggleDrawer()"></i>
           </el-menu-item>
           <el-menu-item>
-            <a href="http://101.201.64.102" class="logo">NICE</a>
+            <a href="http://demo.evilemperor.top" class="logo">NICE</a>
           </el-menu-item>
           <el-menu-item
             style="float: right"
@@ -282,8 +280,6 @@
             </div>
           </div>
         </el-card>
-
-
       </el-col>
 
     </el-row>
@@ -428,8 +424,7 @@ export default {
       getAuthorInfo(_this.article.articleAuthor).then((response) => {
         _this.author = response.extend.data
         // 作者头像
-        _this.authorAvatar =
-          'http://101.201.64.102:8000/avatar/' + _this.author.userName + '.png'
+        _this.authorAvatar = this.$store.getters.avatar
       })
       // 评论信息
       this.get_comment_list(this.$route.query, 1)
