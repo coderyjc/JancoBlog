@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>分类管理页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header demoTable">
+                    <button class="layui-btn layui-btn-danger" data-type="batchDelete">
+                        <i class="layui-icon"></i>批量删除</button>
+                    <form class="layui-form layui-col-space5" style="float: right"
+                          lay-filter="type-form">
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <input class="layui-input" placeholder="分类名(必填)" name="typeName"
+                                   id="type-name"></div>
+                        <div id="choose-pre-type"
+                             class="layui-input-inline layui-show-xs-block"></div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <input class="layui-input" placeholder="类别说明(可不填)"
+                                   name="typeDescription" id="type-desc"></div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <input type="submit" class="layui-btn" lay-submit="add-type"
+                                   lay-filter="add-type" value="增加" />
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-card-body">
+                    <table id="type-list"  class="layui-hide" lay-filter="type-list"></table>
+                </div>
+
+                <script type="text/html" id="toolBar">
+                    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                </script>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var $ = layui.$;
+
+    layui.use(['table', 'layer', 'form'], function(){
+        var table = layui.table;
+        var form = layui.form;
+
+        // // 监听表格复选框选择
+        // table.on('checkbox(type-list)', function(obj){
+        //     console.log(obj)
+        // });
+
+        // 数据的增加用PUT
+        form.on('submit(add-type)', function(data){
+            console.log(data.field)
+            if(data.field.typeName === ''){
+                layer.msg("必须填写类别名称！");
+                return false;
+            }
+            $.ajax({
+                url:"/type/type",
+                type: "PUT",
+                data: {
+                    "typeName": data.field.typeName,
+                    "typeDescription": data.field.description,
+                    "preType": data.field.preType
+                },
+                success: function (result) {
+                    layer.msg("添加成功")
+                    form.val("type-form", {
+                        "typeName": ""
+                        ,"typeDescription": ""
+                    });
+                    table.reload('type-list', {
+                        url: '/type/all'
+                    });
+                }
+            })
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        //关于表单的提交会在下面用 form.on 来写
+        table.on('tool(type-list)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                layer.confirm('确认删除 ' + data.typeName + ' 吗？', function () {
+                    $.ajax({    
+                        url: "/type/type",
+                        type: "DELETE",
+                        data: {
+                            "id" : data.typeId
+                        },
+                        success: function (result) {
+                            layer.msg("删除成功")
+                            table.reload('type-list', {
+                                url: '/type/all'
+                            });
+                        }
+                    })
+                })
+            } else if (obj.event === 'edit'){
+                path = './edit-type.html?typeId=' + data.typeId +
+                    '&typeName=' + data.typeName +
+                    '&typeDescription=' + data.typeDescription +
+                    '&preTypeId=' + data.preTypeId;
+                console.log(path);
+                xadmin.open('编辑类别', path, 400, 300)
+            }
+        });
+
+        // 数据的批量删除
+        var $ = layui.$
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        active = {
+            batchDelete: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('type-list')
+                    ,data = checkStatus.data;
+                if (data.length === 0){
+                    layer.msg("当前没有选中数据");
+                    return;
+                }
+                layer.confirm('真的要删除选中的行么', function() {
+                    id = data[0].typeId;
+                    // 批量删除的时候不同的typeid用 & 连接
+                    $.each(data, function (index, item) {
+                        if (index === 0) id = id
+                        else id += '&' + item.typeId;
+                    })
+                    $.ajax({
+                        url: "/type/type",
+                        type: "DELETE",
+                        data:{
+                            "id": id
+                        },
+                        success: function (result) {
+                            table.reload('type-list', {
+                                url: '/type/all'
+                            });
+                            layer.msg("删除成功");
+                        }
+                    })
+                })
+            }
+        };
+
+        // 表格初始化渲染
+        table.render({
+            elem: '#type-list' // 挂载点
+            ,id: 'type-list' // 表格id
+            ,url: '/type/all' //数据接口
+            ,toolbar: '#toolbar' //开启头部工具栏，并为其绑定左侧模板
+            ,skin: 'line' //行边框风格
+            ,even: true //开启隔行背景
+            ,height: 'full-120' // 页面的最大高度 - 100 （自适应）
+            ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                ,layEvent: 'LAYTABLE_TIPS'
+                ,icon: 'layui-icon-tips'
+            }]
+            ,parseData: function(res){ // 数据源
+                var list = res.extend.pageInfo.records;
+                //res 即为原始返回的数据, 在这一步顺便建立一下selectbar
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.extend.pageInfo.total, //解析数据长度
+                    "data": res.extend.pageInfo.records //解析数据列表
+                };
+            }
+            ,page: { // 分页
+                groups: 5 //显示 10 个连续页码
+            }
+            ,cols: [ [ //表头
+                {type:'checkbox'}
+                ,{field: 'typeId', title: '类别号', width:120, sort: true}
+                ,{field: 'typeName', title: '类别名称', width: 150}
+                ,{field: 'preTypeId', title: '上一级类别', width:150, sort: true}
+                ,{field: 'typeDescription', title: '类别说明', width:150}
+                ,{fixed: 'right', title:'操作', toolbar: '#toolBar', width:150}
+            ]]
+        });
+    });
+
+    $(function () {
+        $.ajax({
+            url: "/type/all",
+            type: "GET",
+            data: {
+                "page" : 1,
+                "limit" : 999
+            },
+            success: function (res) {
+                build_select_bar(res)
+            }
+        })
+    })
+
+    // 建立选择父级标题select的function
+    function build_select_bar(res){
+        list = res.extend.pageInfo.records;
+        var Select = $("<select></select>").attr("name", "types").attr("lay-search", "");
+        Select.append($("<option value='' selected>上级标签(可不填)</option>"));
+        $.each(list, function (index, item) {
+            Select.append($("<option></option>").attr("value", item.typeId).append(item.typeName));
+        })
+        Select.appendTo("#choose-pre-type");
+        layui.form.render()
+    }
+
+
+    /**
+     * 将时间戳转化为标准时间
+     * @param date 时间戳
+     * @returns {string} 标准时间字符串
+     */
+    function dateFormat(date) {
+        var s = new Date(date)
+        var y = s.getFullYear()
+        var m = (s.getMonth() + 1) < 10 ? '0' + (s.getMonth() + 1) : (s.getMonth() + 1)
+        var dd = s.getDate() < 10 ? '0' + s.getDate() : s.getDate()
+        var enddate = y + '-' + m + '-' + dd
+        return enddate
+    }
+</script>
+</body>
+</html>

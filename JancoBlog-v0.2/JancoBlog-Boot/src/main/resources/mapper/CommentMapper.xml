@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jancoyan.mapper.CommentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jancoyan.pojo.Comment">
+        <id column="comment_id" property="commentId" />
+        <result column="pre_comment_id" property="preCommentId" />
+        <result column="comment_article_id" property="commentArticleId" />
+        <result column="comment_author_id" property="commentAuthorId" />
+        <result column="comment_author_nickname" property="commentAuthorNickname" />
+        <result column="comment_author_email" property="commentAuthorEmail" />
+        <result column="comment_content" property="commentContent" />
+        <result column="comment_date" property="commentDate" />
+        <result column="comment_author_ip" property="commentAuthorIp" />
+        <result column="comment_like_count" property="commentLikeCount" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        comment_id, pre_comment_id, comment_article_id, comment_author_id, comment_author_nickname, comment_author_email, comment_content, comment_date, comment_author_ip, comment_like_count
+    </sql>
+    <insert id="insertCommentWithoutCommentId">
+        insert into tbl_comment values (null, null, #{commentArticleId}, #{commentAuthorId},
+                                        #{commentAuthorNickname}, #{commentAuthorEmail},
+                                        #{commentContent}, #{commentDate}, #{commentAuthorIp}, 0);
+    </insert>
+    <select id="selectAllByPageWithArticleName" resultType="com.jancoyan.pojo.Comment">
+        select
+        <include refid="Base_Column_List"/>, t.article_title
+        from tbl_comment
+        join tbl_article as t
+        on t.article_id = tbl_comment.comment_article_id
+    </select>
+    <select id="selectUserArticleCommentByUserId" resultType="com.jancoyan.pojo.Comment">
+        select tc.comment_id,
+               tc.pre_comment_id,
+               tc.comment_article_id,
+               ta.article_title,
+               tc.comment_author_email,
+               tc.comment_author_nickname,
+               tc.comment_content,
+               tc.comment_date,
+               tc.comment_like_count
+        from tbl_comment tc
+                 join tbl_article ta
+                      on ta.article_id = tc.comment_article_id and ta.article_author_id =
+                                                                   #{userId}
+    </select>
+    <select id="getMaxCommentId" resultType="java.lang.Integer">
+        select max(comment_id) from tbl_comment
+    </select>
+
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jancoyan.mapper.ArticleContentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jancoyan.pojo.ArticleContent">
+        <id column="article_id" property="articleId" />
+        <result column="article_html" property="articleHtml" />
+        <result column="article_md" property="articleMd" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        article_id, article_html, article_md
+    </sql>
+
+</mapper>

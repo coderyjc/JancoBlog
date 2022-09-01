@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>更新日志</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <link rel="stylesheet" th:href="@{/css/font.css}">
+        <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+        <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+        <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+        <!--[if lt IE 9]>
+          <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+          <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                          更新日志
+                        </div>
+                        <div class="layui-card-body ">
+                          <ul class="layui-timeline">
+                              <li class="layui-timeline-item">
+                                  <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                                  <div class="layui-timeline-content layui-text">
+                                      <h3 class="layui-timeline-title">2021-07-04 JancoBlog v2.0 发布</h3>
+                                      <p>
+使用 SpringBoot + Themleaf + LayUI + Editor.md 重构完成。2.0 发布，很久一段时间内不会改变后端框架。
+                                      </p>
+                                  </div>
+                              </li>
+                              <li class="layui-timeline-item">
+                                  <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                                  <div class="layui-timeline-content layui-text">
+                                      <h3 class="layui-timeline-title">2021-06-03 项目重构</h3>
+                                      <p>
+由于前期数据库设计不合理，导致后期出现严重问题，于是重新设计数据库 <br>
+前端采用开源框架 LayUI + X-Admin <br>
+后端框架采用微服务开发框架 SpringBoot进行项目重构 <br>
+                                      </p>
+                                  </div>
+                              </li>
+                              <li class="layui-timeline-item">
+                                  <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                                  <div class="layui-timeline-content layui-text">
+                                      <h3 class="layui-timeline-title">2021-05-21 JancoBlog v1.1 发布</h3>
+                                      <p>
+重新设计前端页面，使用LayUI v2.3作为前端框架替代已有页面 <br>
+后端依旧采用SSM框架 <br>
+                                      </p>
+                                  </div>
+                              </li>
+                            <li class="layui-timeline-item">
+                              <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                              <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">2021-05-06&nbsp;&nbsp;JancoBlog
+                                    v1.0 发布</h3>
+                                <p>
+主要包括以下功能：
+文章的发布与浏览（嵌入图片）; <br>
+文章的点赞功能;<br>
+文章热榜;<br>
+搜索文章;<br>
+文章分类浏览;<br>
+向文章添加笔记（游客身份）;<br>
+后台文章的增加和删除;<br>
+个人信息的修改
+                                </p>
+                              </div>
+                            </li>
+                            <li class="layui-timeline-item">
+                              <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                              <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">2021-04-17</h3>
+                                  <p>
+完成以下功能：编辑博客（markdown） 后台查看个人文章列表
+                                  </p>
+                              </div>
+                            </li>
+                            <li class="layui-timeline-item">
+                              <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                              <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">2021-04-11</h3>
+                                <p>
+使用SSM作为后端框架，实现了以下功能： 首页文章列表 文章页面 后台管理页面（包括博文列表管理和个人信息管理） <br>
+使用Mybatis-generator逆向工程生成mapper映射文件、bean和dao层
+                                </p>
+                              </div>
+                            </li>
+                            <li class="layui-timeline-item">
+                              <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                              <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">2021-03-16</h3>
+                                <p>
+完成博客前端首页的手工设计和前端编写，（主页、后台管理、登录和博文搜索页）<br>
+完全自己设计，所以界面不忍直视，但是好歹能看　
+                                </p>
+                              </div>
+                            </li>
+                            <li class="layui-timeline-item">
+                              <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                              <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">2021-03-14</h3>
+                                <p>
+完成了博客第一版数据库的设计，并大致画了数据库结构图（当时还不知道ＥＲ图）
+                                </p>
+                              </div>
+                            </li>
+                          </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </body>
+          </html>
