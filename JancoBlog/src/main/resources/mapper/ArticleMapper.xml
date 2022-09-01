@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jancoyan.jancoblog.mapper.ArticleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.pojo.Article">
+        <id column="article_id" property="articleId" />
+        <result column="article_title" property="articleTitle" />
+        <result column="article_author" property="articleAuthor" />
+        <result column="article_type" property="articleType" />
+        <result column="article_summary" property="articleSummary" />
+        <result column="article_html" property="articleHtml" />
+        <result column="article_md" property="articleMd" />
+        <result column="article_is_comment" property="articleIsComment" />
+        <result column="article_rank" property="articleRank" />
+        <result column="article_post_time" property="articlePostTime" />
+        <result column="article_edit_time" property="articleEditTime" />
+        <result column="article_view_count" property="articleViewCount" />
+        <result column="article_comment_count" property="articleCommentCount" />
+        <result column="article_like_count" property="articleLikeCount" />
+        <result column="user_name" property="userName" />
+        <result column="type_name" property="typeName"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        article_id, article_title, article_author, article_type, article_summary, article_html, article_md, article_is_comment, article_rank, article_post_time, article_edit_time, article_view_count, article_comment_count, article_like_count
+    </sql>
+
+    <!--    首页文章列表-->
+    <select id="getIndexList" resultType="com.jancoyan.jancoblog.pojo.Article">
+        select * from v_article_list_show ${ew.customSqlSegment}
+    </select>
+
+<!--    管理员能看到的文章列表-->
+    <select id="getManageList" resultType="com.jancoyan.jancoblog.pojo.Article">
+        select * from v_article_manage_list ${ew.customSqlSegment}
+    </select>
+
+<!--    查看文章的时候获取文章整体信息 -->
+    <select id="getSingleArticle" resultType="com.jancoyan.jancoblog.pojo.Article">
+        select * from v_article_get_single where article_id = '${id}'
+    </select>
+
+    <select id="getSingleArticleDeleted" resultType="com.jancoyan.jancoblog.pojo.Article">
+        select * from v_article_get_single_deleted where article_id = '${id}'
+    </select>
+
+<!--    获取删除的文章-->
+    <select id="getDeletedList" resultType="com.jancoyan.jancoblog.pojo.Article">
+        select * from v_article_deleted_list ${ew.customSqlSegment}
+    </select>
+
+
+<!--    彻底删除文章-->
+    <delete id="deleteCompletely">
+        delete from tbl_deleted_article where article_id = '${articleId}'
+    </delete>
+
+
+<!--    恢复用户的文章-->
+    <select id="batchRecover">
+        CALL proc_recover_article(${articleId});
+    </select>
+
+    <!--    获取用户最近发表的文章 -->
+    <select id="getArticleByUserRecently"
+            resultType="com.jancoyan.jancoblog.pojo.PageArticle">
+        select * from v_page_article ${ew.customSqlSegment}
+    </select>
+
+<!--    获取用户文章用于编辑文章-->
+    <select id="getArticleEdit" resultType="com.jancoyan.jancoblog.pojo.Article">
+        select article_id,
+               article_title,
+               article_summary,
+               article_md,
+               article_type,
+               article_is_comment
+               from tbl_article where article_id = '${id}'
+    </select>
+
+</mapper>
