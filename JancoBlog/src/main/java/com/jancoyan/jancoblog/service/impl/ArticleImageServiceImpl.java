@@ -1,6 +1,6 @@
 package com.jancoyan.jancoblog.service.impl;
 
-import com.jancoyan.jancoblog.pojo.ArticleImage;
+import com.jancoyan.jancoblog.model.domain.ArticleImage;
 import com.jancoyan.jancoblog.mapper.ArticleImageMapper;
 import com.jancoyan.jancoblog.service.ArticleImageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

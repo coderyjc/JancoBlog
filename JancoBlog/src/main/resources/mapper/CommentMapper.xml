@@ -3,7 +3,7 @@
 <mapper namespace="com.jancoyan.jancoblog.mapper.CommentMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.pojo.Comment">
+    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.model.domain.Comment">
         <id column="comment_id" property="commentId" />
         <result column="pre_comment_id" property="preCommentId" />
         <result column="comment_article_id" property="commentArticleId" />
@@ -29,21 +29,21 @@
         CALL proc_transfer_comment(${commentId});
     </delete>
 
-    <select id="getAll" resultType="com.jancoyan.jancoblog.pojo.Comment">
+    <select id="getAll" resultType="com.jancoyan.jancoblog.model.domain.Comment">
         select * from v_comment_manage_list ${ew.customSqlSegment}
     </select>
 
-    <select id="getCommentByArticle" resultType="com.jancoyan.jancoblog.pojo.Comment">
+    <select id="getCommentByArticle" resultType="com.jancoyan.jancoblog.model.domain.Comment">
         select * from v_comment_article ${ew.customSqlSegment}
     </select>
 
-    <select id="getCommentByUserPosted" resultType="com.jancoyan.jancoblog.pojo.Comment">
+    <select id="getCommentByUserPosted" resultType="com.jancoyan.jancoblog.model.domain.Comment">
         select * from v_comment_manage_list ${ew.customSqlSegment}
     </select>
 
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="PageComment" type="com.jancoyan.jancoblog.pojo.PageComment">
+    <resultMap id="PageComment" type="com.jancoyan.jancoblog.model.domain.PageComment">
         <result column="comment_author_name" property="commentAuthorName" />
         <result column="article_id" property="articleId" />
         <result column="article_author" property="articleAuthor" />
@@ -56,7 +56,7 @@
     </sql>
 
     <select id="getCommentByUserRecently"
-            resultType="com.jancoyan.jancoblog.pojo.PageComment">
+            resultType="com.jancoyan.jancoblog.model.domain.PageComment">
         select <include refid="Page_Comment" />
             from v_page_comment ${ew.customSqlSegment}
     </select>

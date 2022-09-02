@@ -1,6 +1,6 @@
 package com.jancoyan.jancoblog.service;
 
-import com.jancoyan.jancoblog.pojo.ArticleImage;
+import com.jancoyan.jancoblog.model.domain.ArticleImage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

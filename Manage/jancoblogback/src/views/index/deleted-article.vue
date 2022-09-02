@@ -1,33 +1,5 @@
 <template>
   <div id="app">
-    <!--    导航栏-->
-    <el-row style="position: fixed; width:100%; z-index: 1">
-      <el-col
-        :span="14"
-        :offset="5"
-      >
-        <el-menu
-          default-active="0"
-          class="el-menu-demo"
-          mode="horizontal"
-        >
-          <el-menu-item>
-            <router-link to="/dashboard">
-              <span class="logo">Jancoyan</span>
-            </router-link>
-          </el-menu-item>
-          <el-menu-item style="float: right">
-            <el-avatar src="http://localhost:8080/avatar/10800.jpg">
-              <a
-                href="http://localhost:9528"
-                target="_blank"
-              ></a>
-            </el-avatar>
-          </el-menu-item>
-        </el-menu>
-      </el-col>
-    </el-row>
-
     <!--        页面主体-->
     <el-row
       :gutter="24"
@@ -136,19 +108,6 @@
                   <!--                                评论时间-->
                   <span class="comment-info-item"><i class="el-icon-date"></i>
                     {{ item.commentDate | dateFormat }}</span>
-                  <!--                                赞同的数量-->
-                  <!-- <span class="comment-info-item"><i class="el-icon-caret-top"></i>
-                    {{ item.commentLikeCount }}</span> -->
-                  <!--                                回复和赞同-->
-                  <!-- <el-row style="float: right">
-                    <el-button
-                      type="primary"
-                      size="mini"
-                      plain
-                      @click="likeComment(item.commentId)"
-                    >赞同</el-button>
-                    <el-button size="mini">回复</el-button>
-                  </el-row> -->
                 </div>
               </el-card>
             </div>
@@ -167,47 +126,6 @@
         </el-col>
       </el-col>
 
-      <el-col :span="5">
-
-        <!--            作者信息卡片-->
-        <el-card
-          shadow="hover"
-          style="text-align: center;"
-        >
-          <!--                头像-->
-          <el-avatar
-            :size="80"
-            :src="authorAvatar"
-          ></el-avatar>
-          <div class="user-info">
-            <!--                用户名-->
-            <h3>{{ author.userName }}</h3>
-            <!--                签名-->
-            <blockquote> {{ author.userSignature }} </blockquote>
-            <el-divider></el-divider>
-            <!-- 文章数量、获赞、收藏-->
-            <div>
-              <div class="user-count">
-                <span class="count-number">{{ author.totalArticle }}</span>
-                <span class="count-char">文章</span>
-              </div>
-              <el-divider direction="vertical"></el-divider>
-              <div class="user-count">
-                <span class="count-number">{{ author.totalLikeCount }}</span>
-                <span class="count-char">获赞</span>
-              </div>
-              <el-divider direction="vertical"></el-divider>
-              <div class="user-count">
-                <span class="count-number">{{ author.totalCommentCount }}</span>
-                <span class="count-char">获评</span>
-              </div>
-            </div>
-          </div>
-        </el-card>
-
-        <!--            推荐文章列表-->
-
-      </el-col>
     </el-row>
 
     <!--    返回顶部-->
@@ -361,9 +279,6 @@ h1 {
 line-height: 26px;
 
 }
-
-
-
 
 /*评论的标题*/
 .comment-area-title {

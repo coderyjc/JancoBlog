@@ -3,11 +3,11 @@ package com.jancoyan.jancoblog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jancoyan.jancoblog.pojo.Article;
+import com.jancoyan.jancoblog.model.domain.Article;
 import com.jancoyan.jancoblog.mapper.ArticleMapper;
-import com.jancoyan.jancoblog.pojo.ArticleImage;
-import com.jancoyan.jancoblog.pojo.DeletedComment;
-import com.jancoyan.jancoblog.pojo.PageArticle;
+import com.jancoyan.jancoblog.model.domain.ArticleImage;
+import com.jancoyan.jancoblog.model.domain.DeletedComment;
+import com.jancoyan.jancoblog.model.domain.PageArticle;
 import com.jancoyan.jancoblog.service.ArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jancoyan.jancoblog.utils.ArticleUtils;
@@ -163,7 +163,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public IPage<PageArticle> listArticleUserRecently(String id, Integer pn, Integer limit) {
         IPage<PageArticle> iPage = new Page<>(pn, limit);
         QueryWrapper<PageArticle> wrapper = new QueryWrapper<>();
-        wrapper.eq("article_author", id);
+        if(!"-1".equals(id)){
+            wrapper.eq("article_author", id);
+        }
         wrapper.orderByDesc("article_post_time");
         return baseMapper.getArticleByUserRecently(iPage, wrapper);
     }

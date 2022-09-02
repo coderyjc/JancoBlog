@@ -3,7 +3,7 @@
 <mapper namespace="com.jancoyan.jancoblog.mapper.UserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.pojo.User">
+    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.model.domain.User">
         <id column="user_id" property="userId" />
         <result column="user_name" property="userName" />
         <result column="user_password" property="userPassword" />
@@ -21,13 +21,13 @@
     </sql>
 
 
-    <select id="getAll" resultType="com.jancoyan.jancoblog.pojo.User">
+    <select id="getAll" resultType="com.jancoyan.jancoblog.model.domain.User">
         select * from v_user_manage_show ${ew.customSqlSegment}
     </select>
 
 
     <!-- 用户的数据统计信息查询结果列 -->
-    <resultMap id="UserTotalData" type="com.jancoyan.jancoblog.pojo.VUserTotalData">
+    <resultMap id="UserTotalData" type="com.jancoyan.jancoblog.model.vo.UserTotalDataVO">
         <result column="article_author" property="articleAuthor" />
         <result column="user_name" property="userName" />
         <result column="user_signature" property="userSignature" />
@@ -42,12 +42,12 @@
         total_like_count, total_comment_count
     </sql>
 
-    <select id="getUserTotalData" resultType="com.jancoyan.jancoblog.pojo.VUserTotalData">
+    <select id="getUserTotalData" resultType="com.jancoyan.jancoblog.model.vo.UserTotalDataVO">
         select * from v_user_total_data where article_author = ${userId};
     </select>
 
     <!--    用户信息的查询结果-->
-    <resultMap id="UserInfoMap" type="com.jancoyan.jancoblog.pojo.UserInfo">
+    <resultMap id="UserInfoMap" type="com.jancoyan.jancoblog.model.domain.UserInfo">
         <id column="user_id" property="userId" />
         <result column="user_email" property="userEmail" />
         <result column="user_sex" property="userSex" />
@@ -72,11 +72,11 @@
     </sql>
 
 
-    <select id="getUserInfo" resultType="com.jancoyan.jancoblog.pojo.UserInfo">
+    <select id="getUserInfo" resultType="com.jancoyan.jancoblog.model.domain.UserInfo">
         select * from tbl_user_info where user_id = ${userId}
     </select>
 
-    <select id="login" resultType="com.jancoyan.jancoblog.pojo.User">
+    <select id="login" resultType="com.jancoyan.jancoblog.model.domain.User">
         select user_id, user_name, user_signature, role_name
         from v_login
         where user_name = '${username}' and user_password = '${password}';

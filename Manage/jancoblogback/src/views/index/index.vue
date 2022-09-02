@@ -1,17 +1,23 @@
 <template>
   <div class="app">
-    <!--    导航栏-->
+    <!-- 导航栏 -->
+    <div :class="'header ' + toggle_nav">
+      <div class="logo">BLOG</div>
+      <div class="type-list">
+        <div class="type-list-item"><a href="/">首页</a></div>
+        <div
+            v-for="item in typeList"
+            :key="item.typeId"
+            class="type-list-item"
+        >
+          <a @click="get_article_by_type(item.typeId)">{{ item.typeName }}</a>
+        </div>
+      </div>
+      <div class="header-avatar" @click="linkToDashBoard">
+        <img :src="avatarUrl" alt="登录">
+      </div>
+    </div>
 
-    <!-- 背景粒子 -->
-    <vue-particles
-      class="particles"
-      color="#dedede"
-      shapeType="polygon"
-      :hoverEffect="false"
-      :clickEffect="false"
-      :linesWidth="2"
-      v-show="backgroundMode"
-    ></vue-particles>
     <!-- 文章分类抽屉 -->
     <el-drawer
       title="文章分类"
@@ -25,43 +31,41 @@
           <a @click="get_article_by_type(item.typeId)">{{ item.typeName }}</a>
       </div>
     </el-drawer>
-    <!-- 导航栏 -->
-    <el-row
-      style="position: fixed; width:100%; z-index: 1"
-    >
-      <el-col>
-        <el-menu
-          default-active="0"
-           class="nav-bar"
-          mode="horizontal"
-        >
-          <el-menu-item class="smallscreen">
-            <!-- 分类抽屉 -->
-            <i class="el-icon-s-unfold" @click="toggleDrawer()"></i>
-          </el-menu-item>
-          <el-menu-item>
-            <a href="http://101.201.64.102" class="logo">NICE</a>
-          </el-menu-item>
-          <el-menu-item
-            style="float: right"
-            @click="linkToDashBoard"
-          >
-            <el-avatar
-              size="large"
-              :src="avatarUrl"
-            >
-              登录
-            </el-avatar>
-          </el-menu-item>
-        </el-menu>
-      </el-col>
-    </el-row>
 
     <!--    主要部分-->
     <el-row>
-      <!--    左栏搜索文章、文章列表、分页-->
+      <!--    左栏介绍  和分类 -->
       <el-col
-        :md="{span: 10, offset: 4}"
+        :md="{span: 5, offset: 2}"
+      >
+        <div class="host">
+          <!-- 头像 -->
+          <div class="host-avatar">
+            <img
+              src="http://blog.evilemperor.top/themes/halo-theme-siren/images/202206061825930.jpg"
+            />
+          </div>
+          <!-- 名称 -->
+          <div class="host-name">CoderYan</div>
+          <!-- 坐标 -->
+          <div class="host-location"><i class="el-icon-location"></i> 中国 山东</div>
+          <!-- 信息 -->
+          <div class="host-signiture">"因为山就在那里"</div>
+          <!-- 链接 -->
+          <div class="host-link">
+            <a target="__target" href="http://blog.evilemperor.top/">
+              博客主站
+            </a>
+          </div>
+        </div>
+        <!-- 分类 以及各个分类有多少文章 -->
+
+
+      </el-col>
+
+      <!-- 中间文章栏 -->
+      <el-col
+        :md="{span: 10, offset: 0}"
         :sm="{span: 24, offset: 0}"
         :xs="{span: 24, offset: 0}"
         class="left"
@@ -75,24 +79,6 @@
           @reset="resetForm"
         ></search-article>
 
-        <!--               简洁开关-->
-        <el-switch
-          v-model="simpleMode"
-          active-color="#13ce66"
-          active-text="简洁模式"
-          inactive-text="标准模式"
-        >
-        </el-switch>
-        <!--              动画开关 -->
-        <span style="margin:0 10px"></span>
-        <el-switch
-          v-model="backgroundMode"
-          active-color="#13ce66"
-          active-text="打开背景"
-          inactive-text="关闭背景"
-        >
-        </el-switch>
-
         <!-- 文章列表动态更新 -->
         <div
           id="article-list"
@@ -104,35 +90,26 @@
             target="_blank"
           >
             <el-card
-              class="box-card"
               shadow="hover"
             >
-              <div style="font-weight: 700;">
-                <!-- 置顶标签 -->
-                <el-tag
-                size="mini"
-                effect="dark"
-                type="danger"
-                v-if="item.articleRank"
-                >置顶</el-tag>
-                {{ item.articleTitle }}
-                </div>
-              <el-divider
-                v-if="!simpleMode"
-                class="el-divider"
-              ><i class="el-icon-star-off"></i></el-divider>
-              <div v-if="!simpleMode">{{ item.articleSummary }}</div>
-              <el-divider
-                v-if="!simpleMode"
-                class="el-divider"
-              ><i class="el-icon-star-off"></i></el-divider>
-              <div v-if="!simpleMode">
+              <div class="el-card-title" style="font-weight: 700;">
+              <!-- 置顶标签 -->
+              <el-tag
+              size="mini"
+              effect="dark"
+              type="danger"
+              v-if="item.articleRank"
+              >置顶</el-tag>
+              {{ item.articleTitle }}
+              </div>
+              <div class="el-card-info">
                 <span><i class="el-icon-user"></i> {{ item.userName }} </span>
                 <el-divider direction="vertical"></el-divider>
-                <span><i class="el-icon-time"></i> {{ item.articlePostTime | dateFormat }}</span>
+                <span><i class="el-icon-time"></i> {{ item.articlePostTime | dateFormatymdhms }}</span>
                 <el-divider direction="vertical"></el-divider>
                 <span><i class="el-icon-view"></i> {{ item.articleViewCount }}</span>
               </div>
+              <div class="el-card-summary">{{ item.articleSummary }}</div>
             </el-card>
           </router-link>
         </div>
@@ -153,59 +130,78 @@
 
       </el-col>
 
-      <!--    右栏分类等-->
+      <!-- 右侧公告栏 -->
       <el-col
-        :span="5"
-        :offset="1"
-        class="right"
+        :md="{span: 5, offset: 0}"
       >
-        <!-- 文章类型分类 -->
-        <el-card
-          class="box-card"
-          id="article_type_list"
-        >
-          <div
-            slot="header"
-            class="clearfix"
-          >
-            <span style="font-weight: 600">分类</span>
+      <div class="card">
+        <div class="card-title">公告</div>
+        <el-divider direction="horizontal" content-position="center"></el-divider>
+        <div class="card-content">
+          <p>管理员用户名: admin</p>
+          <p>密码: 333</p>
+          <p>本站为示例站点, 代码已开源至<a class="a" href="https://github.com/jancoyan/JancoBlog">Github</a></p>
+        </div>
+      </div>
+
+      <!-- 最近的10篇文章 -->
+      <div class="card">
+        <div class="card-title">
+          最新文章
+        </div>
+        <div class="card-content">
+          <div class="card-item"
+          v-for="article in articleRecently">
+            <router-link
+            :to="base_article_url + article.articleId"
+            target="_blank"
+            >
+              <div class="card-item-article-title">
+                {{article.articleTitle}}
+              </div>
+              <div class="card-item-date">
+                {{article.articlePostTime | dateFormatymd}}
+              </div>
+            </router-link>
           </div>
-          <div
-            v-for="item in typeList"
-            :key="item.typeId"
-          >
-            <a @click="get_article_by_type(item.typeId)">{{ item.typeName }}</a>
-          </div>
-        </el-card>
+        </div>
+      </div>
+
       </el-col>
 
     </el-row>
     <el-backtop></el-backtop>
 
+    <div class="footer">
+      <el-divider direction="horizontal" content-position="center"></el-divider>
+      <p>© 2022 Powered by SpringBoot & Vue.js
+        <br />鲁ICP备2022021779号</p>
+    </div>
+
   </div>
 </template>
 
 <script>
-import { getIndexArticleList } from '@/api/article'
-import { getAllType } from '@/api/type'
-import { getToken } from '@/utils/auth'
+  import { getAllType } from '@/api/type'
+  import { getToken } from '@/utils/auth'
+  import { getArticleRecently, getIndexArticleList } from '@/api/article'
+  import SearchArticle from '@/components/SearchArticle'
 
-import SearchArticle from '@/components/SearchArticle'
+  import { dateFormatYMDHMS, dateFormatYMD } from '@/utils/timeUtils'
 
 export default {
   components: { SearchArticle },
   data() {
     return {
+      toggle_nav: "",
       islogin: false,
-      // 简洁模式
-      simpleMode: false,
-      // 背景开关
-      backgroundMode: true,
       // 抽屉开关
       drawerVisibility: false,
       avatarUrl: '',
       base_article_url: '/article?id=',
       condition: '',
+      // 最近的文章和评论
+      articleRecently: [],
       // 文章列表
       articleList: [],
       // 类型列表
@@ -219,24 +215,32 @@ export default {
     }
   },
   filters: {
-    dateFormat(date) {
-      var s = new Date(date)
-      var y = s.getFullYear()
-      var m =
-        s.getMonth() + 1 < 10 ? '0' + (s.getMonth() + 1) : s.getMonth() + 1
-      var dd = s.getDate() < 10 ? '0' + s.getDate() : s.getDate()
-      var hh = s.getHours() < 10 ? '0' + s.getHours() : s.getHours()
-      var mm = s.getMinutes() < 10 ? '0' + s.getMinutes() : s.getMinutes()
-      var ss = s.getSeconds() < 10 ? '0' + s.getSeconds() : s.getSeconds()
-      var enddate = y + '-' + m + '-' + dd + ' ' + hh + ':' + mm + ':' + ss
-      return enddate
+    dateFormatymdhms(date) {
+      return dateFormatYMDHMS(date)
     },
+    dateFormatymd(date) {
+      return dateFormatYMD(date)
+    }
   },
   created: function () {
     // 进行数据请求，拿到数据
     this.get_article_list(1)
     this.get_type_list()
+    this.get_data_recently()
     this.avatarUrl = this.$store.getters.avatar
+    // 添加监听事件
+    window.addEventListener("scroll", ()=>{
+      if(window.scrollY > 400){
+        if(!this.toggle_nav == "sticky"){
+          this.toggle_nav = ""
+        } else this.toggle_nav = "sticky"
+      }else if (window.scrollY == 0){
+        if(this.toggle_nav == "sticky"){
+          this.toggle_nav = ""
+        }
+      }
+    })
+
   },
   methods: {
     // 将用户头像连接到后台
@@ -255,6 +259,7 @@ export default {
     handleCurrentChange(val) {
       this.get_article_list(val)
     },
+
     // 获取文章列表
     get_article_list(pn) {
       getIndexArticleList(pn, this.page_size, this.condition).then(
@@ -270,7 +275,13 @@ export default {
         }
       )
     },
-
+    // 获取最近的文章和评论
+    get_data_recently() {
+      getArticleRecently().then(response => {
+        var pageInfo = response.extend.pageInfo
+        this.articleRecently = pageInfo.records
+      })
+    },
     // 获取类型列表
     get_type_list(pn) {
       getAllType().then((response) => {
@@ -290,11 +301,13 @@ export default {
       this.condition = ''
       this.get_article_list(1)
     },
+
     // 从类型获取文章(搜)
     get_article_by_type(typeId) {
       this.condition = 'type=' + String(typeId)
       this.get_article_list(1)
     },
+
     // 打开代表分类的抽屉
     toggleDrawer(){
       this.drawerVisibility = !this.drawerVisibility
@@ -318,91 +331,208 @@ export default {
   transition: all .2s linear;
 }
 
-a {
+a, .router-link {
   text-decoration: none;
 }
 
-.particles {
-  width: 100%;
-  height: 100vh;
-  position: fixed;
-}
-
 .app {
-
+  min-height: 100vh;
   padding-bottom: 40px;
+  background-color: #F4F5F5;
 
-    .drawer-list{
-        text-align: center;
-        height: 20px;
-        a{
-          margin: 10px 0;
-          display: block;
-          height: 100%;
-        }
+  .host{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 5px;
+    margin: 0 10px;
 
-    }
-
-    .nav-bar{
-      padding: 0 18%;
-
-      .smallscreen{
-        display: none;
+    &-avatar {
+      margin: 20px 0;
+      img{
+        border-radius: 50%;
+        height: 120px;
       }
     }
-}
+    &-name {
+      margin: 10px 0;
+      font-size: 21px;
+      font-weight: 600;
+    }
+    &-signiture {
+      margin-top: 10px;
+      color: #7A7A7A;
+    }
+    &-link {
+      background-color: #3273DC;
+      color: #fff;
+      border-radius: 20px;
+      margin: 10px 0;
+      a{
+        display: block;
+        width: 120px;
+        text-align: center;
+        padding: 10px 0;
+      }
 
-/* 头像右浮动 */
-.user-avatar {
-  float: right;
-}
+    }
+  }
 
-.el-divider {
-  margin: 10px;
-}
+  .drawer-list{
+      text-align: center;
+      height: 20px;
+      a{
+        margin: 10px 0;
+        display: block;
+        height: 100%;
+      }
+  }
 
-.logo {
-  font-size: 30px;
-  line-height: 30px;
-  color: black;
-}
+  .nav-bar{
+    padding: 0 18%;
+    .smallscreen{
+      display: none;
+    }
+  }
 
-.el-card__body {
-  padding-bottom: 8px;
-}
 
-#article-list {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  .header{
+    width: 100vw;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    position: relative;
+    z-index: 200;
 
-}
-.search-bar {
-  margin-top: 60px;
-  margin-bottom: 20px;
-}
+    .type-list{
+      display: flex;
+      flex-direction: row;
 
-#article_type_list {
-  margin-top: 80px;
-  width: 300px;
-  position: fixed;
+      &-item{
+        padding: 10px;
+        font-size: 18px;
 
-  a {
-    color: black;
-    text-decoration: none;
-    display: block;
-    height: 100%;
-    font-size: 16px;
-    padding: 10px;
+        &:hover{
+          color: #45A3FF;
+        }
+      }
+    }
 
-    &:hover {
-      background-color: #ebeff5;
+    &-avatar{
+      cursor: pointer;
+      background-color: #FFF;
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      line-height: 50px;
+      text-align: center;
+      color: rgb(97, 96, 96);
+
+      img {
+        height: 50px;
+        border-radius: 50%;
+      }
+    }
+
+    &.sticky{
+      position: fixed;
+      background-color: white;
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.2);
+      animation: dropDown 0.5s ease-in-out forwards;
+
+      .logo, nav a, nav i{
+        color: #2e2e2e;
+      }
+
+    }
+
+    .logo{
+      font-size: 24px;
+      font-weight: 600;
+      color: #2e2e2e;
+    }
+
+  }
+
+  .el-card{
+    padding-bottom: 8px;
+
+
+    &-title {
+      font-size: 23px;
+    }
+    &-info {
+      color: #CCCCCC;
+      padding: 8px 0;
+    }
+    &-summary {
+      color: #777777;
+      font-size: 20px;
+    }
+  }
+
+  .card {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    padding: 10px 10px;
+    font-weight: 600;
+    border-radius: 7px;
+    background-color: #fff;
+
+    &-title {
+      text-align: center;
+      padding-top: 10px;
+      margin-bottom: 5px;
+      font-size: 21px;
+      font-weight: 400;
+    }
+    &-content {
+      text-align: center;
+      .a{
+        color: #3273DC;
+        text-decoration: underline;
+      }
+    }
+    &-item{
+      padding: 5px 10px;
+      cursor: pointer;
+
+      &:hover{
+        background-color: rgb(240, 240, 240);
+      }
+
+      &-date {
+        font-weight: 400;
+        color: rgb(146, 146, 146);
+        text-align: right;
+      }
+      &-article-title {
+        font-weight: 500;
+        text-align: left;
+        margin: 5px 0;
+      }
+    }
+  }
+
+  .footer{
+    p{
+      text-align: center;
     }
   }
 }
 
+
+
+#article-list {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 @media (max-width: 991px) {
-
-
   .app{
 
     .left{

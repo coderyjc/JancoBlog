@@ -2,10 +2,10 @@ package com.jancoyan.jancoblog.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jancoyan.jancoblog.pojo.Article;
-import com.jancoyan.jancoblog.pojo.Comment;
-import com.jancoyan.jancoblog.pojo.PageComment;
-import com.jancoyan.jancoblog.pojo.User;
+import com.jancoyan.jancoblog.model.domain.Article;
+import com.jancoyan.jancoblog.model.domain.Comment;
+import com.jancoyan.jancoblog.model.domain.PageComment;
+import com.jancoyan.jancoblog.model.domain.User;
 import com.jancoyan.jancoblog.service.CommentService;
 import com.jancoyan.jancoblog.utils.Msg;
 import com.jancoyan.jancoblog.utils.RedisUtil;
@@ -215,12 +215,13 @@ public class CommentController {
 
     /**
      * 获取指定用户最近收到的评论
+     * id为-1的时候获取所有评论
      * @param authorId 用户id
      * @return
      */
     @RequestMapping(value = "/recent", method = RequestMethod.GET)
     public Msg listCommentByUserRecentlyReceive(
-            @RequestParam(value = "id") String authorId,
+            @RequestParam(value = "id", defaultValue = "-1") String authorId,
             @RequestParam(value = "pn", defaultValue = "1") String pn,
             @RequestParam(value = "limit", defaultValue = "10") String limit
     ){

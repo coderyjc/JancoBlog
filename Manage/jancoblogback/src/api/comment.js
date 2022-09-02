@@ -5,7 +5,7 @@ import request from '../utils/request';
  * @param {Integer} pn 页码
  * @param {Integer} limit 容量
  * @param {String} condition 条件
- * @returns 
+ * @returns
  */
 export function getAll(pn, limit, condition) {
   return request({
@@ -22,7 +22,7 @@ export function getAll(pn, limit, condition) {
 /**
  * 发表评论
  * @param {Map} param 参数列表
- * @returns 
+ * @returns
  */
 export function postComment(param) {
   return request({
@@ -36,7 +36,7 @@ export function postComment(param) {
 /**
  * 赞同评论
  * @param {Integer} id 评论id
- * @returns 
+ * @returns
  */
 export function likeComment(id) {
   return request({
@@ -54,7 +54,7 @@ export function likeComment(id) {
  * @param {Integer} pn 页码
  * @param {Integer} limit 容量
  * @param {String} condition 条件
- * @returns 
+ * @returns
  */
 export function getCommentByArticle(id, pn, limit) {
   return request({
@@ -74,7 +74,7 @@ export function getCommentByArticle(id, pn, limit) {
  * @param {Integer} pn 页码
  * @param {Integer} limit 容量
  * @param {String} condition 条件
- * @returns 
+ * @returns
  */
 export function getCommentByDeletedArticle(id, pn, limit) {
   return request({
@@ -95,7 +95,7 @@ export function getCommentByDeletedArticle(id, pn, limit) {
  * @param {Integer} pn 页码
  * @param {Integer} limit 容量
  * @param {String} condition 条件
- * @returns 
+ * @returns
  */
 export function getCommentByUserReceive(pn, limit, condition) {
   return request({
@@ -112,7 +112,7 @@ export function getCommentByUserReceive(pn, limit, condition) {
 /**
  * 批量删除
  * @param {String} ids id拼接
- * @returns 
+ * @returns
  */
 export function batchDeleteComments(ids) {
   return request({
@@ -131,7 +131,7 @@ export function batchDeleteComments(ids) {
  * @param {Integer} pn 页码
  * @param {Integer} limit 容量
  * @param {String} condition 条件
- * @returns 
+ * @returns
  */
  export function getCommentByUserPosted(pn, limit, condition) {
   return request({
@@ -148,7 +148,7 @@ export function batchDeleteComments(ids) {
 /**
  * 获取用户最近收到的评论数量
  * @param {String} id 用户id
- * @returns 
+ * @returns
  */
  export function getUserCommentRecently(id, pn, limit) {
   return request({

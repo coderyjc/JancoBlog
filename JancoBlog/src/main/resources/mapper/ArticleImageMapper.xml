@@ -3,7 +3,7 @@
 <mapper namespace="com.jancoyan.jancoblog.mapper.ArticleImageMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.pojo.ArticleImage">
+    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.model.domain.ArticleImage">
         <id column="filename" property="filename" />
         <result column="article_id" property="articleId" />
         <result column="insert_date" property="insertDate" />

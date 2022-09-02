@@ -5,7 +5,7 @@ import request from '../utils/request';
  * @param {Integer} pn 页码
  * @param {Integer} limit 容量
  * @param {String} condition 条件
- * @returns 
+ * @returns
  */
 export function getIndexArticleList(pn, limit, condition) {
   return request({
@@ -21,8 +21,8 @@ export function getIndexArticleList(pn, limit, condition) {
 
 /**
  * 通过首页查看文章的时候获取文章信息
- * @param {String} id 
- * @returns 
+ * @param {String} id
+ * @returns
  */
 export function getSingleArticle(id) {
   return request({
@@ -36,8 +36,8 @@ export function getSingleArticle(id) {
 
 /**
  * 通过首页查看文章的时候获取文章信息
- * @param {String} id 
- * @returns 
+ * @param {String} id
+ * @returns
  */
 export function getArticleEdit(id) {
   return request({
@@ -51,8 +51,8 @@ export function getArticleEdit(id) {
 
 /**
  * 通过首页查看文章的时候获取文章信息
- * @param {String} id 
- * @returns 
+ * @param {String} id
+ * @returns
  */
 export function getSingleArticleDeleted(id) {
   return request({
@@ -66,8 +66,8 @@ export function getSingleArticleDeleted(id) {
 
 /**
  * 点赞
- * @param {Stirng} id 
- * @returns 
+ * @param {Stirng} id
+ * @returns
  */
 export function likeArticle(id) {
   return request({
@@ -81,8 +81,8 @@ export function likeArticle(id) {
 
 /**
  * 取消点赞
- * @param {Stirng} id 
- * @returns 
+ * @param {Stirng} id
+ * @returns
  */
 export function dislikeArticle(id) {
   return request({
@@ -96,8 +96,8 @@ export function dislikeArticle(id) {
 
 /**
  * 浏览文章
- * @param {String} id 
- * @returns 
+ * @param {String} id
+ * @returns
  */
 export function viewArticle(id) {
   return request({
@@ -111,7 +111,7 @@ export function viewArticle(id) {
  * @param {Integer} pn 页码
  * @param {Integer} limit 容量
  * @param {String} condition 条件
- * @returns 
+ * @returns
  */
 export function getAll(pn, limit, condition) {
   return request({
@@ -130,7 +130,7 @@ export function getAll(pn, limit, condition) {
  * @param {Integer} pn 页码
  * @param {Integer} limit 容量
  * @param {String} condition 条件
- * @returns 
+ * @returns
  */
 export function getAllDeleted(pn, limit, condition) {
   return request({
@@ -149,7 +149,7 @@ export function getAllDeleted(pn, limit, condition) {
  * @param {Integer} pn 页码
  * @param {Integer} limit 容量
  * @param {String} condition 条件
- * @returns 
+ * @returns
  */
 export function getArticleByUserDeleted(pn, limit, condition) {
   return request({
@@ -168,7 +168,7 @@ export function getArticleByUserDeleted(pn, limit, condition) {
  * @param {Integer} pn 页码
  * @param {Integer} limit 容量
  * @param {String} condition 条件
- * @returns 
+ * @returns
  */
 export function getArticleByUser(pn, limit, condition) {
   return request({
@@ -186,7 +186,7 @@ export function getArticleByUser(pn, limit, condition) {
 /**
  * 批量彻底删除文章
  * @param {String} ids 文章id的&拼接
- * @returns 
+ * @returns
  */
 export function batchDeleteDeletedArticles(ids) {
   return request({
@@ -201,7 +201,7 @@ export function batchDeleteDeletedArticles(ids) {
 /**
  * 批量恢复文章
  * @param {String} ids 文章id的&拼接
- * @returns 
+ * @returns
  */
 export function batchRecoverArticles(ids) {
   return request({
@@ -216,7 +216,7 @@ export function batchRecoverArticles(ids) {
 /**
  * 批量删除文章
  * @param {String} ids 文章id的&拼接
- * @returns 
+ * @returns
  */
 export function batchDeleteArticles(ids) {
   return request({
@@ -236,7 +236,7 @@ export function batchDeleteArticles(ids) {
  * @param {Integer} comment 是否允许评论
  * @param {String} md md格式的文章
  * @param {String} html HTML格式的文章
- * @returns 
+ * @returns
  */
 export function postArticle(title, type, summary, comment, md, html){
   return request({
@@ -261,7 +261,7 @@ export function postArticle(title, type, summary, comment, md, html){
  * @param {Integer} comment 是否允许评论
  * @param {String} md md格式的文章
  * @param {String} html HTML格式的文章
- * @returns 
+ * @returns
  */
 export function updateArticle(id, title, type, summary, comment, md, html){
   return request({
@@ -283,7 +283,7 @@ export function updateArticle(id, title, type, summary, comment, md, html){
 /**
  * 改变文章允许评论的状态
  * @param {String} id 文章id
- * @returns 
+ * @returns
  */
  export function toggleArticleIsComment(id) {
   return request({
@@ -298,7 +298,7 @@ export function updateArticle(id, title, type, summary, comment, md, html){
 /**
  * 文章置顶
  * @param {String} id 文章id
- * @returns 
+ * @returns
  */
  export function toggleArticleStickTop(id) {
   return request({
@@ -313,7 +313,7 @@ export function updateArticle(id, title, type, summary, comment, md, html){
 /**
  * 文章中的图片的上传
  * @param {blob} blob
- * @returns 
+ * @returns
  */
  export function uploadPicture(file) {
   return request({
@@ -331,7 +331,7 @@ export function updateArticle(id, title, type, summary, comment, md, html){
 /**
  * 获取用户最近发表的文章
  * @param {String} id 用户id
- * @returns 
+ * @returns
  */
  export function getUserArticleRecently(id, pn, limit) {
   return request({
@@ -341,6 +341,22 @@ export function updateArticle(id, title, type, summary, comment, md, html){
       id: id,
       pn: pn,
       limit: limit
+    }
+  })
+}
+
+
+/**
+ * 全站用户最近发表的文章, 显示在首页
+ */
+ export function getArticleRecently() {
+  return request({
+    url: '/article/recent',
+    method: 'get',
+    params: {
+      id: -1,
+      pn: 1,
+      limit: 5
     }
   })
 }

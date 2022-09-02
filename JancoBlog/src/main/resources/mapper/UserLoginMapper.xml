@@ -3,7 +3,7 @@
 <mapper namespace="com.jancoyan.jancoblog.mapper.UserLoginMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.pojo.UserLogin">
+    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.model.domain.UserLogin">
         <id column="id" property="id" />
         <result column="login_user" property="loginUser" />
         <result column="login_date" property="loginDate" />

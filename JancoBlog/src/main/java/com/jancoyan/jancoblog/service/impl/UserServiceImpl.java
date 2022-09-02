@@ -3,16 +3,14 @@ package com.jancoyan.jancoblog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jancoyan.jancoblog.pojo.User;
+import com.jancoyan.jancoblog.model.domain.User;
 import com.jancoyan.jancoblog.mapper.UserMapper;
-import com.jancoyan.jancoblog.pojo.UserInfo;
-import com.jancoyan.jancoblog.pojo.VUserTotalData;
+import com.jancoyan.jancoblog.model.domain.UserInfo;
+import com.jancoyan.jancoblog.model.vo.UserTotalDataVO;
 import com.jancoyan.jancoblog.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jancoyan.jancoblog.utils.MD5Util;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>
@@ -49,7 +47,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public VUserTotalData getUserTotalData(String userId) {
+    public UserTotalDataVO getUserTotalData(String userId) {
         return baseMapper.getUserTotalData(userId);
     }
 

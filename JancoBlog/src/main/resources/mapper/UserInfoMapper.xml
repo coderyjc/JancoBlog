@@ -3,7 +3,7 @@
 <mapper namespace="com.jancoyan.jancoblog.mapper.UserInfoMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.pojo.UserInfo">
+    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.model.domain.UserInfo">
         <id column="user_id" property="userId" />
         <result column="user_email" property="userEmail" />
         <result column="user_sex" property="userSex" />

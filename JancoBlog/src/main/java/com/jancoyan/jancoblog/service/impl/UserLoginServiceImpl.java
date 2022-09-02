@@ -1,6 +1,6 @@
 package com.jancoyan.jancoblog.service.impl;
 
-import com.jancoyan.jancoblog.pojo.UserLogin;
+import com.jancoyan.jancoblog.model.domain.UserLogin;
 import com.jancoyan.jancoblog.mapper.UserLoginMapper;
 import com.jancoyan.jancoblog.service.UserLoginService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

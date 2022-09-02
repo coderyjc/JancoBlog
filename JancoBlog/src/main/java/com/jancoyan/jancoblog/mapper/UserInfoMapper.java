@@ -1,7 +1,7 @@
 package com.jancoyan.jancoblog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jancoyan.jancoblog.pojo.UserInfo;
+import com.jancoyan.jancoblog.model.domain.UserInfo;
 
 /**
  * <p>

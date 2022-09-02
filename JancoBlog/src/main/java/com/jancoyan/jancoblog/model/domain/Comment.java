@@ -1,15 +1,16 @@
-package com.jancoyan.jancoblog.pojo;
+package com.jancoyan.jancoblog.model.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -18,18 +19,19 @@ import java.util.Date;
  * </p>
  *
  * @author Jancoyan
- * @since 2021-10-17
+ * @since 2021-09-14
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@TableName("tbl_deleted_comment")
-public class DeletedComment extends Model<DeletedComment> {
+@TableName("tbl_comment")
+public class Comment extends Model<Comment> {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "comment_id", type = IdType.AUTO)
     private Integer commentId;
 
     private Integer preCommentId;

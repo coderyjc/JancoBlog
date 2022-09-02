@@ -1,4 +1,4 @@
-package com.jancoyan.jancoblog.pojo;
+package com.jancoyan.jancoblog.model.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;

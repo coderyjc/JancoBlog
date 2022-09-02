@@ -5,7 +5,7 @@
  * @Version: 1.0
  */
 
-package com.jancoyan.jancoblog.pojo;
+package com.jancoyan.jancoblog.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class VUserTotalData {
+public class UserTotalDataVO {
 
     private Integer articleAuthor;
 

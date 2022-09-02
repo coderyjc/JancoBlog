@@ -1,6 +1,6 @@
 package com.jancoyan.jancoblog.mapper;
 
-import com.jancoyan.jancoblog.pojo.UserLogin;
+import com.jancoyan.jancoblog.model.domain.UserLogin;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

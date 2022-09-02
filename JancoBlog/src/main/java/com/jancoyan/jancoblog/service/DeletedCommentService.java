@@ -1,10 +1,8 @@
 package com.jancoyan.jancoblog.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jancoyan.jancoblog.pojo.Comment;
-import com.jancoyan.jancoblog.pojo.DeletedComment;
+import com.jancoyan.jancoblog.model.domain.DeletedComment;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.apache.ibatis.annotations.Delete;
 
 /**
  * <p>

@@ -3,7 +3,7 @@
 <mapper namespace="com.jancoyan.jancoblog.mapper.ArticleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.pojo.Article">
+    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.model.domain.Article">
         <id column="article_id" property="articleId" />
         <result column="article_title" property="articleTitle" />
         <result column="article_author" property="articleAuthor" />
@@ -28,26 +28,26 @@
     </sql>
 
     <!--    首页文章列表-->
-    <select id="getIndexList" resultType="com.jancoyan.jancoblog.pojo.Article">
+    <select id="getIndexList" resultType="com.jancoyan.jancoblog.model.domain.Article">
         select * from v_article_list_show ${ew.customSqlSegment}
     </select>
 
 <!--    管理员能看到的文章列表-->
-    <select id="getManageList" resultType="com.jancoyan.jancoblog.pojo.Article">
+    <select id="getManageList" resultType="com.jancoyan.jancoblog.model.domain.Article">
         select * from v_article_manage_list ${ew.customSqlSegment}
     </select>
 
 <!--    查看文章的时候获取文章整体信息 -->
-    <select id="getSingleArticle" resultType="com.jancoyan.jancoblog.pojo.Article">
+    <select id="getSingleArticle" resultType="com.jancoyan.jancoblog.model.domain.Article">
         select * from v_article_get_single where article_id = '${id}'
     </select>
 
-    <select id="getSingleArticleDeleted" resultType="com.jancoyan.jancoblog.pojo.Article">
+    <select id="getSingleArticleDeleted" resultType="com.jancoyan.jancoblog.model.domain.Article">
         select * from v_article_get_single_deleted where article_id = '${id}'
     </select>
 
 <!--    获取删除的文章-->
-    <select id="getDeletedList" resultType="com.jancoyan.jancoblog.pojo.Article">
+    <select id="getDeletedList" resultType="com.jancoyan.jancoblog.model.domain.Article">
         select * from v_article_deleted_list ${ew.customSqlSegment}
     </select>
 
@@ -65,12 +65,12 @@
 
     <!--    获取用户最近发表的文章 -->
     <select id="getArticleByUserRecently"
-            resultType="com.jancoyan.jancoblog.pojo.PageArticle">
+            resultType="com.jancoyan.jancoblog.model.domain.PageArticle">
         select * from v_page_article ${ew.customSqlSegment}
     </select>
 
 <!--    获取用户文章用于编辑文章-->
-    <select id="getArticleEdit" resultType="com.jancoyan.jancoblog.pojo.Article">
+    <select id="getArticleEdit" resultType="com.jancoyan.jancoblog.model.domain.Article">
         select article_id,
                article_title,
                article_summary,

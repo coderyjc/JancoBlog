@@ -7,14 +7,12 @@
 
 package com.jancoyan.jancoblog;
 
-import com.jancoyan.jancoblog.JancoBlogApplicationTests;
-import com.jancoyan.jancoblog.pojo.Article;
-import com.jancoyan.jancoblog.pojo.Comment;
-import com.jancoyan.jancoblog.pojo.User;
+import com.jancoyan.jancoblog.model.domain.Article;
+import com.jancoyan.jancoblog.model.domain.Comment;
+import com.jancoyan.jancoblog.model.domain.User;
 import com.jancoyan.jancoblog.utils.MD5Util;
 import org.junit.jupiter.api.Test;
 
-import java.sql.DatabaseMetaData;
 import java.util.Date;
 import java.util.Random;
 

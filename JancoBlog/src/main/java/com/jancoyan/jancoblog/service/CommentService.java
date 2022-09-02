@@ -1,9 +1,9 @@
 package com.jancoyan.jancoblog.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jancoyan.jancoblog.pojo.Comment;
+import com.jancoyan.jancoblog.model.domain.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.jancoyan.jancoblog.pojo.PageComment;
+import com.jancoyan.jancoblog.model.domain.PageComment;
 
 /**
  * <p>

@@ -1,7 +1,7 @@
 package com.jancoyan.jancoblog.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jancoyan.jancoblog.pojo.LikeRecord;
+import com.jancoyan.jancoblog.model.domain.LikeRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

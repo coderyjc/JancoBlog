@@ -1,6 +1,6 @@
 package com.jancoyan.jancoblog.service.impl;
 
-import com.jancoyan.jancoblog.pojo.Type;
+import com.jancoyan.jancoblog.model.domain.Type;
 import com.jancoyan.jancoblog.mapper.TypeMapper;
 import com.jancoyan.jancoblog.service.TypeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

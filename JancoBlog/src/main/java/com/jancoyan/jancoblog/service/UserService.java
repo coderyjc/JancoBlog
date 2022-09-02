@@ -1,12 +1,10 @@
 package com.jancoyan.jancoblog.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jancoyan.jancoblog.pojo.User;
+import com.jancoyan.jancoblog.model.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.jancoyan.jancoblog.pojo.UserInfo;
-import com.jancoyan.jancoblog.pojo.VUserTotalData;
-
-import java.util.List;
+import com.jancoyan.jancoblog.model.domain.UserInfo;
+import com.jancoyan.jancoblog.model.vo.UserTotalDataVO;
 
 /**
  * <p>
@@ -32,7 +30,7 @@ public interface UserService extends IService<User> {
      * @param userId 用户id
      * @return
      */
-    VUserTotalData getUserTotalData(String userId);
+    UserTotalDataVO getUserTotalData(String userId);
 
     /**
      * 获取用户登录信息

@@ -16,9 +16,9 @@ import '@/icons' // icon
 import '@/permission' // permission control
 import Axios from 'axios'
 
-import VueParticles from 'vue-particles'
+// import VueParticles from 'vue-particles'
 
-Vue.use(VueParticles)
+// Vue.use(VueParticles)
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false

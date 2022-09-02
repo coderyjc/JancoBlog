@@ -1,13 +1,10 @@
 package com.jancoyan.jancoblog.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jancoyan.jancoblog.pojo.Article;
+import com.jancoyan.jancoblog.model.domain.Article;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jancoyan.jancoblog.pojo.PageArticle;
-
-import javax.swing.event.InternalFrameAdapter;
+import com.jancoyan.jancoblog.model.domain.PageArticle;
 
 /**
  * <p>

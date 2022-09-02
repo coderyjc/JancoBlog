@@ -8,7 +8,7 @@
 package com.jancoyan.jancoblog.utils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.jancoyan.jancoblog.pojo.Article;
+import com.jancoyan.jancoblog.model.domain.Article;
 
 import java.util.ArrayList;
 import java.util.List;

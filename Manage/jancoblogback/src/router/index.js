@@ -50,7 +50,6 @@ export const constantRouterMap = [
       meta: { title: '数据面板', icon: 'dashboard' }
     }]
   }
-  
 ]
 
 //实例化vue的时候只挂载constantRouter
@@ -137,7 +136,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/article/all-deleted'),
         meta: { title: '所有已删除文章', icon: 'el-icon-delete', role: ['admin'] }
       },
-      
+
     ]
   },
 

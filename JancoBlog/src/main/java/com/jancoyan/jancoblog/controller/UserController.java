@@ -2,13 +2,12 @@ package com.jancoyan.jancoblog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jancoyan.jancoblog.pojo.User;
-import com.jancoyan.jancoblog.pojo.UserInfo;
-import com.jancoyan.jancoblog.pojo.UserLogin;
-import com.jancoyan.jancoblog.pojo.VUserTotalData;
+import com.jancoyan.jancoblog.model.domain.User;
+import com.jancoyan.jancoblog.model.domain.UserInfo;
+import com.jancoyan.jancoblog.model.domain.UserLogin;
+import com.jancoyan.jancoblog.model.vo.UserTotalDataVO;
 import com.jancoyan.jancoblog.service.UserService;
 import com.jancoyan.jancoblog.utils.*;
-import io.lettuce.core.output.ScanOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,20 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * <p>
@@ -122,7 +114,7 @@ public class UserController {
             userId = String.valueOf(user.getUserId());
         }
         // 获取数据
-        VUserTotalData data = service.getUserTotalData(userId);
+        UserTotalDataVO data = service.getUserTotalData(userId);
 
         if (null != data){
             return Msg.success().add("data", data);
@@ -184,7 +176,7 @@ public class UserController {
     public Msg getAuthorInfo(
             @RequestParam(value = "id")String userId
     ){
-        VUserTotalData data = service.getUserTotalData(userId);
+        UserTotalDataVO data = service.getUserTotalData(userId);
         if(null != data) {
             return Msg.success().add("data", data);
         } else {

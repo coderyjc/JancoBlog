@@ -1,6 +1,6 @@
 package com.jancoyan.jancoblog.service;
 
-import com.jancoyan.jancoblog.pojo.UserLogin;
+import com.jancoyan.jancoblog.model.domain.UserLogin;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

@@ -7,6 +7,9 @@
 
 package com.jancoyan.jancoblog.utils;
 
+
+import org.springframework.beans.factory.annotation.Value;
+
 public class ConstantUtil {
 
     public static final String STATIC_RESOURCES =  "C:/Users/Administrator/Pictures/webstatic";

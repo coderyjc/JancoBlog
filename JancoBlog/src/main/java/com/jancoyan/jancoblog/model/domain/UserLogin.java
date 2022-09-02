@@ -1,4 +1,4 @@
-package com.jancoyan.jancoblog.pojo;
+package com.jancoyan.jancoblog.model.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -10,8 +10,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import java.util.Date;
 
 /**

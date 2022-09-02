@@ -3,7 +3,7 @@
 <mapper namespace="com.jancoyan.jancoblog.mapper.DeletedCommentMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.pojo.DeletedComment">
+    <resultMap id="BaseResultMap" type="com.jancoyan.jancoblog.model.domain.DeletedComment">
         <id column="comment_id" property="commentId" />
         <result column="pre_comment_id" property="preCommentId" />
         <result column="comment_article_id" property="commentArticleId" />
@@ -22,7 +22,7 @@
         comment_id, pre_comment_id, comment_article_id, comment_author_id, comment_author_name, comment_author_email, comment_content, comment_date, comment_author_ip, comment_like_count
     </sql>
     <select id="getCommentByArticle"
-            resultType="com.jancoyan.jancoblog.pojo.DeletedComment">
+            resultType="com.jancoyan.jancoblog.model.domain.DeletedComment">
         select * from  v_comment_article_deleted ${ew.customSqlSegment}
     </select>
 

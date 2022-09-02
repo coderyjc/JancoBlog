@@ -1,83 +1,28 @@
-# JancoBlog
+# 介绍
 
-## log
+一款基于SpringBoot和Vue.js的个人博客系统
 
-### 2022.09.01
+## 技术选型
 
-时隔一年(因为web实践课)再次打开了这个repo
+> 前端
 
-发现自己当年的代码写得稀碎, bug层出, 也就能跑的级别.
+|技术|官网|
+|----|----|
+| Vue.js 2.x | [https://cn.vuejs.org/](https://cn.vuejs.org/) |
+| vue-cli | [https://cli.vuejs.org/zh/guide/](https://cli.vuejs.org/zh/guide/) |
+| vue-router | [https://router.vuejs.org/zh/](https://router.vuejs.org/zh/) |
+| vuex | [https://vuex.vuejs.org/](https://vuex.vuejs.org/) |
+| Element-UI | [https://element.eleme.cn/#/zh-CN](https://element.eleme.cn/#/zh-CN) |
+| Node.js | [https://nodejs.org/en/](https://nodejs.org/en/) |
 
-稍微修改了一下代码和一些有关的目录.
+本项目使用了 Vue-Element-Admin模板
 
-前端没有使用component进行模块分离, 也没有做响应式.
+> 后端
 
-后端代码的耦合度也挺大的, 自己都看不下去了.
+|技术|官网|
+|----|----|
+| SpringBoot 2.x | [https://spring.io/projects/spring-boot/](https://spring.io/projects/spring-boot/) |
+| MyBatis-Plus | [https://baomidou.com/](https://baomidou.com/) |
 
-当时年轻的自己还天真的给自己的项目打了V1.0/2.0的tag, 真是厚颜无耻()
-
-因此本次commit, 把JancoBlogV1.0, 2.0, 3.0分别改为0.1, 0.2, 0.3, 等到改到自己满意了再搞一个V1.0
-
-然后分别提交了三个版本, 并打了tag和进行了release供人耻笑(bushi)
-
-
----
-
-### 2021.09.14
-
-<font style="color:red;font-size:20px">JancoBlog V3.0 完全重构</font>
-
-前端：采用 Vue + ElementUI
-
-后端：采用SpringBoot
-
-数据库：MySQL
-
-部署：使用Docker
-
-重新设计数据库。
-
-前后端完全分离的开发方式
-
----
-
-### **2021.6.25**
-
-<font style="color:red;font-size:20px">JancoBlog V2.0 转型计划</font>
-
-前端
-
-- 使用LayUI前端框架
-- 使用HTML+CSS编写
-
-后端
-
-- 完全抛弃旧版的Servlet + Jsp模式
-- 使用SpringBoot敏捷开发框架
-
-数据库
-
-- 重新设计数据库，并且考虑扩充的问题
-
----
-
-### **2021.6.4**
-
-更新了博客的前端界面
-
-游客能看到的页面都更新了
-
-后端接口没有完全写完。
-
-后端的文章删除做好了，但是评论基本没做
-
-目前的想法就是先尽可能地写出来一个游客能看起来还行的UI界面，后端的东西暑假再弄。
-
-现在的计划就是先放弃评论管理功能
-
-先做UI界面和文章查看中评论的提交。
-
-### **2021.05.06**
-
- 18:16 正式完成了第一版的开发。
+## 展示
 

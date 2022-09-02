@@ -1,7 +1,7 @@
 package com.jancoyan.jancoblog.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jancoyan.jancoblog.pojo.*;
+import com.jancoyan.jancoblog.model.domain.*;
 import com.jancoyan.jancoblog.service.ArticleService;
 import com.jancoyan.jancoblog.service.CommentService;
 import com.jancoyan.jancoblog.service.LikeRecordService;
@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -298,6 +297,7 @@ public class ArticleController {
 
     /**
      * 获取用户最近发布的文章 10 个
+     * 如果用户名是-1, 获取所有用户最近发表的10篇文章, 用于在首页显示
      * @param id 用户id
      * @param pn 页码
      * @param limit 容量
@@ -305,13 +305,14 @@ public class ArticleController {
      */
     @RequestMapping(value = "/recent", method = RequestMethod.GET)
     public Msg listArticleUserRecently(
-            @RequestParam(value = "id") String id,
+            @RequestParam(value = "id", defaultValue = "-1") String id,
             @RequestParam(value = "pn", defaultValue = "1")Integer pn,
             @RequestParam(value = "limit" ,defaultValue = "10")Integer limit
     ){
         IPage<PageArticle> iPage = service.listArticleUserRecently(id, pn, limit);
         return Msg.success().add("pageInfo", iPage);
     }
+
 
 
     /**

@@ -1,7 +1,7 @@
 package com.jancoyan.jancoblog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.jancoyan.jancoblog.pojo.UserInfo;
+import com.jancoyan.jancoblog.model.domain.UserInfo;
 
 /**
  * <p>

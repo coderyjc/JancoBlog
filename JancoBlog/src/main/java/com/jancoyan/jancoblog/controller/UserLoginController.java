@@ -4,21 +4,19 @@ package com.jancoyan.jancoblog.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jancoyan.jancoblog.pojo.User;
-import com.jancoyan.jancoblog.pojo.UserLogin;
+import com.jancoyan.jancoblog.model.domain.User;
+import com.jancoyan.jancoblog.model.domain.UserLogin;
 import com.jancoyan.jancoblog.service.UserLoginService;
 import com.jancoyan.jancoblog.utils.Msg;
 import com.jancoyan.jancoblog.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * <p>

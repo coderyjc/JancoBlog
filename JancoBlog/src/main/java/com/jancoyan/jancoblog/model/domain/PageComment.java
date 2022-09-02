@@ -5,7 +5,7 @@
  * @Version: 1.0
  */
 
-package com.jancoyan.jancoblog.pojo;
+package com.jancoyan.jancoblog.model.domain;
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.AllArgsConstructor;
@@ -16,12 +16,14 @@ import lombok.experimental.Accessors;
 
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class PageArticle extends Model<PageArticle>{
+public class PageComment extends Model<LikeRecord> {
+
+    private String commentAuthorName;
 
     private String articleId;
 
@@ -29,6 +31,7 @@ public class PageArticle extends Model<PageArticle>{
 
     private String articleTitle;
 
-    private Date articlePostTime;
+    private Date commentDate;
 
 }
+

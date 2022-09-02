@@ -1,36 +1,12 @@
 <template>
   <div class="app">
-    <!--    导航栏-->
-    <el-row
-      style="position: fixed; width:100%; z-index: 1"
-    >
-      <el-col>
-        <el-menu
-          default-active="0"
-           class="nav-bar"
-          mode="horizontal"
-        >
-          <el-menu-item class="smallscreen">
-            <!-- 目录抽屉 -->
-            <i class="el-icon-s-unfold" @click="toggleDrawer()"></i>
-          </el-menu-item>
-          <el-menu-item>
-            <a href="http://demo.evilemperor.top" class="logo">NICE</a>
-          </el-menu-item>
-          <el-menu-item
-            style="float: right"
-            @click="linkToDashBoard"
-          >
-            <el-avatar
-              size="large"
-              :src="avatarUrl"
-            >
-              登录
-            </el-avatar>
-          </el-menu-item>
-        </el-menu>
-      </el-col>
-    </el-row>
+    <!-- 导航栏 -->
+    <div class="header">
+      <div class="logo">BLOG</div>
+      <div class="header-avatar" @click="linkToDashBoard">
+        <img :src="avatarUrl" alt="登录">
+      </div>
+    </div>
 
     <!--        页面主体-->
     <el-row
@@ -72,7 +48,6 @@
         :md="{span: 14, offset: 5}"
         :sm="{span: 24}"
         :xs="{span: 24}"
-        style="padding: 0 60px"
       >
         <!--            内容-->
         <div
@@ -87,18 +62,13 @@
         <!--                作者关闭了评论-->
         <el-card
           shadow="never"
-          style="text-align: center;margin-top: 20px; padding: 20px; color: gray; border: none"
+          style="text-align: center;margin-top: 20px; padding: 10px; color: gray; border: none"
           v-if="!article.articleIsComment"
         >
           作者关闭了评论
         </el-card>
         <!-- 评论区 -->
-        <el-col v-if="article.articleIsComment">
-          <!--                评论的标题--评论 comment -->
-          <div class="comment-area-title">
-            <span class="comment-title-chinese">评论区</span>
-            <span class="comment-title-english">Comments</span>
-          </div>
+        <el-col v-if="article.articleIsComment" class="comment">
           <!--                分页评论-->
           <div class="comment-list">
             <div
@@ -302,7 +272,8 @@ import {
 import { getAuthorInfo } from '@/api/user'
 import { getCommentByArticle, likeComment, postComment } from '@/api/comment'
 import { isLiked } from '@/api/like'
-import { ConsoleWriter } from 'istanbul-lib-report'
+import { dateFormatYMDHMS } from '@/utils/timeUtils'
+
 
 export default {
   data() {
@@ -390,16 +361,7 @@ export default {
   },
   filters: {
     dateFormat(date) {
-      var s = new Date(date)
-      var y = s.getFullYear()
-      var m =
-        s.getMonth() + 1 < 10 ? '0' + (s.getMonth() + 1) : s.getMonth() + 1
-      var dd = s.getDate() < 10 ? '0' + s.getDate() : s.getDate()
-      var hh = s.getHours() < 10 ? '0' + s.getHours() : s.getHours()
-      var mm = s.getMinutes() < 10 ? '0' + s.getMinutes() : s.getMinutes()
-      var ss = s.getSeconds() < 10 ? '0' + s.getSeconds() : s.getSeconds()
-      var enddate = y + '-' + m + '-' + dd + ' ' + hh + ':' + mm + ':' + ss
-      return enddate
+      return dateFormatYMDHMS(date)
     },
   },
   methods: {
@@ -597,8 +559,10 @@ body {
   background-color: white;
 }
 
-
 .app{
+
+  min-height: 100vh;
+  background-color: rgb(245, 245, 245);
 
   .nav-bar{
     padding: 0 18%;
@@ -618,7 +582,7 @@ body {
         display: block;
         width:100%;
         height: 100%;
-        padding: 5px 10px;
+        padding: 5px 5px;
         &:hover{
           background-color: #efefef;
         }
@@ -629,13 +593,58 @@ body {
   .side-card{
     margin: 20px 0;
   }
-}
 
-/*导航栏*/
-.logo {
-  font-size: 30px;
-  line-height: 30px;
-  color: black;
+
+  .header{
+    width: 100vw;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    position: relative;
+    z-index: 200;
+
+
+    .type-list{
+      display: flex;
+      flex-direction: row;
+
+      &-item{
+        padding: 10px;
+        font-size: 18px;
+
+        &:hover{
+          color: #45A3FF;
+        }
+      }
+    }
+
+    &-avatar{
+      cursor: pointer;
+      background-color: #FFF;
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      line-height: 50px;
+      text-align: center;
+      color: rgb(97, 96, 96);
+
+      img {
+        height: 50px;
+        border-radius: 50%;
+      }
+    }
+
+    .logo{
+      font-size: 24px;
+      font-weight: 600;
+      color: #2e2e2e;
+    }
+
+  }
+
 }
 
 /*文章标题*/
@@ -668,30 +677,29 @@ h1 {
 /* 文章内容 */
 #md-content {
   line-height: 26px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 0 30px;
+  padding-bottom: 10px;
 }
 
-/*评论的标题*/
-.comment-area-title {
-  border-bottom: 1px solid black;
-}
-.comment-title-chinese {
-  font-size: 40px;
-  font-family: Arial, sans-serif;
-}
-.comment-title-english {
-  font: italic 22px/30px arial, sans-serif;
-}
+.comment{
 
-/*评论的内容*/
-.comment-item {
-  margin: 5px 0;
-}
-.comment-info {
-  margin-top: 10px;
-}
-.comment-info-item {
-  color: gray;
-  margin-right: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 15px;
+
+  &-item {
+    margin: 5px 0;
+  }
+  &-info {
+    margin-top: 10px;
+  }
+  &-info-item {
+    color: gray;
+    margin-right: 20px;
+  }
+
 }
 
 .pagination {

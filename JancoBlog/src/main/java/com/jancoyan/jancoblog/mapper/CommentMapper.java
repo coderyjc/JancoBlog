@@ -3,9 +3,9 @@ package com.jancoyan.jancoblog.mapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jancoyan.jancoblog.pojo.Comment;
+import com.jancoyan.jancoblog.model.domain.Comment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jancoyan.jancoblog.pojo.PageComment;
+import com.jancoyan.jancoblog.model.domain.PageComment;
 
 /**
  * <p>

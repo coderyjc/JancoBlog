@@ -3,7 +3,7 @@ package com.jancoyan.jancoblog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jancoyan.jancoblog.pojo.LikeRecord;
+import com.jancoyan.jancoblog.model.domain.LikeRecord;
 import com.jancoyan.jancoblog.mapper.LikeRecordMapper;
 import com.jancoyan.jancoblog.service.LikeRecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

@@ -6,17 +6,17 @@ import { getToken } from '@/utils/auth'
 // var currentBaseURL = 'http://101.201.64.102:8000'
 var currentBaseURL = 'http://localhost:8000'
 
-// axios.get('/config.json').then(res =>{
-//   currentBaseURL = res.data.BASE_URL
-//   console.log('res: ', res)
-//   console.log('currentBaseURL', currentBaseURL)
-// })
-
 const service = axios.create({
   // baseURL: 'http://101.201.64.102:8000', // url = base url + request url
   baseURL: currentBaseURL,
   timeout: 5000 // request timeout
 })
+
+// const service = axios.create({
+//   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+//   timeout: 5000 // request timeout
+// })
+
 
 // request interceptor
 service.interceptors.request.use(
