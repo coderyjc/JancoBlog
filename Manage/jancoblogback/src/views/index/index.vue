@@ -19,7 +19,7 @@
     </div>
 
     <!-- 文章分类抽屉 -->
-    <el-drawer
+    <!-- <el-drawer
       title="文章分类"
       :visible.sync="drawerVisibility"
       direction="ltr">
@@ -30,7 +30,7 @@
       >
           <a @click="get_article_by_type(item.typeId)">{{ item.typeName }}</a>
       </div>
-    </el-drawer>
+    </el-drawer> -->
 
     <!--    主要部分-->
     <el-row>
@@ -196,7 +196,7 @@ export default {
       toggle_nav: "",
       islogin: false,
       // 抽屉开关
-      drawerVisibility: false,
+      // drawerVisibility: false,
       avatarUrl: '',
       base_article_url: '/article?id=',
       condition: '',
@@ -309,9 +309,9 @@ export default {
     },
 
     // 打开代表分类的抽屉
-    toggleDrawer(){
-      this.drawerVisibility = !this.drawerVisibility
-    }
+    // toggleDrawer(){
+    //   this.drawerVisibility = !this.drawerVisibility
+    // }
   },
 }
 </script>
@@ -427,6 +427,7 @@ a, .router-link {
       background-color: #FFF;
       height: 50px;
       width: 50px;
+      font-size: 15px;
       border-radius: 50%;
       line-height: 50px;
       text-align: center;
@@ -537,11 +538,6 @@ a, .router-link {
 
     .left{
       padding: 0 20px;
-    }
-
-
-    .right{
-      display: none;
     }
 
     .nav-bar{

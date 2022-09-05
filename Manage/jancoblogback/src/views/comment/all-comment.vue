@@ -116,6 +116,7 @@
 import { getAll, batchDeleteComments } from '@/api/comment'
 import { parseTime } from '@/utils/index'
 
+
   export default {
     data() {
       return {
@@ -195,7 +196,7 @@ import { parseTime } from '@/utils/index'
           this.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       },
       get_comment_list(pn){
@@ -241,7 +242,7 @@ import { parseTime } from '@/utils/index'
             type: 'info',
             message: '已取消删除',
             duration: 1000
-          });          
+          });
         });
       },
       submitSearch(){
@@ -312,7 +313,7 @@ import { parseTime } from '@/utils/index'
     font-size: 17px;
     line-height: 30px;
   }
-  
+
   span{
     font-weight: 700;
   }

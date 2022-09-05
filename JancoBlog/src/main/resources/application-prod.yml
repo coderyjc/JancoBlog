@@ -31,6 +31,3 @@ spring:
 server:
   max-http-header-size: 1MB
   port: 8000
-logging:
-  level:
-    com.jancoyan.jancoblog.mapper: debug

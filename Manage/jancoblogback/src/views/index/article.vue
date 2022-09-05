@@ -8,6 +8,10 @@
       </div>
     </div>
 
+    <div class="float-content" @click="toggleDrawer()">
+      <i class="el-icon-s-unfold"></i>
+    </div>
+
     <!--        页面主体-->
     <el-row
       :gutter="24"
@@ -254,8 +258,15 @@
 
     </el-row>
 
+    <div class="footer">
+      <el-divider direction="horizontal" content-position="center"></el-divider>
+      <p>© 2022 Powered by SpringBoot & Vue.js
+        <br />鲁ICP备2022021779号</p>
+    </div>
+
     <!--    返回顶部-->
     <el-backtop></el-backtop>
+
   </div>
 
 </template>
@@ -386,7 +397,7 @@ export default {
       getAuthorInfo(_this.article.articleAuthor).then((response) => {
         _this.author = response.extend.data
         // 作者头像
-        _this.authorAvatar = this.$store.getters.avatar
+        _this.authorAvatar = process.env.VUE_APP_BASE_API + "/avatar/" + this.author.userName + '.png'
       })
       // 评论信息
       this.get_comment_list(this.$route.query, 1)
@@ -538,15 +549,10 @@ export default {
 @import '../../assets/css/highlight.css';
 
 *{
-  /* 设置网页的字体的基调 */
   font-family: '等线';
-  /* 设置所有盒子的展示样式 */
   box-sizing: border-box;
-  /* outline和border都是把所有元素的轮廓取消 */
   outline: none; border: none;
-  /* 字体样式 */
   text-decoration: none;
-  /* 设置所有的变化都是线性的持续0.2秒的 */
   transition: all .2s linear;
   scroll-behavior: smooth;
 }
@@ -642,7 +648,30 @@ body {
       font-weight: 600;
       color: #2e2e2e;
     }
+  }
 
+  .float-content {
+    display: none;
+    height: 40px;
+    width: 40px;
+    background-color: #fff;
+    position: fixed;
+    top: 100;
+    float: left;
+    font-size: 25px;
+    text-align: center;
+    line-height: 50px;
+    border-top-right-radius: 30%;
+    border-end-end-radius: 30%;
+    box-shadow: 5px 5px 10px 0 rgba(0,0,0,0.3);
+    z-index: 1;
+  }
+
+
+  .footer{
+    p{
+      text-align: center;
+    }
   }
 
 }
@@ -709,6 +738,10 @@ h1 {
 
 @media (max-width: 992px) {
   .app{
+
+    .float-content{
+      display: block;
+    }
 
     .catalog-col{
       display: none;

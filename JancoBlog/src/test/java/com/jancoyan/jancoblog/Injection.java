@@ -95,14 +95,23 @@ public class Injection extends JancoBlogApplicationTests {
         }
     }
 
+    @Test
     public void userInjection(){
         User user = new User();
-        user.setUserIp("127.0.0.1").
-                setUserName("admin")
-                .setUserPassword(MD5Util.getMD5("333"))
+//        user.setUserIp("127.0.0.1").
+//                setUserName("user")
+//                .setUserPassword(MD5Util.getMD5("333"))
+//                .setUserRole(2)
+//                .setUserCreateDate(new Date())
+//                .setUserLastLoginDate(new Date());
+        user.setUserName("user")
+                .setUserLastLoginDate(null)
+                .setUserId(null)
+                .setUserSignature("Hello World")
+                .setUserPassword(MD5Util.getMD5(password))
                 .setUserRole(2)
                 .setUserCreateDate(new Date())
-                .setUserLastLoginDate(new Date());
+                .setUserIp("127.0.0.1");
         user.insert();
     }
 

@@ -188,8 +188,8 @@ export default {
           formData.append('file', data, 'file.png')
           //调用
           const ajax = new XMLHttpRequest()
-          // ajax.open('POST', 'http://101.201.64.102:8000/user/upload/avatar', true)
-          ajax.open('POST', 'http://localhost:8000/user/upload/avatar', true)
+          let url = process.env.VUE_APP_BASE_API + '/user/upload/avatar'
+          ajax.open('POST', url, true)
           ajax.setRequestHeader('token', getToken())
           ajax.send(formData)
           ajax.onreadystatechange = function () {

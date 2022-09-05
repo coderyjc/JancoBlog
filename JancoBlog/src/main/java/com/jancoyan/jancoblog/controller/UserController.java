@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -199,11 +200,11 @@ public class UserController {
             @RequestParam(value = "code") String code,
             HttpServletRequest request
     ) throws IOException {
-//        String verify = (String) request.getSession().getAttribute(VerifyCodeUtil.RANDOMCODEKEY);
-//
-//        if(!verify.toLowerCase(Locale.ROOT).equals(code.toLowerCase(Locale.ROOT))){
-//            return Msg.fail().add("msg", "验证码输入错误");
-//        }
+        String verify = (String) request.getSession().getAttribute(VerifyCodeUtil.RANDOMCODEKEY);
+
+        if(!verify.toLowerCase(Locale.ROOT).equals(code.toLowerCase(Locale.ROOT))){
+            return Msg.fail().add("msg", "验证码输入错误");
+        }
 
         User user = new User();
         // 设置信息
