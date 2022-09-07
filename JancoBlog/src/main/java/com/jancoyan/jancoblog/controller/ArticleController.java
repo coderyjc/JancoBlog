@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.util.annotation.Nullable;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -48,21 +49,44 @@ public class ArticleController {
     RedisUtil redisUtil;
 
     /**
-     * 获取首页的文章，带有搜索功能
-     * @param pn 第几页
-     * @param limit 每一页的大小
-     * @param condition 条件
-     * @return 标准的pageInfo
+     * 获取首页文章
+     * @param pn 页码
+     * @param limit 最大值
+     * @param userName 用户名
+     * @param articleTitle 标题
+     * @param articleType 类型
+     * @param start 开始时间
+     * @param end 结束时间
+     * @param articleViewCount 阅读数量排序
+     * @param articleLikeCount 点赞量排序
+     * @param articleCommentCount 评论数量排序
+     * @return
      */
     @RequestMapping(value = "/all")
     public Msg listArticleIndex(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
-            @RequestParam(value = "condition", defaultValue = "")String condition
+            @RequestParam(value = "article_author_name", defaultValue = "null") String userName,
+            @RequestParam(value = "article_title", defaultValue = "null") String articleTitle,
+            @RequestParam(value = "article_type", defaultValue = "null") String articleType,
+            @RequestParam(value = "start", defaultValue = "null") String start,
+            @RequestParam(value = "end", defaultValue = "null") String end,
+            @RequestParam(value = "rank_view", defaultValue = "null") String articleViewCount,
+            @RequestParam(value = "rank_like", defaultValue = "null")String articleLikeCount,
+            @RequestParam(value = "rank_comment", defaultValue = "null")String articleCommentCount
+
     ){
-        IPage<Article> iPage = service.listArticleIndex(Integer.parseInt(pn),
+        IPage<Article> iPage = service.listArticleIndex(
+                Integer.parseInt(pn),
                 Integer.parseInt(limit),
-                condition);
+                userName,
+                articleTitle,
+                articleType,
+                start,
+                end,
+                articleViewCount,
+                articleLikeCount,
+                articleCommentCount);
         return Msg.success().add("pageInfo", iPage);
     }
 
@@ -70,14 +94,20 @@ public class ArticleController {
      * 获取管理的文章管理列表的文章
      * @param pn 第几页
      * @param limit 容量
-     * @param condition 条件
      * @return 成功
      */
     @RequestMapping(value = "/manage")
     public Msg listArticleManageAll(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
-            @RequestParam(value = "condition", defaultValue = "")String condition,
+            @RequestParam(value = "article_author_name", defaultValue = "null") String userName,
+            @RequestParam(value = "article_title", defaultValue = "null") String articleTitle,
+            @RequestParam(value = "article_type", defaultValue = "null") String articleType,
+            @RequestParam(value = "start", defaultValue = "null") String start,
+            @RequestParam(value = "end", defaultValue = "null") String end,
+            @RequestParam(value = "rank_view", defaultValue = "null") String articleViewCount,
+            @RequestParam(value = "rank_like", defaultValue = "null")String articleLikeCount,
+            @RequestParam(value = "rank_comment", defaultValue = "null")String articleCommentCount,
             HttpServletRequest request
     ){
         String token = request.getHeader("token");
@@ -85,10 +115,18 @@ public class ArticleController {
             // 用户登录信息过期了
             return Msg.expire();
         }
-        IPage<Article> iPage = service.listArticleManage(null,
+        IPage<Article> iPage = service.listArticleManage(
+                null,
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
-                condition);
+                userName,
+                articleTitle,
+                articleType,
+                start,
+                end,
+                articleViewCount,
+                articleLikeCount,
+                articleCommentCount);
         return Msg.success().add("pageInfo", iPage);
     }
 
@@ -96,7 +134,6 @@ public class ArticleController {
      * 获取当前登录的用户发表的所有文章
      * @param pn 页码
      * @param limit 容量
-     * @param condition 条件
      * @param request 获取token
      * @return 成功
      */
@@ -104,7 +141,14 @@ public class ArticleController {
     public Msg listArticleManageUser(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
-            @RequestParam(value = "condition", defaultValue = "")String condition,
+            @RequestParam(value = "article_author_name", defaultValue = "null") String userName,
+            @RequestParam(value = "article_title", defaultValue = "null") String articleTitle,
+            @RequestParam(value = "article_type", defaultValue = "null") String articleType,
+            @RequestParam(value = "start", defaultValue = "null") String start,
+            @RequestParam(value = "end", defaultValue = "null") String end,
+            @RequestParam(value = "rank_view", defaultValue = "null") String articleViewCount,
+            @RequestParam(value = "rank_like", defaultValue = "null")String articleLikeCount,
+            @RequestParam(value = "rank_comment", defaultValue = "null")String articleCommentCount,
             HttpServletRequest request){
         // 从token中拿到用户
         String token = request.getHeader("token");
@@ -120,7 +164,14 @@ public class ArticleController {
                 user.getUserId(),
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
-                condition);
+                userName,
+                articleTitle,
+                articleType,
+                start,
+                end,
+                articleViewCount,
+                articleLikeCount,
+                articleCommentCount);
         return Msg.success().add("pageInfo", iPage);
     }
 
@@ -128,7 +179,6 @@ public class ArticleController {
      * 获取全站所有删除的文章
      * @param pn 页码
      * @param limit 容量
-     * @param condition 条件
      * @param request 获取token
      * @return
      */
@@ -136,7 +186,14 @@ public class ArticleController {
     public Msg listDeletedAll(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
-            @RequestParam(value = "condition", defaultValue = "")String condition,
+            @RequestParam(value = "article_author_name", defaultValue = "null") String userName,
+            @RequestParam(value = "article_title", defaultValue = "null") String articleTitle,
+            @RequestParam(value = "article_type", defaultValue = "null") String articleType,
+            @RequestParam(value = "start", defaultValue = "null") String start,
+            @RequestParam(value = "end", defaultValue = "null") String end,
+            @RequestParam(value = "rank_view", defaultValue = "null") String articleViewCount,
+            @RequestParam(value = "rank_like", defaultValue = "null")String articleLikeCount,
+            @RequestParam(value = "rank_comment", defaultValue = "null")String articleCommentCount,
             HttpServletRequest request
     ){
         String token = request.getHeader("token");
@@ -148,7 +205,14 @@ public class ArticleController {
                 null,
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
-                condition);
+                userName,
+                articleTitle,
+                articleType,
+                start,
+                end,
+                articleViewCount,
+                articleLikeCount,
+                articleCommentCount);
         return Msg.success().add("pageInfo", iPage);
     }
 
@@ -156,7 +220,6 @@ public class ArticleController {
      * 获取用户删除的文章
      * @param pn 页码
      * @param limit 容量
-     * @param condition 条件
      * @param request 获取token
      * @return
      */
@@ -164,7 +227,14 @@ public class ArticleController {
     public Msg listDeletedUser(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
-            @RequestParam(value = "condition", defaultValue = "")String condition,
+            @RequestParam(value = "article_author_name", defaultValue = "null") String userName,
+            @RequestParam(value = "article_title", defaultValue = "null") String articleTitle,
+            @RequestParam(value = "article_type", defaultValue = "null") String articleType,
+            @RequestParam(value = "start", defaultValue = "null") String start,
+            @RequestParam(value = "end", defaultValue = "null") String end,
+            @RequestParam(value = "rank_view", defaultValue = "null") String articleViewCount,
+            @RequestParam(value = "rank_like", defaultValue = "null")String articleLikeCount,
+            @RequestParam(value = "rank_comment", defaultValue = "null")String articleCommentCount,
             HttpServletRequest request
     ){
         // 从token中拿到用户
@@ -181,7 +251,14 @@ public class ArticleController {
                 user.getUserId(),
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
-                condition);
+                userName,
+                articleTitle,
+                articleType,
+                start,
+                end,
+                articleViewCount,
+                articleLikeCount,
+                articleCommentCount);
         return Msg.success().add("pageInfo", iPage);
     }
 

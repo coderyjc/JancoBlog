@@ -151,6 +151,7 @@ import {
 
 import { getAllType } from '@/api/type'
 import SearchArticle from '@/components/SearchArticle'
+import { dateFormatYMDHMS } from '@/utils/timeUtils'
 
 export default {
   components: { SearchArticle },
@@ -163,7 +164,7 @@ export default {
       limit: 10,
       total: 0,
       multipleSelection: [],
-      condition: '',
+      condition: {},
     }
   },
   created() {
@@ -172,16 +173,7 @@ export default {
   },
   filters: {
     dateFormat(date) {
-      var s = new Date(date)
-      var y = s.getFullYear()
-      var m =
-        s.getMonth() + 1 < 10 ? '0' + (s.getMonth() + 1) : s.getMonth() + 1
-      var dd = s.getDate() < 10 ? '0' + s.getDate() : s.getDate()
-      var hh = s.getHours() < 10 ? '0' + s.getHours() : s.getHours()
-      var mm = s.getMinutes() < 10 ? '0' + s.getMinutes() : s.getMinutes()
-      var ss = s.getSeconds() < 10 ? '0' + s.getSeconds() : s.getSeconds()
-      var enddate = y + '-' + m + '-' + dd + ' ' + hh + ':' + mm + ':' + ss
-      return enddate
+      return dateFormatYMDHMS(date)
     },
   },
   methods: {

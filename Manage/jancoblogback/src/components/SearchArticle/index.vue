@@ -8,8 +8,7 @@
       <template slot="title">
         <i
           class="header-icon el-icon-search"
-          style="font-size:20px;margin-right:
-                         5px;"
+          style="font-size: 20px; margin-right: 5px;"
         ></i>搜索文章
       </template>
       <el-form
@@ -138,37 +137,32 @@ export default {
       this.$emit('reset')
     },
     generateQueryString() {
-      let condition = ''
+      let condition = {}
       let query = this.query
       if (query.article_author_name !== '') {
-        condition += 'article_author_name=' + query.article_author_name + '--'
+        condition['article_author_name'] = query.article_author_name
       }
       if (query.article_title !== '') {
-        condition += 'article_title=' + query.article_title + '--'
+        condition['article_title'] = query.article_title
       }
       if (query.article_type !== '') {
-        condition += 'type=' + String(query.article_type) + '--'
+        condition['article_type'] = query.article_type
       }
       if (query.start !== '') {
-        condition += 'start=' + query.start + '--'
+        condition['start'] = query.start
       }
       if (query.end !== '') {
-        condition += 'end=' + query.end + '--'
+        condition['end'] = query.end
       }
       if (query.rank_view !== -1) {
-        condition += 'rank_view=' + String(query.rank_view) + '--'
+        condition['rank_view'] = String(query.rank_view)
       }
       if (query.rank_like !== -1) {
-        condition += 'rank_like=' + String(query.rank_like) + '--'
+        condition['rank_like'] =  String(query.rank_like)
       }
       if (query.rank_comment !== -1) {
-        condition += 'rank_comment=' + String(query.rank_comment) + '--'
+        condition['rank_comment'] =  String(query.rank_comment)
       }
-      condition =
-        condition.lastIndexOf('#') === condition.length - 1
-          ? condition.substr(0, condition.length - 1)
-          : condition
-
       return condition
     },
   },

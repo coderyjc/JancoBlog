@@ -199,7 +199,7 @@ export default {
       // drawerVisibility: false,
       avatarUrl: '',
       base_article_url: '/article?id=',
-      condition: '',
+      condition: {},
       // 最近的文章和评论
       articleRecently: [],
       // 文章列表
@@ -260,6 +260,12 @@ export default {
       this.get_article_list(val)
     },
 
+    // 提交搜索
+    submit() {
+      this.condition = this.$refs.searchArticle.generateQueryString()
+      this.get_article_list(1)
+    },
+
     // 获取文章列表
     get_article_list(pn) {
       getIndexArticleList(pn, this.page_size, this.condition).then(
@@ -275,6 +281,7 @@ export default {
         }
       )
     },
+
     // 获取最近的文章和评论
     get_data_recently() {
       getArticleRecently().then(response => {
@@ -282,6 +289,7 @@ export default {
         this.articleRecently = pageInfo.records
       })
     },
+
     // 获取类型列表
     get_type_list(pn) {
       getAllType().then((response) => {
@@ -290,21 +298,15 @@ export default {
       })
     },
 
-    // 提交搜索
-    submit() {
-      this.condition = this.$refs.searchArticle.generateQueryString()
-      this.get_article_list(1)
-    },
-
     // 文章列表重置
     resetForm(){
-      this.condition = ''
+      this.condition = {}
       this.get_article_list(1)
     },
 
     // 从类型获取文章(搜)
     get_article_by_type(typeId) {
-      this.condition = 'type=' + String(typeId)
+      this.condition['article_type'] = String(typeId)
       this.get_article_list(1)
     },
 

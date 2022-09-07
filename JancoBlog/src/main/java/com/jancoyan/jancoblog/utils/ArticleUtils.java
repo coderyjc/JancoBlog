@@ -17,55 +17,64 @@ import java.util.regex.Pattern;
 
 public class ArticleUtils {
 
+    public static QueryWrapper<Article> generateManageArticleWrapperByCondition(
+            QueryWrapper<Article> wrapper, String userName, String articleTitle,
+            String articleType, String start, String end, String articleViewCount,
+            String articleLikeCount, String articleCommentCount){
 
-    /**
-     * 获取管理文章时候的wrapper，只有从 v_article_manage_show 中查询的时候才能用这个util
-     * @param condition 条件
-     * @return wrapper
-     */
-    public static QueryWrapper<Article> generateManageArticleWrapperByCondition(QueryWrapper<Article> wrapper,
-                                                                                  String condition){
-
-        String[] split = condition.split("--");
-        for (String item : split) {
-            String[] split2 = item.split("=");
-            if(split2.length < 2){
-                continue;
+        // 查询请求
+        if(ArticleUtils.isConditionValidate(userName)){
+            wrapper.like("user_name", userName);
+        }
+        if(ArticleUtils.isConditionValidate(articleTitle)){
+            wrapper.like("article_title", articleTitle);
+        }
+        if(ArticleUtils.isConditionValidate(articleType)){
+            wrapper.eq("article_type", articleType);
+        }
+        if(ArticleUtils.isConditionValidate(start)){
+            wrapper.gt("article_post_time", start);
+        }
+        if(ArticleUtils.isConditionValidate(end)){
+            wrapper.lt("article_post_time", end);
+        }
+        if(ArticleUtils.isConditionValidate(articleViewCount)){
+            if ("1".equals(articleViewCount)) {
+                wrapper.orderByAsc("article_view_count");
+            } else {
+                wrapper.orderByDesc("article_view_count");
             }
-
-            if("article_author_name".equals(split2[0])){
-                wrapper.like("user_name", split2[1]);
-            }else if("article_title".equals(split2[0])){
-                wrapper.like("article_title", split2[1]);
-            }else if("type".equals(split2[0])){
-                wrapper.eq("article_type", split2[1]);
-            }else if("start".equals(split2[0])){
-                wrapper.gt("article_post_time", split2[1]);
-            }else if("end".equals(split2[0])){
-                wrapper.lt("article_post_time", split2[1]);
-            }else if("rank_view".equals(split2[0])){
-                if ("1".equals(split2[1])) {
-                    wrapper.orderByAsc("article_view_count");
-                } else {
-                    wrapper.orderByDesc("article_view_count");
-                }
-            }else if("rank_like".equals(split2[0])){
-                if ("1".equals(split2[1])) {
-                    wrapper.orderByAsc("article_like_count");
-                } else {
-                    wrapper.orderByDesc("article_like_count");
-                }
-            }else if("rank_comment".equals(split2[0])){
-                if ("1".equals(split2[1])) {
-                    wrapper.orderByAsc("article_comment_count");
-                } else {
-                    wrapper.orderByDesc("article_comment_count");
-                }
+        }
+        if(ArticleUtils.isConditionValidate(articleLikeCount)){
+            if ("1".equals(articleLikeCount)) {
+                wrapper.orderByAsc("article_like_count");
+            } else {
+                wrapper.orderByDesc("article_like_count");
+            }
+        }
+        if(ArticleUtils.isConditionValidate(articleCommentCount)){
+            if ("1".equals(articleCommentCount)) {
+                wrapper.orderByAsc("article_comment_count");
+            } else {
+                wrapper.orderByDesc("article_comment_count");
             }
         }
 
         return wrapper;
     }
+
+    /**
+     * 判断条件是否有效
+     * @param attr
+     * @return
+     */
+    public static boolean isConditionValidate(String attr){
+        if(null == attr || "".equals(attr) || "null".equals(attr)){
+            return false;
+        }
+        return true;
+    }
+
     /**
      * 把换行的\n转换为文本的\n
      * @param str 要替换的文本

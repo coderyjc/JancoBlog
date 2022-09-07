@@ -28,24 +28,35 @@ import java.util.List;
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     @Override
-    public IPage<Article> listArticleIndex(Integer pn, Integer limit, String condition) {
+    public IPage<Article> listArticleIndex(Integer pn, Integer limit, String userName,
+                                           String articleTitle, String articleType, String start,
+                                           String end, String articleViewCount,
+                                           String articleLikeCount, String articleCommentCount) {
 
         //        分页查询
         IPage<Article> iPage = new Page<>(pn, limit);
         QueryWrapper<Article> wrapper = new QueryWrapper<>();
 
+        // 看是否置顶
         wrapper.orderByDesc("article_rank");
-        wrapper = ArticleUtils.generateManageArticleWrapperByCondition(wrapper, condition);
+
+        // 构造wrapper
+        wrapper = ArticleUtils.generateManageArticleWrapperByCondition(wrapper, userName,
+                articleTitle, articleType, start, end, articleViewCount, articleLikeCount,
+                articleCommentCount);
+
+        // 按照发表时间排序
         wrapper.orderByDesc("article_post_time");
 
         return baseMapper.getIndexList(iPage, wrapper);
     }
 
     @Override
-    public IPage<Article> listArticleManage(Integer userId,
-                                        Integer pn,
-                                        Integer limit,
-                                        String condition) {
+    public IPage<Article> listArticleManage(Integer userId, Integer pn, Integer limit,
+                                            String userName, String articleTitle,
+                                            String articleType, String start, String end,
+                                            String articleViewCount, String articleLikeCount,
+                                            String articleCommentCount) {
         //        分页查询
         IPage<Article> iPage = new Page<>(pn, limit);
         QueryWrapper<Article> wrapper = new QueryWrapper<>();
@@ -54,12 +65,40 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             wrapper.eq("user_id", userId);
         }
 
-        wrapper = ArticleUtils.generateManageArticleWrapperByCondition(wrapper, condition);
+        // 构造wrapper
+        wrapper = ArticleUtils.generateManageArticleWrapperByCondition(wrapper, userName,
+                articleTitle, articleType, start, end, articleViewCount, articleLikeCount,
+                articleCommentCount);
 
         wrapper.orderByDesc("article_post_time");
 
         return baseMapper.getManageList(iPage, wrapper);
     }
+
+
+    @Override
+    public IPage<Article> listDeleted(Integer userId, Integer pn, Integer limit,
+                                      String userName, String articleTitle,
+                                      String articleType, String start, String end,
+                                      String articleViewCount, String articleLikeCount,
+                                      String articleCommentCount) {
+        //        分页查询
+        IPage<Article> iPage = new Page<>(pn, limit);
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        // 单一用户的文章获取
+        if(null != userId) {
+            wrapper.eq("user_id", userId);
+        }
+
+        // 构造wrapper
+        wrapper = ArticleUtils.generateManageArticleWrapperByCondition(wrapper, userName,
+                articleTitle, articleType, start, end, articleViewCount, articleLikeCount,
+                articleCommentCount);
+
+        wrapper.orderByDesc("article_post_time");
+        return baseMapper.getDeletedList(iPage, wrapper);
+    }
+
 
     @Override
     public Article getArticleSingle(String articleId) {
@@ -69,24 +108,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public Article getArticleSingleDeleted(String articleId) {
         return baseMapper.getSingleArticleDeleted(articleId);
-    }
-
-    @Override
-    public IPage<Article> listDeleted(Integer userId,
-                                      Integer pn,
-                                      Integer limit,
-                                      String condition) {
-        //        分页查询
-        IPage<Article> iPage = new Page<>(pn, limit);
-        QueryWrapper<Article> wrapper = new QueryWrapper<>();
-        // 单一用户的文章获取
-        if(null != userId) {
-            wrapper.eq("user_id", userId);
-        }
-
-        wrapper = ArticleUtils.generateManageArticleWrapperByCondition(wrapper, condition);
-        wrapper.orderByDesc("article_post_time");
-        return baseMapper.getDeletedList(iPage, wrapper);
     }
 
     @Override

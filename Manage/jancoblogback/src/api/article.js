@@ -1,10 +1,11 @@
+import { start } from 'nprogress';
 import request from '../utils/request';
 
+
 /**
- * 获取首页文章列表
- * @param {Integer} pn 页码
- * @param {Integer} limit 容量
- * @param {String} condition 条件
+ * 获取首页文章列表( 包括搜索 )
+ * @param {String} pn 页码
+ * @param {String} limit 最大值
  * @returns
  */
 export function getIndexArticleList(pn, limit, condition) {
@@ -14,7 +15,7 @@ export function getIndexArticleList(pn, limit, condition) {
     params: {
       pn: pn,
       limit: limit,
-      condition: condition
+      ...condition
     }
   })
 }
@@ -120,7 +121,7 @@ export function getAll(pn, limit, condition) {
     params: {
       pn: pn,
       limit: limit,
-      condition: condition
+      ...condition
     }
   })
 }
@@ -139,7 +140,7 @@ export function getAllDeleted(pn, limit, condition) {
     params: {
       pn: pn,
       limit: limit,
-      condition: condition
+      ...condition
     }
   })
 }
@@ -158,7 +159,7 @@ export function getArticleByUserDeleted(pn, limit, condition) {
     params: {
       pn: pn,
       limit: limit,
-      condition: condition
+      ...condition
     }
   })
 }
@@ -177,11 +178,10 @@ export function getArticleByUser(pn, limit, condition) {
     params: {
       pn: pn,
       limit: limit,
-      condition: condition
+      ...condition
     }
   })
 }
-
 
 /**
  * 批量彻底删除文章

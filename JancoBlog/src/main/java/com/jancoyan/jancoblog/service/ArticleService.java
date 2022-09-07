@@ -15,24 +15,49 @@ import com.jancoyan.jancoblog.model.domain.PageArticle;
  */
 public interface ArticleService extends IService<Article> {
 
+
     /**
-     * 获取首页的文章列表
-     * @param pn 页码
-     * @param limit 容量
-     * @param condition 条件
+     * 首页文章
+     * @param pn
+     * @param limit
+     * @param userName
+     * @param articleTitle
+     * @param articleType
+     * @param start
+     * @param end
+     * @param articleViewCount
+     * @param articleLikeCount
+     * @param articleCommentCount
      * @return
      */
-    IPage<Article> listArticleIndex(Integer pn, Integer limit, String condition);
+    IPage<Article> listArticleIndex(Integer pn, Integer limit, String userName,
+                                    String articleTitle, String articleType, String start,
+                                    String end, String articleViewCount,
+                                    String articleLikeCount, String articleCommentCount);
 
     /**
      * 文章管理的时候获得用于管理的文章列表
      * @param userId 用户id，可选
      * @param pn 页码
      * @param limit 容量
-     * @param condition 条件
      * @return
      */
-    IPage<Article> listArticleManage(Integer userId, Integer pn, Integer limit, String condition);
+    IPage<Article> listArticleManage(Integer userId, Integer pn, Integer limit, String userName,
+                                     String articleTitle, String articleType, String start,
+                                     String end, String articleViewCount,
+                                     String articleLikeCount, String articleCommentCount);
+
+    /**
+     * 获取所有删除的文章
+     * @param userId 用户名，可选
+     * @param pn 页码
+     * @param limit 容量
+     * @return
+     */
+    IPage<Article> listDeleted(Integer userId, Integer pn, Integer limit, String userName,
+                               String articleTitle, String articleType, String start,
+                               String end, String articleViewCount,
+                               String articleLikeCount, String articleCommentCount);
 
     /**
      * 获取一篇文章
@@ -48,15 +73,6 @@ public interface ArticleService extends IService<Article> {
      */
     Article getArticleSingleDeleted(String articleId);
 
-    /**
-     * 获取所有删除的文章
-     * @param userId 用户名，可选
-     * @param pn 页码
-     * @param limit 容量
-     * @param condition 条件
-     * @return
-     */
-    IPage<Article> listDeleted(Integer userId, Integer pn, Integer limit, String condition);
 
     /**
      * 彻底删除已经删除了的文章
