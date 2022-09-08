@@ -8,15 +8,12 @@
 package com.jancoyan.jancoblog.utils;
 
 
-import org.springframework.beans.factory.annotation.Value;
-
 public class ConstantUtil {
 
-    public static final String STATIC_RESOURCES =  "C:/Users/Administrator/Pictures/webstatic";
-    public static final String STATIC_URL = "http://localhost:8000";
+        public static final String STATIC_RESOURCES =  "C:/Users/Administrator/Pictures/webstatic";
+        public static final String STATIC_URL = "http://localhost:8000";
 
 //    deploy
 //    public static final String STATIC_RESOURCES =  "/home/jancoyan/springbootApp/blog/static";
 //    public static final String STATIC_URL = "http://101.201.64.102:8000";
-
 }

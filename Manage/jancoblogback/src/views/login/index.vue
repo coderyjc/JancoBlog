@@ -1,15 +1,5 @@
 <template>
   <div class="login">
-    <vue-particles
-      class="particles"
-      color="#fff"
-      linesColor="#fff"
-      shapeType="polygon"
-      :hoverEffect="true"
-      :clickEffect="false"
-      :linesWidth="2"
-      :lineOpacity="0.6"
-    ></vue-particles>
     <div class="container">
       <el-tabs
         :value="currPanel"

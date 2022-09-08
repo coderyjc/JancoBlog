@@ -20,7 +20,7 @@ spring:
     resources:
       static-locations: file:${jar.fileUrl},classpath:/static/,
   redis:
-    host: http://localhost
+    host: demo.evilemperor.top
     port: 9001
     password: 333
   servlet:
