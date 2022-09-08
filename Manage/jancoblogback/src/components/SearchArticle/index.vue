@@ -104,7 +104,7 @@ export default {
   },
   data() {
     return {
-      condition: '',
+      condition: {},
       query: {
         article_author_name: '',
         article_title: '',
@@ -133,7 +133,7 @@ export default {
       this.query.rank_view = -1
       this.query.rank_like = -1
       this.query.rank_comment = -1
-      this.condition = ''
+      this.condition = {}
       this.$emit('reset')
     },
     generateQueryString() {

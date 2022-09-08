@@ -162,7 +162,7 @@ export default {
       limit: 10,
       total: 0,
       multipleSelection: [],
-      condition: '',
+      condition: {},
     }
   },
   created() {
@@ -354,7 +354,7 @@ export default {
 
     // 文章列表重置
     resetForm() {
-      this.condition = ''
+      this.condition = {}
       this.get_article_list(1)
     },
   },

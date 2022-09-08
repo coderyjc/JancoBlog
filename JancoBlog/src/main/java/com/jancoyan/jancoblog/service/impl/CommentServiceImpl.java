@@ -10,6 +10,7 @@ import com.jancoyan.jancoblog.model.domain.DeletedComment;
 import com.jancoyan.jancoblog.model.domain.PageComment;
 import com.jancoyan.jancoblog.service.CommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jancoyan.jancoblog.utils.CommentUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +27,9 @@ import java.util.List;
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
     @Override
-    public IPage<Comment> listAll(String userId, Integer pn, Integer limit, String condition) {
+    public IPage<Comment> listAll(String userId, Integer pn, Integer limit, String articleTitle,
+                                  String commentAuthorName, String rankLike, String start,
+                                  String end) {
 
         // 分页查询
         IPage<Comment> iPage = new Page<>(pn, limit);
@@ -34,29 +37,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
         if(userId != null) wrapper.eq("user_id", userId);
 
-        String[] split = condition.split("--");
-        for (String item : split) {
-            String[] split2 = item.split("=");
-            if(split2.length < 2){
-                continue;
-            }
+        wrapper = CommentUtil.generateManageCommentWrapperByCondition(wrapper, articleTitle,
+                commentAuthorName, rankLike, start, end);
 
-            if("comment_author_name".equals(split2[0])){
-                wrapper.like("comment_author_name", split2[1]);
-            }else if("article_title".equals(split2[0])){
-                wrapper.like("article_title", split2[1]);
-            }else if("start".equals(split2[0])){
-                wrapper.gt("comment_date", split2[1]);
-            }else if("end".equals(split2[0])){
-                wrapper.lt("comment_date", split2[1]);
-            }else if("rank_like".equals(split2[0])){
-                if ("1".equals(split2[1])) {
-                    wrapper.orderByAsc("comment_like_count");
-                } else {
-                    wrapper.orderByDesc("comment_like_count");
-                }
-            }
-        }
         return baseMapper.getAll(iPage, wrapper);
     }
 
@@ -70,7 +53,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public IPage<Comment> listCommentByUserPosted(String id, Integer pn, Integer limit, String condition) {
+    public IPage<Comment> listCommentByUserPosted(String id, Integer pn, Integer limit,
+                                                  String articleTitle, String commentAuthorName,
+                                                  String rankLike, String start, String end) {
 
         // 分页查询
         IPage<Comment> iPage = new Page<>(pn, limit);
@@ -79,30 +64,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if(id != null) {
             wrapper.eq("comment_author_id", id);
         }
+        wrapper = CommentUtil.generateManageCommentWrapperByCondition(wrapper, articleTitle,
+                commentAuthorName, rankLike, start, end);
 
-        String[] split = condition.split("--");
-        for (String item : split) {
-            String[] split2 = item.split("=");
-            if(split2.length < 2){
-                continue;
-            }
-
-            if("comment_author_name".equals(split2[0])){
-                wrapper.like("user_id", split2[1]);
-            }else if("article_title".equals(split2[0])){
-                wrapper.like("article_title", split2[1]);
-            }else if("start".equals(split2[0])){
-                wrapper.gt("comment_date", split2[1]);
-            }else if("end".equals(split2[0])){
-                wrapper.lt("comment_date", split2[1]);
-            }else if("rank_like".equals(split2[0])){
-                if ("1".equals(split2[1])) {
-                    wrapper.orderByAsc("comment_like_count");
-                } else {
-                    wrapper.orderByDesc("comment_like_count");
-                }
-            }
-        }
         return baseMapper.getCommentByUserPosted(iPage, wrapper);
     }
 

@@ -20,10 +20,10 @@ public interface CommentService extends IService<Comment> {
      * @param userId 用户id
      * @param pn 页码
      * @param limit 容量
-     * @param condition 条件
      * @return
      */
-    IPage<Comment> listAll(String userId, Integer pn, Integer limit, String condition);
+    IPage<Comment> listAll(String userId, Integer pn, Integer limit, String articleTitle,
+                           String commentAuthorName, String rankLike, String start, String end);
 
     /**
      * 获取某个文章的所有评论
@@ -39,11 +39,11 @@ public interface CommentService extends IService<Comment> {
      * @param id 用户id
      * @param pn 页码
      * @param limit 容量
-     * @param condition 条件
      * @return
      */
     IPage<Comment> listCommentByUserPosted(String id, Integer pn, Integer limit,
-                                          String condition);
+                                           String articleTitle, String commentAuthorName,
+                                           String rankLike, String start, String end);
 
     /**
      * 获取用户最近获取的评论
@@ -51,7 +51,6 @@ public interface CommentService extends IService<Comment> {
      * @return
      */
     IPage<PageComment> listCommentByUserRecently(String authorId);
-
 
     /**
      * 按照文章“删除”评论

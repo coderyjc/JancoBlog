@@ -2,37 +2,11 @@
 <div class="main">
   <!-- 搜索框 -->
   <el-col :span="12">
-  <el-collapse accordion class="search-bar">
-    <el-collapse-item>
-      <template slot="title">
-        <i class="header-icon el-icon-search" style="font-size:20px;margin-right: 5px;"></i>筛选评论
-      </template>
-      <el-form ref="form" label-width="80px">
-        <el-form-item label="所在文章">
-          <el-input v-model="query.article_title"></el-input>
-        </el-form-item>
-        <el-form-item label="发表时间">
-          <el-col :span="11">
-            <el-date-picker type="date" placeholder="开始日期" v-model="query.start" style="width: 100%;"></el-date-picker>
-          </el-col>
-          <el-col :span="11">
-            <el-date-picker type="date" placeholder="结束日期" v-model="query.end" style="width: 100%;"></el-date-picker>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="赞同数量">
-            <el-radio-group v-model="query.rank_like">
-            <el-radio label="无"></el-radio>
-            <el-radio label="升序"></el-radio>
-            <el-radio label="降序"></el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitSearch">搜索</el-button>
-          <el-button @click="resetForm">重置</el-button>
-        </el-form-item>
-      </el-form>
-    </el-collapse-item>
-  </el-collapse>
+    <search-comment
+        ref="searchComment"
+        @submit="submit"
+        @reset="resetForm"
+      ></search-comment>
   </el-col>
   <el-table
     :data="tableData"
@@ -106,9 +80,12 @@
 
 <script>
 import { getCommentByUserPosted, batchDeleteComments } from '@/api/comment'
-import { parseTime } from '@/utils/index'
+import { dateFormatYMDHMS } from '@/utils/timeUtils'
+
+import SearchComment from './SrarchComment'
 
   export default {
+    components: { SearchComment },
     data() {
       return {
         loading: false,
@@ -119,12 +96,6 @@ import { parseTime } from '@/utils/index'
         total: 0,
         multipleSelection: [],
         condition: "",
-        query: {
-          article_title: "",
-          start: "",
-          end: "",
-          rank_like: "",
-        },
         commentDetailVisable: false,
         commentDetail: {}
       }
@@ -134,15 +105,7 @@ import { parseTime } from '@/utils/index'
     },
     filters: {
       dateFormat(date) {
-				var s = new Date(date)
-				var y = s.getFullYear()
-				var m = (s.getMonth() + 1) < 10 ? '0' + (s.getMonth() + 1) : (s.getMonth() + 1)
-				var dd = s.getDate() < 10 ? '0' + s.getDate() : s.getDate()
-				var hh = s.getHours() < 10 ? '0' + s.getHours() : s.getHours()
-				var mm = s.getMinutes() < 10 ? '0' + s.getMinutes() : s.getMinutes()
-				var ss = s.getSeconds() < 10 ? '0' + s.getSeconds() : s.getSeconds()
-				var enddate = y + '-' + m + '-' + dd + ' ' + hh + ':' + mm + ":" + ss
-				return enddate
+        return dateFormatYMDHMS(date)
 			},
       commentFormat(content){
         if(content.length < 20){
@@ -157,13 +120,16 @@ import { parseTime } from '@/utils/index'
         this.commentDetail = row
         this.commentDetailVisable = !this.commentDetailVisable
       },
+
       handleSizeChange(val) {
         this.limit = val
         this.get_comment_list(1)
       },
+
       handleCurrentChange(val) {
         this.get_comment_list(val)
       },
+
       deleteComment(row) {
         var msg = '将要删除该评论 , 是否继续?'
          this.$confirm(msg, '提示', {
@@ -186,9 +152,10 @@ import { parseTime } from '@/utils/index'
           this.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       },
+
       get_comment_list(pn){
         this.loading = true
         getCommentByUserPosted(pn, this.limit, this.condition).then(response => {
@@ -198,9 +165,11 @@ import { parseTime } from '@/utils/index'
         })
         this.loading = false
       },
+
       handleSelectionChange(val){
         this.multipleSelection = val
       },
+
       batchDelete(){
         var ids = ''
         if(this.multipleSelection.length === 0){
@@ -232,44 +201,20 @@ import { parseTime } from '@/utils/index'
             type: 'info',
             message: '已取消删除',
             duration: 1000
-          });          
+          });
         });
       },
-      submitSearch(){
-          this.generateQueryString();
-          this.get_comment_list(1);
-      },
-      resetForm(){
-          this.query.article_title = ""
-          this.query.start = ""
-          this.query.end =""
-          this.query.rank_like = ""
-          this.condition = ""
-          this.get_comment_list(1)
-      },
-      generateQueryString(){
-          let condition = ""
-          let query = this.query
-          if(query.article_title !== ""){
-              condition += ("article_title=" + query.article_title + "--")
-          }
-          if(query.start !== ""){
-              condition += ("start=" + parseTime(query.start) + "--")
-          }
-          if(query.end !== ""){
-              condition += ("end=" + parseTime(query.end) + "--")
-          }
-          if(query.rank_like == '升序'){
-            condition += ("rank_like=1--")
-          } else if (query.rank_like == '降序'){
-            condition += ("rank_like=0--")
-          }
-          condition = condition.lastIndexOf("--") === condition.length - 2 ?
-              condition.substr(0, condition.length - 2) :
-              condition
 
-          this.condition = condition
-      }
+      submit(){
+        this.condition = this.$refs.searchComment.generateQueryString()
+        console.log(this.condition)
+        this.get_comment_list(1)
+      },
+
+      resetForm(){
+        this.condition = {}
+        this.get_comment_list(1)
+      },
     }
   }
 </script>
@@ -298,7 +243,7 @@ import { parseTime } from '@/utils/index'
     font-size: 17px;
     line-height: 30px;
   }
-  
+
   span{
     font-weight: 700;
   }

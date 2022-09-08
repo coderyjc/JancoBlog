@@ -42,18 +42,28 @@ public class CommentController {
      * 管理员进行评论管理的时候，获取所有评论
      * @param pn 页码
      * @param limit 容量
-     * @param condition 条件
      * @return 成功
      */
     @RequestMapping(value = "/all")
     public Msg listAll(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
-            @RequestParam(value = "condition", defaultValue = "")String condition
+            @RequestParam(value = "article_title", defaultValue = "null") String articleTitle,
+            @RequestParam(value = "comment_author_name", defaultValue = "null") String commentAuthorName,
+            @RequestParam(value = "rank_like", defaultValue = "null") String rankLike,
+            @RequestParam(value = "start", defaultValue = "null") String start,
+            @RequestParam(value = "end", defaultValue = "null") String end
     ){
-        IPage<Comment> iPage = service.listAll(null, Integer.parseInt(pn),
+        IPage<Comment> iPage = service.listAll(
+                null,
+                Integer.parseInt(pn),
                 Integer.parseInt(limit),
-                condition);
+                articleTitle,
+                commentAuthorName,
+                rankLike,
+                start,
+                end
+        );
         return Msg.success().add("pageInfo", iPage);
     }
 
@@ -62,7 +72,6 @@ public class CommentController {
      * 获取用户收到的所有评论
      * @param pn 页码
      * @param limit 容量
-     * @param condition 条件
      * @param request request
      * @return 消息
      */
@@ -70,7 +79,11 @@ public class CommentController {
     public Msg listCommentByUserReceive(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
-            @RequestParam(value = "condition", defaultValue = "")String condition,
+            @RequestParam(value = "article_title", defaultValue = "null") String articleTitle,
+            @RequestParam(value = "comment_author_name", defaultValue = "null") String commentAuthorName,
+            @RequestParam(value = "rank_like", defaultValue = "null") String rankLike,
+            @RequestParam(value = "start", defaultValue = "null") String start,
+            @RequestParam(value = "end", defaultValue = "null") String end,
             HttpServletRequest request
     ){
         // 从token中拿到用户
@@ -83,7 +96,11 @@ public class CommentController {
                 String.valueOf(user.getUserId()),
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
-                condition);
+                articleTitle,
+                commentAuthorName,
+                rankLike,
+                start,
+                end);
         return Msg.success().add("pageInfo", iPage);
     }
 
@@ -91,7 +108,6 @@ public class CommentController {
      * 获取当前登录的用户所发表的所有评论
      * @param pn 页码
      * @param limit 容量
-     * @param condition 条件
      * @param request
      * @return
      */
@@ -99,7 +115,11 @@ public class CommentController {
     public Msg listCommentByUserPosted(
             @RequestParam(value = "pn")String pn,
             @RequestParam(value = "limit", defaultValue = "10")String limit,
-            @RequestParam(value = "condition", defaultValue = "")String condition,
+            @RequestParam(value = "article_title", defaultValue = "null") String articleTitle,
+            @RequestParam(value = "comment_author_name", defaultValue = "null") String commentAuthorName,
+            @RequestParam(value = "rank_like", defaultValue = "null") String rankLike,
+            @RequestParam(value = "start", defaultValue = "null") String start,
+            @RequestParam(value = "end", defaultValue = "null") String end,
             HttpServletRequest request
     ){
         // 从token中拿到用户
@@ -115,7 +135,11 @@ public class CommentController {
                 String.valueOf(user.getUserId()),
                 Integer.parseInt(pn),
                 Integer.parseInt(limit),
-                condition);
+                articleTitle,
+                commentAuthorName,
+                rankLike,
+                start,
+                end);
         return Msg.success().add("pageInfo", iPage);
     }
 

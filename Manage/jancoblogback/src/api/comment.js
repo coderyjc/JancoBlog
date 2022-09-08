@@ -14,7 +14,7 @@ export function getAll(pn, limit, condition) {
     params: {
       pn: pn,
       limit: limit,
-      condition: condition
+      ...condition
     }
   })
 }
@@ -53,7 +53,6 @@ export function likeComment(id) {
  * 获取文章下面的所有评论
  * @param {Integer} pn 页码
  * @param {Integer} limit 容量
- * @param {String} condition 条件
  * @returns
  */
 export function getCommentByArticle(id, pn, limit) {
@@ -73,7 +72,6 @@ export function getCommentByArticle(id, pn, limit) {
  * 获取已经删除的文章下面的评论
  * @param {Integer} pn 页码
  * @param {Integer} limit 容量
- * @param {String} condition 条件
  * @returns
  */
 export function getCommentByDeletedArticle(id, pn, limit) {
@@ -104,7 +102,7 @@ export function getCommentByUserReceive(pn, limit, condition) {
     params: {
       pn: pn,
       limit: limit,
-      condition: condition
+      ...condition
     }
   })
 }
@@ -124,8 +122,6 @@ export function batchDeleteComments(ids) {
   })
 }
 
-
-
 /**
  * 获取用户发表的所有评论
  * @param {Integer} pn 页码
@@ -140,7 +136,7 @@ export function batchDeleteComments(ids) {
     params: {
       pn: pn,
       limit: limit,
-      condition: condition
+      ...condition
     }
   })
 }

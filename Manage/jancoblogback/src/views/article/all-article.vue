@@ -143,6 +143,7 @@
 </template>
 
 <script>
+
 import {
   getAll,
   batchDeleteArticles,
@@ -150,6 +151,7 @@ import {
 } from '@/api/article'
 
 import SearchArticle from '@/components/SearchArticle'
+
 import { getAllType } from '@/api/type'
 import { dateFormatYMDHMS } from '@/utils/timeUtils'
 
@@ -250,6 +252,7 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
+
     // 批量删除
     batchDelete() {
       var ids = ''
@@ -287,6 +290,7 @@ export default {
           })
         })
     },
+
     // 提交搜索
     submit() {
       this.condition = this.$refs.searchArticle.generateQueryString()
