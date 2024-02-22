@@ -1,12 +1,6 @@
-> ! 项目正在开发中
-> 
-> ! Under Development
-
 # 介绍
 
 一款基于SpringBoot和Vue.js的个人博客系统
-
-- 预览地址: [Blog预览地址](http://demo.evilemperor.top/#/)
 
 - 配置指南: Configuration.md
 
